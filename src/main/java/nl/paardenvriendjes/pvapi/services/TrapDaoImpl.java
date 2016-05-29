@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,8 +25,14 @@ private SessionFactory sessionFactory;
 	}
 
 	public void saveTrap(Trap trap) {
+		
 		Session session = sessionFactory.getCurrentSession();
-		session.save(trap);
+		Trap trap1 = new Trap(1L);
+		Trap trap2 = new Trap(2L);
+		session.beginTransaction();
+		session.persist(trap1);
+		session.persist(trap2);
+		session.getTransaction().commit();
 	}
 
 	public void removeTrap(long id) {
