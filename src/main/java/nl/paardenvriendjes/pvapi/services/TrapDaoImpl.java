@@ -15,6 +15,7 @@ import nl.paardenvriendjes.pvapi.domain.Trap;
 @Transactional(propagation=Propagation.REQUIRES_NEW)
 public class TrapDaoImpl implements TrapDao {
 
+@Autowired
 private SessionFactory sessionFactory;
 	
 	@Transactional(readOnly = true)
@@ -25,14 +26,8 @@ private SessionFactory sessionFactory;
 	}
 
 	public void saveTrap(Trap trap) {
-		
 		Session session = sessionFactory.getCurrentSession();
-		Trap trap1 = new Trap(1L);
-		Trap trap2 = new Trap(2L);
-		session.beginTransaction();
-		session.persist(trap1);
-		session.persist(trap2);
-		session.getTransaction().commit();
+		session.save(trap);
 	}
 
 	public void removeTrap(long id) {

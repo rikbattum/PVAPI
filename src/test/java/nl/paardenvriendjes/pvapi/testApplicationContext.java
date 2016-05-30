@@ -2,6 +2,8 @@ package nl.paardenvriendjes.pvapi;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -33,22 +35,17 @@ public class testApplicationContext extends AbstractTransactionalJUnit4SpringCon
 	
 	@Before
 	public void initialize () {
-		ctx = new ClassPathXmlApplicationContext("application-context.xml");
-//		SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
-//		Session Session = sessionFactory.getCurrentSession();
+
 	}
 
-	
-	@Test
-	public void testSpringInitialization() throws Exception {
-		assertNotNull(ctx);
-	}
-
+		
 	@Test
 	public void testHibernate() throws Exception {
 	Trap trap1 = new Trap (1L); 
 	trapDao.saveTrap(trap1);
 	
+	List <Trap> trappenlist = trapDao.listTrappen();
+	System.out.println(trappenlist.get(0));
 	}
 	
 	
