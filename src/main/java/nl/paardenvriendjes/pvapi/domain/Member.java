@@ -9,9 +9,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
+import nl.paardenvriendjes.enumerations.SportLevel;
+
 @Entity
 public class Member {
 
+	//Properties
+	
 	@Id
 	@NotNull
 	private Long id;
@@ -35,6 +39,11 @@ public class Member {
     private List <Comment> comments;
     @OneToMany
     private List <Like> likes;
+    private SportLevel sportLevel;
+    private List <Member> friendsList; 
+    
+    //Getters and Setters
+   
 	public Long getId() {
 		return id;
 	}
@@ -131,11 +140,31 @@ public class Member {
 	public void setLikes(List<Like> likes) {
 		this.likes = likes;
 	}
+	public SportLevel getSportLevel() {
+		return sportLevel;
+	}
+	public void setSportLevel(SportLevel sportLevel) {
+		this.sportLevel = sportLevel;
+	
+	}
+	public List<Member> getFriendsList() {
+		return friendsList;
+	}
+	public void setFriendsList(List<Member> friendsList) {
+		this.friendsList = friendsList;
+	}
+		
+		//ToString
+	
+
 	@Override
 	public String toString() {
 		return "Member [id=" + id + ", username=" + username + ", createdon=" + createdon + ", geboortedatum="
 				+ geboortedatum + ", email=" + email + "]";
 	}
+	
+	//HashCode
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -158,6 +187,8 @@ public class Member {
 		result = prime * result + ((voornaam == null) ? 0 : voornaam.hashCode());
 		return result;
 	}
+	
+	//Equals
 	
 	@Override
 	public boolean equals(Object obj) {
