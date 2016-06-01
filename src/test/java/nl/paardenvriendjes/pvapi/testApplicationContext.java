@@ -1,53 +1,47 @@
 package nl.paardenvriendjes.pvapi;
 
-import static org.junit.Assert.*;
+import java.io.FileReader;
+import java.util.Iterator;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.ServerProperties.Session;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+import org.springframework.format.Printer;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
-
-import nl.paardenvriendjes.pvapi.domain.Trap;
-import nl.paardenvriendjes.pvapi.services.TrapDao;
-
-
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 
 
 @ContextConfiguration("classpath:application-context.xml")
 public class testApplicationContext extends AbstractTransactionalJUnit4SpringContextTests {
 
 	private ApplicationContext ctx;
-	@Autowired
-	TrapDao trapDao;
 	
 	@Before
 	public void initialize () {
-
+ 
+		
 	}
-
 		
 	@Test
-	public void testHibernate() throws Exception {
-	Trap trap1 = new Trap (1L); 
-	trapDao.saveTrap(trap1);
+	public void testMemberCreation () throws Exception {
 	
-	List <Trap> trappenlist = trapDao.listTrappen();
-	System.out.println(trappenlist.get(0));
-	}
-	
-	
+		Object obj; 
+		JSONObject member = null;
+		
+		try {
+			JSONParser parser = new JSONParser(); 
+            obj = parser.parse(new FileReader(
+                    "src/test/resources/members1.json"));         
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		String name = (String) member.get("voornaam");
+		assertThat(name,  is("constant string"));
+	}	
 	}
 

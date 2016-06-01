@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import nl.paardenvriendjes.enumerations.MessageType;
@@ -20,12 +21,12 @@ public class Message {
 	private String message;
 	private MessageType type;
 	private Date insertDate;
-	@OneToMany(mappedBy = "id")
+	@ManyToOne
 	private Member member;
 	private String piclink;
 	private String picLinkSecond;
 	private String picLinkThird;
-	@OneToMany(mappedBy = "message")
+	@OneToMany
 	private List<Comment> commentlist;
 	@OneToMany(mappedBy = "message")
 	private List<Like> likelist;

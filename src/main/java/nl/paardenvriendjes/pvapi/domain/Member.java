@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
@@ -29,18 +30,19 @@ public class Member {
 	@OneToMany
 	private List <Horse> horses;
 	@OneToOne
-	private List <Interesse> interesses;
+	private Interesse interesse;
     private String profileimage;
 	private String password;
     private String plaatsnaam;
-    @OneToMany
-    private List <Message> messages;
+	@OneToMany
+	private List <Message> messages;
     @OneToMany
     private List <Comment> comments;
     @OneToMany
     private List <Like> likes;
     private SportLevel sportLevel;
-    private List <Member> friendsList; 
+    @OneToOne
+    private Friend friend; 
     
     //Getters and Setters
    
@@ -98,11 +100,11 @@ public class Member {
 	public void setHorses(List<Horse> horses) {
 		this.horses = horses;
 	}
-	public List<Interesse> getInteresses() {
-		return interesses;
+	public Interesse getInteresse() {
+		return interesse;
 	}
-	public void setInteresses(List<Interesse> interesses) {
-		this.interesses = interesses;
+	public void setInteresse(Interesse interesse) {
+		this.interesse = interesse;
 	}
 	public String getProfileimage() {
 		return profileimage;
@@ -147,11 +149,11 @@ public class Member {
 		this.sportLevel = sportLevel;
 	
 	}
-	public List<Member> getFriendsList() {
-		return friendsList;
+	public Friend getFriend() {
+		return friend;
 	}
-	public void setFriendsList(List<Member> friendsList) {
-		this.friendsList = friendsList;
+	public void setFriend(Friend friend) {
+		this.friend = friend;
 	}
 		
 		//ToString
@@ -176,7 +178,7 @@ public class Member {
 		result = prime * result + ((geboortedatum == null) ? 0 : geboortedatum.hashCode());
 		result = prime * result + ((horses == null) ? 0 : horses.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((interesses == null) ? 0 : interesses.hashCode());
+		result = prime * result + ((interesse == null) ? 0 : interesse.hashCode());
 		result = prime * result + ((likes == null) ? 0 : likes.hashCode());
 		result = prime * result + ((messages == null) ? 0 : messages.hashCode());
 		result = prime * result + ((overmij == null) ? 0 : overmij.hashCode());
@@ -234,10 +236,10 @@ public class Member {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (interesses == null) {
-			if (other.interesses != null)
+		if (interesse == null) {
+			if (other.interesse != null)
 				return false;
-		} else if (!interesses.equals(other.interesses))
+		} else if (!interesse.equals(other.interesse))
 			return false;
 		if (likes == null) {
 			if (other.likes != null)
