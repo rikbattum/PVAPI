@@ -1,0 +1,99 @@
+[      
+{
+	"voornaam" : "Rik",
+	"achternaam" : "van Battum",
+	"username" : "rikbattum",
+	"createdon" : "22-01-2015",
+	"geboortedatum" : "12-06-1979",
+	"email" : "rikbattum@hotmail.com",
+	"overmij" :  "ik ben een paardenliefhebber",
+	"profileimage" : "www.image.com/rik", 
+	"password" : "Superdaddy79",
+    "plaatsnaam" : "Hilversum"
+	},  
+{
+	"voornaam" : "Dennis",
+	"achternaam" : "Pastoor",
+	"username" : "dpastoor",
+	"createdon" :  "23-01-2015",
+	"geboortedatum": "22-03-1984",
+	"email" :"dpastoor@hetnet.nl",
+	"overmij" :  "ik fok paarden",
+	"profileimage" : "www.image.com/dennis", 
+	"password" : "123Dennis",
+    "plaatsnaam" : "Zwolle"
+	},   
+{
+	"voornaam" : "Suzy",
+	"achternaam" : "Que",
+	"username" : "Suzy",
+	"createdon" : "15-03-2014",
+	"geboortedatum" : "22-03-1984",
+	"email" : "sq@zonenet.nl",
+	"overmij" : "I ride a pony",
+	"profileimage" : "www.image.com/suzy", 
+	"password" : "suuzzzy234",
+    "plaatsnaam" : "Leeuwarden"
+	},   
+{
+	"voornaam" : "Ellis",
+	"achternaam" : "Vermeend", 
+	"username" : "Elli65",
+	"createdon" :  "01-08-2016",
+	"geboortedatum" : "22-07-1945",
+	"email" : "vermeende@gmail.nl",
+	"overmij" :  "I like watching horse sport",
+	"profileimage" : "www.image.com/ellis", 
+	"password" : "everm888",
+    "plaatsnaam" : "Utrecht" 
+	} ,   
+{
+	"voornaam" : "Mike",
+	"achternaam" : "de Boer",
+	"username" : "mikey",
+	"createdon" :  "01-01-2014",
+	"geboortedatum" : "22-07-2001",
+	"email" : "mdeboer@verizon.com",
+	"overmij" :  "like horses",
+	"profileimage" : "www.image.com/mike", 
+	"password" : "1967mike",
+    "plaatsnaam" : "Terneuzen"
+	},    
+{
+	"voornaam" : "Chantal",
+	"achternaam" : "Janson",
+	"username" : "cjson",
+	"createdon" :  "01-07-2014", 
+	"geboortedatum" : "02-06-1978",
+	"email" : "cjanson@hetnet.nl",
+	"overmij" :  "love my pony",
+	"profileimage" : "www.image.com/chantal", 
+	"password" : "1221123fsdf",
+    "plaatsnaam" : "Maarn"
+	},
+{
+	"voornaam" : "Bobby",
+	"achternaam" : "Castricum",
+	"username" : "bobbyinthelobby",
+	"createdon" :  "11-09-2011",
+	"geboortedatum" : "22-10-2005",
+	"email" : "bcasti@yahoo.com",
+	"overmij" :  "no news",
+	"profileimage" : "www.image.com/bobby", 
+	"password" : "booby76342",
+    "plaatsnaam" : "Montfoort"
+	},    
+{
+	"voornaam" : "Turner",
+	"achternaam" : "Helpsyouout",
+	"username" : "help wanted",
+	"createdon" : "01-05-2005",
+	"geboortedatum" : "28-04-2003",
+	"email" : "iwillhelp@dof.nl",
+	"overmij" : "nice guy",  
+	"profileimage" : "www.image.com/turner", 
+	"password" : "121232fdsf",
+    "plaatsnaam" : "Den Helder"
+	}  
+	]
+    

@@ -1,4 +1,4 @@
-package nl.paardenvriendjes.pvapi.services;
+package nl.paardenvriendjes.pvapi.daoimpl;
 
 import java.util.List;
 
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import nl.paardenvriendjes.pvapi.domain.Trap;
+import nl.paardenvriendjes.pvapi.services.TrapDao;
 
 @Component
 @Transactional(propagation=Propagation.REQUIRES_NEW)
