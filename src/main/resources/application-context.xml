@@ -8,7 +8,7 @@
                         http://www.springframework.org/schema/tx/spring-tx.xsd">
 	<context:annotation-config />
 	<context:component-scan base-package="nl.paardenvriendjes" />
-	<tx:annotation-driven />
+	<tx:annotation-driven transaction-manager="transactionManager"/>
 	<bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect">
 	</bean>
 	<context:property-placeholder location="classpath:application.properties" />

@@ -13,7 +13,7 @@ import nl.paardenvriendjes.pvapi.domain.Trap;
 import nl.paardenvriendjes.pvapi.services.TrapDao;
 
 @Component
-@Transactional(propagation=Propagation.REQUIRES_NEW)
+@Transactional()
 public class TrapDaoImpl implements TrapDao {
 
 @Autowired
