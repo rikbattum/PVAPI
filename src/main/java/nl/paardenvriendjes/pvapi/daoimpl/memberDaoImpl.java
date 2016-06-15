@@ -43,7 +43,6 @@ public class memberDaoImpl {
 	public Member loadMember(Long id) {
 		Member memberLoaded = (Member) getCurrentSession().load(Member.class, id);
 		return memberLoaded;
-
 	}
 
 	// Save Member
@@ -54,6 +53,11 @@ public class memberDaoImpl {
 	}
 	
 	// Update Member
+	
+	public void updateMember(Member member) {
+		getCurrentSession().persist(member);
+		log.debug("updated Member");
+	}
 
 	// Remove Member by ID
 	

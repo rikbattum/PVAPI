@@ -77,7 +77,8 @@ public class Member {
 		return createdon;
 	}
 	public void setCreatedon(Date createdon) {
-		this.createdon = createdon;
+		// Manually create createdOn backend side; 
+		this.createdon = new Date();
 	}
 	public Date getGeboortedatum() {
 		return geboortedatum;

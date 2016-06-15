@@ -4,6 +4,7 @@ import static org.junit.Assert.assertThat;
 
 import java.io.FileReader;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.hamcrest.core.Is;
@@ -34,6 +35,8 @@ public class TestMemberCreation {
 	@Autowired
 	private TestUtil testUtil;
 
+	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+	
 	public void initialize() {
 
 	}
@@ -76,7 +79,7 @@ public class TestMemberCreation {
 		assertThat(x.getAchternaam(), Is.is("van Battum"));
 		assertThat(x.getVoornaam(), Is.is("Rik"));
 		assertThat(x.getGeboortedatum().toString(), Is.is("Fri Jan 12 00:06:00 CET 1979"));
-		assertThat(x.getCreatedon().toString(), Is.is("Thu Jan 22 00:01:00 CET 2015"));
+		assertThat(simpleDateFormat.format(x.getCreatedon()), Is.is(simpleDateFormat.format(new Date())));
 		assertThat(x.getPlaatsnaam(), Is.is("Hilversum"));
 		assertThat(x.getProfileimage(), Is.is("www.image.com/rik"));
 		assertThat(x.getOvermij(), Is.is("ik ben een paardenliefhebber"));
@@ -111,26 +114,70 @@ public class TestMemberCreation {
 	}
 
 	@Test
-    @Transactional
-    @Rollback(true)
-	public void testMemberDeletion () throws Exception {
+	@Transactional
+	@Rollback(true)
+	public void testMemberDeletion() throws Exception {
 
 		// Arrange
 		testUtil.setMembers();
 		List<Member> memberList = memberService.listMembers();
-		
-		//Assert 
+
+		// Assert
 		assertThat(memberList.size(), Is.is(8));
-		
-		//Act
-		Member y = memberList.get(0);
-		Long idToBeRemoved = y.getId();
+
+		// Act
+		Member member = memberList.get(0);
+		Long idToBeRemoved = member.getId();
 		memberService.removeMember(idToBeRemoved);
 		List<Member> memberListAgain = memberService.listMembers();
-		
-		//Assert 
+
+		// Assert
 		assertThat(memberListAgain.size(), Is.is(7));
-		
 	}
 
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testMemberUpdate() throws Exception {
+
+		// Arrange
+		testUtil.setMembers();
+		List<Member> memberList = memberService.listMembers();
+
+		// Assert
+		assertThat(memberList.size(), Is.is(8));
+
+		// Act
+		Member member = memberList.get(0);
+		member.setEmail("test@nu.nl");
+		member.setPlaatsnaam("emmeloord");
+		Long id = member.getId();
+		memberService.updateMember(member);
+
+		List<Member> memberListAgain = memberService.listMembers();
+
+		// Assert
+		assertThat(memberListAgain.size(), Is.is(8));
+		Member memberUpdated = memberService.loadMember(id);
+		assertThat(memberUpdated.getPlaatsnaam(), Is.is("emmeloord"));
+		assertThat(memberUpdated.getEmail(), Is.is("test@nu.nl"));
+		assertThat(memberUpdated.getId(), Is.is(id));
+	}
+
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testCreatedOnValueSetInBackend() throws Exception {
+
+		// Arrange
+		testUtil.setMembers();
+		List<Member> memberList = memberService.listMembers();
+
+		// Act
+		Member member = memberList.get(0);
+		
+		// Assert
+		assertThat(simpleDateFormat.format(member.getCreatedon()), Is.is(simpleDateFormat.format(new Date())));
+
+	}
 }

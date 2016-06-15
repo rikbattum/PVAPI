@@ -60,7 +60,8 @@ public class Message {
 	}
 
 	public void setInsertDate(Date insertDate) {
-		this.insertDate = insertDate;
+		// set-date in backend;
+		this.insertDate = new Date ();
 	}
 
 	public Member getMember() {
