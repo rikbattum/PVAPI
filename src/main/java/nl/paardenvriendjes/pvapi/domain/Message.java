@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 import nl.paardenvriendjes.enumerations.MessageType;
 
 @Entity
@@ -21,7 +24,9 @@ public class Message {
 	private String message;
 	private MessageType type;
 	private Date insertDate;
-	@ManyToOne
+	
+	@ManyToOne 
+	@Cascade({CascadeType.SAVE_UPDATE})
 	private Member member;
 	private String piclink;
 	private String picLinkSecond;

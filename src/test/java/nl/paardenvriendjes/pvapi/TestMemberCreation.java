@@ -21,7 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import nl.paardenvriendjes.hibernate.configuration.HibernateConfiguration;
-import nl.paardenvriendjes.pvapi.daoimpl.memberDaoImpl;
+import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.services.MemberDaoService;
 
@@ -30,7 +30,7 @@ import nl.paardenvriendjes.pvapi.services.MemberDaoService;
 public class TestMemberCreation {
 
 	@Autowired
-	private memberDaoImpl memberService;
+	private MemberDaoImpl memberService;
 
 	@Autowired
 	private TestUtil testUtil;

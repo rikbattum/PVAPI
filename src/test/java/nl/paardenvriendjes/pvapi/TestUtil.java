@@ -2,6 +2,8 @@ package nl.paardenvriendjes.pvapi;
 
 import java.io.FileReader;
 import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Random;
 
 import javax.persistence.EnumType;
 
@@ -12,7 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import nl.paardenvriendjes.enumerations.MessageType;
-import nl.paardenvriendjes.pvapi.daoimpl.memberDaoImpl;
+import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
+import nl.paardenvriendjes.pvapi.daoimpl.MessageDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.domain.Message;
 
@@ -20,7 +23,10 @@ import nl.paardenvriendjes.pvapi.domain.Message;
 public class TestUtil {
 
 	@Autowired
-	private memberDaoImpl memberService;
+	private MemberDaoImpl memberService;
+	@Autowired
+	private MessageDaoImpl messageService;
+	private Random randomGenerator;
 
 	public void setMembers() {
 
@@ -57,33 +63,39 @@ public class TestUtil {
 		}
 	}
 
-	public void setMessages() {
+	public void runMessagesPost() {
+
+		// prepare message list
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
 		Object obj;
 
 		try {
+			// get inidividual member reference
+		
 			JSONParser parser = new JSONParser();
 			obj = parser.parse(new FileReader("src/test/resources/messages.json"));
 			JSONArray messages = (JSONArray) obj;
 			System.out.println("Succes getting messages file!");
-
-			// "message": "Esther heeft zich aangemeld",
-			// "type": "NEWPROFILE",
-			// "insertDate": "22-05-2015",
-			// "piclink": "www.piclink.nl/4",
-			// "picLinkSecond": " ",
-			// "picLinkThird": " "
-
+			
+			List<Member> memberList = memberService.listMembers();
+						
 			for (Object message : messages) {
 				JSONObject messageX = (JSONObject) message;
+				System.out.println(messageX);
 				Message m = new Message();
+
+				// create randomizer for members out of testdata	
+				int index = randomGenerator.nextInt(memberList.size());
+				// set random member for message
+				m.setMember(memberList.get(index));
+				// set other properties
+//				m.setType((MessageType) messageX.get("type"));
 				m.setMessage((String) messageX.get("message"));
-				m.setType((MessageType) messageX.get("type"));
 				m.setPiclink((String) messageX.get("piclink"));
 				m.setPicLinkSecond((String) messageX.get("picLinkSecond"));
 				m.setPicLinkThird((String) messageX.get("picLinkThird"));
+				messageService.saveMessage(m);
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			e.getMessage();

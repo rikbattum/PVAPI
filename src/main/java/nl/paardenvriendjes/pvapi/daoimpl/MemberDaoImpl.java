@@ -13,18 +13,18 @@ import nl.paardenvriendjes.pvapi.domain.Member;
 @Component
 @Transactional
 
-public class memberDaoImpl {
+public class MemberDaoImpl {
 
 	// logging
 
-	static Logger log = Logger.getLogger(memberDaoImpl.class.getName());
+	static Logger log = Logger.getLogger(MemberDaoImpl.class.getName());
 
 	// session Management
 
 	@Autowired
 	SessionFactory sessionFactory;
 
-	protected Session getCurrentSession() {
+	private Session getCurrentSession() {
 		return sessionFactory.getCurrentSession();
 	}
 
