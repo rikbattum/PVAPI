@@ -48,7 +48,7 @@ public class MemberDaoImpl {
 	// Save Member
 	
 	public void saveMember(Member member) {
-		getCurrentSession().save(member);
+		getCurrentSession().persist(member);
 		log.debug("saved Member");
 	}
 	

@@ -86,15 +86,15 @@ public class TestUtil {
 
 				// create randomizer for members out of testdata	
 				int index = randomGenerator.nextInt(memberList.size());
-				// set random member for message
-				m.setMember(memberList.get(index));
-				// set other properties
+				// get random member for message
+				Member tempMember = (memberList.get(index));		
 //				m.setType((MessageType) messageX.get("type"));
 				m.setMessage((String) messageX.get("message"));
 				m.setPiclink((String) messageX.get("piclink"));
 				m.setPicLinkSecond((String) messageX.get("picLinkSecond"));
 				m.setPicLinkThird((String) messageX.get("picLinkThird"));
-				messageService.saveMessage(m);
+				tempMember.getMessages().add(m);
+				memberService.saveMember(tempMember);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

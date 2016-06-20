@@ -47,7 +47,7 @@ public class TestMessageCreator extends AbstractTransactionalJUnit4SpringContext
 	@Transactional
 	@Rollback(true)
 	@Test
-	public void testMemberAndMessageCreationGeneral() throws Exception {
+	public void testMemberAndCASCADEMessageCreationGeneral() throws Exception {
 
 		// Arrange
 		testUtil.setMembers();
@@ -59,14 +59,37 @@ public class TestMessageCreator extends AbstractTransactionalJUnit4SpringContext
 		message.setMember(testMember);
 		message.setMessage("fantastisch weer vandaag");
 		message.setPiclink("www.nu.nl");
-		messageService.saveMessage(message);
+		//Add a test message to a member
+		testMember.getMessages().add(message);
+		// message should be persisted cascaded by member 
+		memberService.saveMember(testMember);
 					
 		// Assert
 		assertThat(memberList.size(), Is.is(8));
-		List<Messages> messageList = messageService.listMessages();
+		List<Message> messageList = messageService.listMessages();
 		assertThat(messageList.size(), Is.is(1));
-		assertNull(testMember.getMessages());
 		assertNotNull(testMember.getMessages());
+		assertNotNull(testMember.getMessages().get(0));
+		assertThat(testMember.getMessages().get(0).getMessage(), Is.is("fantastisch weer vandaag"));
 	}
+	
+	public void testMultipleMesages() throws Exception {
+	
+		testUtil.setMembers();
+		testUtil.runMessagesPost();
+		
+		List<Message> messages = messageService.listMessages();
+		assertNull(messages);
+		assertThat(messages.size(), Is.is(20));
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

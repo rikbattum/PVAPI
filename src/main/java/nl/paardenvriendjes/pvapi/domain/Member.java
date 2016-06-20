@@ -1,5 +1,6 @@
 package nl.paardenvriendjes.pvapi.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +12,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import nl.paardenvriendjes.enumerations.SportLevel;
 
@@ -38,7 +42,8 @@ public class Member {
 	private String password;
     private String plaatsnaam;
 	@OneToMany
-	private List <Message> messages;
+	@Cascade({CascadeType.PERSIST})
+	private List <Message> messages = new ArrayList<Message>();
     @OneToMany
     private List <Comment> comments;
     @OneToMany

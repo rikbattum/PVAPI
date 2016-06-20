@@ -26,7 +26,6 @@ public class Message {
 	private Date insertDate;
 	
 	@ManyToOne 
-	@Cascade({CascadeType.SAVE_UPDATE})
 	private Member member;
 	private String piclink;
 	private String picLinkSecond;

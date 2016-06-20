@@ -34,8 +34,8 @@ public class MessageDaoImpl {
 	// List all Messages
 
 	@Transactional(readOnly = true)
-	public List<Messages> listMessages() {
-		List<Messages> messages = getCurrentSession().createQuery("from Message").list();
+	public List<Message> listMessages() {
+		List<Message> messages = getCurrentSession().createQuery("from Message").list();
 		log.debug("got List of all Messages");
 		return messages;
 	}
@@ -50,8 +50,8 @@ public class MessageDaoImpl {
 	// Save Message
 	
 	public void saveMessage(Message message) {	
-		getCurrentSession().save(message);
-		log.debug("saved Message");
+		getCurrentSession().persist(message);
+		log.debug("saved or updated Message");
 	}
 	
 	// Update Message
