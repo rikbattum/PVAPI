@@ -7,6 +7,7 @@ import static org.junit.Assert.assertThat;
 import java.util.List;
 
 import org.hamcrest.core.Is;
+import org.hibernate.SessionFactory;
 import org.hibernate.validator.internal.util.logging.Messages;
 import org.junit.After;
 import org.junit.Before;
@@ -33,6 +34,8 @@ public class TestMessageCreator extends AbstractTransactionalJUnit4SpringContext
 	private MemberDaoImpl memberService;
 	@Autowired
 	private TestUtil testUtil;
+	
+
 
 	@Before
 	public void initialize() {
@@ -103,16 +106,8 @@ public class TestMessageCreator extends AbstractTransactionalJUnit4SpringContext
 		Long toBeRemovedId= testMember.getMessages().get(0).getId();
 		messageService.removeMessage(toBeRemovedId);
 		memberService.saveMember(testMember);
+		
 		List <Message> messagesListNew =  messageService.listMessages();
 		assertThat(messagesListNew.size(), Is.is(22));
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-
 }
