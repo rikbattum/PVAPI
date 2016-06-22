@@ -73,16 +73,39 @@ public class TestMessageCreator extends AbstractTransactionalJUnit4SpringContext
 		assertThat(testMember.getMessages().get(0).getMessage(), Is.is("fantastisch weer vandaag"));
 	}
 	
+	@Transactional
+	@Rollback(true)
+	@Test
 	public void testMultipleMesages() throws Exception {
 	
-		testUtil.setMembers();
+		
 		testUtil.runMessagesPost();
 		
 		List<Message> messages = messageService.listMessages();
-		assertNull(messages);
-		assertThat(messages.size(), Is.is(20));
+		assertThat(messages.size(), Is.is(22));
 	}
 	
+	@Transactional
+	@Rollback(true)
+	@Test
+	public void testCascadeDeleteMesages() throws Exception {
+		
+		testUtil.setMembers();
+		testUtil.runMessagesPost();
+		List<Member> memberList = memberService.listMembers();
+		Member testMember = memberList.get(0);
+		// add a message to be sure there is one
+		testMember.getMessages().add(new Message());
+		memberService.saveMember(testMember);
+		List<Message> messages = messageService.listMessages();
+		assertThat(messages.size(), Is.is(23)); 
+		
+		Long toBeRemovedId= testMember.getMessages().get(0).getId();
+		messageService.removeMessage(toBeRemovedId);
+		memberService.saveMember(testMember);
+		List <Message> messagesListNew =  messageService.listMessages();
+		assertThat(messagesListNew.size(), Is.is(22));
+	}
 	
 	
 	

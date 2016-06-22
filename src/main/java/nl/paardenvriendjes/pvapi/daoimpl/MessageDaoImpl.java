@@ -1,15 +1,14 @@
 package nl.paardenvriendjes.pvapi.daoimpl;
 
-import java.awt.TrayIcon.MessageType;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.validator.internal.util.logging.Messages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
 import nl.paardenvriendjes.pvapi.domain.Message;
 
 @Component

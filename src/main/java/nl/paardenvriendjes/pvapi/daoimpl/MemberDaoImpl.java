@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
 import nl.paardenvriendjes.pvapi.domain.Member;
 
 @Component
@@ -55,7 +56,7 @@ public class MemberDaoImpl {
 	// Update Member
 	
 	public void updateMember(Member member) {
-		getCurrentSession().persist(member);
+		getCurrentSession().merge(member);
 		log.debug("updated Member");
 	}
 
