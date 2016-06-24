@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.domain.Message;
 
 @Component
@@ -24,7 +25,7 @@ public class MessageDaoImpl {
 
 	@Autowired
 	SessionFactory sessionFactory;
-
+	
 	private Session getCurrentSession() {
 		return sessionFactory.getCurrentSession();
 	}
@@ -66,6 +67,7 @@ public class MessageDaoImpl {
 		try { 
 		Message messageToBeRemoved = (Message) getCurrentSession().load(Message.class, id);
 		getCurrentSession().delete(messageToBeRemoved);
+		
 		log.debug("deleted Message id " + id);
 		}
 		catch (Exception e) { 

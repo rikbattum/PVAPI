@@ -35,8 +35,6 @@ public class TestMessageCreator extends AbstractTransactionalJUnit4SpringContext
 	@Autowired
 	private TestUtil testUtil;
 	
-
-
 	@Before
 	public void initialize() {
 
@@ -103,11 +101,16 @@ public class TestMessageCreator extends AbstractTransactionalJUnit4SpringContext
 		List<Message> messages = messageService.listMessages();
 		assertThat(messages.size(), Is.is(23)); 
 		
-		Long toBeRemovedId= testMember.getMessages().get(0).getId();
+		Message MessageToBeRemoved =testMember.getMessages().get(0);
+		Long toBeRemovedId= MessageToBeRemoved.getId();
 		messageService.removeMessage(toBeRemovedId);
+		testMember.getMessages().remove(MessageToBeRemoved);
 		memberService.saveMember(testMember);
 		
 		List <Message> messagesListNew =  messageService.listMessages();
+		System.out.println("findme");
+		System.out.println(messagesListNew);
 		assertThat(messagesListNew.size(), Is.is(22));
+		
 	}
 }

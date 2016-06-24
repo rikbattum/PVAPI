@@ -8,14 +8,40 @@ public class MemberDaoService {
 
 	
 	
-	public interface MemberDao{
+	public abstract class serviceGeneric <T> {
 
 		
-		public List <Member> listMembers();
+		public List <T> listAll() { 
+			
+			
+		}
 		
-		public void saveMember(Member member);
+		public T listOne() { 
+			
+		}
+		
+		
+		public void save(T entity) { 
+			
+			
+		}
+		
+		
+		public void edit(T entity){
+			
+			
+		}
 
-		public void removeTrap(Member member);
+		public void remove(T entity) { 
+			
+			
+		}
+		
+		public List<T> findRange(int[] range) { 
+			
+			
+			
+		}
 		
 		
 		
