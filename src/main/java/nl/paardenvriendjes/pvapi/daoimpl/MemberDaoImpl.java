@@ -10,11 +10,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import nl.paardenvriendjes.pvapi.domain.Member;
+import nl.paardenvriendjes.pvapi.services.AbstractDaoService;
 
 @Component
 @Transactional
 
-public class MemberDaoImpl {
+public class MemberDaoImpl extends AbstractDaoService<Member> {
+
+	public MemberDaoImpl() {
+		super(Member.class);
+	}
 
 	// logging
 
@@ -33,45 +38,31 @@ public class MemberDaoImpl {
 	// List all Members
 
 	@Transactional(readOnly = true)
-	public List<Member> listMembers() {
-		List<Member> members = getCurrentSession().createQuery("from Member").list();
-		log.debug("got List of all Members");
-		return members;
+	public List<Member> listAll() {
+		return super.listAll();
 	}
 
 	// Load Member by ID
 
-	public Member loadMember(Long id) {
-		Member memberLoaded = (Member) getCurrentSession().load(Member.class, id);
-		return memberLoaded;
+	public Member listOne(Long id) {
+		return super.listOne(id);
 	}
 
 	// Save Member
-	
-	public void saveMember(Member member) {
-		getCurrentSession().persist(member);
-		log.debug("saved Member");
+
+	public void save(Member member) {
+		super.save(member);
 	}
-	
+
 	// Update Member
-	
-	public void updateMember(Member member) {
-		getCurrentSession().merge(member);
-		log.debug("updated Member");
+
+	public void edit(Member member) {
+		super.edit(member);
 	}
 
 	// Remove Member by ID
-	
-	public void removeMember(long id) {
-		try { 
-		Member memberToBeRemoved = (Member) getCurrentSession().load(Member.class, id);
-		getCurrentSession().delete(memberToBeRemoved);
-		log.debug("deleted Member id " + id);
-		}
-		catch (Exception e) { 
-			log.error("Member to be deleted not found");
-		} 
-			
-	
+
+	public void remove(long id) {
+		super.remove(id);
 	}
 }

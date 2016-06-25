@@ -54,7 +54,7 @@ public class TestUtil {
 				m.setPassword((String) memberX.get("password"));
 				m.setPlaatsnaam((String) memberX.get("plaatsnaam"));
 				m.setProfileimage((String) memberX.get("profileimage"));
-				memberService.saveMember(m);
+				memberService.save(m);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -71,7 +71,7 @@ public class TestUtil {
 		
 		//		set members
 				setMembers();
-		List<Member> memberList = memberService.listMembers();
+		List<Member> memberList = memberService.listAll();
 		
 		
 		try {
@@ -102,7 +102,7 @@ public class TestUtil {
 				m.setPicLinkSecond((String) messageX.get("picLinkSecond"));
 				m.setPicLinkThird((String) messageX.get("picLinkThird"));	
 				tempMember.getMessages().add(m);
-				memberService.updateMember(tempMember);
+				memberService.edit(tempMember);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

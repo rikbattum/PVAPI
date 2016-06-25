@@ -49,7 +49,7 @@ public class MessageDaoImpl {
 
 	// Save Message
 	
-	public void saveMessage(Message message) {	
+	public void save(Message message) {	
 		getCurrentSession().persist(message);
 		log.debug("saved or updated Message");
 	}

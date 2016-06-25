@@ -52,7 +52,7 @@ public class TestMessageCreator extends AbstractTransactionalJUnit4SpringContext
 
 		// Arrange
 		testUtil.setMembers();
-		List<Member> memberList = memberService.listMembers();
+		List<Member> memberList = memberService.listAll();
 
 		// Act
 		Member testMember = memberList.get(0);
@@ -63,7 +63,7 @@ public class TestMessageCreator extends AbstractTransactionalJUnit4SpringContext
 		//Add a test message to a member
 		testMember.getMessages().add(message);
 		// message should be persisted cascaded by member 
-		memberService.saveMember(testMember);
+		memberService.save(testMember);
 					
 		// Assert
 		assertThat(memberList.size(), Is.is(8));
@@ -93,11 +93,11 @@ public class TestMessageCreator extends AbstractTransactionalJUnit4SpringContext
 		
 		testUtil.setMembers();
 		testUtil.runMessagesPost();
-		List<Member> memberList = memberService.listMembers();
+		List<Member> memberList = memberService.listAll();
 		Member testMember = memberList.get(0);
 		// add a message to be sure there is one
 		testMember.getMessages().add(new Message());
-		memberService.saveMember(testMember);
+		memberService.save(testMember);
 		List<Message> messages = messageService.listMessages();
 		assertThat(messages.size(), Is.is(23)); 
 		
@@ -105,7 +105,7 @@ public class TestMessageCreator extends AbstractTransactionalJUnit4SpringContext
 		Long toBeRemovedId= MessageToBeRemoved.getId();
 		messageService.removeMessage(toBeRemovedId);
 		testMember.getMessages().remove(MessageToBeRemoved);
-		memberService.saveMember(testMember);
+		memberService.save(testMember);
 		
 		List <Message> messagesListNew =  messageService.listMessages();
 		System.out.println("findme");

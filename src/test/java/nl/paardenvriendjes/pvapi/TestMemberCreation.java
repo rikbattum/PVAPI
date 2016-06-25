@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import nl.paardenvriendjes.hibernate.configuration.HibernateConfiguration;
 import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Member;
-import nl.paardenvriendjes.pvapi.services.MemberDaoService;
+import nl.paardenvriendjes.pvapi.services.AbstractDaoService;
 
 @ContextConfiguration(classes = HibernateConfiguration.class)
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -55,7 +55,7 @@ public class TestMemberCreation {
 		testUtil.setMembers();
 
 		// Act
-		List<Member> memberList = memberService.listMembers();
+		List<Member> memberList = memberService.listAll();
 
 		// Assert
 		assertThat(memberList.size(), Is.is(8));
@@ -70,7 +70,7 @@ public class TestMemberCreation {
 		testUtil.setMembers();
 
 		// Act
-		List<Member> memberList = memberService.listMembers();
+		List<Member> memberList = memberService.listAll();
 		Member x = memberList.get(0);
 
 		// Assert
@@ -107,7 +107,7 @@ public class TestMemberCreation {
 		testUtil.setMembers();
 
 		// Act
-		List<Member> memberList = memberService.listMembers();
+		List<Member> memberList = memberService.listAll();
 
 		// Assert
 		assertThat(memberList.size(), Is.is(80));
@@ -120,7 +120,7 @@ public class TestMemberCreation {
 
 		// Arrange
 		testUtil.setMembers();
-		List<Member> memberList = memberService.listMembers();
+		List<Member> memberList = memberService.listAll();
 
 		// Assert
 		assertThat(memberList.size(), Is.is(8));
@@ -128,8 +128,8 @@ public class TestMemberCreation {
 		// Act
 		Member member = memberList.get(0);
 		Long idToBeRemoved = member.getId();
-		memberService.removeMember(idToBeRemoved);
-		List<Member> memberListAgain = memberService.listMembers();
+		memberService.remove(idToBeRemoved);
+		List<Member> memberListAgain = memberService.listAll();
 
 		// Assert
 		assertThat(memberListAgain.size(), Is.is(7));
@@ -142,7 +142,7 @@ public class TestMemberCreation {
 
 		// Arrange
 		testUtil.setMembers();
-		List<Member> memberList = memberService.listMembers();
+		List<Member> memberList = memberService.listAll();
 
 		// Assert
 		assertThat(memberList.size(), Is.is(8));
@@ -152,13 +152,13 @@ public class TestMemberCreation {
 		member.setEmail("test@nu.nl");
 		member.setPlaatsnaam("emmeloord");
 		Long id = member.getId();
-		memberService.updateMember(member);
+		memberService.edit(member);
 
-		List<Member> memberListAgain = memberService.listMembers();
+		List<Member> memberListAgain = memberService.listAll();
 
 		// Assert
 		assertThat(memberListAgain.size(), Is.is(8));
-		Member memberUpdated = memberService.loadMember(id);
+		Member memberUpdated = memberService.listOne(id);
 		assertThat(memberUpdated.getPlaatsnaam(), Is.is("emmeloord"));
 		assertThat(memberUpdated.getEmail(), Is.is("test@nu.nl"));
 		assertThat(memberUpdated.getId(), Is.is(id));
@@ -171,7 +171,7 @@ public class TestMemberCreation {
 
 		// Arrange
 		testUtil.setMembers();
-		List<Member> memberList = memberService.listMembers();
+		List<Member> memberList = memberService.listAll();
 
 		// Act
 		Member member = memberList.get(0);
