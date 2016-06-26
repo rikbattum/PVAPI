@@ -1,4 +1,4 @@
-package nl.paardenvriendjes.pvapi.services;
+package nl.paardenvriendjes.pvapi.service;
 
 import java.util.List;
 

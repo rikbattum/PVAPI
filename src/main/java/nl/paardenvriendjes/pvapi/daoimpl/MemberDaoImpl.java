@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import nl.paardenvriendjes.pvapi.domain.Member;
-import nl.paardenvriendjes.pvapi.services.AbstractDaoService;
+import nl.paardenvriendjes.pvapi.service.AbstractDaoService;
 
 @Component
 @Transactional

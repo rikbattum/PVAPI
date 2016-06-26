@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import nl.paardenvriendjes.hibernate.configuration.HibernateConfiguration;
 import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Member;
-import nl.paardenvriendjes.pvapi.services.AbstractDaoService;
+import nl.paardenvriendjes.pvapi.service.AbstractDaoService;
 
 @ContextConfiguration(classes = HibernateConfiguration.class)
 @RunWith(SpringJUnit4ClassRunner.class)
