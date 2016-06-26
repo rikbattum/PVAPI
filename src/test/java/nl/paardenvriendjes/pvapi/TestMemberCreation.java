@@ -1,6 +1,6 @@
 package nl.paardenvriendjes.pvapi;
 
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 import java.io.FileReader;
 import java.text.SimpleDateFormat;
@@ -14,6 +14,7 @@ import org.json.simple.parser.JSONParser;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.internal.matchers.Equals;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
@@ -49,7 +50,7 @@ public class TestMemberCreation {
 	@Test
 	@Transactional
 	@Rollback(true)
-	public void testMemberCreationObjectEntries() throws Exception {
+	public void testMemberCreationExactNumberOfEntries() throws Exception {
 
 		// Arrange
 		testUtil.setMembers();
@@ -178,6 +179,35 @@ public class TestMemberCreation {
 		
 		// Assert
 		assertThat(simpleDateFormat.format(member.getCreatedon()), Is.is(simpleDateFormat.format(new Date())));
-
 	}
+	
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testListMembersWithRange() throws Exception {
+		
+	testUtil.setMembers();
+	
+	int range [] = new int [] {0,4};
+	List<Member> memberList = memberService.listRange(range); 
+	
+	assertThat(memberList.size(), Is.is(5));
+	assertThat(memberList.get(0).getAchternaam(), Is.is("van Battum"));
+	assertThat(memberList.get(4).getAchternaam(), Is.is("de Boer"));
+	}
+	
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testCountOfMembersList() throws Exception {	
+	testUtil.setMembers();
+	int count = memberService.count();
+	
+	assertEquals(count, 8);
+	
+	testUtil.setMembers();
+	int secondCount = memberService.count();
+	
+	assertEquals(secondCount, 16);
+	}	
 }

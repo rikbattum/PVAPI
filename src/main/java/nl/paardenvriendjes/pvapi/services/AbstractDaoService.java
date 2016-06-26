@@ -3,6 +3,7 @@ package nl.paardenvriendjes.pvapi.services;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import nl.paardenvriendjes.pvapi.daoimpl.MessageDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Member;
 
+@SuppressWarnings("unchecked")
 public abstract class AbstractDaoService<T> {
-
+	
 	// use generic to determine entity class
 	private Class<T> entityClass;
 
@@ -46,12 +48,12 @@ public abstract class AbstractDaoService<T> {
 
 	public void save(T entity) {
 		getCurrentSession().persist(entity);
-		log.debug("saved One: " + entityClass.toString());	
+		log.debug("saved One: " + entityClass.toString());
 	}
 
 	public void edit(T entity) {
 		getCurrentSession().merge(entity);
-		log.debug("edit: " + entityClass.toString());		
+		log.debug("edit: " + entityClass.toString());
 	}
 
 	public void remove(Long id) {
@@ -64,8 +66,17 @@ public abstract class AbstractDaoService<T> {
 		}
 	}
 
-//	public List<T> findRange(int[] range) {
-//
-//	}
-
+	public List<T> listRange(int[] range) {
+		Query query = getCurrentSession().createQuery("from " + entityClass.getName());	
+		query.setMaxResults((range[1] - range[0] + 1));
+		query.setFirstResult(range[0]);
+		List<T> list = query.list(); 
+		return list; 
+	}
+	
+	public int count() {
+		Query query = getCurrentSession().createQuery("from " + entityClass.getName());
+		int count = (int)query.list().size();
+		return count;
+	}
 }
