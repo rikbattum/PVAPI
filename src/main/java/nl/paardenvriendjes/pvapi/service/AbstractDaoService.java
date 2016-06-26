@@ -74,6 +74,13 @@ public abstract class AbstractDaoService<T> {
 		return list; 
 	}
 	
+	public List<T> listOutOfQueryId(Long[] arrayID) {
+		Query query = getCurrentSession().createQuery("from " + entityClass.getName() + " Where id IN (:arrayID)");	
+		query.setParameter("arrayID", arrayID);
+		List<T> list = query.list(); 
+		return list; 
+	}
+	
 	public int count() {
 		Query query = getCurrentSession().createQuery("from " + entityClass.getName());
 		int count = (int)query.list().size();
