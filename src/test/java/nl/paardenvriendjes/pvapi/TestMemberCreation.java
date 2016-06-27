@@ -221,12 +221,8 @@ public class TestMemberCreation {
 	Long idTwo = (Long) memberList.get(5).getId();
 	Long idArray [] = new Long [] {idOne, idTwo};
 	List <Member> memberSelection = memberService.listOutOfQueryId(idArray);
-//	assertEquals(memberSelection.size(), 2);
-//	assertEquals(memberSelection.get(0).getId(), idOne);
-//	assertEquals(memberSelection.get(1).getId(), idOne);
-	}	
-	
-	
-	
-	
+	assertEquals(memberSelection.size(), 2);
+	assertEquals(memberSelection.get(0).getId(), idOne);
+	assertEquals(memberSelection.get(1).getId(), idTwo);
+	}		
 }

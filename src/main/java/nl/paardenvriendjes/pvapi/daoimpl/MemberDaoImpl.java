@@ -37,6 +37,7 @@ public class MemberDaoImpl extends AbstractDaoService<Member> {
 	// CRUD
 	// List all Members
 
+	
 	@Transactional(readOnly = true)
 	public List<Member> listAll() {
 		return super.listAll();

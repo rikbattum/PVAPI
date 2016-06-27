@@ -11,12 +11,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.domain.Message;
+import nl.paardenvriendjes.pvapi.service.AbstractDaoService;
 
 @Component
 @Transactional
 
-public class MessageDaoImpl {
+public class MessageDaoImpl extends AbstractDaoService<Message> {
 
+	public MessageDaoImpl() {
+		super(Message.class);
+	}
+	
 	// logging
 
 	static Logger log = Logger.getLogger(MessageDaoImpl.class.getName());
