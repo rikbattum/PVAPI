@@ -67,7 +67,7 @@ public class TestMessageCreator extends AbstractTransactionalJUnit4SpringContext
 					
 		// Assert
 		assertThat(memberList.size(), Is.is(8));
-		List<Message> messageList = messageService.listMessages();
+		List<Message> messageList = messageService.listAll();
 		assertThat(messageList.size(), Is.is(1));
 		assertNotNull(testMember.getMessages());
 		assertNotNull(testMember.getMessages().get(0));
@@ -82,7 +82,7 @@ public class TestMessageCreator extends AbstractTransactionalJUnit4SpringContext
 		
 		testUtil.runMessagesPost();
 		
-		List<Message> messages = messageService.listMessages();
+		List<Message> messages = messageService.listAll();
 		assertThat(messages.size(), Is.is(22));
 	}
 	
@@ -98,16 +98,16 @@ public class TestMessageCreator extends AbstractTransactionalJUnit4SpringContext
 		// add a message to be sure there is one
 		testMember.getMessages().add(new Message());
 		memberService.save(testMember);
-		List<Message> messages = messageService.listMessages();
+		List<Message> messages = messageService.listAll();
 		assertThat(messages.size(), Is.is(23)); 
 		
 		Message MessageToBeRemoved =testMember.getMessages().get(0);
 		Long toBeRemovedId= MessageToBeRemoved.getId();
-		messageService.removeMessage(toBeRemovedId);
+		messageService.remove(toBeRemovedId);
 		testMember.getMessages().remove(MessageToBeRemoved);
 		memberService.save(testMember);
 		
-		List <Message> messagesListNew =  messageService.listMessages();
+		List <Message> messagesListNew =  messageService.listAll();
 		System.out.println("findme");
 		System.out.println(messagesListNew);
 		assertThat(messagesListNew.size(), Is.is(22));

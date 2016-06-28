@@ -21,49 +21,4 @@ public class MemberDaoImpl extends AbstractDaoService<Member> {
 		super(Member.class);
 	}
 
-	// logging
-
-	static Logger log = Logger.getLogger(MemberDaoImpl.class.getName());
-
-	// session Management
-
-	@Autowired
-	SessionFactory sessionFactory;
-
-	private Session getCurrentSession() {
-		return sessionFactory.getCurrentSession();
-	}
-
-	// CRUD
-	// List all Members
-
-	
-	@Transactional(readOnly = true)
-	public List<Member> listAll() {
-		return super.listAll();
-	}
-
-	// Load Member by ID
-
-	public Member listOne(Long id) {
-		return super.listOne(id);
-	}
-
-	// Save Member
-
-	public void save(Member member) {
-		super.save(member);
-	}
-
-	// Update Member
-
-	public void edit(Member member) {
-		super.edit(member);
-	}
-
-	// Remove Member by ID
-
-	public void remove(long id) {
-		super.remove(id);
-	}
 }
