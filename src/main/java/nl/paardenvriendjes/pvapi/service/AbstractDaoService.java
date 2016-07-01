@@ -2,15 +2,21 @@ package nl.paardenvriendjes.pvapi.service;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import nl.paardenvriendjes.pvapi.daoimpl.MessageDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Member;
 
+@Repository
 @SuppressWarnings("unchecked")
 public abstract class AbstractDaoService<T> {
 	
@@ -30,6 +36,9 @@ public abstract class AbstractDaoService<T> {
 	@Autowired
 	SessionFactory sessionFactory;
 
+	 @PersistenceContext
+	  private EntityManager entityManager;
+	
 	private Session getCurrentSession() {
 		return sessionFactory.getCurrentSession();
 	}

@@ -20,7 +20,6 @@ import nl.paardenvriendjes.pvapi.daoimpl.MessageDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Member;
 
 @RestController
-
 public class MemberRestController {
 
 	@Autowired
@@ -28,20 +27,22 @@ public class MemberRestController {
 
 	static Logger log = Logger.getLogger(MessageDaoImpl.class.getName());
 
+	
+	@RequestMapping("/")
+    public String welcome() {//Welcome page, non-rest
+        return "Welcome to PVAPI";
+    }	
+	
+	
 	// -------------------Retrieve All
 	// Members--------------------------------------------------------
-
-	@RequestMapping(value = "/members/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	
+	@RequestMapping(value = "/members", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Member>> listAllUsers() {
 		List<Member> members = memberservice.listAll();
 		if (members.isEmpty()) {
-			return new ResponseEntity<List<Member>>(HttpStatus.NO_CONTENT);// You
-																			// many
-																			// decide
-																			// to
-																			// return
-																			// HttpStatus.NOT_FOUND
-		}
+			return new ResponseEntity<List<Member>>(HttpStatus.NO_CONTENT);
+			}
 		return new ResponseEntity<List<Member>>(members, HttpStatus.OK);
 	}
 
