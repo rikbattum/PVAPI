@@ -28,7 +28,7 @@ public class MemberRestController {
 	static Logger log = Logger.getLogger(MessageDaoImpl.class.getName());
 
 	
-	@RequestMapping("/")
+	@RequestMapping(value = "/", method = RequestMethod.GET)
     public String welcome() {//Welcome page, non-rest
         return "Welcome to PVAPI";
     }	
@@ -95,7 +95,7 @@ public class MemberRestController {
 	// ------------------- Delete a User
 	// --------------------------------------------------------
 
-	@RequestMapping(value = "/member/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/members/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Member> deleteUser(@PathVariable("id") long id) {
 		log.debug("Fetching & Deleting User with id " + id);
 
