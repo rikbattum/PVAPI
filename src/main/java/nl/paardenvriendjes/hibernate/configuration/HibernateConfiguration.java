@@ -16,11 +16,13 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
 @EnableTransactionManagement
 @ComponentScan({ "nl.paardenvriendjes" })
 @PropertySource(value = { "classpath:application.properties" })
+@EnableWebMvc
 public class HibernateConfiguration {
 
 	@Autowired

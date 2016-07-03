@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,16 +28,26 @@ public class MemberRestController {
 
 	static Logger log = Logger.getLogger(MessageDaoImpl.class.getName());
 
-	
+	@CrossOrigin
 	@RequestMapping(value = "/", method = RequestMethod.GET)
     public String welcome() {//Welcome page, non-rest
         return "Welcome to PVAPI";
     }	
 	
 	
-	// -------------------Retrieve All
-	// Members--------------------------------------------------------
 	
+	// -------------------Options Call --------------------------------------------------------------
+	
+	@CrossOrigin
+	@RequestMapping(value = "/members", method = RequestMethod.OPTIONS)
+	public ResponseEntity<List<Member>> optionsCall() {
+		ResponseEntity<List<Member>> ent = new ResponseEntity<List<Member>> (HttpStatus.NO_CONTENT);
+		return ent;
+	}
+
+	// -------------------Retrieve All Members--------------------------------------------------------
+	
+	@CrossOrigin
 	@RequestMapping(value = "/members", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Member>> listAllUsers() {
 		List<Member> members = memberservice.listAll();
@@ -46,9 +57,9 @@ public class MemberRestController {
 		return new ResponseEntity<List<Member>>(members, HttpStatus.OK);
 	}
 
-	// -------------------Retrieve Single
-	// Member--------------------------------------------------------
+	// -------------------Retrieve Single Member--------------------------------------------------------
 
+	@CrossOrigin
 	@RequestMapping(value = "/members/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Member> getUser(@PathVariable("id") long id) {
 		log.debug("Fetching User with id " + id);
@@ -60,9 +71,9 @@ public class MemberRestController {
 		return new ResponseEntity<Member>(member, HttpStatus.OK);
 	}
 
-	// -------------------Create a
-	// User--------------------------------------------------------
+	// -------------------Create a member--------------------------------------------------------
 
+	@CrossOrigin
 	@RequestMapping(value = "/members/", method = RequestMethod.POST)
 	public ResponseEntity<Void> createMember(@RequestBody Member member, UriComponentsBuilder ucBuilder) {
 		log.debug("Creating member" + member.getUsername());
@@ -74,9 +85,9 @@ public class MemberRestController {
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
-	// ------------------- Update a User
-	// --------------------------------------------------------
+	// ------------------- Update a Member--------------------------------------------------------
 
+	@CrossOrigin
 	@RequestMapping(value = "/members/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Member> updateMember(@PathVariable("id") long id, @RequestBody Member member) {
 		log.debug("Updating User " + id);
@@ -92,9 +103,9 @@ public class MemberRestController {
 		return new ResponseEntity<Member>(member, HttpStatus.OK);
 	}
 
-	// ------------------- Delete a User
-	// --------------------------------------------------------
-
+	// ------------------- Delete a Member --------------------------------------------------------
+	
+	@CrossOrigin
 	@RequestMapping(value = "/members/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Member> deleteUser(@PathVariable("id") long id) {
 		log.debug("Fetching & Deleting User with id " + id);
