@@ -12,6 +12,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<tomcat.version>8.0.3</tomcat.version>
+		<spring.version>4.3.0.RELEASE</spring.version>
 	</properties>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -55,6 +56,13 @@
 			<artifactId>postgresql</artifactId>
 			<version>9.4.1208.jre7</version>
 		</dependency>
+		<!-- Auth0 -->
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>auth0-spring-security-api</artifactId>
+			<version>0.0.2</version>
+		</dependency>
+
 
 		<!-- TESTING RELATED -->
 		<!-- http://mvnrepository.com/artifact/junit/junit -->
