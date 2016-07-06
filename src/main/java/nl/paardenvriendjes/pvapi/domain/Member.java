@@ -42,7 +42,7 @@ public class Member {
 	private String password;
     private String plaatsnaam;
 	@OneToMany
-	@Cascade({CascadeType.PERSIST, CascadeType.DELETE, CascadeType.MERGE})
+	@Cascade({CascadeType.REMOVE, CascadeType.MERGE, CascadeType.SAVE_UPDATE})
 	private List <Message> messages = new ArrayList<Message>();
     @OneToMany
     private List <Comment> comments;

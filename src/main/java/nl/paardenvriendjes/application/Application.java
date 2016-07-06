@@ -1,21 +1,22 @@
 package nl.paardenvriendjes.application;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-@SpringBootApplication
+@Configuration
 @ComponentScan(basePackages = "nl.paardenvriendjes")
-@EnableAutoConfiguration 
+@EnableAutoConfiguration
 @EnableTransactionManagement
 @PropertySources({
 	  @PropertySource("classpath:application.properties"),
-	  @PropertySource("classpath:auth0.properties")
+	  @PropertySource("classpath:auth0.properties"),
+	  @PropertySource(value = { "classpath:application.properties" })
 	})
 
 

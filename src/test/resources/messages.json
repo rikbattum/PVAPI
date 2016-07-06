@@ -36,7 +36,7 @@
 	},
 	{
 		"message": "De Boer 12de op Spring open",
-		"type": "MESSAGEPICSPORT",
+		"type": "MESSAGEPIC",
 		"piclink": "www.piclink.nl/6",
 		"picLinkSecond": " ",
 		"picLinkThird": " "
@@ -64,7 +64,7 @@
 	},
 	{
 		"message": "Wat een mooie sprong",
-		"type": "MESSAGEPICSPORT",
+		"type": "MESSAGEPIC",
 		"piclink": "www.piclink.nl/10",
 		"picLinkSecond": " ",
 		"picLinkThird": " "
@@ -78,7 +78,7 @@
 	},
 	{
 		"message": "Dressuur open fantastisch event",
-		"type": "MESSAGESPORT",
+		"type": "MESSAGE",
 		"piclink": "www.piclink.nl/12",
 		"picLinkSecond": " ",
 		"picLinkThird": " "
@@ -120,7 +120,7 @@
 	},
 	{
 		"message": "Hermelien laat klasse zien",
-		"type": "MESSAGESPORT",
+		"type": "MESSAGE",
 		"piclink": "www.piclink.nl/18",
 		"picLinkSecond": " ",
 		"picLinkThird": " "

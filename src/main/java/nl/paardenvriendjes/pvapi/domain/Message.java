@@ -10,9 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
+import nl.paardenvriendjes.enumerations.LineType;
 import nl.paardenvriendjes.enumerations.MessageType;
 
 @Entity
@@ -22,7 +20,8 @@ public class Message {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String message;
-	private MessageType type;
+	private MessageType messageType;
+	private LineType lineType;
 	private Date insertDate;
 	
 	@ManyToOne 
@@ -34,6 +33,7 @@ public class Message {
 	private List<Comment> commentlist;
 	@OneToMany(mappedBy = "message")
 	private List<Like> likelist;
+
 
 	public Long getId() {
 		return id;
@@ -52,11 +52,20 @@ public class Message {
 	}
 
 	public MessageType getType() {
-		return type;
+		return messageType;
 	}
 
 	public void setType(MessageType type) {
-		this.type = type;
+		this.messageType = type;
+	}
+	
+
+	public LineType getLineType() {
+		return lineType;
+	}
+
+	public void setLineType(LineType lineType) {
+		this.lineType = lineType;
 	}
 
 	public Date getInsertDate() {
@@ -118,7 +127,7 @@ public class Message {
 
 	@Override
 	public String toString() {
-		return "Message [id=" + id + ", message=" + message + ", type=" + type + ", insertDate=" + insertDate + "]";
+		return "Message [id=" + id + ", message=" + message + ", type=" + messageType + ", insertDate=" + insertDate + "]";
 	}
 
 	@Override
@@ -134,7 +143,7 @@ public class Message {
 		result = prime * result + ((picLinkSecond == null) ? 0 : picLinkSecond.hashCode());
 		result = prime * result + ((picLinkThird == null) ? 0 : picLinkThird.hashCode());
 		result = prime * result + ((piclink == null) ? 0 : piclink.hashCode());
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		result = prime * result + ((messageType == null) ? 0 : messageType.hashCode());
 		return result;
 	}
 
@@ -192,7 +201,7 @@ public class Message {
 				return false;
 		} else if (!piclink.equals(other.piclink))
 			return false;
-		if (type != other.type)
+		if (messageType != other.messageType)
 			return false;
 		return true;
 	}

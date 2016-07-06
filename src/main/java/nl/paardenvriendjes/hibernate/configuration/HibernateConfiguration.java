@@ -21,8 +21,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @Configuration
 @EnableTransactionManagement
 @ComponentScan({ "nl.paardenvriendjes" })
-@PropertySource(value = { "classpath:application.properties" })
-@EnableWebMvc
+
 public class HibernateConfiguration {
 
 	@Autowired
