@@ -20,7 +20,35 @@ import nl.paardenvriendjes.pvapi.service.AbstractDaoService;
 
 public class MessageDaoImpl extends AbstractDaoService<Message> {
 
+
+	static Logger log = Logger.getLogger(MessageDaoImpl.class.getName());
+	
+	@Autowired
+	SessionFactory sessionFactory;
+	
+	private Session getCurrentSession() {
+		return sessionFactory.getCurrentSession();
+	}
+	
 	public MessageDaoImpl() {
 		super(Message.class);
 	}	
+	
+
+	@Override
+	public void save(Message message) {
+		message.setInsertDate();
+		getCurrentSession().persist(message);
+		log.debug("saved One: " + message.toString());
+	}
+	
+	
+	public void edit(Message message) {
+		message.setInsertDate();
+		getCurrentSession().merge(message);
+		log.debug("edit: " + message.toString());
+	}
+
+	
+	
 }

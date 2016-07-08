@@ -1,15 +1,13 @@
 package nl.paardenvriendjes.pvapi;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.hamcrest.core.Is;
-import org.hibernate.SessionFactory;
-import org.hibernate.validator.internal.util.logging.Messages;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,6 +33,8 @@ public class TestMessageCreator extends AbstractTransactionalJUnit4SpringContext
 	private MemberDaoImpl memberService;
 	@Autowired
 	private TestUtil testUtil;
+
+	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 	@Before
 	public void initialize() {
@@ -73,6 +73,8 @@ public class TestMessageCreator extends AbstractTransactionalJUnit4SpringContext
 		assertNotNull(testMember.getMessages());
 		assertNotNull(testMember.getMessages().get(0));
 		assertThat(testMember.getMessages().get(0).getMessage(), Is.is("fantastisch weer vandaag"));
+		assertThat(testMember.getMessages().get(0).getId(), Is.is(96L));
+
 	}
 
 	@Transactional
@@ -106,9 +108,15 @@ public class TestMessageCreator extends AbstractTransactionalJUnit4SpringContext
 	@Test
 	public void testCascadeDeleteMesages() throws Exception {
 		testUtil.setMembers();
-		testUtil.runMessagesPost();
 		List<Member> memberList = memberService.listAll();
 		Member testMember = memberList.get(0);
+		// Add new message to be sure there is one
+		testMember.getMessages().add(new Message());
+		memberService.save(testMember);
+		// assert for added message
+		List<Message> messagesList = messageService.listAll();
+		assertThat(messagesList.size(), Is.is(1));
+		// remove message
 		Message MessageToBeRemoved = testMember.getMessages().get(0);
 		Long toBeRemovedId = MessageToBeRemoved.getId();
 		messageService.remove(toBeRemovedId);
@@ -116,7 +124,7 @@ public class TestMessageCreator extends AbstractTransactionalJUnit4SpringContext
 		testMember.getMessages().remove(MessageToBeRemoved);
 		memberService.save(testMember);
 		List<Message> messagesListNew = messageService.listAll();
-		assertThat(messagesListNew.size(), Is.is(21));
+		assertThat(messagesListNew.size(), Is.is(0));
 	}
 
 	@Transactional
@@ -126,27 +134,29 @@ public class TestMessageCreator extends AbstractTransactionalJUnit4SpringContext
 		testUtil.setMembers();
 		List<Member> memberList = memberService.listAll();
 		Member testMember = memberList.get(0);
-		Long memberId =  testMember.getId();
 
 		// add a extra message
 		Message message = new Message();
-		message.setMessage("mooi weer vandaag");
+		message.setMember(testMember);
+		message.setMessage("fantastisch weer vandaag");
 		testMember.getMessages().add(message);
 		memberService.save(testMember);
 
-	    Message messageToChanged =testMember.getMessages().get(0);
-		Long messageId= messageToChanged.getId();
-		
-		// assert first message text
-		assertThat(messageToChanged.getMessage(), Is.is("mooi weer vandaag"));
+		Message messageToChanged = testMember.getMessages().get(0);
+		Long messageId = messageToChanged.getId();
 
-//		// assert second message test
+		// assert first message text
+		assertThat(messageToChanged.getMessage(), Is.is("fantastisch weer vandaag"));
+
+		// assert second message test
 		messageToChanged.setMessage("vandaag springen afgelast ivm sneeuw");
 		memberService.save(testMember);
-		
-		assertThat (messageId, Is.is(5));
+
 		Message updatedMessage = messageService.listOne(messageId);
-		assertThat(updatedMessage.getMessage(), Is.is("vandaag springen afgelasst ivm sneeuw"));
+		assertThat(updatedMessage.getMessage(), Is.is("vandaag springen afgelast ivm sneeuw"));
+		assertThat(messageId, Is.is(87L));
+		assertNotNull(message.getInsertDate());
+		assertThat(simpleDateFormat.format(message.getInsertDate()), Is.is(simpleDateFormat.format(new Date())));
 
 	}
 

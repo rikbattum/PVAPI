@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -41,8 +42,8 @@ public class Member {
     private String profileimage;
 	private String password;
     private String plaatsnaam;
-	@OneToMany
-	@Cascade({CascadeType.REMOVE, CascadeType.MERGE, CascadeType.SAVE_UPDATE})
+	@OneToMany (mappedBy = "member")
+	@Cascade({CascadeType.ALL})
 	private List <Message> messages = new ArrayList<Message>();
     @OneToMany
     private List <Comment> comments;
@@ -81,7 +82,7 @@ public class Member {
 	public Date getCreatedon() {
 		return createdon;
 	}
-	public void setCreatedon(Date createdon) {
+	public void setCreatedon() {
 		// Manually create createdOn backend side; 
 		this.createdon = new Date();
 	}

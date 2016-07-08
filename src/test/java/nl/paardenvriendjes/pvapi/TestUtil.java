@@ -48,7 +48,6 @@ public class TestUtil {
 				m.setVoornaam((String) memberX.get("voornaam"));
 				m.setUsername((String) memberX.get("username"));
 				m.setGeboortedatum(dateFormat.parse((String) memberX.get("geboortedatum")));
-				m.setCreatedon(dateFormat.parse((String) memberX.get("createdon")));
 				m.setEmail((String) memberX.get("email"));
 				m.setOvermij((String) memberX.get("overmij"));
 				m.setPassword((String) memberX.get("password"));

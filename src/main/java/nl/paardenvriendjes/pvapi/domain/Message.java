@@ -24,7 +24,7 @@ public class Message {
 	private LineType lineType;
 	private Date insertDate;
 	
-	@ManyToOne 
+	@ManyToOne
 	private Member member;
 	private String piclink;
 	private String picLinkSecond;
@@ -41,7 +41,7 @@ public class Message {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
+		}
 
 	public String getMessage() {
 		return message;
@@ -72,7 +72,7 @@ public class Message {
 		return insertDate;
 	}
 
-	public void setInsertDate(Date insertDate) {
+	public void setInsertDate() {
 		// set-date in backend;
 		this.insertDate = new Date ();
 	}
