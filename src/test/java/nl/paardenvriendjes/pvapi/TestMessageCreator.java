@@ -120,7 +120,7 @@ public class TestMessageCreator extends AbstractTransactionalJUnit4SpringContext
 		Message MessageToBeRemoved = testMember.getMessages().get(0);
 		Long toBeRemovedId = MessageToBeRemoved.getId();
 		messageService.remove(toBeRemovedId);
-		// specificly delete notation in array;
+		// specifically delete notation in array;
 		testMember.getMessages().remove(MessageToBeRemoved);
 		memberService.save(testMember);
 		List<Message> messagesListNew = messageService.listAll();
