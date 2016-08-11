@@ -1,20 +1,16 @@
 package nl.paardenvriendjes.pvapi;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
-import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import org.hamcrest.core.Is;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.internal.matchers.Equals;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
@@ -24,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import nl.paardenvriendjes.hibernate.configuration.HibernateConfiguration;
 import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Member;
-import nl.paardenvriendjes.pvapi.service.AbstractDaoService;
 
 @ContextConfiguration(classes = HibernateConfiguration.class)
 @RunWith(SpringJUnit4ClassRunner.class)

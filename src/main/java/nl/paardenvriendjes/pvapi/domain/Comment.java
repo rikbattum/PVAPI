@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 @Entity
 public class Comment {
 
@@ -24,6 +27,7 @@ public class Comment {
 	@ManyToOne(fetch=FetchType.EAGER)
 	private Message messageid;
 	@OneToMany(mappedBy = "comment")
+	@Cascade({CascadeType.ALL})
 	private List<Like> likelist;
 	
 	public Long getId() {

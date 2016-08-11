@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Cascade;
@@ -31,6 +33,7 @@ public class Member {
 	private String voornaam;
 	private String achternaam;
 	private String username;
+	@Temporal(TemporalType.DATE)
 	private Date createdon;
 	private Date geboortedatum;
 	private String email;

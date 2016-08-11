@@ -35,6 +35,4 @@ public class MemberDaoImpl extends AbstractDaoService<Member> {
 		getCurrentSession().persist(member);
 		log.debug("saved One: " + member.toString());
 	}
-	
-
 }

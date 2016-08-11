@@ -58,9 +58,10 @@ public class TestMessageCreator extends AbstractTransactionalJUnit4SpringContext
 		// Act
 		Member testMember = memberList.get(0);
 		Message message = new Message();
-		message.setMember(testMember);
 		message.setMessage("fantastisch weer vandaag");
 		message.setPiclink("www.nu.nl");
+		message.setMember(testMember);
+		message.setInsertDate();
 		// Add a test message to a member
 		testMember.getMessages().add(message);
 		// message should be persisted cascaded by member
@@ -74,7 +75,7 @@ public class TestMessageCreator extends AbstractTransactionalJUnit4SpringContext
 		assertNotNull(testMember.getMessages().get(0));
 		assertThat(testMember.getMessages().get(0).getMessage(), Is.is("fantastisch weer vandaag"));
 		assertThat(testMember.getMessages().get(0).getId(), Is.is(96L));
-
+		assertThat(simpleDateFormat.format(testMember.getMessages().get(0).getInsertDate()),  Is.is(simpleDateFormat.format(new Date())));
 	}
 
 	@Transactional
@@ -139,25 +140,23 @@ public class TestMessageCreator extends AbstractTransactionalJUnit4SpringContext
 		Message message = new Message();
 		message.setMember(testMember);
 		message.setMessage("fantastisch weer vandaag");
+		message.setInsertDate();
 		testMember.getMessages().add(message);
-		memberService.save(testMember);
-
+		memberService.save(testMember);		
 		Message messageToChanged = testMember.getMessages().get(0);
 		Long messageId = messageToChanged.getId();
 
 		// assert first message text
 		assertThat(messageToChanged.getMessage(), Is.is("fantastisch weer vandaag"));
-
+		assertThat (simpleDateFormat.format(messageToChanged.getInsertDate()), Is.is(simpleDateFormat.format(new Date())));
 		// assert second message test
 		messageToChanged.setMessage("vandaag springen afgelast ivm sneeuw");
 		memberService.save(testMember);
 
 		Message updatedMessage = messageService.listOne(messageId);
 		assertThat(updatedMessage.getMessage(), Is.is("vandaag springen afgelast ivm sneeuw"));
-		assertThat(messageId, Is.is(87L));
-		assertNotNull(message.getInsertDate());
-		assertThat(simpleDateFormat.format(message.getInsertDate()), Is.is(simpleDateFormat.format(new Date())));
-
+		assertThat(updatedMessage.getId(), Is.is(87L));
+		assertNotNull(updatedMessage.getInsertDate());
+		assertThat(simpleDateFormat.format(updatedMessage.getInsertDate()), Is.is(simpleDateFormat.format(new Date())));
 	}
-
 }

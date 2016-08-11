@@ -9,6 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import nl.paardenvriendjes.enumerations.LineType;
 import nl.paardenvriendjes.enumerations.MessageType;
@@ -22,6 +27,7 @@ public class Message {
 	private String message;
 	private MessageType messageType;
 	private LineType lineType;
+	@Temporal(TemporalType.DATE)
 	private Date insertDate;
 	
 	@ManyToOne
@@ -30,8 +36,10 @@ public class Message {
 	private String picLinkSecond;
 	private String picLinkThird;
 	@OneToMany
+	@Cascade({CascadeType.ALL})
 	private List<Comment> commentlist;
 	@OneToMany(mappedBy = "message")
+	@Cascade({CascadeType.ALL})
 	private List<Like> likelist;
 
 
@@ -74,7 +82,7 @@ public class Message {
 
 	public void setInsertDate() {
 		// set-date in backend;
-		this.insertDate = new Date ();
+		this.insertDate = new Date();
 	}
 
 	public Member getMember() {
