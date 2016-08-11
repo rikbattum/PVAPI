@@ -52,7 +52,8 @@ public class Member {
     private List <Like> likes;
     private SportLevel sportLevel;
     @OneToOne
-    private Friend friend; 
+    private Friend friend;
+    private Boolean active; 
     
     //Getters and Setters
    
@@ -166,9 +167,14 @@ public class Member {
 	public void setFriend(Friend friend) {
 		this.friend = friend;
 	}
-		
-		//ToString
+	public Boolean getActive() {
+		return active;
+	}
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
 	
+		//ToString
 
 	@Override
 	public String toString() {
@@ -176,16 +182,19 @@ public class Member {
 				+ geboortedatum + ", email=" + email + "]";
 	}
 	
-	//HashCode
+
+	//Hashcode and Equals
 	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((achternaam == null) ? 0 : achternaam.hashCode());
+		result = prime * result + ((active == null) ? 0 : active.hashCode());
 		result = prime * result + ((comments == null) ? 0 : comments.hashCode());
 		result = prime * result + ((createdon == null) ? 0 : createdon.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((friend == null) ? 0 : friend.hashCode());
 		result = prime * result + ((geboortedatum == null) ? 0 : geboortedatum.hashCode());
 		result = prime * result + ((horses == null) ? 0 : horses.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -196,13 +205,11 @@ public class Member {
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((plaatsnaam == null) ? 0 : plaatsnaam.hashCode());
 		result = prime * result + ((profileimage == null) ? 0 : profileimage.hashCode());
+		result = prime * result + ((sportLevel == null) ? 0 : sportLevel.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		result = prime * result + ((voornaam == null) ? 0 : voornaam.hashCode());
 		return result;
 	}
-	
-	//Equals
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -216,6 +223,11 @@ public class Member {
 			if (other.achternaam != null)
 				return false;
 		} else if (!achternaam.equals(other.achternaam))
+			return false;
+		if (active == null) {
+			if (other.active != null)
+				return false;
+		} else if (!active.equals(other.active))
 			return false;
 		if (comments == null) {
 			if (other.comments != null)
@@ -231,6 +243,11 @@ public class Member {
 			if (other.email != null)
 				return false;
 		} else if (!email.equals(other.email))
+			return false;
+		if (friend == null) {
+			if (other.friend != null)
+				return false;
+		} else if (!friend.equals(other.friend))
 			return false;
 		if (geboortedatum == null) {
 			if (other.geboortedatum != null)
@@ -282,6 +299,8 @@ public class Member {
 				return false;
 		} else if (!profileimage.equals(other.profileimage))
 			return false;
+		if (sportLevel != other.sportLevel)
+			return false;
 		if (username == null) {
 			if (other.username != null)
 				return false;
@@ -293,5 +312,5 @@ public class Member {
 		} else if (!voornaam.equals(other.voornaam))
 			return false;
 		return true;
-	} 
+	}		
 }
