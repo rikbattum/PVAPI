@@ -1,4 +1,4 @@
-package nl.paardenvriendjes.pvapi;
+package nl.paardenvriendjes.pvapi.daotest;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
@@ -25,7 +25,7 @@ import nl.paardenvriendjes.pvapi.domain.Message;
 
 @ContextConfiguration(classes = HibernateConfiguration.class)
 
-public class TestMessageCreator extends AbstractTransactionalJUnit4SpringContextTests {
+public class MessageDaoImplTest extends AbstractTransactionalJUnit4SpringContextTests {
 
 	@Autowired
 	private MessageDaoImpl messageService;
@@ -74,7 +74,10 @@ public class TestMessageCreator extends AbstractTransactionalJUnit4SpringContext
 		assertNotNull(testMember.getMessages());
 		assertNotNull(testMember.getMessages().get(0));
 		assertThat(testMember.getMessages().get(0).getMessage(), Is.is("fantastisch weer vandaag"));
-		assertThat(testMember.getMessages().get(0).getId(), Is.is(96L));
+
+
+		
+		
 		assertThat(simpleDateFormat.format(testMember.getMessages().get(0).getInsertDate()),  Is.is(simpleDateFormat.format(new Date())));
 	}
 
@@ -120,6 +123,7 @@ public class TestMessageCreator extends AbstractTransactionalJUnit4SpringContext
 		// remove message
 		Message MessageToBeRemoved = testMember.getMessages().get(0);
 		Long toBeRemovedId = MessageToBeRemoved.getId();
+		
 		messageService.remove(toBeRemovedId);
 		// specifically delete notation in array;
 		testMember.getMessages().remove(MessageToBeRemoved);
@@ -155,7 +159,7 @@ public class TestMessageCreator extends AbstractTransactionalJUnit4SpringContext
 
 		Message updatedMessage = messageService.listOne(messageId);
 		assertThat(updatedMessage.getMessage(), Is.is("vandaag springen afgelast ivm sneeuw"));
-		assertThat(updatedMessage.getId(), Is.is(87L));
+		assertThat(updatedMessage.getId(), Is.is(239L));
 		assertNotNull(updatedMessage.getInsertDate());
 		assertThat(simpleDateFormat.format(updatedMessage.getInsertDate()), Is.is(simpleDateFormat.format(new Date())));
 	}

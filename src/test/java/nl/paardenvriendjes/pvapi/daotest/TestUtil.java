@@ -1,4 +1,4 @@
-package nl.paardenvriendjes.pvapi;
+package nl.paardenvriendjes.pvapi.daotest;
 
 import java.io.FileReader;
 import java.text.SimpleDateFormat;

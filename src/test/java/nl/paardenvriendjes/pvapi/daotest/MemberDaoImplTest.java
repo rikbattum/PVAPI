@@ -1,4 +1,4 @@
-package nl.paardenvriendjes.pvapi;
+package nl.paardenvriendjes.pvapi.daotest;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -23,7 +23,7 @@ import nl.paardenvriendjes.pvapi.domain.Member;
 
 @ContextConfiguration(classes = HibernateConfiguration.class)
 @RunWith(SpringJUnit4ClassRunner.class)
-public class TestMemberCreation {
+public class MemberDaoImplTest {
 
 	@Autowired
 	private MemberDaoImpl memberService;

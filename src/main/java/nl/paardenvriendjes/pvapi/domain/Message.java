@@ -1,5 +1,6 @@
 package nl.paardenvriendjes.pvapi.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -35,9 +36,9 @@ public class Message {
 	private String piclink;
 	private String picLinkSecond;
 	private String picLinkThird;
-	@OneToMany
+	@OneToMany (mappedBy="message", orphanRemoval=true)
 	@Cascade({CascadeType.ALL})
-	private List<Comment> commentlist;
+	private List<Comment> commentlist = new ArrayList<Comment>();
 	@OneToMany(mappedBy = "message")
 	@Cascade({CascadeType.ALL})
 	private List<Like> likelist;
