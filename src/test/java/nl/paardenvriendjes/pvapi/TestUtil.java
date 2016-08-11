@@ -5,17 +5,13 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Random;
 
-import javax.persistence.EnumType;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import nl.paardenvriendjes.enumerations.MessageType;
 import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
-import nl.paardenvriendjes.pvapi.daoimpl.MessageDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.domain.Message;
 
@@ -24,8 +20,6 @@ public class TestUtil {
 
 	@Autowired
 	private MemberDaoImpl memberService;
-	@Autowired
-	private MessageDaoImpl messageService;
 
 
 	public void setMembers() {
@@ -65,7 +59,6 @@ public class TestUtil {
 	public void runMessagesPost() {
 
 		// prepare message list
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
 		Object obj;
 		
 		//		set members
