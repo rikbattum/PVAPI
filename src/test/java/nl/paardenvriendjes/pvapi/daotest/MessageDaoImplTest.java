@@ -62,9 +62,8 @@ public class MessageDaoImplTest extends AbstractTransactionalJUnit4SpringContext
 		message.setPiclink("www.nu.nl");
 		message.setMember(testMember);
 		message.setInsertDate();
-		// Add a test message to a member
-		testMember.getMessages().add(message);
-		// message should be persisted cascaded by member
+		// Add a test message to a member and set member to message
+		testMember.addOrUpdateMessage(message);
 		memberService.save(testMember);
 
 		// Assert
@@ -74,10 +73,6 @@ public class MessageDaoImplTest extends AbstractTransactionalJUnit4SpringContext
 		assertNotNull(testMember.getMessages());
 		assertNotNull(testMember.getMessages().get(0));
 		assertThat(testMember.getMessages().get(0).getMessage(), Is.is("fantastisch weer vandaag"));
-
-
-		
-		
 		assertThat(simpleDateFormat.format(testMember.getMessages().get(0).getInsertDate()),  Is.is(simpleDateFormat.format(new Date())));
 	}
 
@@ -100,11 +95,10 @@ public class MessageDaoImplTest extends AbstractTransactionalJUnit4SpringContext
 		List<Member> memberList = memberService.listAll();
 		Member testMember = memberList.get(0);
 		// // add an extra message
-		testMember.getMessages().add(new Message());
+		testMember.addOrUpdateMessage(new Message());
 		memberService.save(testMember);
 		List<Message> messages = messageService.listAll();
 		assertThat(messages.size(), Is.is(23));
-
 	}
 
 	@Transactional
@@ -115,18 +109,16 @@ public class MessageDaoImplTest extends AbstractTransactionalJUnit4SpringContext
 		List<Member> memberList = memberService.listAll();
 		Member testMember = memberList.get(0);
 		// Add new message to be sure there is one
-		testMember.getMessages().add(new Message());
+		testMember.addOrUpdateMessage(new Message());
 		memberService.save(testMember);
 		// assert for added message
 		List<Message> messagesList = messageService.listAll();
 		assertThat(messagesList.size(), Is.is(1));
 		// remove message
 		Message MessageToBeRemoved = testMember.getMessages().get(0);
-		Long toBeRemovedId = MessageToBeRemoved.getId();
-		
+		testMember.removeMessage(MessageToBeRemoved);
+		Long toBeRemovedId = MessageToBeRemoved.getId();	
 		messageService.remove(toBeRemovedId);
-		// specifically delete notation in array;
-		testMember.getMessages().remove(MessageToBeRemoved);
 		memberService.save(testMember);
 		List<Message> messagesListNew = messageService.listAll();
 		assertThat(messagesListNew.size(), Is.is(0));
@@ -145,7 +137,7 @@ public class MessageDaoImplTest extends AbstractTransactionalJUnit4SpringContext
 		message.setMember(testMember);
 		message.setMessage("fantastisch weer vandaag");
 		message.setInsertDate();
-		testMember.getMessages().add(message);
+		testMember.addOrUpdateMessage(message);
 		memberService.save(testMember);		
 		Message messageToChanged = testMember.getMessages().get(0);
 		Long messageId = messageToChanged.getId();

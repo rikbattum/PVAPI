@@ -214,4 +214,61 @@ public class Message {
 			return false;
 		return true;
 	}
+	
+	// convenience methods for cardinality with Comments
+	
+	public void addOrUpdateComment (Comment comment) { 
+
+		if (comment== null) { 
+			throw new NullPointerException("add null comment can not be possible");
+		}
+		if (comment.getMessage() != null && comment.getMessage()!= this) {
+			throw new IllegalArgumentException("comment is already assigned to an other message");
+		}
+		getCommentlist().add(comment);
+		comment.setMessage(this);
+	}
+	
+	public void removeComment (Comment comment) { 
+
+		if (comment == null) { 
+			throw new NullPointerException("delete null comment can not be possible");
+		}
+		if (comment.getMessage() != null  && comment.getMessage()!= this) {
+			throw new IllegalArgumentException("comment is already assigned to an other message");
+		}
+		getCommentlist().remove(comment);
+	}
+	
+	// convenience methods for cardinality with Likes
+	
+		public void addOrUpdateLike (Like like) { 
+
+			if (like == null) { 
+				throw new NullPointerException("add null like can not be possible");
+			}
+			if (like.getMessage() != null && like.getMessage()!= this) {
+				throw new IllegalArgumentException("like is already assigned to an other message");
+			}
+			getLikelist().add(like);
+			like.setMessage(this);
+		}
+		
+		public void removeLike (Like like) { 
+
+			if (like == null) { 
+				throw new NullPointerException("delete null like can not be possible");
+			}
+			if (like.getMessage() != null  && like.getMessage()!= this) {
+				throw new IllegalArgumentException("like is already assigned to an other message");
+			}
+			getLikelist().remove(like);
+		}
+	
+	
+	
+	
+	
+	
+	
 }

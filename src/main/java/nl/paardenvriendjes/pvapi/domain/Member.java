@@ -313,4 +313,56 @@ public class Member {
 			return false;
 		return true;
 	}		
+	
+	
+	// convenience methods for cardinality with Messages
+	
+	public void addOrUpdateMessage (Message message) { 
+
+		if (message == null) { 
+			throw new NullPointerException("add null message can not be possible");
+		}
+		if (message.getMember() != null && message.getMember()!= this) {
+			throw new IllegalArgumentException("message is already assigned to an other member");
+		}
+		getMessages().add(message);
+		message.setMember(this);
+	}
+	
+	public void removeMessage (Message message) { 
+
+		if (message == null) { 
+			throw new NullPointerException("delete null message can not be possible");
+		}
+		if (message.getMember() != null  && message.getMember()!= this) {
+			throw new IllegalArgumentException("message is already assigned to an other member");
+		}
+		getMessages().remove(message);
+	}
+	
+	// convenience methods for cardinality with Horses
+	
+	public void addOrUpdateHorse(Horse horse) { 
+
+		if (horse == null) { 
+			throw new NullPointerException("add null horse can not be possible");
+		}
+		if (horse.getMember() != null && horse.getMember() != this) {
+			throw new IllegalArgumentException("horse is already assigned to an other message");
+		}
+		getHorses().add(horse);
+		horse.setMember(this);
+	}
+	
+	public void removeHorse(Horse horse) { 
+
+
+		if (horse == null) { 
+			throw new NullPointerException("add null horse can not be possible");
+		}
+		if (horse.getMember() != null && horse.getMember() != this) {
+			throw new IllegalArgumentException("horse is already assigned to an other message");
+		}
+		getHorses().remove(horse);
+	}
 }
