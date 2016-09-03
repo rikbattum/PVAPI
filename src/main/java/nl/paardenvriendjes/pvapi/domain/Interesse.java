@@ -1,19 +1,15 @@
 package nl.paardenvriendjes.pvapi.domain;
 
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
-@Entity
+@Embeddable
 public class Interesse {
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long id;
-	@OneToOne (mappedBy = "interesse")
-	private Member member;
 	private Boolean buitenritten;
 	private Boolean draftsport;
 	private Boolean dressuur;
@@ -38,12 +34,7 @@ public class Interesse {
 	private Boolean vossenjacht;
 	private Boolean wedstrijdsport;
 	private Boolean western;
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
+
 	public Boolean getBuitenritten() {
 		return buitenritten;
 	}
@@ -188,12 +179,6 @@ public class Interesse {
 	public void setWestern(Boolean western) {
 		this.western = western;
 	}
-	public Member getMember() {
-		return member;
-	}
-	public void setMember(Member member) {
-		this.member = member;
-	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -204,9 +189,7 @@ public class Interesse {
 		result = prime * result + ((endurance == null) ? 0 : endurance.hashCode());
 		result = prime * result + ((eventing == null) ? 0 : eventing.hashCode());
 		result = prime * result + ((fokken == null) ? 0 : fokken.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((inenverkoop == null) ? 0 : inenverkoop.hashCode());
-		result = prime * result + ((member == null) ? 0 : member.hashCode());
 		result = prime * result + ((mennen == null) ? 0 : mennen.hashCode());
 		result = prime * result + ((naturalhorsemanship == null) ? 0 : naturalhorsemanship.hashCode());
 		result = prime * result + ((paardentrainen == null) ? 0 : paardentrainen.hashCode());
@@ -265,20 +248,10 @@ public class Interesse {
 				return false;
 		} else if (!fokken.equals(other.fokken))
 			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
 		if (inenverkoop == null) {
 			if (other.inenverkoop != null)
 				return false;
 		} else if (!inenverkoop.equals(other.inenverkoop))
-			return false;
-		if (member == null) {
-			if (other.member != null)
-				return false;
-		} else if (!member.equals(other.member))
 			return false;
 		if (mennen == null) {
 			if (other.mennen != null)
