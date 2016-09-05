@@ -35,12 +35,11 @@ public class MessageDaoImpl extends AbstractDaoService<Message> {
 		log.debug("saved One: " + message.toString());
 	}
 	
+
+	@Override
 	public void edit(Message message) {
 		message.setInsertDate();
 		getCurrentSession().merge(message);
 		log.debug("edit: " + message.toString());
 	}	
-	
-	
-	
 }

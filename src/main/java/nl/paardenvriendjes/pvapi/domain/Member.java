@@ -10,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -33,7 +32,8 @@ public class Member {
 	private String achternaam;
 	private String username;
 	@Temporal(TemporalType.DATE)
-	private Date createdon;
+	private Date createdonDate;
+	private Date deactivatedDate;
 	private Date geboortedatum;
 	private String email;
 	private String overmij;
@@ -53,9 +53,8 @@ public class Member {
     @OneToMany
     private List <Like> likes;
     private SportLevel sportLevel;
-    @OneToOne
-    private Friend friend;
     private Boolean active; 
+    private List <Member> vriendenLijst;
     
     //Getters and Setters
    
@@ -83,12 +82,18 @@ public class Member {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public Date getCreatedon() {
-		return createdon;
+	public Date getCreatedonDate() {
+		return createdonDate;
 	}
-	public void setCreatedon() {
-		// Manually create createdOn backend side; 
-		this.createdon = new Date();
+	public void setCreatedonDate() {
+		// set-date in backend;
+		this.createdonDate = new Date();
+	}
+	public Date getDeactivatedDate() {
+		return deactivatedDate;
+	}
+	public void setDeactivatedDate(Date deactivatedDate) {
+		this.deactivatedDate = deactivatedDate;
 	}
 	public Date getGeboortedatum() {
 		return geboortedatum;
@@ -163,24 +168,23 @@ public class Member {
 		this.sportLevel = sportLevel;
 	
 	}
-	public Friend getFriend() {
-		return friend;
-	}
-	public void setFriend(Friend friend) {
-		this.friend = friend;
-	}
 	public Boolean getActive() {
 		return active;
 	}
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
+	public List<Member> getVriendenlijst() {
+		return vriendenLijst;
+	}
+	public void setVriendenlijst(List<Member> vriendenlijst) {
+		this.vriendenLijst = vriendenlijst;
 	
-		//ToString
-
+	//ToString
+	}
 	@Override
 	public String toString() {
-		return "Member [id=" + id + ", username=" + username + ", createdon=" + createdon + ", geboortedatum="
+		return "Member [id=" + id + ", username=" + username + ", createdon=" + createdonDate + ", geboortedatum="
 				+ geboortedatum + ", email=" + email + "]";
 	}
 	
@@ -194,9 +198,10 @@ public class Member {
 		result = prime * result + ((achternaam == null) ? 0 : achternaam.hashCode());
 		result = prime * result + ((active == null) ? 0 : active.hashCode());
 		result = prime * result + ((comments == null) ? 0 : comments.hashCode());
-		result = prime * result + ((createdon == null) ? 0 : createdon.hashCode());
+		result = prime * result + ((createdonDate == null) ? 0 : createdonDate.hashCode());
+		result = prime * result + ((deactivatedDate == null) ? 0 : deactivatedDate.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((friend == null) ? 0 : friend.hashCode());
+		result = prime * result + ((vriendenLijst == null) ? 0 : vriendenLijst.hashCode());
 		result = prime * result + ((geboortedatum == null) ? 0 : geboortedatum.hashCode());
 		result = prime * result + ((horses == null) ? 0 : horses.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -236,20 +241,25 @@ public class Member {
 				return false;
 		} else if (!comments.equals(other.comments))
 			return false;
-		if (createdon == null) {
-			if (other.createdon != null)
+		if (createdonDate == null) {
+			if (other.createdonDate != null)
 				return false;
-		} else if (!createdon.equals(other.createdon))
+		} else if (!createdonDate.equals(other.createdonDate))
+			return false;
+		if (deactivatedDate == null) {
+			if (other.deactivatedDate != null)
+				return false;
+		} else if (!deactivatedDate.equals(other.deactivatedDate))
 			return false;
 		if (email == null) {
 			if (other.email != null)
 				return false;
 		} else if (!email.equals(other.email))
 			return false;
-		if (friend == null) {
-			if (other.friend != null)
+		if (vriendenLijst == null) {
+			if (other.vriendenLijst != null)
 				return false;
-		} else if (!friend.equals(other.friend))
+		} else if (!vriendenLijst.equals(other.vriendenLijst))
 			return false;
 		if (geboortedatum == null) {
 			if (other.geboortedatum != null)
@@ -350,7 +360,7 @@ public class Member {
 			throw new NullPointerException("add null horse can not be possible");
 		}
 		if (horse.getMember() != null && horse.getMember() != this) {
-			throw new IllegalArgumentException("horse is already assigned to an other message");
+			throw new IllegalArgumentException("horse is already assigned to an other member");
 		}
 		getHorses().add(horse);
 		horse.setMember(this);
@@ -360,11 +370,29 @@ public class Member {
 
 
 		if (horse == null) { 
-			throw new NullPointerException("add null horse can not be possible");
+			throw new NullPointerException("delete null horse can not be possible");
 		}
 		if (horse.getMember() != null && horse.getMember() != this) {
-			throw new IllegalArgumentException("horse is already assigned to an other message");
+			throw new IllegalArgumentException("horse is already assigned to an other member");
 		}
 		getHorses().remove(horse);
 	}
+	
+	// convenience methods for cardinality with Friends
+	
+		public void addOrUpdateFriend(Member member) { 
+
+			if (member == null) { 
+				throw new NullPointerException("add null member can not be possible");
+			}
+			getVriendenlijst().add(member);
+		}
+		
+		public void removeFriend(Member member) { 
+
+			if (member == null) { 
+				throw new NullPointerException("remove null member can not be possible");
+			}
+			getVriendenlijst().remove(member);
+		}	
 }

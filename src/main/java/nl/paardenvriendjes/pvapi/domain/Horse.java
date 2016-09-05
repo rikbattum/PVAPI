@@ -27,6 +27,7 @@ public class Horse {
 	private String geslacht;
 	private String karakter;
 	private String overmijnpaard;
+	private Boolean overleden; 
 	private int waarde;
 	@ManyToOne
 	private Member member;
@@ -100,6 +101,12 @@ public class Horse {
 	public void setWaarde(int waarde) {
 		this.waarde = waarde;
 	}
+	public Boolean getoverleden() {
+		return overleden;
+	}
+	public void setoverleden(Boolean overleden) {
+		overleden = overleden;
+	}
 	public Member getMember() {
 		return member;
 	}
@@ -115,12 +122,13 @@ public class Horse {
 				+ ", geslacht=" + geslacht + "]";
 	}
 	
-	//Hashcode
+	// Hashcode 
 	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((overleden == null) ? 0 : overleden.hashCode());
 		result = prime * result + ((afstamming == null) ? 0 : afstamming.hashCode());
 		result = prime * result + ((geboortedatum == null) ? 0 : geboortedatum.hashCode());
 		result = prime * result + ((geslacht == null) ? 0 : geslacht.hashCode());
@@ -136,8 +144,7 @@ public class Horse {
 		return result;
 	}
 	
-	
-	//  Equals
+	// Equals
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -148,6 +155,11 @@ public class Horse {
 		if (getClass() != obj.getClass())
 			return false;
 		Horse other = (Horse) obj;
+		if (overleden == null) {
+			if (other.overleden != null)
+				return false;
+		} else if (!overleden.equals(other.overleden))
+			return false;
 		if (afstamming == null) {
 			if (other.afstamming != null)
 				return false;

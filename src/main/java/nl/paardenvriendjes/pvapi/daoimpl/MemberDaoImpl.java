@@ -31,7 +31,7 @@ public class MemberDaoImpl extends AbstractDaoService<Member> {
 	
 	@Override
 	public void save(Member member) {
-		member.setCreatedon();
+		member.setCreatedonDate();
 		getCurrentSession().persist(member);
 		log.debug("saved One: " + member.toString());
 	}

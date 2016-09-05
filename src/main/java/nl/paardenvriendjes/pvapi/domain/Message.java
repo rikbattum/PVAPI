@@ -263,12 +263,5 @@ public class Message {
 				throw new IllegalArgumentException("like is already assigned to an other message");
 			}
 			getLikelist().remove(like);
-		}
-	
-	
-	
-	
-	
-	
-	
+		}	
 }

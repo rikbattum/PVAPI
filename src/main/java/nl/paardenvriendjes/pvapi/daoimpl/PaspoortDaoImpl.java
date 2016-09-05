@@ -6,41 +6,33 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import nl.paardenvriendjes.pvapi.domain.Comment;
-import nl.paardenvriendjes.pvapi.domain.Message;
+import nl.paardenvriendjes.pvapi.domain.Paspoort;
 import nl.paardenvriendjes.pvapi.service.AbstractDaoService;
 
 @Repository
 @Transactional
 
-public class CommentDaoImpl extends AbstractDaoService<Comment> {
-
-	public CommentDaoImpl() {
-		super(Comment.class);
-	}
-
+public class PaspoortDaoImpl extends AbstractDaoService<Paspoort>{
+	
+	
 	static Logger log = Logger.getLogger(MessageDaoImpl.class.getName());
-
+	
 	@Autowired
 	SessionFactory sessionFactory;
-
+	
 	private Session getCurrentSession() {
 		return sessionFactory.getCurrentSession();
 	}
-
-	@Override
-	public void save(Comment comment) {
-		comment.setInsertDate();
-		getCurrentSession().persist(comment);
-		log.debug("saved One: " + comment.toString());
+	
+	public PaspoortDaoImpl() {
+		super(Paspoort.class);
 	}
-
+	
 	@Override
-	public void edit(Comment comment) {
-		comment.setInsertDate();
-		getCurrentSession().merge(comment);
-		log.debug("edit: " + comment.toString());
+	public void save(Paspoort paspoort) {
+		paspoort.setCreatedOn();
+		getCurrentSession().persist(paspoort);
+		log.debug("saved One: " + paspoort.toString());
 	}
-
+	
 }
