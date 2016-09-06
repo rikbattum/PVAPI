@@ -3,13 +3,13 @@ package nl.paardenvriendjes.pvapi.domain;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-
+import javax.persistence.OneToMany;
 
 @Entity
 public class Event {
@@ -23,14 +23,15 @@ public class Event {
 	private Date createdOnDate;
 	private Date deactivatedDate;
 	private String Message;
-	private Horse horse;
 	private String messageScore;
 	private int score; 
 	private int ranking;
-	private List <Member> vriendenTagList = new ArrayList <Member>();
-	@ManyToOne
+	@ManyToMany
+	private List <Member> members = new ArrayList <Member>();
+	@ManyToOne 
 	private Paspoort paspoort;
-	
+	@OneToMany (mappedBy="event")
+	private List <Horse> horses = new ArrayList<Horse>();
 	
 	public Long getId() {
 		return id;
@@ -69,12 +70,6 @@ public class Event {
 	public void setMessage(String message) {
 		Message = message;
 	}
-	public Horse getHorse() {
-		return horse;
-	}
-	public void setHorse(Horse horse) {
-		this.horse = horse;
-	}
 	public Paspoort getPaspoort() {
 		return paspoort;
 	}
@@ -99,12 +94,22 @@ public class Event {
 	public void setRanking(int ranking) {
 		this.ranking = ranking;
 	}
-	public List<Member> getVriendenTagList() {
-		return vriendenTagList;
+	public List<Member> getmember() {
+		return members;
 	}
-	public void setVriendenTagList(List<Member> vriendenTagList) {
-		this.vriendenTagList = vriendenTagList;
+	public void setmember(List<Member> member) {
+		this.members = member;
 	}
+	
+	public List<Horse> getHorses() {
+		return horses;
+	}
+	public void setHorses(List<Horse> horses) {
+		this.horses = horses;
+	}
+	
+	// Hashcode
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -114,15 +119,18 @@ public class Event {
 		result = prime * result + ((deactivatedDate == null) ? 0 : deactivatedDate.hashCode());
 		result = prime * result + ((eventDate == null) ? 0 : eventDate.hashCode());
 		result = prime * result + ((eventName == null) ? 0 : eventName.hashCode());
-		result = prime * result + ((horse == null) ? 0 : horse.hashCode());
+		result = prime * result + ((horses == null) ? 0 : horses.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((messageScore == null) ? 0 : messageScore.hashCode());
 		result = prime * result + ((paspoort == null) ? 0 : paspoort.hashCode());
 		result = prime * result + ranking;
 		result = prime * result + score;
-		result = prime * result + ((vriendenTagList == null) ? 0 : vriendenTagList.hashCode());
+		result = prime * result + ((members == null) ? 0 : members.hashCode());
 		return result;
 	}
+	
+	// Equals
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -157,10 +165,10 @@ public class Event {
 				return false;
 		} else if (!eventName.equals(other.eventName))
 			return false;
-		if (horse == null) {
-			if (other.horse != null)
+		if (horses == null) {
+			if (other.horses != null)
 				return false;
-		} else if (!horse.equals(other.horse))
+		} else if (!horses.equals(other.horses))
 			return false;
 		if (id == null) {
 			if (other.id != null)
@@ -181,11 +189,23 @@ public class Event {
 			return false;
 		if (score != other.score)
 			return false;
-		if (vriendenTagList == null) {
-			if (other.vriendenTagList != null)
+		if (members == null) {
+			if (other.members != null)
 				return false;
-		} else if (!vriendenTagList.equals(other.vriendenTagList))
+		} else if (!members.equals(other.members))
 			return false;
 		return true;
 	}
+	
+	// ToString
+	
+	@Override
+	public String toString() {
+		return "Event [id=" + id + ", eventName=" + eventName + ", eventDate=" + eventDate + ", createdOnDate="
+				+ createdOnDate + ", deactivatedDate=" + deactivatedDate + ", Message=" + Message + ","
+				+ members + ", paspoort=" + paspoort + ", horses=" + horses + "]";
+	}
 }
+	
+	
+	

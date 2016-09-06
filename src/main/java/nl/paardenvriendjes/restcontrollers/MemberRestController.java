@@ -35,15 +35,6 @@ public class MemberRestController {
     }	
 	
 	
-	// auth0
-	
-	 @RequestMapping(value = "/secured/ping")
-	  public String securedPing() {
-	    return "All good. You only get this message if you're authenticated";
-	  }
-	
-	
-	
 	// -------------------Options Call --------------------------------------------------------------
 	
 	@CrossOrigin

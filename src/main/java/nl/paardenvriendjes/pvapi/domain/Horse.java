@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -29,6 +30,10 @@ public class Horse {
 	private String overmijnpaard;
 	private Boolean overleden; 
 	private int waarde;
+	@ManyToOne
+	private Event event;
+	@OneToOne
+	private Paspoort paspoort;
 	@ManyToOne
 	private Member member;
 	
@@ -105,7 +110,7 @@ public class Horse {
 		return overleden;
 	}
 	public void setoverleden(Boolean overleden) {
-		overleden = overleden;
+		this.overleden = overleden;
 	}
 	public Member getMember() {
 		return member;

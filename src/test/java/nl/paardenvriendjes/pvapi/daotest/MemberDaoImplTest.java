@@ -75,7 +75,7 @@ public class MemberDaoImplTest {
 		assertThat(x.getAchternaam(), Is.is("van Battum"));
 		assertThat(x.getVoornaam(), Is.is("Rik"));
 		assertThat(x.getGeboortedatum().toString(), Is.is("Fri Jan 12 00:06:00 CET 1979"));
-		assertThat(simpleDateFormat.format(x.getCreatedon()), Is.is(simpleDateFormat.format(new Date())));
+		assertThat(simpleDateFormat.format(x.getCreatedonDate()), Is.is(simpleDateFormat.format(new Date())));
 		assertThat(x.getPlaatsnaam(), Is.is("Hilversum"));
 		assertThat(x.getProfileimage(), Is.is("www.image.com/rik"));
 		assertThat(x.getOvermij(), Is.is("ik ben een paardenliefhebber"));
@@ -173,7 +173,7 @@ public class MemberDaoImplTest {
 		Member member = memberList.get(0);
 		
 		// Assert
-		assertThat(simpleDateFormat.format(member.getCreatedon()), Is.is(simpleDateFormat.format(new Date())));
+		assertThat(simpleDateFormat.format(member.getCreatedonDate()), Is.is(simpleDateFormat.format(new Date())));
 	}
 	
 	@Test

@@ -30,7 +30,7 @@ public class Paspoort {
 		private Boolean active; 
 		private Date createdOn;
 		private Date deactivatedDate;
-		@OneToMany (mappedBy = "paspoort")
+		@OneToMany 
 		private List <Event> events = new ArrayList<Event>();
 		public Long getId() {
 			return id;

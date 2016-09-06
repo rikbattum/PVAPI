@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -49,12 +50,15 @@ public class Member {
 	@Cascade({CascadeType.ALL})
 	private List <Message> messages = new ArrayList<Message>();
     @OneToMany
-    private List <Comment> comments;
+    private List <Comment> comments = new ArrayList<Comment>();
     @OneToMany
-    private List <Like> likes;
+    private List <Like> likes = new ArrayList<Like>();
     private SportLevel sportLevel;
-    private Boolean active; 
-    private List <Member> vriendenLijst;
+    private Boolean active;
+    @ManyToMany
+    private List <Member> vrienden = new ArrayList<Member>();
+    @ManyToMany
+    private List <Event> events = new ArrayList<Event> ();
     
     //Getters and Setters
    
@@ -174,14 +178,28 @@ public class Member {
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
-	public List<Member> getVriendenlijst() {
-		return vriendenLijst;
+	public List<Member> getvrienden() {
+		return vrienden;
 	}
-	public void setVriendenlijst(List<Member> vriendenlijst) {
-		this.vriendenLijst = vriendenlijst;
+	public void setvrienden(List<Member> vrienden) {
+		this.vrienden = vrienden;		
+	}
+	public List<Event> getEvents() {
+		return events;
+	}
+	public void setEvents(List<Event> events) {
+		this.events = events;
+	}	
+	public List<Member> getVrienden() {
+		return vrienden;
+	}
+	public void setVrienden(List<Member> vrienden) {
+		this.vrienden = vrienden;
+	}
 	
 	//ToString
-	}
+
+
 	@Override
 	public String toString() {
 		return "Member [id=" + id + ", username=" + username + ", createdon=" + createdonDate + ", geboortedatum="
@@ -201,7 +219,7 @@ public class Member {
 		result = prime * result + ((createdonDate == null) ? 0 : createdonDate.hashCode());
 		result = prime * result + ((deactivatedDate == null) ? 0 : deactivatedDate.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((vriendenLijst == null) ? 0 : vriendenLijst.hashCode());
+		result = prime * result + ((events == null) ? 0 : events.hashCode());
 		result = prime * result + ((geboortedatum == null) ? 0 : geboortedatum.hashCode());
 		result = prime * result + ((horses == null) ? 0 : horses.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -215,6 +233,7 @@ public class Member {
 		result = prime * result + ((sportLevel == null) ? 0 : sportLevel.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		result = prime * result + ((voornaam == null) ? 0 : voornaam.hashCode());
+		result = prime * result + ((vrienden == null) ? 0 : vrienden.hashCode());
 		return result;
 	}
 	@Override
@@ -256,10 +275,10 @@ public class Member {
 				return false;
 		} else if (!email.equals(other.email))
 			return false;
-		if (vriendenLijst == null) {
-			if (other.vriendenLijst != null)
+		if (events == null) {
+			if (other.events != null)
 				return false;
-		} else if (!vriendenLijst.equals(other.vriendenLijst))
+		} else if (!events.equals(other.events))
 			return false;
 		if (geboortedatum == null) {
 			if (other.geboortedatum != null)
@@ -323,9 +342,13 @@ public class Member {
 				return false;
 		} else if (!voornaam.equals(other.voornaam))
 			return false;
+		if (vrienden == null) {
+			if (other.vrienden != null)
+				return false;
+		} else if (!vrienden.equals(other.vrienden))
+			return false;
 		return true;
-	}		
-	
+	}
 	
 	// convenience methods for cardinality with Messages
 	
@@ -385,7 +408,7 @@ public class Member {
 			if (member == null) { 
 				throw new NullPointerException("add null member can not be possible");
 			}
-			getVriendenlijst().add(member);
+			getvrienden().add(member);
 		}
 		
 		public void removeFriend(Member member) { 
@@ -393,6 +416,6 @@ public class Member {
 			if (member == null) { 
 				throw new NullPointerException("remove null member can not be possible");
 			}
-			getVriendenlijst().remove(member);
+			getvrienden().remove(member);
 		}	
 }

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import nl.paardenvriendjes.pvapi.domain.Comment;
-import nl.paardenvriendjes.pvapi.domain.Message;
 import nl.paardenvriendjes.pvapi.service.AbstractDaoService;
 
 @Repository

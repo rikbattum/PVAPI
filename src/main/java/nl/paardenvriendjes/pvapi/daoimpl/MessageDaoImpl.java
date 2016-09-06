@@ -34,7 +34,6 @@ public class MessageDaoImpl extends AbstractDaoService<Message> {
 		getCurrentSession().persist(message);
 		log.debug("saved One: " + message.toString());
 	}
-	
 
 	@Override
 	public void edit(Message message) {
