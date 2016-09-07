@@ -117,4 +117,14 @@ public class MemberRestController {
 		memberservice.remove(id);
 		return new ResponseEntity<Member>(HttpStatus.NO_CONTENT);
 	}
+	
+	// ------------------- Count all Members --------------------------------------------------------
+	
+		@CrossOrigin
+		@RequestMapping(value = "/members/count", method = RequestMethod.GET)
+		public ResponseEntity<Integer> getUserCount() {
+			log.debug("Fetching user count");
+			int memberTotal = memberservice.count();
+			return new ResponseEntity<Integer>(memberTotal, HttpStatus.NO_CONTENT);
+		}
 }
