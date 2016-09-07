@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 import nl.paardenvriendjes.pvapi.daoimpl.MessageDaoImpl;
-import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.domain.Message;
 
 @RestController
@@ -104,7 +103,7 @@ public class MessageRestController {
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
-	// ------------------- Update a Member--------------------------------------------------------
+	// ------------------- Update a Message--------------------------------------------------------
 
 	@CrossOrigin
 	@RequestMapping(value = "/messages/{id}", method = RequestMethod.PUT)
@@ -119,7 +118,7 @@ public class MessageRestController {
 		return new ResponseEntity<Message>(message, HttpStatus.OK);
 	}
 
-	// ------------------- Delete a Member --------------------------------------------------------
+	// ------------------- Delete a Message --------------------------------------------------------
 	
 	@CrossOrigin
 	@RequestMapping(value = "/messages/{id}", method = RequestMethod.DELETE)
@@ -133,6 +132,17 @@ public class MessageRestController {
 		messageservice.remove(id);
 		return new ResponseEntity<Message>(HttpStatus.NO_CONTENT);
 	}
+	
+	// ------------------- Count all Messages --------------------------------------------------------
+	
+			@CrossOrigin
+			@RequestMapping(value = "/messages/count", method = RequestMethod.GET)
+			public ResponseEntity<Integer> getMessageCount() {
+				log.debug("Fetching message count");
+				int messageTotal = messageservice.count();
+				return new ResponseEntity<Integer>(messageTotal, HttpStatus.OK);
+	
+	
 }
 
 

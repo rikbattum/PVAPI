@@ -125,6 +125,6 @@ public class MemberRestController {
 		public ResponseEntity<Integer> getUserCount() {
 			log.debug("Fetching user count");
 			int memberTotal = memberservice.count();
-			return new ResponseEntity<Integer>(memberTotal, HttpStatus.NO_CONTENT);
+			return new ResponseEntity<Integer>(memberTotal, HttpStatus.OK);
 		}
 }
