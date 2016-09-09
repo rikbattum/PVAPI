@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import nl.paardenvriendjes.enumerations.MessageType;
 import nl.paardenvriendjes.pvapi.domain.Event;
+import nl.paardenvriendjes.pvapi.domain.Message;
 import nl.paardenvriendjes.pvapi.service.AbstractDaoService;
 
 @Repository
@@ -19,6 +21,9 @@ public class EventDaoImpl extends AbstractDaoService<Event>{
 	
 	@Autowired
 	SessionFactory sessionFactory;
+	@Autowired
+	MessageDaoImpl messageservice;
+	
 	
 	private Session getCurrentSession() {
 		return sessionFactory.getCurrentSession();
@@ -35,6 +40,18 @@ public class EventDaoImpl extends AbstractDaoService<Event>{
 		event.setCreatedOnDate();
 		getCurrentSession().persist(event);
 		log.debug("saved One: " + event.toString());
+		updateMessagesWithEvent(event);
+	}
+	
+	// auto generate message update for event
+	
+	public void updateMessagesWithEvent (Event event) { 
+	
+		Message eventMessage = new Message ();
+		eventMessage.setMessage("<memberName>" + "heeft in het paspoort een nieuw event toegevoegd: " + event.getEventName());
+		eventMessage.setMessageType(MessageType.EVENT);
+		
+	messageservice.save (eventMessage); 	
 	}
 	
 	

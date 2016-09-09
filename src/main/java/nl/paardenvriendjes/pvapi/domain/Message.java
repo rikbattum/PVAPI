@@ -42,7 +42,7 @@ public class Message {
 	@OneToMany(mappedBy = "message")
 	@Cascade({CascadeType.ALL})
 	private List<Like> likelist;
-
+	private Boolean publicPost; 
 
 	public Long getId() {
 		return id;
@@ -60,14 +60,13 @@ public class Message {
 		this.message = message;
 	}
 
-	public MessageType getType() {
+	public MessageType getMessageType() {
 		return messageType;
 	}
 
-	public void setType(MessageType type) {
-		this.messageType = type;
+	public void setMessageType(MessageType messageType) {
+		this.messageType = messageType;
 	}
-	
 
 	public LineType getLineType() {
 		return lineType;
@@ -134,11 +133,22 @@ public class Message {
 		this.likelist = likelist;
 	}
 
+	
+	public Boolean getPublicPost() {
+		return publicPost;
+	}
+
+	public void setPublicPost(Boolean publicPost) {
+		this.publicPost = publicPost;
+	}
+
 	@Override
 	public String toString() {
 		return "Message [id=" + id + ", message=" + message + ", type=" + messageType + ", insertDate=" + insertDate + "]";
 	}
 
+	// Hashcode and Equals
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -147,12 +157,14 @@ public class Message {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((insertDate == null) ? 0 : insertDate.hashCode());
 		result = prime * result + ((likelist == null) ? 0 : likelist.hashCode());
+		result = prime * result + ((lineType == null) ? 0 : lineType.hashCode());
 		result = prime * result + ((member == null) ? 0 : member.hashCode());
 		result = prime * result + ((message == null) ? 0 : message.hashCode());
+		result = prime * result + ((messageType == null) ? 0 : messageType.hashCode());
 		result = prime * result + ((picLinkSecond == null) ? 0 : picLinkSecond.hashCode());
 		result = prime * result + ((picLinkThird == null) ? 0 : picLinkThird.hashCode());
 		result = prime * result + ((piclink == null) ? 0 : piclink.hashCode());
-		result = prime * result + ((messageType == null) ? 0 : messageType.hashCode());
+		result = prime * result + ((publicPost == null) ? 0 : publicPost.hashCode());
 		return result;
 	}
 
@@ -185,6 +197,8 @@ public class Message {
 				return false;
 		} else if (!likelist.equals(other.likelist))
 			return false;
+		if (lineType != other.lineType)
+			return false;
 		if (member == null) {
 			if (other.member != null)
 				return false;
@@ -194,6 +208,8 @@ public class Message {
 			if (other.message != null)
 				return false;
 		} else if (!message.equals(other.message))
+			return false;
+		if (messageType != other.messageType)
 			return false;
 		if (picLinkSecond == null) {
 			if (other.picLinkSecond != null)
@@ -210,7 +226,10 @@ public class Message {
 				return false;
 		} else if (!piclink.equals(other.piclink))
 			return false;
-		if (messageType != other.messageType)
+		if (publicPost == null) {
+			if (other.publicPost != null)
+				return false;
+		} else if (!publicPost.equals(other.publicPost))
 			return false;
 		return true;
 	}
@@ -228,7 +247,7 @@ public class Message {
 		getCommentlist().add(comment);
 		comment.setMessage(this);
 	}
-	
+
 	public void removeComment (Comment comment) { 
 
 		if (comment == null) { 
