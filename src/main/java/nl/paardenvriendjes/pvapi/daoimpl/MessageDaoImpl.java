@@ -44,7 +44,7 @@ public class MessageDaoImpl extends AbstractDaoService<Message> {
 		log.debug("edit: " + message.toString());
 	}
 
-	public List<Message> listAllUsersSport(int start, int end) {
+	public List<Message> listAllMessagesSport(int start, int end) {
 
 		List<Message> list = getCurrentSession().createQuery("from " + Message.class).list();
 		log.debug("got List: " + Message.class.toString());
@@ -52,7 +52,7 @@ public class MessageDaoImpl extends AbstractDaoService<Message> {
 
 	}
 
-	public List<Message> listAllUsersAll(int start, int end) {
+	public List<Message> listAllMessages(int start, int end) {
 
 		List<Message> list = getCurrentSession().createQuery("from " + Message.class).list();
 		log.debug("got List: " + Message.class.toString());
@@ -60,7 +60,7 @@ public class MessageDaoImpl extends AbstractDaoService<Message> {
 
 	}
 
-	public List<Message> listAllUsersKids(int start, int end) {
+	public List<Message> listAllMessagesKids(int start, int end) {
 
 		List<Message> list = getCurrentSession().createQuery("from " + Message.class).list();
 		log.debug("got List: " + Message.class.toString());
@@ -68,7 +68,7 @@ public class MessageDaoImpl extends AbstractDaoService<Message> {
 
 	}
 
-	public List<Message> listAllUsersFriends(int start, int end) {
+	public List<Message> listAllMessagesFriends(int start, int end) {
 
 		List<Message> list = getCurrentSession().createQuery("from " + Message.class).list();
 		log.debug("got List: " + Message.class.toString());

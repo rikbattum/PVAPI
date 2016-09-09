@@ -19,7 +19,6 @@ import nl.paardenvriendjes.pvapi.daoimpl.MessageDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Message;
 
 @RestController
-@RequestMapping("/messages")
 public class MessageRestController {
 
 
@@ -33,11 +32,11 @@ public class MessageRestController {
 
 	@CrossOrigin
 	@RequestMapping(value = "/messages/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Message> getUser(@PathVariable("id") long id) {
+	public ResponseEntity<Message> getMessage(@PathVariable("id") long id) {
 		log.debug("Fetching Message with id " + id);
 		Message message = messageservice.listOne(id);
 		if (message == null) {
-			log.debug("User with id " + id + " not found");
+			log.debug("Message with id " + id + " not found");
 			return new ResponseEntity<Message>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<Message>(message, HttpStatus.OK);
@@ -48,7 +47,7 @@ public class MessageRestController {
 		@CrossOrigin
 		@RequestMapping(value = "/messages/sport", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 		public ResponseEntity<List<Message>> listAllMessagesSport(@PathVariable("start") int start, @PathVariable("end") int end) {
-			List<Message> messagesSport = messageservice.listAllUsersSport(start, end);
+			List<Message> messagesSport = messageservice.listAllMessagesSport(start, end);
 			if (messagesSport.isEmpty()) {
 				return new ResponseEntity<List<Message>>(HttpStatus.NO_CONTENT);
 				}
@@ -60,7 +59,7 @@ public class MessageRestController {
 		@CrossOrigin
 		@RequestMapping(value = "/messages/friends", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 		public ResponseEntity<List<Message>> listAllMessagesFriends(@PathVariable("start") int start, @PathVariable("end") int end) {
-			List<Message> messagesSport = messageservice.listAllUsersSport(start, end);
+			List<Message> messagesSport = messageservice.listAllMessagesFriends(start, end);
 			if (messagesSport.isEmpty()) {
 				return new ResponseEntity<List<Message>>(HttpStatus.NO_CONTENT);
 				}
@@ -72,7 +71,7 @@ public class MessageRestController {
 		@CrossOrigin
 		@RequestMapping(value = "/messages/kids", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 		public ResponseEntity<List<Message>> listAllMessagesKids(@PathVariable("start") int start, @PathVariable("end") int end) {
-			List<Message> messagesSport = messageservice.listAllUsersSport(start, end);
+			List<Message> messagesSport = messageservice.listAllMessagesKids(start, end);
 			if (messagesSport.isEmpty()) {
 				return new ResponseEntity<List<Message>>(HttpStatus.NO_CONTENT);
 				}
@@ -84,7 +83,7 @@ public class MessageRestController {
 		@CrossOrigin
 		@RequestMapping(value = "/messages/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 		public ResponseEntity<List<Message>> listAllMessagesAll(@PathVariable("start") int start, @PathVariable("end") int end) {
-			List<Message> messagesSport = messageservice.listAllUsersSport(start, end);
+			List<Message> messagesSport = messageservice.listAllMessages(start, end);
 			if (messagesSport.isEmpty()) {
 				return new ResponseEntity<List<Message>>(HttpStatus.NO_CONTENT);
 				}
@@ -122,8 +121,8 @@ public class MessageRestController {
 	
 	@CrossOrigin
 	@RequestMapping(value = "/messages/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Message> deleteUser(@PathVariable("id") long id) {
-		log.debug("Fetching & Deleting User with id " + id);
+	public ResponseEntity<Message> deleteMessage(@PathVariable("id") long id) {
+		log.debug("Fetching & Deleting Mesage with id " + id);
 		Message message = messageservice.listOne(id);
 		if (message == null) {
 			System.out.println("Unable to delete Message with id " + id + " not found");
@@ -142,6 +141,7 @@ public class MessageRestController {
 				int messageTotal = messageservice.count();
 				return new ResponseEntity<Integer>(messageTotal, HttpStatus.OK);
 	
+			}
 	
 }
 

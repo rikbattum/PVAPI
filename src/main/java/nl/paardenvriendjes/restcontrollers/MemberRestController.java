@@ -26,7 +26,7 @@ public class MemberRestController {
 	@Autowired
 	private MemberDaoImpl memberservice;
 
-	static Logger log = Logger.getLogger(MessageDaoImpl.class.getName());
+	static Logger log = Logger.getLogger(MemberDaoImpl.class.getName());
 
 	@CrossOrigin
 	@RequestMapping(value = "/", method = RequestMethod.GET)
