@@ -13,11 +13,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 import nl.paardenvriendjes.pvapi.daoimpl.EventDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Event;
 
-
+@RestController
 public class EventRestController {
 
 
@@ -25,8 +26,6 @@ public class EventRestController {
 	private EventDaoImpl eventservice;
 
 	static Logger log = Logger.getLogger(EventDaoImpl.class.getName());
-
-	
 	
 // -------------------Options Call --------------------------------------------------------------
 

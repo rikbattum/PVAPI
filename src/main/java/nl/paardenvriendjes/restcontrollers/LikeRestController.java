@@ -13,24 +13,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import nl.paardenvriendjes.pvapi.daoimpl.LikeDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Like;
 
+@RestController
 public class LikeRestController {
 
 	@Autowired
 	private LikeDaoImpl likeservice;
 
 	static Logger log = Logger.getLogger(LikeDaoImpl.class.getName());
-
-	@CrossOrigin
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-    public String welcome() {//Welcome page, non-rest
-        return "Welcome to PVAPI";
-    }	
-	
 	
 	// -------------------Options Call --------------------------------------------------------------
 	

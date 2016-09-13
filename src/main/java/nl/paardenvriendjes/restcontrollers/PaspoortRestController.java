@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 import nl.paardenvriendjes.pvapi.daoimpl.PaspoortDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Paspoort;
 
+@RestController
 public class PaspoortRestController {
 
 
@@ -24,13 +26,6 @@ public class PaspoortRestController {
 	private PaspoortDaoImpl paspoortservice;
 
 	static Logger log = Logger.getLogger(PaspoortDaoImpl.class.getName());
-
-	@CrossOrigin
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-    public String welcome() {//Welcome page, non-rest
-        return "Welcome to PVAPI";
-    }	
-	
 	
 	// -------------------Options Call --------------------------------------------------------------
 	

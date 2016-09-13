@@ -18,12 +18,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import nl.paardenvriendjes.pvapi.daoimpl.CommentDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Comment;
 
-
 @RestController
 public class CommentRestController {
 
-	
-	
 	@Autowired
 	private CommentDaoImpl commentservice ;
 
