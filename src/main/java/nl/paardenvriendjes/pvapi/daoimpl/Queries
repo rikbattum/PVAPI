@@ -1,1 +1,24 @@
 test
+
+// create query of different types. 
+// Sport 
+
+TypedQuery <Message> query = em.createQuery (
+select i from messages where message.messageType = "MessageType.Sport"
+
+) 
+
+
+// All
+
+
+
+// Friend
+
+
+
+// Kids
+
+
+
+List <Message> messages = query.list (); 
