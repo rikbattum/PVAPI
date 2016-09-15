@@ -46,9 +46,18 @@ public class MessageDaoImpl extends AbstractDaoService<Message> {
 
 	public List<Message> listAllMessagesSport(int start, int end) {
 
-		List<Message> list = getCurrentSession().createQuery("from " + Message.class).list();
+		Criteria criteria = getCurrentSession().createCriteria(Message.class);
+		criteria.add(Restrictions.eq("message.lineType", "LineType.Sport"));
+		criteria.setFirstResult(start);
+		criteria.setMaxResults(pagegeSize);
+		// arrange sort on date; 
+		criteria.addOrder(Order.desc("insertDate"));
+		List<Message> messageListPageX = criteria.list();
+		return messageListPageX;
 		log.debug("got List: " + Message.class.toString());
-		return list;
+
+		// List<Message> list = getCurrentSession().createQuery("from " + Message.class).list();
+		
 
 	}
 
