@@ -1,10 +1,19 @@
 package nl.paardenvriendjes.pvapi.daoimpl;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Embeddable;
+import javax.persistence.TemporalType;
+import javax.persistence.criteria.CriteriaBuilder;
+
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,9 +24,11 @@ import nl.paardenvriendjes.pvapi.service.AbstractDaoService;
 @Repository
 @Transactional
 
+@SuppressWarnings("unchecked")
 public class MessageDaoImpl extends AbstractDaoService<Message> {
 
 	static Logger log = Logger.getLogger(MessageDaoImpl.class.getName());
+	public int pageSize = 8;
 
 	@Autowired
 	SessionFactory sessionFactory;
@@ -47,14 +58,18 @@ public class MessageDaoImpl extends AbstractDaoService<Message> {
 	public List<Message> listAllMessagesSport(int start, int end) {
 
 		Criteria criteria = getCurrentSession().createCriteria(Message.class);
+		// set message type selection
 		criteria.add(Restrictions.eq("message.lineType", "LineType.Sport"));
+		//get 4 week period
+		criteria.add(Restrictions.between("insertDate", getTimeLineLapse (), new Date()));
+		// set pages 
 		criteria.setFirstResult(start);
-		criteria.setMaxResults(pagegeSize);
+		criteria.setMaxResults(pageSize);
 		// arrange sort on date; 
 		criteria.addOrder(Order.desc("insertDate"));
-		List<Message> messageListPageX = criteria.list();
-		return messageListPageX;
+		List <Message> messageListPageX =  criteria.list();
 		log.debug("got List: " + Message.class.toString());
+		return messageListPageX;
 	}
 
 	public List<Message> listAllMessages(int start, int end) {
@@ -79,6 +94,15 @@ public class MessageDaoImpl extends AbstractDaoService<Message> {
 		log.debug("got List: " + Message.class.toString());
 		return list;
 
+	}
+
+	// convenience method to retrieve 3 weeks before Sys-date;
+	public Date getTimeLineLapse () { 
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.add(Calendar.DATE, -28);
+		Date dateBefore21Days = cal.getTime();
+		return dateBefore21Days;
 	}
 
 }
