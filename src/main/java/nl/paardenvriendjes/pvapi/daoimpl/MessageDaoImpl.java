@@ -55,10 +55,6 @@ public class MessageDaoImpl extends AbstractDaoService<Message> {
 		List<Message> messageListPageX = criteria.list();
 		return messageListPageX;
 		log.debug("got List: " + Message.class.toString());
-
-		// List<Message> list = getCurrentSession().createQuery("from " + Message.class).list();
-		
-
 	}
 
 	public List<Message> listAllMessages(int start, int end) {
