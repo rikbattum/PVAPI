@@ -153,7 +153,7 @@ public class MessageDaoImplTest extends AbstractTransactionalJUnit4SpringContext
 
 		Message updatedMessage = messageService.listOne(messageId);
 		assertThat(updatedMessage.getMessage(), Is.is("vandaag springen afgelast ivm sneeuw"));
-		assertThat(updatedMessage.getId(), Is.is(332L));
+		assertThat(updatedMessage.getId(), Is.is(285L));
 		assertNotNull(updatedMessage.getInsertDate());
 		assertThat(simpleDateFormat.format(updatedMessage.getInsertDate()), Is.is(simpleDateFormat.format(new Date())));
 	}
@@ -210,6 +210,11 @@ public class MessageDaoImplTest extends AbstractTransactionalJUnit4SpringContext
 		message2.setMember(member3);
 		message4.setMember(member4);
 		message5.setMember(member1);
+		messageService.save(message1);
+		messageService.save(message2);
+		messageService.save(message3);
+		messageService.save(message4);
+		messageService.save(message5);
 		// Save Member
 		memberService.save(member1);
 		memberService.save(member2);
@@ -217,10 +222,14 @@ public class MessageDaoImplTest extends AbstractTransactionalJUnit4SpringContext
 		memberService.save(member4);
 		// Get all friends messages of Member1 
 		List <Message> messages = messageService.listAllMessagesFriends(0, 400, member1);
-		assertThat(messages.size(), Is.is(2));
+		assertThat(messages.size(), Is.is(3));
+		// Check all member are indeed in friends list 
+		assertThat (messages.get(0).getMember(), Is.is(member2));
+		assertThat (messages.get(1).getMember(), Is.is(member3));
+		assertThat (messages.get(2).getMember(), Is.is(member2));
 	}
 	
-	// Utilty functions
+	// Utility functions
 	
 	public Date getTimeLineLapseTEST (int amountOfDays) { 
 		Calendar cal = Calendar.getInstance();
