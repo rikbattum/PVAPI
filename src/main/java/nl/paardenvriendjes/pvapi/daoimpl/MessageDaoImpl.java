@@ -4,10 +4,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Embeddable;
-import javax.persistence.TemporalType;
-import javax.persistence.criteria.CriteriaBuilder;
-
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -18,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import nl.paardenvriendjes.enumerations.LineType;
 import nl.paardenvriendjes.pvapi.domain.Message;
 import nl.paardenvriendjes.pvapi.service.AbstractDaoService;
 
@@ -59,9 +56,27 @@ public class MessageDaoImpl extends AbstractDaoService<Message> {
 
 		Criteria criteria = getCurrentSession().createCriteria(Message.class);
 		// set message type selection
-		criteria.add(Restrictions.eq("message.lineType", "LineType.Sport"));
-		//get 4 week period
-		criteria.add(Restrictions.between("insertDate", getTimeLineLapse (), new Date()));
+		criteria.add(Restrictions.eq("lineType", LineType.SPORT));
+		//get 3 week period
+		criteria.add(Restrictions.between("insertDate", getTimeLineLapse (21), new Date()));
+		// set pages 
+		criteria.setFirstResult(start);
+		criteria.setMaxResults(pageSize);
+		// arrange sort on date; 
+		criteria.addOrder(Order.desc("insertDate"));
+		List <Message> messageListPageX =  criteria.list();
+		log.debug("messageis" + messageListPageX.get(0).getMessage());
+		log.debug("got List: " + Message.class.toString());
+		return messageListPageX;
+	}
+
+	public List<Message> listAllMessages(int start, int end) {
+
+		Criteria criteria = getCurrentSession().createCriteria(Message.class);
+		// set message type selection
+		criteria.add(Restrictions.eq("lineType", LineType.GENERAL));
+		//get 2 week period
+		criteria.add(Restrictions.between("insertDate", getTimeLineLapse (14), new Date()));
 		// set pages 
 		criteria.setFirstResult(start);
 		criteria.setMaxResults(pageSize);
@@ -72,37 +87,48 @@ public class MessageDaoImpl extends AbstractDaoService<Message> {
 		return messageListPageX;
 	}
 
-	public List<Message> listAllMessages(int start, int end) {
-
-		List<Message> list = getCurrentSession().createQuery("from " + Message.class).list();
-		log.debug("got List: " + Message.class.toString());
-		return list;
-
-	}
 
 	public List<Message> listAllMessagesKids(int start, int end) {
 
-		List<Message> list = getCurrentSession().createQuery("from " + Message.class).list();
+		Criteria criteria = getCurrentSession().createCriteria(Message.class);
+		// set message type selection
+		criteria.add(Restrictions.eq("lineType", LineType.KIDS));
+		//get 3 week period
+		criteria.add(Restrictions.between("insertDate", getTimeLineLapse (21), new Date()));
+		// set pages 
+		criteria.setFirstResult(start);
+		criteria.setMaxResults(pageSize);
+		// arrange sort on date; 
+		criteria.addOrder(Order.desc("insertDate"));
+		List <Message> messageListPageX =  criteria.list();
 		log.debug("got List: " + Message.class.toString());
-		return list;
-
+		return messageListPageX;
 	}
 
 	public List<Message> listAllMessagesFriends(int start, int end) {
 
-		List<Message> list = getCurrentSession().createQuery("from " + Message.class).list();
+		Criteria criteria = getCurrentSession().createCriteria(Message.class);
+		// set message type selection
+		criteria.add(Restrictions.eq("lineType", LineType.FRIENDS));
+		//get 3 week period
+		criteria.add(Restrictions.between("insertDate", getTimeLineLapse (21), new Date()));
+		// set pages 
+		criteria.setFirstResult(start);
+		criteria.setMaxResults(pageSize);
+		// arrange sort on date; 
+		criteria.addOrder(Order.desc("insertDate"));
+		List <Message> messageListPageX =  criteria.list();
 		log.debug("got List: " + Message.class.toString());
-		return list;
-
+		return messageListPageX;
 	}
 
-	// convenience method to retrieve 3 weeks before Sys-date;
-	public Date getTimeLineLapse () { 
+	// convenience method to retrieve days before Sys-date;
+	public Date getTimeLineLapse (int amountOfDays) { 
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
-		cal.add(Calendar.DATE, -28);
-		Date dateBefore21Days = cal.getTime();
-		return dateBefore21Days;
+		cal.add(Calendar.DATE, -amountOfDays);
+		Date dateBeforeXDays = cal.getTime();
+		return dateBeforeXDays;
 	}
 
 }

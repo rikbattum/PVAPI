@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,7 +28,9 @@ public class Message {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String message;
+	@Enumerated(EnumType.STRING)
 	private MessageType messageType;
+	@Enumerated(EnumType.STRING)
 	private LineType lineType;
 	@Temporal(TemporalType.DATE)
 	private Date insertDate;
@@ -84,6 +88,12 @@ public class Message {
 		// set-date in backend;
 		this.insertDate = new Date();
 	}
+	
+	public void InsertDateTest(Date date) {
+		// set-date in backend;
+		this.insertDate = date;
+	}
+	
 
 	public Member getMember() {
 		return member;

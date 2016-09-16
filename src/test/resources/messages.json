@@ -88,7 +88,8 @@
 		"type": "MESSAGE",
 		"piclink": "www.piclink.nl/13",
 		"picLinkSecond": " ",
-		"picLinkThird": " "
+		"picLinkThird": " ",
+		"lineType": "SPORT" 
 	},
 	{
 		"message": "Merry drachtig",
@@ -137,7 +138,8 @@
 		"type": "MESSAGESPORT",
 		"piclink": "www.piclink.nl/20",
 		"picLinkSecond": " ",
-		"picLinkThird": " "
+		"picLinkThird": " ",
+	    "lineType": "SPORT"
 	},
 	{
 		"message": "Wat een wedstrijd",

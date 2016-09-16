@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.transaction.annotation.Transactional;
 
+import nl.paardenvriendjes.enumerations.LineType;
 import nl.paardenvriendjes.hibernate.configuration.HibernateConfiguration;
 import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
 import nl.paardenvriendjes.pvapi.daoimpl.MessageDaoImpl;
@@ -151,8 +153,42 @@ public class MessageDaoImplTest extends AbstractTransactionalJUnit4SpringContext
 
 		Message updatedMessage = messageService.listOne(messageId);
 		assertThat(updatedMessage.getMessage(), Is.is("vandaag springen afgelast ivm sneeuw"));
-		assertThat(updatedMessage.getId(), Is.is(239L));
+		assertThat(updatedMessage.getId(), Is.is(332L));
 		assertNotNull(updatedMessage.getInsertDate());
 		assertThat(simpleDateFormat.format(updatedMessage.getInsertDate()), Is.is(simpleDateFormat.format(new Date())));
+	}
+	
+	@Transactional
+	@Rollback(true)
+	@Test
+	public void testQuerySportMessages() throws Exception {
+
+		testUtil.setMembers();
+		testUtil.runMessagesPost();
+		Message message1 = messageService.listAll().get(0);
+		Message message2= messageService.listAll().get(1);
+		Message message3= messageService.listAll().get(2);
+		Message message4= messageService.listAll().get(3);
+		message1.setLineType(LineType.SPORT);
+		message2.setLineType(LineType.SPORT);
+		message3.setLineType(LineType.SPORT);
+		//Does not fit
+		message4.setLineType(LineType.GENERAL);
+		message1.InsertDateTest(getTimeLineLapseTEST(15));
+		message2.InsertDateTest(getTimeLineLapseTEST(3));
+		//does not fit
+		message3.InsertDateTest(getTimeLineLapseTEST(26));
+		message4.InsertDateTest(getTimeLineLapseTEST(3));
+		// no save or edit, because of auto date set in DAO implementation
+		List <Message> messages = messageService.listAllMessagesSport(0, 400);
+		assertThat(messages.size(), Is.is(2));
+	}
+	
+	public Date getTimeLineLapseTEST (int amountOfDays) { 
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.add(Calendar.DATE, -amountOfDays);
+		Date dateBeforeXDays = cal.getTime();
+		return dateBeforeXDays;
 	}
 }
