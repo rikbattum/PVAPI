@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import nl.paardenvriendjes.enumerations.LineType;
+import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.domain.Message;
 import nl.paardenvriendjes.pvapi.service.AbstractDaoService;
 
@@ -86,8 +87,7 @@ public class MessageDaoImpl extends AbstractDaoService<Message> {
 		log.debug("got List: " + Message.class.toString());
 		return messageListPageX;
 	}
-
-
+	
 	public List<Message> listAllMessagesKids(int start, int end) {
 
 		Criteria criteria = getCurrentSession().createCriteria(Message.class);
@@ -105,13 +105,13 @@ public class MessageDaoImpl extends AbstractDaoService<Message> {
 		return messageListPageX;
 	}
 
-	public List<Message> listAllMessagesFriends(int start, int end) {
+	public List<Message> listAllMessagesFriends(int start, int end, Member x) {
 
 		Criteria criteria = getCurrentSession().createCriteria(Message.class);
-		// set message type selection
-		criteria.add(Restrictions.eq("lineType", LineType.FRIENDS));
 		//get 3 week period
 		criteria.add(Restrictions.between("insertDate", getTimeLineLapse (21), new Date()));
+		//get messages of friends only
+		criteria.add(Restrictions.in("member", x.getvrienden()));
 		// set pages 
 		criteria.setFirstResult(start);
 		criteria.setMaxResults(pageSize);
@@ -130,5 +130,4 @@ public class MessageDaoImpl extends AbstractDaoService<Message> {
 		Date dateBeforeXDays = cal.getTime();
 		return dateBeforeXDays;
 	}
-
 }

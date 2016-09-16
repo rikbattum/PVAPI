@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
 import nl.paardenvriendjes.pvapi.daoimpl.MessageDaoImpl;
+import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.domain.Message;
 
 @RestController
@@ -24,7 +27,10 @@ public class MessageRestController {
 
 	@Autowired
 	private MessageDaoImpl messageservice;
+	@Autowired
+	private MemberDaoImpl memberservice;
 
+	
 	static Logger log = Logger.getLogger(MessageDaoImpl.class.getName());
 	
 
@@ -58,8 +64,9 @@ public class MessageRestController {
 	
 		@CrossOrigin
 		@RequestMapping(value = "/messages/friends", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-		public ResponseEntity<List<Message>> listAllMessagesFriends(@PathVariable("start") int start, @PathVariable("end") int end) {
-			List<Message> messagesSport = messageservice.listAllMessagesFriends(start, end);
+		public ResponseEntity<List<Message>> listAllMessagesFriends(@PathVariable("start") int start, @PathVariable("end") int end, @PathVariable("memberId") Long memberId) {
+			Member member = memberservice.listOne(memberId); 
+			List<Message> messagesSport = messageservice.listAllMessagesFriends(start, end, member);
 			if (messagesSport.isEmpty()) {
 				return new ResponseEntity<List<Message>>(HttpStatus.NO_CONTENT);
 				}

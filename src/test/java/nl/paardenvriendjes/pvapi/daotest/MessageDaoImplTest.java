@@ -184,6 +184,44 @@ public class MessageDaoImplTest extends AbstractTransactionalJUnit4SpringContext
 		assertThat(messages.size(), Is.is(2));
 	}
 	
+	@Transactional
+	@Rollback(true)
+	@Test
+	public void testQueryFriendsMessages() throws Exception {
+
+		testUtil.setMembers();
+		testUtil.runMessagesPost();
+		Message message1 = messageService.listAll().get(0);
+		Message message2= messageService.listAll().get(1);
+		Message message3= messageService.listAll().get(2);
+		Message message4= messageService.listAll().get(3);
+		Message message5= messageService.listAll().get(4);
+		Member member1 = memberService.listAll().get(0); 
+		Member member2 = memberService.listAll().get(1);
+		Member member3 = memberService.listAll().get(2);
+		Member member4= memberService.listAll().get(3);
+		member1.getVrienden().add(member2);
+		member1.getVrienden().add(member3);
+		//	Don't bother set auto date or testing time criterium here;	
+		//Does fit
+		message1.setMember(member2);
+		message3.setMember(member2);
+		//don't fit
+		message2.setMember(member3);
+		message4.setMember(member4);
+		message5.setMember(member1);
+		// Save Member
+		memberService.save(member1);
+		memberService.save(member2);
+		memberService.save(member3);
+		memberService.save(member4);
+		// Get all friends messages of Member1 
+		List <Message> messages = messageService.listAllMessagesFriends(0, 400, member1);
+		assertThat(messages.size(), Is.is(2));
+	}
+	
+	// Utilty functions
+	
 	public Date getTimeLineLapseTEST (int amountOfDays) { 
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
