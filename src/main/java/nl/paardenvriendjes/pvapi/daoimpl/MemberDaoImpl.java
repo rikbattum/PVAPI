@@ -82,27 +82,61 @@ public class MemberDaoImpl extends AbstractDaoService<Member> {
 		}
 	}
 	
-	
-	
-	
-	public List<Member> findMemberByFirstAndLastName(String firstName, String lastName) {
+	public List<Member> findMemberByFirstAndLastName(String firstname, String lastname) {
 	
 		Criteria criteria = getCurrentSession().createCriteria(Member.class);
-		if (lastName.length()<3) {
+		if (lastname.length()<3) {
 			List<Member> temp = new ArrayList <Member>();
 			return temp; 
 		}
-		
+		else {
+			// query for first name 
+			criteria.add(Restrictions.ilike("achternaam", lastname, MatchMode.ANYWHERE));
+			criteria.add(Restrictions.ilike("voornaam", firstname, MatchMode.ANYWHERE));
+			criteria.add(Restrictions. eq("active", true));
+			criteria.setFirstResult(0);
+			criteria.setMaxResults(20);
+			// arrange sort on date; 
+			criteria.addOrder(Order.desc("lastname"));
+			List <Member> foundMembers =  criteria.list();
+			return foundMembers;
+		}
+	}
+	
+	public List<Member> findMemberByLocation(String location) {
+		Criteria criteria = getCurrentSession().createCriteria(Member.class);
+		if (location.length()<3) {
+			
+			List<Member> temp = new ArrayList <Member>();
+			return temp; 
+		}
+		criteria.add(Restrictions.ilike("plaatsnaam", location, MatchMode.ANYWHERE));
+		criteria.add(Restrictions. eq("active", true));
+		criteria.setFirstResult(0);
+		criteria.setMaxResults(20);
+		// arrange sort on lastname; 
+		criteria.addOrder(Order.desc("lastname"));
 		List <Member> foundMembers =  criteria.list();
 		return foundMembers;
 	}
 	
-	public List<Member> findMemberLocation() {
+	public List<Member> findMemberByInteresse(String[] interesses) {
+		Criteria criteria = getCurrentSession().createCriteria(Member.class);
+		if (interesses.length==0) {
+			
+			List<Member> temp = new ArrayList <Member>();
+			return temp; 
+		}
 		
-		
-	}
-	
-	
-    
-	
+		for (String interesse : interesses) { 
+		criteria.add(Restrictions.eq(interesse, true));
+		} 
+		criteria.add(Restrictions. eq("active", true));
+		criteria.setFirstResult(0);
+		criteria.setMaxResults(50);
+		// arrange sort on lastname; 
+		criteria.addOrder(Order.desc("lastname"));
+		List <Member> foundMembers =  criteria.list();
+		return foundMembers;
+	}	
 }

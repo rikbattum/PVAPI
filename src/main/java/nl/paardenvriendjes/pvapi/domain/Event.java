@@ -30,7 +30,7 @@ public class Event {
 	private List <Member> members = new ArrayList <Member>();
 	@ManyToOne 
 	private Paspoort paspoort;
-	@OneToMany (mappedBy="event")
+	@ManyToMany (mappedBy="events")
 	private List <Horse> horses = new ArrayList<Horse>();
 	
 	public Long getId() {

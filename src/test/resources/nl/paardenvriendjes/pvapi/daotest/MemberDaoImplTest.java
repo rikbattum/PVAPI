@@ -224,14 +224,27 @@ public class MemberDaoImplTest {
 	@Test
 	@Transactional
 	@Rollback(true)
-	public void testQueryMembersOnFirstName() throws Exception {	
+	public void testQueryMembersByFirstName() throws Exception {	
 	testUtil.setMembers();
-	List<Member> memberList = memberService.findMemberByName("dennis");
+	List<Member> memberList = memberService.findMemberByFirstName("dennis");
 	assertEquals(memberList.size(), 1);
 	assertEquals(memberList.get(0).getVoornaam(), "Dennis");
-	List<Member> memberList2 = memberService.findMemberByName("dENnis");
+	List<Member> memberList2 = memberService.findMemberByFirstName("dENnis");
 	assertEquals(memberList.size(), 1);
 	assertEquals(memberList.get(0).getVoornaam(), "Dennis");;
+	}	
+	
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testQueryMembersByFirstAndLastName() throws Exception {	
+	testUtil.setMembers();
+	List<Member> memberList = memberService.findMemberByFirstAndLastName("Ellise", "vermeendt");
+	assertEquals(memberList.size(), 1);
+	assertEquals(memberList.get(0).getVoornaam(), "Ellis");
+	assertEquals(memberList.get(0).getVoornaam(), "Vermeend");
+	List<Member> memberList2 = memberService.findMemberByFirstAndLastName("Ellis", "vermeent");
+	assertEquals(memberList.size(), 0);
 	}	
 	
 	
