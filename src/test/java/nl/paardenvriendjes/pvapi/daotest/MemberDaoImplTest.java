@@ -188,7 +188,7 @@ public class MemberDaoImplTest {
 	
 	assertThat(memberList.size(), Is.is(5));
 	assertThat(memberList.get(0).getAchternaam(), Is.is("van Battum"));
-	assertThat(memberList.get(4).getAchternaam(), Is.is("de Boer"));
+	assertThat(memberList.get(4).getAchternaam(), Is.is("Vermeendt"));
 	}
 	
 	@Test
@@ -227,11 +227,13 @@ public class MemberDaoImplTest {
 	public void testQueryMembersByFirstName() throws Exception {	
 	testUtil.setMembers();
 	List<Member> memberList = memberService.findMemberByFirstName("dennis");
-	assertEquals(memberList.size(), 1);
-	assertEquals(memberList.get(0).getVoornaam(), "Dennis");
+	assertEquals(memberList.size(), 2);
+	assertEquals(memberList.get(0).getVoornaam(), "SuzyDennis");;
+	assertEquals(memberList.get(1).getVoornaam(), "Dennis");
 	List<Member> memberList2 = memberService.findMemberByFirstName("dENnis");
-	assertEquals(memberList.size(), 1);
-	assertEquals(memberList.get(0).getVoornaam(), "Dennis");;
+	assertEquals(memberList2.size(), 2);
+	assertEquals(memberList2.get(0).getVoornaam(), "SuzyDennis");
+	assertEquals(memberList2.get(1).getVoornaam(), "Dennis");
 	}	
 	
 	@Test
@@ -239,14 +241,35 @@ public class MemberDaoImplTest {
 	@Rollback(true)
 	public void testQueryMembersByFirstAndLastName() throws Exception {	
 	testUtil.setMembers();
-	List<Member> memberList = memberService.findMemberByFirstAndLastName("Ellise", "vermeendt");
-	assertEquals(memberList.size(), 1);
-	assertEquals(memberList.get(0).getVoornaam(), "Ellis");
-	assertEquals(memberList.get(0).getVoornaam(), "Vermeend");
+	List<Member> memberList = memberService.findMemberByFirstAndLastName("Ellis", "Vermeend");
+	assertEquals(memberList.size(), 2);
+	assertEquals(memberList.get(0).getVoornaam(), "2Ellise");
+	assertEquals(memberList.get(0).getAchternaam(), "Vermeendt");
+	assertEquals(memberList.get(1).getVoornaam(), "Ellis");
+	assertEquals(memberList.get(1).getAchternaam(), "Vermeend");
 	List<Member> memberList2 = memberService.findMemberByFirstAndLastName("Ellis", "vermeent");
-	assertEquals(memberList.size(), 0);
+	assertEquals(memberList2.size(), 0);
 	}	
 	
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testQueryMembersByLocation() throws Exception {	
+	testUtil.setMembers();
+	List<Member> memberList = memberService.findMemberByLocation("leeuwarden");
+	assertEquals(memberList.size(), 1);
+	assertEquals(memberList.get(0).getPlaatsnaam(), "Leeuwarden"); 
+	}	
+	
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testQueryMembersByInteresses() throws Exception {	
+	testUtil.setMembers();
+	List<Member> memberList = memberService.findMemberByLocation("rodeo");
+	assertEquals(memberList.get(0).getInteresse().getRodeo(), true); 
+	assertEquals(memberList.size(), 1);
+	}	
 	
 	
 	

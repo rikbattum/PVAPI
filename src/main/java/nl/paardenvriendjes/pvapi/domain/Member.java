@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Basic;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,6 +44,7 @@ public class Member {
 	@Cascade({CascadeType.ALL})
 	private List <Horse> horses;
 	@Embedded
+	@Basic(fetch=FetchType.EAGER)  //probably not needed
 	private Interesse interesse;
     private String profileimage;
 	private String password;

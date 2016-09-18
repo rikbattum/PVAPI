@@ -153,7 +153,7 @@ public class MessageDaoImplTest extends AbstractTransactionalJUnit4SpringContext
 
 		Message updatedMessage = messageService.listOne(messageId);
 		assertThat(updatedMessage.getMessage(), Is.is("vandaag springen afgelast ivm sneeuw"));
-		assertThat(updatedMessage.getId(), Is.is(285L));
+		assertThat(updatedMessage.getId(), Is.is(309L));
 		assertNotNull(updatedMessage.getInsertDate());
 		assertThat(simpleDateFormat.format(updatedMessage.getInsertDate()), Is.is(simpleDateFormat.format(new Date())));
 	}
