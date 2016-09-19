@@ -320,4 +320,27 @@ public class Horse {
 			return false;
 		return true;
 	}
+	
+	// convenience methods for working with SportsMap
+	
+	public void addSportToMap(SportType sporttype, SportLevel sportlevel) { 
+
+		if (sporttype == null || sportlevel == null) { 
+			throw new NullPointerException("add null to sportsmap can not be possible");
+		}
+		else { 
+		sports.put(sporttype, sportLevel);
+		}
+	}
+	
+	public void removeSportFromMap(SportType sporttype) { 
+
+
+		if (sporttype == null) { 
+			throw new NullPointerException("delete null from sportsmap can not be possible");
+		}
+		else { 
+		this.sports.remove(sporttype);
+		} 
+	}
 }
