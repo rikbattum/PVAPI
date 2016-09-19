@@ -35,6 +35,16 @@ public class HorseDaoImpl extends AbstractDaoService<Horse> {
 		super(Horse.class);
 	}	
 	
+	public void save(Horse horse) {
+		if (sports.lenght != 0) { 
+			for (Object sport : sports) {
+		updateHorseSports(sport.sportype, sport.sportlevel);
+		getCurrentSession().persist(horse);
+		log.debug("saved One: " + horse.toString());
+			}
+		}
+	}
+	
 	public List<Horse> findHorseByName(String name) {
 		
 		Criteria criteria = getCurrentSession().createCriteria(Horse.class);
