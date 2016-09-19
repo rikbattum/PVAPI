@@ -31,6 +31,7 @@ public class Horse {
 	private String afstamming;
 	private Date geboortedatum;
 	private String geslacht;
+	private int stokmaat; 
 	private String karakter;
 	private String overmijnpaard;
 	private Boolean overleden;
@@ -41,7 +42,7 @@ public class Horse {
 	private Paspoort paspoort;
 	@ManyToOne
 	private Member member;
-	private SportLevel sportlevel;
+	private Map<SportType, SportLevel> sports = new HashMap<SportType, SportLevel>();
 	private Boolean active;
 
 	// Getters and Setters
@@ -109,7 +110,14 @@ public class Horse {
 	public void setGeslacht(String geslacht) {
 		this.geslacht = geslacht;
 	}
-
+	
+	public String getStokmaat() {
+		return stokmaat;
+	}
+	public void setStokmaatt(int stokmaat) {
+		this.stokmaat = stokmaat;
+	}
+	
 	public String getKarakter() {
 		return karakter;
 	}
@@ -165,14 +173,14 @@ public class Horse {
 	public void setPaspoort(Paspoort paspoort) {
 		this.paspoort = paspoort;
 	}
-
-	public SportLevel getSportlevel() {
-		return sportlevel;
-	}
-
-	public void setSportlevel(SportLevel sportlevel) {
-		this.sportlevel = sportlevel;
-	}
+	
+   	public Map getSports() {
+      	return sports;
+   	}
+   	
+   	public void setSports ( Map sports ) {
+      	this.sports = sports;
+   	}
 
 	public Boolean getActive() {
 		return active;
@@ -201,6 +209,7 @@ public class Horse {
 		result = prime * result + ((events == null) ? 0 : events.hashCode());
 		result = prime * result + ((geboortedatum == null) ? 0 : geboortedatum.hashCode());
 		result = prime * result + ((geslacht == null) ? 0 : geslacht.hashCode());
+		result = prime * result + ((stokmaat == null) ? 0 : stokmaat.hashCode());
 		result = prime * result + ((horseimage1 == null) ? 0 : horseimage1.hashCode());
 		result = prime * result + ((horseimage2 == null) ? 0 : horseimage2.hashCode());
 		result = prime * result + ((horseimage3 == null) ? 0 : horseimage3.hashCode());
@@ -211,7 +220,7 @@ public class Horse {
 		result = prime * result + ((overleden == null) ? 0 : overleden.hashCode());
 		result = prime * result + ((overmijnpaard == null) ? 0 : overmijnpaard.hashCode());
 		result = prime * result + ((paspoort == null) ? 0 : paspoort.hashCode());
-		result = prime * result + ((sportlevel == null) ? 0 : sportlevel.hashCode());
+		result = prime * result + ((sports == null) ? 0 : sports.hashCode());
 		result = prime * result + waarde;
 		return result;
 	}
@@ -249,6 +258,11 @@ public class Horse {
 			if (other.geslacht != null)
 				return false;
 		} else if (!geslacht.equals(other.geslacht))
+			return false;
+		if (stokmaat == null) {
+			if (other.stokmaat != null)
+				return false;
+		} else if (!stokmaat.equals(other.stokmaat))
 			return false;
 		if (horseimage1 == null) {
 			if (other.horseimage1 != null)
@@ -300,7 +314,7 @@ public class Horse {
 				return false;
 		} else if (!paspoort.equals(other.paspoort))
 			return false;
-		if (sportlevel != other.sportlevel)
+		if (sports != other.sports)
 			return false;
 		if (waarde != other.waarde)
 			return false;
