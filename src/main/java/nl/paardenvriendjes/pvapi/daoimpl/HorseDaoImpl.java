@@ -31,7 +31,6 @@ public class HorseDaoImpl extends AbstractDaoService<Horse> {
 		return sessionFactory.getCurrentSession();
 	}
 	
-	
 	public HorseDaoImpl() {
 		super(Horse.class);
 	}	
@@ -89,12 +88,43 @@ public class HorseDaoImpl extends AbstractDaoService<Horse> {
 //		List <Member> foundMembers =  criteria.list();
 //		return foundMembers;
 //	}	
+
+public void updateHorseSports(String sportype, String sportlevel) {
 	
+	for (SportType type : SportType.values()) {
+	if (type == sporttype) { 
+	SportType selectedSportType = type; 	
+	}
+	}
+	for (SportLevel level : SportLevel.values()) { 
+	if (level == sportlevel) { 
+	SportLevel selectedSportLevel = level; 	
+	}	
+	}
+	if (selectedSportLevel == null) { 
+	throw IllegalArgumentException () ; 	
+	}
+	else { 
+	addSportToMap(selectedSportType, selectedSportLevel);
+	}
+}
+
+public void deleteHorseSports(String sportype, String sportlevel) {
 	
-	
-	
-	
-	
-	
-	
+	for (SportType type : SportType.values()) {
+	if (type == sporttype) { 
+	SportType selectedSportType = type; 	
+	}
+	if (selectedSportType == null | selected Level == null) { 
+	throw IllegalArgumentException () ; 	
+	}
+	else { 
+	removeSportFromMap(selectedSportType);
+	}
+}
+
+
+
+
+
 }
