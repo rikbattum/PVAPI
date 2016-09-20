@@ -2,6 +2,7 @@ package nl.paardenvriendjes.pvapi.daoimpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -17,6 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 import nl.paardenvriendjes.pvapi.domain.Horse;
 import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.service.AbstractDaoService;
+import nl.paardenvriendjes.pvapi.domain.Member;
+import nl.paardenvriendjes.enumerations.SportType;
+import nl.paardenvriendjes.enumerations.SportLevel;
 
 @Repository
 @Transactional
@@ -36,14 +40,13 @@ public class HorseDaoImpl extends AbstractDaoService<Horse> {
 	}	
 	
 	public void save(Horse horse) {
-		if (sports.lenght != 0) { 
-			for (Object sport : sports) {
-		updateHorseSports(sport.sportype, sport.sportlevel);
+		// if (!horse.getSports().isEmpty()) {
+		// horse.getSports().forEach( (key,value) -> updateHorseSports(key, value));
 		getCurrentSession().persist(horse);
 		log.debug("saved One: " + horse.toString());
 			}
-		}
-	}
+		//	}
+	
 	
 	public List<Horse> findHorseByName(String name) {
 		
@@ -99,42 +102,38 @@ public class HorseDaoImpl extends AbstractDaoService<Horse> {
 //		return foundMembers;
 //	}	
 
-public void updateHorseSports(String sportype, String sportlevel) {
+//public void updateHorseSports(String sporttype, String sportlevel) {
+//	
+//	for (String type : SportType.values()) {
+//	if (type == sporttype) { 
+//	SportType selectedSportType = type; 	
+//	}
+//	}
+//	for (SportLevel level : SportLevel.values()) { 
+//	if (level == sportlevel) { 
+//	SportLevel selectedSportLevel = level; 	
+//	}	
+//	}
+//	if (selectedSportLevel == null) { 
+//	throw IllegalArgumentException () ; 	
+//	}
+//	else { 
+//	addSportToMap(selectedSportType, selectedSportLevel);
+//	}
+//}
+//
+//public void deleteHorseSports(String sportype, String sportlevel) {
 	
-	for (SportType type : SportType.values()) {
-	if (type == sporttype) { 
-	SportType selectedSportType = type; 	
-	}
-	}
-	for (SportLevel level : SportLevel.values()) { 
-	if (level == sportlevel) { 
-	SportLevel selectedSportLevel = level; 	
-	}	
-	}
-	if (selectedSportLevel == null) { 
-	throw IllegalArgumentException () ; 	
-	}
-	else { 
-	addSportToMap(selectedSportType, selectedSportLevel);
-	}
-}
-
-public void deleteHorseSports(String sportype, String sportlevel) {
-	
-	for (SportType type : SportType.values()) {
-	if (type == sporttype) { 
-	SportType selectedSportType = type; 	
-	}
-	if (selectedSportType == null | selected Level == null) { 
-	throw IllegalArgumentException () ; 	
-	}
-	else { 
-	removeSportFromMap(selectedSportType);
-	}
-}
-
-
-
-
+//	for (SportType type : SportType.values()) {
+//	if (type == sporttype) { 
+//	SportType selectedSportType = type; 	
+//	}
+//	if (selectedSportType == null | selected Level == null) { 
+//	throw IllegalArgumentException () ; 	
+//	}
+//	else { 
+//	removeSportFromMap(selectedSportType);
+//	}
+//}
 
 }

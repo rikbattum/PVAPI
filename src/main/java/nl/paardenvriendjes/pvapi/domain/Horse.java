@@ -2,7 +2,9 @@ package nl.paardenvriendjes.pvapi.domain;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,8 +14,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
-
 import nl.paardenvriendjes.enumerations.SportLevel;
+import nl.paardenvriendjes.enumerations.SportType;
 
 @Entity
 public class Horse {
@@ -110,14 +112,15 @@ public class Horse {
 	public void setGeslacht(String geslacht) {
 		this.geslacht = geslacht;
 	}
-	
-	public String getStokmaat() {
+		
+	public int getStokmaat() {
 		return stokmaat;
 	}
-	public void setStokmaatt(int stokmaat) {
+
+	public void setStokmaat(int stokmaat) {
 		this.stokmaat = stokmaat;
 	}
-	
+
 	public String getKarakter() {
 		return karakter;
 	}
@@ -174,13 +177,13 @@ public class Horse {
 		this.paspoort = paspoort;
 	}
 	
-   	public Map getSports() {
-      	return sports;
-   	}
-   	
-   	public void setSports ( Map sports ) {
-      	this.sports = sports;
-   	}
+	public Map<SportType, SportLevel> getSports() {
+		return sports;
+	}
+
+	public void setSports(Map<SportType, SportLevel> sports) {
+		this.sports = sports;
+	}
 
 	public Boolean getActive() {
 		return active;
@@ -209,7 +212,6 @@ public class Horse {
 		result = prime * result + ((events == null) ? 0 : events.hashCode());
 		result = prime * result + ((geboortedatum == null) ? 0 : geboortedatum.hashCode());
 		result = prime * result + ((geslacht == null) ? 0 : geslacht.hashCode());
-		result = prime * result + ((stokmaat == null) ? 0 : stokmaat.hashCode());
 		result = prime * result + ((horseimage1 == null) ? 0 : horseimage1.hashCode());
 		result = prime * result + ((horseimage2 == null) ? 0 : horseimage2.hashCode());
 		result = prime * result + ((horseimage3 == null) ? 0 : horseimage3.hashCode());
@@ -221,6 +223,7 @@ public class Horse {
 		result = prime * result + ((overmijnpaard == null) ? 0 : overmijnpaard.hashCode());
 		result = prime * result + ((paspoort == null) ? 0 : paspoort.hashCode());
 		result = prime * result + ((sports == null) ? 0 : sports.hashCode());
+		result = prime * result + stokmaat;
 		result = prime * result + waarde;
 		return result;
 	}
@@ -258,11 +261,6 @@ public class Horse {
 			if (other.geslacht != null)
 				return false;
 		} else if (!geslacht.equals(other.geslacht))
-			return false;
-		if (stokmaat == null) {
-			if (other.stokmaat != null)
-				return false;
-		} else if (!stokmaat.equals(other.stokmaat))
 			return false;
 		if (horseimage1 == null) {
 			if (other.horseimage1 != null)
@@ -314,7 +312,12 @@ public class Horse {
 				return false;
 		} else if (!paspoort.equals(other.paspoort))
 			return false;
-		if (sports != other.sports)
+		if (sports == null) {
+			if (other.sports != null)
+				return false;
+		} else if (!sports.equals(other.sports))
+			return false;
+		if (stokmaat != other.stokmaat)
 			return false;
 		if (waarde != other.waarde)
 			return false;
@@ -329,10 +332,10 @@ public class Horse {
 			throw new NullPointerException("add null to sportsmap can not be possible");
 		}
 		else { 
-		sports.put(sporttype, sportLevel);
+		sports.put(sporttype, sportlevel);
 		}
 	}
-	
+
 	public void removeSportFromMap(SportType sporttype) { 
 
 

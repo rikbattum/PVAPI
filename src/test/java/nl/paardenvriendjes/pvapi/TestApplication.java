@@ -1,4 +1,4 @@
-package nl.paardenvriendjes.application;
+package nl.paardenvriendjes.pvapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.PropertySources;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@ComponentScan(basePackages = "nl.paardenvriendjes")
+@ComponentScan(basePackages = "nl")
 @EnableAutoConfiguration
 @EnableTransactionManagement
 @PropertySources({
@@ -19,11 +19,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 	})
 
 
-public class Application {
+public class TestApplication {
 
 	public static void main(String[] args) {
 				
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(TestApplication.class, args);
 	}
 		
 }
