@@ -124,7 +124,7 @@ public class MemberDaoImpl extends AbstractDaoService<Member> {
 			List<Member> temp = new ArrayList<Member>();
 			return temp;
 		}
-		criteria.add(Restrictions.eq(interesse, true));
+		criteria.add(Restrictions.eq("interesse."+interesse, true));
 		criteria.add(Restrictions.eq("active", true));
 		criteria.setFirstResult(0);
 		criteria.setMaxResults(50);

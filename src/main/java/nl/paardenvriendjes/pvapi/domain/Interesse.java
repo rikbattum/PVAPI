@@ -30,150 +30,168 @@ public class Interesse {
 	private Boolean wedstrijdsport;
 	private Boolean western;
 
-	public Boolean getBuitenritten() {
+	public Boolean isBuitenritten() {
 		return buitenritten;
 	}
 	public void setBuitenritten(Boolean buitenritten) {
 		this.buitenritten = buitenritten;
 	}
-	public Boolean getDraftsport() {
+	public Boolean isDraftsport() {
 		return draftsport;
 	}
 	public void setDraftsport(Boolean draftsport) {
 		this.draftsport = draftsport;
 	}
-	public Boolean getDressuur() {
+	public Boolean isDressuur() {
 		return dressuur;
 	}
 	public void setDressuur(Boolean dressuur) {
 		this.dressuur = dressuur;
 	}
-	public Boolean getEndurance() {
+	public Boolean isEndurance() {
 		return endurance;
 	}
 	public void setEndurance(Boolean endurance) {
 		this.endurance = endurance;
 	}
-	public Boolean getEventing() {
+	public Boolean isEventing() {
 		return eventing;
 	}
 	public void setEventing(Boolean eventing) {
 		this.eventing = eventing;
 	}
-	public Boolean getFokken() {
+	public Boolean isFokken() {
 		return fokken;
 	}
 	public void setFokken(Boolean fokken) {
 		this.fokken = fokken;
 	}
-	public Boolean getInenverkoop() {
+	public Boolean isInenverkoop() {
 		return inenverkoop;
 	}
 	public void setInenverkoop(Boolean inenverkoop) {
 		this.inenverkoop = inenverkoop;
 	}
-	public Boolean getMennen() {
+	public Boolean isMennen() {
 		return mennen;
 	}
 	public void setMennen(Boolean mennen) {
 		this.mennen = mennen;
 	}
-	public Boolean getNaturalhorsemanship() {
+	public Boolean isNaturalhorsemanship() {
 		return naturalhorsemanship;
 	}
 	public void setNaturalhorsemanship(Boolean naturalhorsemanship) {
 		this.naturalhorsemanship = naturalhorsemanship;
 	}
-	public Boolean getPaardentrainen() {
+	public Boolean isPaardentrainen() {
 		return paardentrainen;
 	}
 	public void setPaardentrainen(Boolean paardentrainen) {
 		this.paardentrainen = paardentrainen;
 	}
-	public Boolean getPaardenverzorgen() {
+	public Boolean isPaardenverzorgen() {
 		return paardenverzorgen;
 	}
 	public void setPaardenverzorgen(Boolean paardenverzorgen) {
 		this.paardenverzorgen = paardenverzorgen;
 	}
-	public Boolean getPolo() {
+	public Boolean isPolo() {
 		return polo;
 	}
 	public void setPolo(Boolean polo) {
 		this.polo = polo;
 	}
-	public Boolean getRensport() {
+	public Boolean isRensport() {
 		return rensport;
 	}
 	public void setRensport(Boolean rensport) {
 		this.rensport = rensport;
 	}
-	public Boolean getRijdenlocatie() {
+	public Boolean isRijdenlocatie() {
 		return rijdenlocatie;
 	}
 	public void setRijdenlocatie(Boolean rijdenlocatie) {
 		this.rijdenlocatie = rijdenlocatie;
 	}
-	public Boolean getRingsteken() {
+	public Boolean isRingsteken() {
 		return ringsteken;
 	}
 	public void setRingsteken(Boolean ringsteken) {
 		this.ringsteken = ringsteken;
 	}
-	public Boolean getRodeo() {
+	public Boolean isRodeo() {
 		return rodeo;
 	}
 	public void setRodeo(Boolean rodeo) {
 		this.rodeo = rodeo;
 	}
-	public Boolean getShowrijden() {
+	public Boolean isShowrijden() {
 		return showrijden;
 	}
 	public void setShowrijden(Boolean showrijden) {
 		this.showrijden = showrijden;
 	}
-	public Boolean getSpringen() {
+	public Boolean isSpringen() {
 		return springen;
 	}
 	public void setSpringen(Boolean springen) {
 		this.springen = springen;
 	}
-	public Boolean getVoedinggezondheid() {
+	public Boolean isVoedinggezondheid() {
 		return voedinggezondheid;
 	}
 	public void setVoedinggezondheid(Boolean voedinggezondheid) {
 		this.voedinggezondheid = voedinggezondheid;
 	}
-	public Boolean getVoltige() {
+	public Boolean isVoltige() {
 		return voltige;
 	}
 	public void setVoltige(Boolean voltige) {
 		this.voltige = voltige;
 	}
-	public Boolean getVoorlichting() {
+	public Boolean isVoorlichting() {
 		return voorlichting;
 	}
 	public void setVoorlichting(Boolean voorlichting) {
 		this.voorlichting = voorlichting;
 	}
-	public Boolean getVossenjacht() {
+	public Boolean isVossenjacht() {
 		return vossenjacht;
 	}
 	public void setVossenjacht(Boolean vossenjacht) {
 		this.vossenjacht = vossenjacht;
 	}
-	public Boolean getWedstrijdsport() {
+	public Boolean isWedstrijdsport() {
 		return wedstrijdsport;
 	}
 	public void setWedstrijdsport(Boolean wedstrijdsport) {
 		this.wedstrijdsport = wedstrijdsport;
 	}
-	public Boolean getWestern() {
+	public Boolean isWestern() {
 		return western;
 	}
 	public void setWestern(Boolean western) {
 		this.western = western;
 	}
+	
+		// toString
+	@Override
+	public String toString() {
+		return "Interesse [buitenritten=" + buitenritten + ", draftsport=" + draftsport + ", dressuur=" + dressuur
+				+ ", endurance=" + endurance + ", eventing=" + eventing + ", fokken=" + fokken + ", inenverkoop="
+				+ inenverkoop + ", mennen=" + mennen + ", naturalhorsemanship=" + naturalhorsemanship
+				+ ", paardentrainen=" + paardentrainen + ", paardenverzorgen=" + paardenverzorgen + ", polo=" + polo
+				+ ", rensport=" + rensport + ", rijdenlocatie=" + rijdenlocatie + ", ringsteken=" + ringsteken
+				+ ", rodeo=" + rodeo + ", showrijden=" + showrijden + ", springen=" + springen + ", voedinggezondheid="
+				+ voedinggezondheid + ", voltige=" + voltige + ", voorlichting=" + voorlichting + ", vossenjacht="
+				+ vossenjacht + ", wedstrijdsport=" + wedstrijdsport + ", western=" + western + "]";
+	}
+
+	
+	// HashCode and Equals
+	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -204,6 +222,7 @@ public class Interesse {
 		result = prime * result + ((western == null) ? 0 : western.hashCode());
 		return result;
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -334,5 +353,5 @@ public class Interesse {
 		} else if (!western.equals(other.western))
 			return false;
 		return true;
-	}
+	}	
 }

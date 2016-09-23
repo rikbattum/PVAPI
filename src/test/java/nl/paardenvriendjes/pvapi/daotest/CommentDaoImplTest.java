@@ -7,14 +7,11 @@ import java.util.List;
 import org.hamcrest.core.Is;
 import org.junit.After;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import nl.paardenvriendjes.hibernate.configuration.HibernateConfiguration;
+import nl.paardenvriendjes.pvapi.abstracttest.AbstractTest;
 import nl.paardenvriendjes.pvapi.daoimpl.CommentDaoImpl;
 import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
 import nl.paardenvriendjes.pvapi.daoimpl.MessageDaoImpl;
@@ -22,10 +19,8 @@ import nl.paardenvriendjes.pvapi.domain.Comment;
 import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.domain.Message;
 
-@ContextConfiguration(classes = HibernateConfiguration.class)
-@RunWith(SpringJUnit4ClassRunner.class)
 
-public class CommentDaoImplTest {
+public class CommentDaoImplTest extends AbstractTest{
 
 	@Autowired
 	private MessageDaoImpl messageService;

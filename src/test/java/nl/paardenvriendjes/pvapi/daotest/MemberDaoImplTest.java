@@ -10,20 +10,16 @@ import java.util.List;
 import org.hamcrest.core.Is;
 import org.junit.After;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import nl.paardenvriendjes.hibernate.configuration.HibernateConfiguration;
+import nl.paardenvriendjes.pvapi.abstracttest.AbstractTest;
 import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
+import nl.paardenvriendjes.pvapi.domain.Interesse;
 import nl.paardenvriendjes.pvapi.domain.Member;
 
-@ContextConfiguration(classes = HibernateConfiguration.class)
-@RunWith(SpringJUnit4ClassRunner.class)
-public class MemberDaoImplTest {
+public class MemberDaoImplTest extends AbstractTest{
 
 	@Autowired
 	private MemberDaoImpl memberService;
@@ -266,9 +262,14 @@ public class MemberDaoImplTest {
 	@Rollback(true)
 	public void testQueryMembersByInteresses() throws Exception {	
 	testUtil.setMembers();
-	List<Member> memberList = memberService.findMemberByLocation("rodeo");
-	assertEquals(memberList.get(0).getInteresse().getRodeo(), true); 
+	List<Member> memberList0 = memberService.listAll();
+	Member x  = memberList0.get(7);
+	x.setInteresse(new Interesse());
+	x.getInteresse().setRodeo(true);
+	memberService.edit(x);
+	List<Member> memberList = memberService.findMemberByInteresse("rodeo");
 	assertEquals(memberList.size(), 1);
+	assertEquals(memberList.get(0).getInteresse().isRodeo(), true); 
 	}	
 	
 	

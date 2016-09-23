@@ -14,20 +14,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.transaction.annotation.Transactional;
-
 import nl.paardenvriendjes.enumerations.LineType;
-import nl.paardenvriendjes.hibernate.configuration.HibernateConfiguration;
+import nl.paardenvriendjes.pvapi.abstracttest.AbstractTest;
 import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
 import nl.paardenvriendjes.pvapi.daoimpl.MessageDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.domain.Message;
 
-@ContextConfiguration(classes = HibernateConfiguration.class)
-
-public class MessageDaoImplTest extends AbstractTransactionalJUnit4SpringContextTests {
+public class MessageDaoImplTest extends AbstractTest {
 
 	@Autowired
 	private MessageDaoImpl messageService;

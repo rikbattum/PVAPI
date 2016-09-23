@@ -202,12 +202,6 @@ public class Member {
 	
 	//ToString
 
-
-	@Override
-	public String toString() {
-		return "Member [id=" + id + ", username=" + username + ", createdon=" + createdonDate + ", geboortedatum="
-				+ geboortedatum + ", email=" + email + "]";
-	}
 	
 
 	//Hashcode and Equals
@@ -238,6 +232,15 @@ public class Member {
 		result = prime * result + ((voornaam == null) ? 0 : voornaam.hashCode());
 		result = prime * result + ((vrienden == null) ? 0 : vrienden.hashCode());
 		return result;
+	}
+	@Override
+	public String toString() {
+		return "Member [id=" + id + ", voornaam=" + voornaam + ", achternaam=" + achternaam + ", username=" + username
+				+ ", createdonDate=" + createdonDate + ", deactivatedDate=" + deactivatedDate + ", geboortedatum="
+				+ geboortedatum + ", email=" + email + ", overmij=" + overmij + ", horses=" + horses + ", interesse="
+				+ interesse + ", profileimage=" + profileimage + ", password=" + password + ", plaatsnaam=" + plaatsnaam
+				+ ", messages=" + messages + ", comments=" + comments + ", likes=" + likes + ", sportLevel="
+				+ sportLevel + ", active=" + active + ", vrienden=" + vrienden + ", events=" + events + "]";
 	}
 	@Override
 	public boolean equals(Object obj) {

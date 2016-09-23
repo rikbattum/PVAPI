@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
+
 import nl.paardenvriendjes.enumerations.SportLevel;
 import nl.paardenvriendjes.enumerations.SportType;
 
@@ -44,6 +46,7 @@ public class Horse {
 	private Paspoort paspoort;
 	@ManyToOne
 	private Member member;
+	@ElementCollection
 	private Map<SportType, SportLevel> sports = new HashMap<SportType, SportLevel>();
 	private Boolean active;
 

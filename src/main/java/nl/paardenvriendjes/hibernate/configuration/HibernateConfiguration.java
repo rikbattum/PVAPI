@@ -48,7 +48,7 @@ public class HibernateConfiguration {
 		Properties properties = new Properties();
 		properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
 		properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-//		properties.put("hibernate.show_sql", "true");
+		properties.put("hibernate.show_sql", "true");
 		properties.put("hibernate.format_sql", "true");
 		properties.put("hibernate.use_sql_comments", "true");
 		properties.put("hibernate.hbm2ddl.auto", "create-drop");

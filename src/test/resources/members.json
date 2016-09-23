@@ -45,9 +45,8 @@
 	"overmij" :  "I like watching horse sport",
 	"profileimage" : "www.image.com/ellis", 
 	"password" : "everm888",
-    "plaatsnaam" : "Utrecht",
-    "rodeo": true
-	} ,   
+    "Plaatsnaam" : "Utrecht"
+    },  
 {
 	"voornaam" : "2Ellise",
 	"achternaam" : "Vermeendt",
@@ -94,8 +93,7 @@
 	"overmij" : "nice guy",  
 	"profileimage" : "www.image.com/turner", 
 	"password" : "121232fdsf",
-    "plaatsnaam" : "Den Helder", 
-    "rodeo": "true"
+    "plaatsnaam" : "Den Helder"
 	}  
 	]
     
