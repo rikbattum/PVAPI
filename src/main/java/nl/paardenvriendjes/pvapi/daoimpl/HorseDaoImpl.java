@@ -1,6 +1,7 @@
 package nl.paardenvriendjes.pvapi.daoimpl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -58,7 +59,7 @@ public class HorseDaoImpl extends AbstractDaoService<Horse> {
 			criteria.setFirstResult(0);
 			criteria.setMaxResults(20);
 			// arrange sort on date; 
-			criteria.addOrder(Order.desc("lastname"));
+			criteria.addOrder(Order.desc("name"));
 			List <Horse> foundHorses =  criteria.list();
 			return foundHorses;
 		}
@@ -76,28 +77,44 @@ public class HorseDaoImpl extends AbstractDaoService<Horse> {
 		criteria.setFirstResult(0);
 		criteria.setMaxResults(20);
 		// arrange sort on lastname; 
-		criteria.addOrder(Order.desc("lastname"));
-		List <Member> foundMembers =  criteria.list();
-		return foundMembers;
+		criteria.addOrder(Order.desc("name"));
+		List <Member> foundHorses =  criteria.list();
+		return foundHorses;
 	}	
 	
-//	public List<Member> findMemberBySportLevel(SportLevel sportlevel) {
-//		Criteria criteria = getCurrentSession().createCriteria(Member.class);
-//		if (location.length()<3) {
-//			
-//			List<Member> temp = new ArrayList <Member>();
-//			return temp; 
-//		}
-//		criteria.add(Restrictions.ilike("plaatsnaam", location, MatchMode.ANYWHERE));
-//		criteria.add(Restrictions. eq("active", true));
-//		criteria.setFirstResult(0);
-//		criteria.setMaxResults(20);
-//		// arrange sort on lastname; 
-//		criteria.addOrder(Order.desc("lastname"));
-//		List <Member> foundMembers =  criteria.list();
-//		return foundMembers;
-//	}	
+	public List<Horse> findHorseBySportType(String sporttype) {
+		Criteria criteria = getCurrentSession().createCriteria(Horse.class, "horse");
+		if (sporttype.length()< 2) {
 
+			List<Horse> temp = new ArrayList<Horse>();
+			return temp;
+		}		
+		criteria.createAlias("horse.sports", "sports");
+		criteria.add(Restrictions.eq("sports.indices", sporttype));
+		criteria.add(Restrictions.eq("active", true));
+		criteria.setFirstResult(0);
+		criteria.setMaxResults(50);
+		// arrange sort on lastname;
+		criteria.addOrder(Order.desc("name"));
+		List<Horse> foundHorses = criteria.list();
+		return foundHorses;
+	}
+	
+	
+	public List<Horse> findHorseByGeboortedatum(Date geboortedatum) {
+		Criteria criteria = getCurrentSession().createCriteria(Horse.class);
+
+		criteria.add(Restrictions.gt("geboortedatum", geboortedatum));
+		criteria.add(Restrictions.eq("active", true));
+		criteria.setFirstResult(0);
+		criteria.setMaxResults(50);
+		// arrange sort on lastname;
+		criteria.addOrder(Order.desc("name"));
+		List<Horse> foundHorses = criteria.list();
+		return foundHorses;
+	}
+
+	
 //public void updateHorseSports(String sporttype, String sportlevel) {
 //	
 //	for (String type : SportType.values()) {

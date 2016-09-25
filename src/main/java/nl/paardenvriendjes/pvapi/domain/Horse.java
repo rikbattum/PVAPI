@@ -47,7 +47,7 @@ public class Horse {
 	@ManyToOne
 	private Member member;
 	@ElementCollection
-	private Map<SportType, SportLevel> sports = new HashMap<SportType, SportLevel>();
+	private Map<String, String> sports = new HashMap<String, String>();
 	private Boolean active;
 
 	// Getters and Setters
@@ -180,11 +180,11 @@ public class Horse {
 		this.paspoort = paspoort;
 	}
 	
-	public Map<SportType, SportLevel> getSports() {
+	public Map<String, String> getSports() {
 		return sports;
 	}
 
-	public void setSports(Map<SportType, SportLevel> sports) {
+	public void setSports(Map<String, String> sports) {
 		this.sports = sports;
 	}
 
@@ -329,7 +329,7 @@ public class Horse {
 	
 	// convenience methods for working with SportsMap
 	
-	public void addSportToMap(SportType sporttype, SportLevel sportlevel) { 
+	public void addSportToMap(String sporttype, String sportlevel) { 
 
 		if (sporttype == null || sportlevel == null) { 
 			throw new NullPointerException("add null to sportsmap can not be possible");
@@ -339,7 +339,7 @@ public class Horse {
 		}
 	}
 
-	public void removeSportFromMap(SportType sporttype) { 
+	public void removeSportFromMap(String sporttype) { 
 
 
 		if (sporttype == null) { 
