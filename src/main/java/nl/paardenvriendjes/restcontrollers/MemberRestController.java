@@ -29,33 +29,35 @@ public class MemberRestController {
 
 	@CrossOrigin
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-    public String welcome() {//Welcome page, non-rest
-        return "Welcome to PVAPI";
-    }	
-	
-	
-	// -------------------Options Call --------------------------------------------------------------
-	
+	public String welcome() {// Welcome page, non-rest
+		return "Welcome to PVAPI";
+	}
+
+	// -------------------Options Call
+	// --------------------------------------------------------------
+
 	@CrossOrigin
 	@RequestMapping(value = "/members", method = RequestMethod.OPTIONS)
 	public ResponseEntity<List<Member>> optionsCall() {
-		ResponseEntity<List<Member>> ent = new ResponseEntity<List<Member>> (HttpStatus.NO_CONTENT);
+		ResponseEntity<List<Member>> ent = new ResponseEntity<List<Member>>(HttpStatus.NO_CONTENT);
 		return ent;
 	}
 
-	// -------------------Retrieve All Members--------------------------------------------------------
-	
+	// -------------------Retrieve All
+	// Members--------------------------------------------------------
+
 	@CrossOrigin
 	@RequestMapping(value = "/members", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Member>> listAllUsers() {
 		List<Member> members = memberservice.listAll();
 		if (members.isEmpty()) {
 			return new ResponseEntity<List<Member>>(HttpStatus.NO_CONTENT);
-			}
+		}
 		return new ResponseEntity<List<Member>>(members, HttpStatus.OK);
 	}
 
-	// -------------------Retrieve Single Member--------------------------------------------------------
+	// -------------------Retrieve Single
+	// Member--------------------------------------------------------
 
 	@CrossOrigin
 	@RequestMapping(value = "/members/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -69,7 +71,8 @@ public class MemberRestController {
 		return new ResponseEntity<Member>(member, HttpStatus.OK);
 	}
 
-	// -------------------Create a member--------------------------------------------------------
+	// -------------------Create a
+	// member--------------------------------------------------------
 
 	@CrossOrigin
 	@RequestMapping(value = "/members/", method = RequestMethod.POST)
@@ -83,7 +86,8 @@ public class MemberRestController {
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
-	// ------------------- Update a Member--------------------------------------------------------
+	// ------------------- Update a
+	// Member--------------------------------------------------------
 
 	@CrossOrigin
 	@RequestMapping(value = "/members/{id}", method = RequestMethod.PUT)
@@ -101,8 +105,9 @@ public class MemberRestController {
 		return new ResponseEntity<Member>(member, HttpStatus.OK);
 	}
 
-	// ------------------- Delete a Member --------------------------------------------------------
-	
+	// ------------------- Delete a Member
+	// --------------------------------------------------------
+
 	@CrossOrigin
 	@RequestMapping(value = "/members/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Member> deleteUser(@PathVariable("id") long id) {
@@ -116,14 +121,100 @@ public class MemberRestController {
 		memberservice.remove(id);
 		return new ResponseEntity<Member>(HttpStatus.NO_CONTENT);
 	}
-	
-	// ------------------- Count all Members --------------------------------------------------------
-	
-		@CrossOrigin
-		@RequestMapping(value = "/members/count", method = RequestMethod.GET)
-		public ResponseEntity<Integer> getUserCount() {
-			log.debug("Fetching user count");
-			int memberTotal = memberservice.count();
-			return new ResponseEntity<Integer>(memberTotal, HttpStatus.OK);
+
+	// ------------------- Count all Members
+	// --------------------------------------------------------
+
+	@CrossOrigin
+	@RequestMapping(value = "/members/count", method = RequestMethod.GET)
+	public ResponseEntity<Integer> getUserCount() {
+		log.debug("Fetching user count");
+		int memberTotal = memberservice.count();
+		return new ResponseEntity<Integer>(memberTotal, HttpStatus.OK);
+	}
+
+	// ------------------- Find Member by firstname
+	// -------------------------------------------------
+
+	@CrossOrigin
+	@RequestMapping(value = "/members/find/firstname", method = RequestMethod.GET)
+	public ResponseEntity<List<Member>> findMemberByFirstName(@PathVariable("firstname") String firstname) {
+		log.debug("Fetching member by firstname");
+		List<Member> members = memberservice.findMemberByFirstName(firstname);
+		if (members.isEmpty()) {
+			return new ResponseEntity<List<Member>>(HttpStatus.NO_CONTENT);
 		}
+		return new ResponseEntity<List<Member>>(members, HttpStatus.OK);
+	}
+
+	// ------------------- Find Member by lastname
+	// -------------------------------------------------
+
+	@CrossOrigin
+	@RequestMapping(value = "/members/find/lastname", method = RequestMethod.GET)
+	public ResponseEntity<List<Member>> findMemberByLasttName(@PathVariable("lastname") String lastname) {
+		log.debug("Fetching member by lastname");
+		List<Member> members = memberservice.findMemberByLastName(lastname);
+		if (members.isEmpty()) {
+			return new ResponseEntity<List<Member>>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<Member>>(members, HttpStatus.OK);
+	}
+
+	// ------------------- Find Member by fullname
+	// -------------------------------------------------
+
+	@CrossOrigin
+	@RequestMapping(value = "/members/find/fullname", method = RequestMethod.GET)
+	public ResponseEntity<List<Member>> findMemberByFullName(@PathVariable("firstname") String firstname,
+			@PathVariable("lastName") String lastname) {
+		log.debug("Fetching member by FullName");
+		List<Member> members = memberservice.findMemberByFirstAndLastName(firstname, lastname);
+		if (members.isEmpty()) {
+			return new ResponseEntity<List<Member>>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<Member>>(members, HttpStatus.OK);
+	}
+	
+	// ------------------- Find Member by location
+	// -------------------------------------------------
+
+	@CrossOrigin
+	@RequestMapping(value = "/members/find/location", method = RequestMethod.GET)
+	public ResponseEntity<List<Member>> findMemberByLocation(@PathVariable("location") String location) {
+		log.debug("Fetching member by location");
+		List<Member> members = memberservice.findMemberByLocation(location);
+		if (members.isEmpty()) {
+			return new ResponseEntity<List<Member>>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<Member>>(members, HttpStatus.OK);
+	}
+
+	// ------------------- Find Member by interesse
+	// -------------------------------------------------
+
+	@CrossOrigin
+	@RequestMapping(value = "/members/find/interesse", method = RequestMethod.GET)
+	public ResponseEntity<List<Member>> findMemberByInteresse(@PathVariable("interesse") String interesse) {
+		log.debug("Fetching member by interesse");
+		List<Member> members = memberservice.findMemberByInteresse(interesse);
+		if (members.isEmpty()) {
+			return new ResponseEntity<List<Member>>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<Member>>(members, HttpStatus.OK);
+	}
+	
+	// ------------------- Find Member by sporttype
+	// -------------------------------------------------
+
+	@CrossOrigin
+	@RequestMapping(value = "/members/find/sporttype", method = RequestMethod.GET)
+	public ResponseEntity<List<Member>> findMemberBySportType(@PathVariable("sporttype") String sporttype) {
+		log.debug("Fetching member by sporttype");
+		List<Member> members = memberservice.findMemberBySportType(sporttype);
+		if (members.isEmpty()) {
+			return new ResponseEntity<List<Member>>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<Member>>(members, HttpStatus.OK);
+	}	
 }

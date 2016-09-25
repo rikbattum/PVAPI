@@ -1,9 +1,7 @@
 package nl.paardenvriendjes.pvapi.daoimpl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -15,8 +13,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import nl.paardenvriendjes.enumerations.SportLevel;
-import nl.paardenvriendjes.enumerations.SportType;
+
 import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.service.AbstractDaoService;
 
