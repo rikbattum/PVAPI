@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hamcrest.core.Is;
 import org.junit.After;
 import org.junit.Test;
@@ -14,8 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import nl.paardenvriendjes.pvapi.abstracttest.AbstractTest;
 import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
+import nl.paardenvriendjes.pvapi.daoimpl.MessageDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Interesse;
 import nl.paardenvriendjes.pvapi.domain.Member;
 
@@ -28,6 +32,8 @@ public class MemberDaoImplTest extends AbstractTest{
 	private TestUtil testUtil;
 
 	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+	static Logger log = Logger.getLogger(MemberDaoImplTest.class.getName());
+	ObjectMapper mapper = new ObjectMapper();
 	
 	public void initialize() {
 
@@ -267,11 +273,26 @@ public class MemberDaoImplTest extends AbstractTest{
 	x.setInteresse(new Interesse());
 	x.getInteresse().setRodeo(true);
 	memberService.edit(x);
+	log.debug("extraneus" + mapper.writeValueAsString(x));
+
 	List<Member> memberList = memberService.findMemberByInteresse("rodeo");
 	assertEquals(memberList.size(), 1);
 	assertEquals(memberList.get(0).getInteresse().isRodeo(), true); 
+	}
+	
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testQueryMembersBySportTypes() throws Exception {	
+	testUtil.setMembers();
+	List<Member> memberList0 = memberService.listAll();
+	Member x  = memberList0.get(5);
+	x.getSports().put("Mennen", "Recreatief");
+	memberService.edit(x);
+	
+	List<Member> memberList = memberService.findMemberBySportType("Mennen");
+	assertEquals(memberList.size(), 1);
+	assertEquals(memberList.get(0).getSports().get("Mennen"), "Recreatief"); 
+	assertEquals(memberList.get(0).getSports().get("Rodeo"), null);
 	}	
-	
-	
-	
 }

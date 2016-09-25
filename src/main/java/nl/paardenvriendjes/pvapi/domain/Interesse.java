@@ -1,9 +1,11 @@
 package nl.paardenvriendjes.pvapi.domain;
 
 import javax.persistence.Embeddable;
+import javax.validation.constraints.NotNull;
 
 @Embeddable
 public class Interesse {
+
 
 	private Boolean buitenritten;
 	private Boolean draftsport;
@@ -29,7 +31,7 @@ public class Interesse {
 	private Boolean vossenjacht;
 	private Boolean wedstrijdsport;
 	private Boolean western;
-
+	
 	public Boolean isBuitenritten() {
 		return buitenritten;
 	}

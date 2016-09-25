@@ -1,7 +1,9 @@
 package nl.paardenvriendjes.pvapi.daoimpl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -13,7 +15,8 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
+import nl.paardenvriendjes.enumerations.SportLevel;
+import nl.paardenvriendjes.enumerations.SportType;
 import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.service.AbstractDaoService;
 
@@ -134,6 +137,60 @@ public class MemberDaoImpl extends AbstractDaoService<Member> {
 		return foundMembers;
 	}
 	
+	public List<Member> findMemberBySportType(String sporttype) {
+		Criteria criteria = getCurrentSession().createCriteria(Member.class, "memb");
+		if (sporttype.length()< 2) {
+
+			List<Member> temp = new ArrayList<Member>();
+			return temp;
+		}		
+		criteria.createAlias("memb.sports", "sports");
+		criteria.add(Restrictions.eq("sports.indices", sporttype));
+		criteria.add(Restrictions.eq("active", true));
+		criteria.setFirstResult(0);
+		criteria.setMaxResults(50);
+		// arrange sort on lastname;
+		criteria.addOrder(Order.desc("achternaam"));
+		List<Member> foundMembers = criteria.list();
+		return foundMembers;
+	}
+	
+	// Convenience Methods for sportsmap
+	
+	//public void updateHorseSports(String sporttype, String sportlevel) {
+//	
+//	for (String type : SportType.values()) {
+//	if (type == sporttype) { 
+//	SportType selectedSportType = type; 	
+//	}
+//	}
+//	for (SportLevel level : SportLevel.values()) { 
+//	if (level == sportlevel) { 
+//	SportLevel selectedSportLevel = level; 	
+//	}	
+//	}
+//	if (selectedSportLevel == null) { 
+//	throw IllegalArgumentException () ; 	
+//	}
+//	else { 
+//	addSportToMap(selectedSportType, selectedSportLevel);
+//	}
+//}
+//
+//public void deleteHorseSports(String sportype, String sportlevel) {
+	
+//	for (SportType type : SportType.values()) {
+//	if (type == sporttype) { 
+//	SportType selectedSportType = type; 	
+//	}
+//	if (selectedSportType == null | selected Level == null) { 
+//	throw IllegalArgumentException () ; 	
+//	}
+//	else { 
+//	removeSportFromMap(selectedSportType);
+//	}
+//}
+
 	
 	
 	

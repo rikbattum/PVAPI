@@ -111,7 +111,7 @@ public class MessageDaoImpl extends AbstractDaoService<Message> {
 		//get 3 week period
 		criteria.add(Restrictions.between("insertDate", getTimeLineLapse (21), new Date()));
 		//get messages of friends only
-		criteria.add(Restrictions.in("member", x.getvrienden()));
+		criteria.add(Restrictions.in("member", x.getVrienden()));
 		// set pages 
 		criteria.setFirstResult(start);
 		criteria.setMaxResults(pageSize);

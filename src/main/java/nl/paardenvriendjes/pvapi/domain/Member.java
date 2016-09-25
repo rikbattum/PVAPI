@@ -2,11 +2,16 @@ package nl.paardenvriendjes.pvapi.domain;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Basic;
+import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,6 +26,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 import nl.paardenvriendjes.enumerations.SportLevel;
+import nl.paardenvriendjes.enumerations.SportType;
 
 @Entity
 public class Member {
@@ -43,8 +49,8 @@ public class Member {
 	@OneToMany (mappedBy = "member")
 	@Cascade({CascadeType.ALL})
 	private List <Horse> horses;
-	@Embedded
-	@Basic(fetch=FetchType.EAGER)  //probably not needed
+//	@Embedded
+//	@Basic(fetch=FetchType.EAGER)  //probably not needed
 	private Interesse interesse;
     private String profileimage;
 	private String password;
@@ -62,6 +68,8 @@ public class Member {
     private List <Member> vrienden = new ArrayList<Member>();
     @ManyToMany
     private List <Event> events = new ArrayList<Event> ();
+	@ElementCollection
+	private Map<String, String> sports = new HashMap<String, String>();
     
     //Getters and Setters
    
@@ -181,12 +189,6 @@ public class Member {
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
-	public List<Member> getvrienden() {
-		return vrienden;
-	}
-	public void setvrienden(List<Member> vrienden) {
-		this.vrienden = vrienden;		
-	}
 	public List<Event> getEvents() {
 		return events;
 	}
@@ -199,11 +201,27 @@ public class Member {
 	public void setVrienden(List<Member> vrienden) {
 		this.vrienden = vrienden;
 	}
+	public Map<String, String> getSports() {
+		return sports;
+	}
+	public void setSports(Map<String, String> sports) {
+		this.sports = sports;
+	}
+	
 	
 	//ToString
-
 	
-
+	@Override
+	public String toString() {
+		return "Member [id=" + id + ", voornaam=" + voornaam + ", achternaam=" + achternaam + ", username=" + username
+				+ ", createdonDate=" + createdonDate + ", deactivatedDate=" + deactivatedDate + ", geboortedatum="
+				+ geboortedatum + ", email=" + email + ", overmij=" + overmij + ", horses=" + horses + ", interesse="
+				+ interesse + ", profileimage=" + profileimage + ", password=" + password + ", plaatsnaam=" + plaatsnaam
+				+ ", messages=" + messages + ", comments=" + comments + ", likes=" + likes + ", sportLevel="
+				+ sportLevel + ", active=" + active + ", vrienden=" + vrienden + ", events=" + events + ", sports="
+				+ sports + "]";
+	}
+	
 	//Hashcode and Equals
 	
 	@Override
@@ -228,19 +246,11 @@ public class Member {
 		result = prime * result + ((plaatsnaam == null) ? 0 : plaatsnaam.hashCode());
 		result = prime * result + ((profileimage == null) ? 0 : profileimage.hashCode());
 		result = prime * result + ((sportLevel == null) ? 0 : sportLevel.hashCode());
+		result = prime * result + ((sports == null) ? 0 : sports.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		result = prime * result + ((voornaam == null) ? 0 : voornaam.hashCode());
 		result = prime * result + ((vrienden == null) ? 0 : vrienden.hashCode());
 		return result;
-	}
-	@Override
-	public String toString() {
-		return "Member [id=" + id + ", voornaam=" + voornaam + ", achternaam=" + achternaam + ", username=" + username
-				+ ", createdonDate=" + createdonDate + ", deactivatedDate=" + deactivatedDate + ", geboortedatum="
-				+ geboortedatum + ", email=" + email + ", overmij=" + overmij + ", horses=" + horses + ", interesse="
-				+ interesse + ", profileimage=" + profileimage + ", password=" + password + ", plaatsnaam=" + plaatsnaam
-				+ ", messages=" + messages + ", comments=" + comments + ", likes=" + likes + ", sportLevel="
-				+ sportLevel + ", active=" + active + ", vrienden=" + vrienden + ", events=" + events + "]";
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -338,6 +348,11 @@ public class Member {
 			return false;
 		if (sportLevel != other.sportLevel)
 			return false;
+		if (sports == null) {
+			if (other.sports != null)
+				return false;
+		} else if (!sports.equals(other.sports))
+			return false;
 		if (username == null) {
 			if (other.username != null)
 				return false;
@@ -414,7 +429,7 @@ public class Member {
 			if (member == null) { 
 				throw new NullPointerException("add null member can not be possible");
 			}
-			getvrienden().add(member);
+			getVrienden().add(member);
 		}
 		
 		public void removeFriend(Member member) { 
@@ -422,6 +437,6 @@ public class Member {
 			if (member == null) { 
 				throw new NullPointerException("remove null member can not be possible");
 			}
-			getvrienden().remove(member);
+			getVrienden().remove(member);
 		}	
 }

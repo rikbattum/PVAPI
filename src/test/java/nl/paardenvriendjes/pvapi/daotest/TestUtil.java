@@ -2,6 +2,7 @@ package nl.paardenvriendjes.pvapi.daotest;
 
 import java.io.FileReader;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
+import nl.paardenvriendjes.pvapi.domain.Interesse;
 import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.domain.Message;
 
@@ -73,14 +75,11 @@ public class TestUtil {
 			obj = parser.parse(new FileReader("src/test/resources/messages.json"));
 			JSONArray messages = (JSONArray) obj;
 			System.out.println("Succes getting messages file!");
-			
-			
-						
+								
 			for (Object message : messages) {
 				JSONObject messageX = (JSONObject) message;
 				System.out.println(messageX);
 				Message m = new Message();
-				System.out.println("testRik");
 				// create randomizer for members out of testdata	
 				Random randomGenerator = new Random(); 
 				int index = randomGenerator.nextInt(memberList.size());
