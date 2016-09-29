@@ -2,7 +2,6 @@ package nl.paardenvriendjes.pvapi.daotest;
 
 import java.io.FileReader;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -12,8 +11,8 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import nl.paardenvriendjes.enumerations.Place;
 import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
-import nl.paardenvriendjes.pvapi.domain.Interesse;
 import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.domain.Message;
 
@@ -47,7 +46,7 @@ public class TestUtil {
 				m.setEmail((String) memberX.get("email"));
 				m.setOvermij((String) memberX.get("overmij"));
 				m.setPassword((String) memberX.get("password"));
-				m.setPlaatsnaam((String) memberX.get("plaatsnaam"));
+				m.setPlace(Place.AALDEN);
 				m.setProfileimage((String) memberX.get("profileimage"));
 				memberService.save(m);
 			}

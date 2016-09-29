@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 
@@ -27,11 +29,14 @@ public class Paspoort {
 		private String paspoortName;
 		@OneToOne
 		private Horse horse;
-		private Boolean active; 
+		private Boolean active;
+		@Temporal(TemporalType.DATE)
 		private Date createdOn;
+		@Temporal(TemporalType.DATE)
 		private Date deactivatedDate;
 		@OneToMany 
 		private List <Event> events = new ArrayList<Event>();
+		
 		public Long getId() {
 			return id;
 		}
@@ -66,8 +71,8 @@ public class Paspoort {
 		public Date getDeactivatedDate() {
 			return deactivatedDate;
 		}
-		public void setDeactivatedDate(Date deactivatedDate) {
-			this.deactivatedDate = deactivatedDate;
+		public void setDeactivatedDate() {
+			this.deactivatedDate = new Date();
 		}
 		public List<Event> getEvents() {
 			return events;
@@ -134,7 +139,6 @@ public class Paspoort {
 				return false;
 			return true;
 		}
-	
 		
 		// convenience methods for cardinality with events
 		

@@ -8,16 +8,19 @@ import java.util.Map;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
-import nl.paardenvriendjes.enumerations.SportLevel;
-import nl.paardenvriendjes.enumerations.SportType;
+import nl.paardenvriendjes.enumerations.PaardType;
 
 @Entity
 public class Horse {
@@ -33,6 +36,7 @@ public class Horse {
 	private String horseimage2;
 	private String horseimage3;
 	private String afstamming;
+	@Temporal(TemporalType.DATE)
 	private Date geboortedatum;
 	private String geslacht;
 	private int stokmaat; 
@@ -40,6 +44,10 @@ public class Horse {
 	private String overmijnpaard;
 	private Boolean overleden;
 	private int waarde;
+	@Temporal(TemporalType.DATE)
+	private Date createdonDate;
+	@Temporal(TemporalType.DATE)
+	private Date deactivatedDate;
 	@ManyToMany
 	private List<Event> events = new ArrayList<Event>();
 	@OneToOne
@@ -48,6 +56,8 @@ public class Horse {
 	private Member member;
 	@ElementCollection
 	private Map<String, String> sports = new HashMap<String, String>();
+	@Enumerated(EnumType.STRING)
+	private PaardType paardType; 
 	private Boolean active;
 
 	// Getters and Setters
@@ -195,23 +205,52 @@ public class Horse {
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
+	public PaardType getPaardType() {
+		return paardType;
+	}
 
+	public void setPaardType(PaardType paardType) {
+		this.paardType = paardType;
+	}
+	public Date getCreatedonDate() {
+		return createdonDate;
+	}
+
+	public void setCreatedonDate() {
+		// set date from backend
+		this.createdonDate = new Date();
+	}
+	
+	public Date getDeactivatedDate() {
+		return deactivatedDate;
+	}
+
+	public void setDeactivatedDate() {
+		// set date from backend
+		this.deactivatedDate = new Date();
+	} 	
+	
 	// toString
-
 	@Override
 	public String toString() {
-		return "Horse [id=" + id + ", name=" + name + ", afstamming=" + afstamming + ", geboortedatum=" + geboortedatum
-				+ ", geslacht=" + geslacht + "]";
+		return "Horse [id=" + id + ", name=" + name + ", horseimage1=" + horseimage1 + ", horseimage2=" + horseimage2
+				+ ", horseimage3=" + horseimage3 + ", afstamming=" + afstamming + ", geboortedatum=" + geboortedatum
+				+ ", geslacht=" + geslacht + ", stokmaat=" + stokmaat + ", karakter=" + karakter + ", overmijnpaard="
+				+ overmijnpaard + ", overleden=" + overleden + ", waarde=" + waarde + ", createdonDate=" + createdonDate
+				+ ", deactivatedDate=" + deactivatedDate + ", events=" + events + ", paspoort=" + paspoort + ", member="
+				+ member + ", sports=" + sports + ", paardType=" + paardType + ", active=" + active + "]";
 	}
 
 	// Hashcode and equals
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((active == null) ? 0 : active.hashCode());
 		result = prime * result + ((afstamming == null) ? 0 : afstamming.hashCode());
+		result = prime * result + ((createdonDate == null) ? 0 : createdonDate.hashCode());
+		result = prime * result + ((deactivatedDate == null) ? 0 : deactivatedDate.hashCode());
 		result = prime * result + ((events == null) ? 0 : events.hashCode());
 		result = prime * result + ((geboortedatum == null) ? 0 : geboortedatum.hashCode());
 		result = prime * result + ((geslacht == null) ? 0 : geslacht.hashCode());
@@ -224,6 +263,7 @@ public class Horse {
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((overleden == null) ? 0 : overleden.hashCode());
 		result = prime * result + ((overmijnpaard == null) ? 0 : overmijnpaard.hashCode());
+		result = prime * result + ((paardType == null) ? 0 : paardType.hashCode());
 		result = prime * result + ((paspoort == null) ? 0 : paspoort.hashCode());
 		result = prime * result + ((sports == null) ? 0 : sports.hashCode());
 		result = prime * result + stokmaat;
@@ -249,6 +289,16 @@ public class Horse {
 			if (other.afstamming != null)
 				return false;
 		} else if (!afstamming.equals(other.afstamming))
+			return false;
+		if (createdonDate == null) {
+			if (other.createdonDate != null)
+				return false;
+		} else if (!createdonDate.equals(other.createdonDate))
+			return false;
+		if (deactivatedDate == null) {
+			if (other.deactivatedDate != null)
+				return false;
+		} else if (!deactivatedDate.equals(other.deactivatedDate))
 			return false;
 		if (events == null) {
 			if (other.events != null)
@@ -309,6 +359,8 @@ public class Horse {
 			if (other.overmijnpaard != null)
 				return false;
 		} else if (!overmijnpaard.equals(other.overmijnpaard))
+			return false;
+		if (paardType != other.paardType)
 			return false;
 		if (paspoort == null) {
 			if (other.paspoort != null)

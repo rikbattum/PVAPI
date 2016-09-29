@@ -8,7 +8,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import nl.paardenvriendjes.customeditors.PaardTypeEditor;
 import nl.paardenvriendjes.pvapi.daoimpl.HorseDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Horse;
 
@@ -24,8 +27,13 @@ public class HorseRestController {
 	
 	@Autowired
 	private HorseDaoImpl horseservice;
-
 	static Logger log = Logger.getLogger(HorseDaoImpl.class.getName());
+	
+	@InitBinder//("EnumEnitBinder")
+	protected void initBinder(WebDataBinder binder) {
+		binder.registerCustomEditor(String.class, "paardType", new PaardTypeEditor());
+	}
+	
 	
 	// -------------------Options Call --------------------------------------------------------------
 	

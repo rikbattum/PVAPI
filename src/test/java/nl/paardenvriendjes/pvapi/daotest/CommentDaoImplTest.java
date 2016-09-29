@@ -19,9 +19,8 @@ import nl.paardenvriendjes.pvapi.domain.Comment;
 import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.domain.Message;
 
-
 public class CommentDaoImplTest extends AbstractTest{
-
+	
 	@Autowired
 	private MessageDaoImpl messageService;
 	@Autowired
@@ -43,7 +42,6 @@ public class CommentDaoImplTest extends AbstractTest{
 
 		// Arrange
 		testUtil.runMessagesPost();
-		List<Message> messages = messageService.listAll();
 		Message messageOne = messageService.listAll().get(0);
 		Member memberOne = messageOne.getMember();
 
@@ -69,7 +67,6 @@ public class CommentDaoImplTest extends AbstractTest{
 
 		// Arrange
 		testUtil.runMessagesPost();
-		List<Message> messages = messageService.listAll();
 		Message messageOne = messageService.listAll().get(0);
 		Member memberOne = messageOne.getMember();
 		Comment commentOne = new Comment();
@@ -80,7 +77,6 @@ public class CommentDaoImplTest extends AbstractTest{
 		messageOne.getCommentlist().add(commentOne);
 		memberService.save(memberOne);
 
-		List<Message> messages2 = messageService.listAll();
 		Message messageTwo = messageService.listAll().get(0);
 		assertThat(messageTwo.getCommentlist().get(0).getComment(), Is.is("leuke update!"));
 		messageTwo.getCommentlist().get(0).setComment("Update");
@@ -95,7 +91,6 @@ public class CommentDaoImplTest extends AbstractTest{
 
 		// Arrange
 				testUtil.runMessagesPost();
-				List<Message> messages = messageService.listAll();
 				Message messageOne = messageService.listAll().get(0);
 				Member memberOne = messageOne.getMember();
 	

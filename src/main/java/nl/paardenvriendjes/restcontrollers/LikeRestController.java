@@ -8,7 +8,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import nl.paardenvriendjes.customeditors.LikeTypeEditor;
 import nl.paardenvriendjes.pvapi.daoimpl.LikeDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Like;
 
@@ -26,6 +29,11 @@ public class LikeRestController {
 	private LikeDaoImpl likeservice;
 
 	static Logger log = Logger.getLogger(LikeDaoImpl.class.getName());
+	
+	@InitBinder//("EnumEnitBinder")
+	protected void initBinder(WebDataBinder binder) {
+		binder.registerCustomEditor(String.class, "liketype", new LikeTypeEditor());
+	}
 	
 	// -------------------Options Call --------------------------------------------------------------
 	

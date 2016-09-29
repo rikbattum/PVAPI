@@ -1,12 +1,11 @@
 package nl.paardenvriendjes.pvapi.daotest;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.hamcrest.core.Is;
 import org.junit.After;
@@ -14,9 +13,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import nl.paardenvriendjes.enumerations.Place;
 import nl.paardenvriendjes.pvapi.abstracttest.AbstractTest;
 import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Interesse;
@@ -77,7 +75,7 @@ public class MemberDaoImplTest extends AbstractTest{
 		assertThat(x.getVoornaam(), Is.is("Rik"));
 		assertThat(x.getGeboortedatum().toString(), Is.is("Fri Jan 12 00:06:00 CET 1979"));
 		assertThat(simpleDateFormat.format(x.getCreatedonDate()), Is.is(simpleDateFormat.format(new Date())));
-		assertThat(x.getPlaatsnaam(), Is.is("Hilversum"));
+		assertThat(x.getPlace().toString(), Is.is("AALDEN"));
 		assertThat(x.getProfileimage(), Is.is("www.image.com/rik"));
 		assertThat(x.getOvermij(), Is.is("ik ben een paardenliefhebber"));
 		assertThat(x.getUsername(), Is.is("rikbattum"));
@@ -129,7 +127,8 @@ public class MemberDaoImplTest extends AbstractTest{
 		List<Member> memberListAgain = memberService.listAll();
 
 		// Assert
-		assertThat(memberListAgain.size(), Is.is(7));
+		assertThat(memberListAgain.size(), Is.is(8));
+		assertFalse(memberListAgain.get(7).getActive());
 	}
 
 	@Test
@@ -147,7 +146,7 @@ public class MemberDaoImplTest extends AbstractTest{
 		// Act
 		Member member = memberList.get(0);
 		member.setEmail("test@nu.nl");
-		member.setPlaatsnaam("emmeloord");
+		member.setPlace(Place.EMMELOORD);
 		Long id = member.getId();
 		memberService.edit(member);
 
@@ -156,7 +155,7 @@ public class MemberDaoImplTest extends AbstractTest{
 		// Assert
 		assertThat(memberListAgain.size(), Is.is(8));
 		Member memberUpdated = memberService.listOne(id);
-		assertThat(memberUpdated.getPlaatsnaam(), Is.is("emmeloord"));
+		assertThat(memberUpdated.getPlace().toString(), Is.is("EMMELOORD"));
 		assertThat(memberUpdated.getEmail(), Is.is("test@nu.nl"));
 		assertThat(memberUpdated.getId(), Is.is(id));
 	}
@@ -257,9 +256,12 @@ public class MemberDaoImplTest extends AbstractTest{
 	@Rollback(true)
 	public void testQueryMembersByLocation() throws Exception {	
 	testUtil.setMembers();
-	List<Member> memberList = memberService.findMemberByLocation("leeuwarden");
-	assertEquals(memberList.size(), 1);
-	assertEquals(memberList.get(0).getPlaatsnaam(), "Leeuwarden"); 
+	List<Member> memberList = memberService.listAll();
+	Member memberx = memberList.get(0);
+	memberx.setPlace(Place.DESTEEG);
+	List<Member> memberListLocation = memberService.findMemberByLocation("DE STEEG");
+	assertEquals(memberListLocation.size(), 1);
+	assertEquals(memberListLocation.get(0).getPlace().getValue(), "DE STEEG"); 
 	}	
 	
 	@Test
@@ -270,13 +272,13 @@ public class MemberDaoImplTest extends AbstractTest{
 	List<Member> memberList0 = memberService.listAll();
 	Member x  = memberList0.get(7);
 	x.setInteresse(new Interesse());
-	x.getInteresse().setRodeo(true);
+	x.getInteresse().setLesgeven(true);
 	memberService.edit(x);
 	log.debug("extraneus" + mapper.writeValueAsString(x));
 
-	List<Member> memberList = memberService.findMemberByInteresse("rodeo");
+	List<Member> memberList = memberService.findMemberByInteresse("lesgeven");
 	assertEquals(memberList.size(), 1);
-	assertEquals(memberList.get(0).getInteresse().isRodeo(), true); 
+	assertEquals(memberList.get(0).getInteresse().getLesgeven(), true); 
 	}
 	
 	@Test

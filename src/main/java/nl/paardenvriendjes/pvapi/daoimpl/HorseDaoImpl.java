@@ -21,13 +21,14 @@ import nl.paardenvriendjes.pvapi.service.AbstractDaoService;
 
 @Repository
 @Transactional
+@SuppressWarnings("unchecked")
 public class HorseDaoImpl extends AbstractDaoService<Horse> {
 
-	static Logger log = Logger.getLogger(MessageDaoImpl.class.getName());
-	
-	@Autowired
-	SessionFactory sessionFactory;
-	
+static Logger log = Logger.getLogger(MessageDaoImpl.class.getName());
+
+@Autowired
+SessionFactory sessionFactory;
+
 	private Session getCurrentSession() {
 		return sessionFactory.getCurrentSession();
 	}
@@ -36,14 +37,39 @@ public class HorseDaoImpl extends AbstractDaoService<Horse> {
 		super(Horse.class);
 	}	
 	
+@Override	
 	public void save(Horse horse) {
 		// if (!horse.getSports().isEmpty()) {
 		// horse.getSports().forEach( (key,value) -> updateHorseSports(key, value));
+		horse.setCreatedonDate();
+		horse.setActive(true);
 		getCurrentSession().persist(horse);
 		log.debug("saved One: " + horse.toString());
 			}
-		//	}
-	
+
+@Override
+	public void remove(Long id) {
+		try {
+			Horse horseToBeRemoved = (Horse) getCurrentSession().load(Horse.class, id);
+			horseToBeRemoved.setActive(false);
+			horseToBeRemoved.setDeactivatedDate();
+			getCurrentSession().saveOrUpdate(horseToBeRemoved);
+			log.debug("Deactivated Horse " + horseToBeRemoved.toString());
+		} catch (Exception e) {
+			log.error("Horse to be deactivated not successfull for id: " + id);
+		}
+	}
+
+public void reactivate(Long id) { 
+	try {
+		Horse horseToBeReactivated = (Horse) getCurrentSession().load(Horse.class, id);
+		horseToBeReactivated.setActive(true);
+		getCurrentSession().saveOrUpdate(horseToBeReactivated);
+		log.debug("Reactivated Horse " + horseToBeReactivated.toString());
+	} catch (Exception e) {
+		log.error("Horse to be reactivated not successfull for id: " + id);
+	}
+}
 	
 	public List<Horse> findHorseByName(String name) {
 		

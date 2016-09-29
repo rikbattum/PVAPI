@@ -13,27 +13,51 @@ import nl.paardenvriendjes.pvapi.service.AbstractDaoService;
 @Repository
 @Transactional
 
-public class PaspoortDaoImpl extends AbstractDaoService<Paspoort>{
-	
-	
+public class PaspoortDaoImpl extends AbstractDaoService<Paspoort> {
+
 	static Logger log = Logger.getLogger(MessageDaoImpl.class.getName());
-	
+
 	@Autowired
 	SessionFactory sessionFactory;
-	
+
 	private Session getCurrentSession() {
 		return sessionFactory.getCurrentSession();
 	}
-	
+
 	public PaspoortDaoImpl() {
 		super(Paspoort.class);
 	}
-	
+
 	@Override
 	public void save(Paspoort paspoort) {
 		paspoort.setCreatedOn();
+		paspoort.setActive(true);
 		getCurrentSession().persist(paspoort);
 		log.debug("saved One: " + paspoort.toString());
 	}
-	
+
+	@Override
+	public void remove(Long id) {
+		try {
+			Paspoort paspoortToBeRemoved = (Paspoort) getCurrentSession().load(Paspoort.class, id);
+			paspoortToBeRemoved.setActive(false);
+			paspoortToBeRemoved.setDeactivatedDate();
+			getCurrentSession().saveOrUpdate(paspoortToBeRemoved);
+			log.debug("Deactivated Paspoort " + paspoortToBeRemoved.toString());
+		} catch (Exception e) {
+			log.error("Paspoort to be deactivated not successfull for id: " + id);
+		}
+	}
+
+	public void reactivate(Long id) {
+		try {
+			Paspoort paspoortToBeReactivated = (Paspoort) getCurrentSession().load(Paspoort.class, id);
+			paspoortToBeReactivated.setActive(true);
+			getCurrentSession().saveOrUpdate(paspoortToBeReactivated);
+			log.debug("Reactivated Paspoort" + paspoortToBeReactivated.toString());
+		} catch (Exception e) {
+			log.error("Paspoort to be reactivated not successfull for id: " + id);
+		}
+	}
+
 }

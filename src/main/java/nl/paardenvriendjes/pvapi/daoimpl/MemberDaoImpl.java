@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import nl.paardenvriendjes.customeditors.LocationTypeEditor;
+import nl.paardenvriendjes.enumerations.Place;
 import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.service.AbstractDaoService;
 
@@ -42,6 +44,30 @@ public class MemberDaoImpl extends AbstractDaoService<Member> {
 		getCurrentSession().persist(member);
 		log.debug("saved One: " + member.toString());
 	}
+	
+	@Override
+	public void remove(Long id) {
+		try {
+			Member memberToBeRemoved = (Member) getCurrentSession().load(Member.class, id);
+			memberToBeRemoved.setActive(false);
+			memberToBeRemoved.setDeactivatedDate();
+			getCurrentSession().saveOrUpdate(memberToBeRemoved);
+			log.debug("Deactivated Horse " + memberToBeRemoved.toString());
+		} catch (Exception e) {
+			log.error("Member to be deactivated not successfull for id: " + id);
+		}
+	}
+
+	public void reactivate(Long id) { 
+	try {
+		Member memberToBeReactivated = (Member) getCurrentSession().load(Member.class, id);
+		memberToBeReactivated.setActive(true);
+		getCurrentSession().saveOrUpdate(memberToBeReactivated);
+		log.debug("Reactivated Member" + memberToBeReactivated.toString());
+	} catch (Exception e) {
+		log.error("Member to be reactivated not successfull for id: " + id);
+	}
+}
 
 	public List<Member> findMemberByFirstName(String firstname) {
 		Criteria criteria = getCurrentSession().createCriteria(Member.class);
@@ -100,13 +126,15 @@ public class MemberDaoImpl extends AbstractDaoService<Member> {
 	}
 
 	public List<Member> findMemberByLocation(String location) {
-		Criteria criteria = getCurrentSession().createCriteria(Member.class);
 		if (location.length() < 3) {
 
 			List<Member> temp = new ArrayList<Member>();
 			return temp;
 		} else {
-			criteria.add(Restrictions.ilike("plaatsnaam", location, MatchMode.ANYWHERE));
+			LocationTypeEditor editor = new LocationTypeEditor();
+			Place place =  editor.returnAsPlace(location);
+			Criteria criteria = getCurrentSession().createCriteria(Member.class);
+			criteria.add(Restrictions.eq("place", place));
 			criteria.add(Restrictions.eq("active", true));
 			criteria.setFirstResult(0);
 			criteria.setMaxResults(20);

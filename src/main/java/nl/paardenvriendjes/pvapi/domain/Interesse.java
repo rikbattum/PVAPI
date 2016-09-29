@@ -1,230 +1,246 @@
 package nl.paardenvriendjes.pvapi.domain;
 
 import javax.persistence.Embeddable;
-import javax.validation.constraints.NotNull;
 
 @Embeddable
 public class Interesse {
 
-
-	private Boolean buitenritten;
-	private Boolean draftsport;
-	private Boolean dressuur;
-	private Boolean endurance;
-	private Boolean eventing;
-	private Boolean fokken;
-	private Boolean inenverkoop;
-	private Boolean mennen;
-	private Boolean naturalhorsemanship;
-	private Boolean paardentrainen;
-	private Boolean paardenverzorgen;
-	private Boolean polo;
-	private Boolean rensport;
-	private Boolean rijdenlocatie;
-	private Boolean ringsteken;
-	private Boolean rodeo;
-	private Boolean showrijden;
-	private Boolean springen;
-	private Boolean voedinggezondheid;
-	private Boolean voltige;
-	private Boolean voorlichting;
-	private Boolean vossenjacht;
-	private Boolean wedstrijdsport;
-	private Boolean western;
+	private Boolean lesgeven;
+	private Boolean leskrijgen;
+	private Boolean paardentrainendressuur;
+	private Boolean paardentrainenspringen;
+	private Boolean Paardrijvakantieskampen; 
+	private Boolean samenbuitenrijden;
+	private Boolean samenwedstrijdenrijden;
+	private Boolean vervoerlenen;
+	private Boolean vervoeruitlenen;
+	private Boolean paardenwelzijn;
+	private Boolean paardencoaching;
+	private Boolean paardenfitness;
+	private Boolean ruiterfitness;
+	private Boolean paardenverzorging; 
+	private Boolean keuringen; 
+	private Boolean manageexploitatie;
+	private Boolean stalbeheer;
+	private Boolean ruiterenmenroutes; 
+	private Boolean verenigingswezen;
+	private Boolean paardenshow;
+	private Boolean clinicsendemos; 
+	private Boolean nationaleevenementen; 
+	private Boolean internationaleevenementen; 
+	private Boolean ruitersportartikelen; 
+	private Boolean scheidsrechter;
+	private Boolean verzekeringenenrechtsbijstand;
+	public Boolean getLesgeven() {
+		return lesgeven;
+	}
+	public void setLesgeven(Boolean lesgeven) {
+		this.lesgeven = lesgeven;
+	}
+	public Boolean getLeskrijgen() {
+		return leskrijgen;
+	}
+	public void setLeskrijgen(Boolean leskrijgen) {
+		this.leskrijgen = leskrijgen;
+	}
+	public Boolean getPaardentrainendressuur() {
+		return paardentrainendressuur;
+	}
+	public void setPaardentrainendressuur(Boolean paardentrainendressuur) {
+		this.paardentrainendressuur = paardentrainendressuur;
+	}
+	public Boolean getPaardentrainenspringen() {
+		return paardentrainenspringen;
+	}
+	public void setPaardentrainenspringen(Boolean paardentrainenspringen) {
+		this.paardentrainenspringen = paardentrainenspringen;
+	}
+	public Boolean getPaardrijvakantieskampen() {
+		return Paardrijvakantieskampen;
+	}
+	public void setPaardrijvakantieskampen(Boolean paardrijvakantieskampen) {
+		Paardrijvakantieskampen = paardrijvakantieskampen;
+	}
+	public Boolean getSamenbuitenrijden() {
+		return samenbuitenrijden;
+	}
+	public void setSamenbuitenrijden(Boolean samenbuitenrijden) {
+		this.samenbuitenrijden = samenbuitenrijden;
+	}
+	public Boolean getSamenwedstrijdenrijden() {
+		return samenwedstrijdenrijden;
+	}
+	public void setSamenwedstrijdenrijden(Boolean samenwedstrijdenrijden) {
+		this.samenwedstrijdenrijden = samenwedstrijdenrijden;
+	}
+	public Boolean getVervoerlenen() {
+		return vervoerlenen;
+	}
+	public void setVervoerlenen(Boolean vervoerlenen) {
+		this.vervoerlenen = vervoerlenen;
+	}
+	public Boolean getVervoeruitlenen() {
+		return vervoeruitlenen;
+	}
+	public void setVervoeruitlenen(Boolean vervoeruitlenen) {
+		this.vervoeruitlenen = vervoeruitlenen;
+	}
+	public Boolean getPaardenwelzijn() {
+		return paardenwelzijn;
+	}
+	public void setPaardenwelzijn(Boolean paardenwelzijn) {
+		this.paardenwelzijn = paardenwelzijn;
+	}
+	public Boolean getPaardencoaching() {
+		return paardencoaching;
+	}
+	public void setPaardencoaching(Boolean paardencoaching) {
+		this.paardencoaching = paardencoaching;
+	}
+	public Boolean getPaardenfitness() {
+		return paardenfitness;
+	}
+	public void setPaardenfitness(Boolean paardenfitness) {
+		this.paardenfitness = paardenfitness;
+	}
+	public Boolean getRuiterfitness() {
+		return ruiterfitness;
+	}
+	public void setRuiterfitness(Boolean ruiterfitness) {
+		this.ruiterfitness = ruiterfitness;
+	}
+	public Boolean getPaardenverzorging() {
+		return paardenverzorging;
+	}
+	public void setPaardenverzorging(Boolean paardenverzorging) {
+		this.paardenverzorging = paardenverzorging;
+	}
+	public Boolean getKeuringen() {
+		return keuringen;
+	}
+	public void setKeuringen(Boolean keuringen) {
+		this.keuringen = keuringen;
+	}
+	public Boolean getManageexploitatie() {
+		return manageexploitatie;
+	}
+	public void setManageexploitatie(Boolean manageexploitatie) {
+		this.manageexploitatie = manageexploitatie;
+	}
+	public Boolean getStalbeheer() {
+		return stalbeheer;
+	}
+	public void setStalbeheer(Boolean stalbeheer) {
+		this.stalbeheer = stalbeheer;
+	}
+	public Boolean getRuiterenmenroutes() {
+		return ruiterenmenroutes;
+	}
+	public void setRuiterenmenroutes(Boolean ruiterenmenroutes) {
+		this.ruiterenmenroutes = ruiterenmenroutes;
+	}
+	public Boolean getVerenigingswezen() {
+		return verenigingswezen;
+	}
+	public void setVerenigingswezen(Boolean verenigingswezen) {
+		this.verenigingswezen = verenigingswezen;
+	}
+	public Boolean getPaardenshow() {
+		return paardenshow;
+	}
+	public void setPaardenshow(Boolean paardenshow) {
+		this.paardenshow = paardenshow;
+	}
+	public Boolean getClinicsendemos() {
+		return clinicsendemos;
+	}
+	public void setClinicsendemos(Boolean clinicsendemos) {
+		this.clinicsendemos = clinicsendemos;
+	}
+	public Boolean getNationaleevenementen() {
+		return nationaleevenementen;
+	}
+	public void setNationaleevenementen(Boolean nationaleevenementen) {
+		this.nationaleevenementen = nationaleevenementen;
+	}
+	public Boolean getInternationaleevenementen() {
+		return internationaleevenementen;
+	}
+	public void setInternationaleevenementen(Boolean internationaleevenementen) {
+		this.internationaleevenementen = internationaleevenementen;
+	}
+	public Boolean getRuitersportartikelen() {
+		return ruitersportartikelen;
+	}
+	public void setRuitersportartikelen(Boolean ruitersportartikelen) {
+		this.ruitersportartikelen = ruitersportartikelen;
+	}
+	public Boolean getScheidsrechter() {
+		return scheidsrechter;
+	}
+	public void setScheidsrechter(Boolean scheidsrechter) {
+		this.scheidsrechter = scheidsrechter;
+	}
+	public Boolean getVerzekeringenenrechtsbijstand() {
+		return verzekeringenenrechtsbijstand;
+	}
+	public void setVerzekeringenenrechtsbijstand(Boolean verzekeringenenrechtsbijstand) {
+		this.verzekeringenenrechtsbijstand = verzekeringenenrechtsbijstand;
+	}
 	
-	public Boolean isBuitenritten() {
-		return buitenritten;
-	}
-	public void setBuitenritten(Boolean buitenritten) {
-		this.buitenritten = buitenritten;
-	}
-	public Boolean isDraftsport() {
-		return draftsport;
-	}
-	public void setDraftsport(Boolean draftsport) {
-		this.draftsport = draftsport;
-	}
-	public Boolean isDressuur() {
-		return dressuur;
-	}
-	public void setDressuur(Boolean dressuur) {
-		this.dressuur = dressuur;
-	}
-	public Boolean isEndurance() {
-		return endurance;
-	}
-	public void setEndurance(Boolean endurance) {
-		this.endurance = endurance;
-	}
-	public Boolean isEventing() {
-		return eventing;
-	}
-	public void setEventing(Boolean eventing) {
-		this.eventing = eventing;
-	}
-	public Boolean isFokken() {
-		return fokken;
-	}
-	public void setFokken(Boolean fokken) {
-		this.fokken = fokken;
-	}
-	public Boolean isInenverkoop() {
-		return inenverkoop;
-	}
-	public void setInenverkoop(Boolean inenverkoop) {
-		this.inenverkoop = inenverkoop;
-	}
-	public Boolean isMennen() {
-		return mennen;
-	}
-	public void setMennen(Boolean mennen) {
-		this.mennen = mennen;
-	}
-	public Boolean isNaturalhorsemanship() {
-		return naturalhorsemanship;
-	}
-	public void setNaturalhorsemanship(Boolean naturalhorsemanship) {
-		this.naturalhorsemanship = naturalhorsemanship;
-	}
-	public Boolean isPaardentrainen() {
-		return paardentrainen;
-	}
-	public void setPaardentrainen(Boolean paardentrainen) {
-		this.paardentrainen = paardentrainen;
-	}
-	public Boolean isPaardenverzorgen() {
-		return paardenverzorgen;
-	}
-	public void setPaardenverzorgen(Boolean paardenverzorgen) {
-		this.paardenverzorgen = paardenverzorgen;
-	}
-	public Boolean isPolo() {
-		return polo;
-	}
-	public void setPolo(Boolean polo) {
-		this.polo = polo;
-	}
-	public Boolean isRensport() {
-		return rensport;
-	}
-	public void setRensport(Boolean rensport) {
-		this.rensport = rensport;
-	}
-	public Boolean isRijdenlocatie() {
-		return rijdenlocatie;
-	}
-	public void setRijdenlocatie(Boolean rijdenlocatie) {
-		this.rijdenlocatie = rijdenlocatie;
-	}
-	public Boolean isRingsteken() {
-		return ringsteken;
-	}
-	public void setRingsteken(Boolean ringsteken) {
-		this.ringsteken = ringsteken;
-	}
-	public Boolean isRodeo() {
-		return rodeo;
-	}
-	public void setRodeo(Boolean rodeo) {
-		this.rodeo = rodeo;
-	}
-	public Boolean isShowrijden() {
-		return showrijden;
-	}
-	public void setShowrijden(Boolean showrijden) {
-		this.showrijden = showrijden;
-	}
-	public Boolean isSpringen() {
-		return springen;
-	}
-	public void setSpringen(Boolean springen) {
-		this.springen = springen;
-	}
-	public Boolean isVoedinggezondheid() {
-		return voedinggezondheid;
-	}
-	public void setVoedinggezondheid(Boolean voedinggezondheid) {
-		this.voedinggezondheid = voedinggezondheid;
-	}
-	public Boolean isVoltige() {
-		return voltige;
-	}
-	public void setVoltige(Boolean voltige) {
-		this.voltige = voltige;
-	}
-	public Boolean isVoorlichting() {
-		return voorlichting;
-	}
-	public void setVoorlichting(Boolean voorlichting) {
-		this.voorlichting = voorlichting;
-	}
-	public Boolean isVossenjacht() {
-		return vossenjacht;
-	}
-	public void setVossenjacht(Boolean vossenjacht) {
-		this.vossenjacht = vossenjacht;
-	}
-	public Boolean isWedstrijdsport() {
-		return wedstrijdsport;
-	}
-	public void setWedstrijdsport(Boolean wedstrijdsport) {
-		this.wedstrijdsport = wedstrijdsport;
-	}
-	public Boolean isWestern() {
-		return western;
-	}
-	public void setWestern(Boolean western) {
-		this.western = western;
-	}
+	// toString 
 	
-		// toString
 	@Override
 	public String toString() {
-		return "Interesse [buitenritten=" + buitenritten + ", draftsport=" + draftsport + ", dressuur=" + dressuur
-				+ ", endurance=" + endurance + ", eventing=" + eventing + ", fokken=" + fokken + ", inenverkoop="
-				+ inenverkoop + ", mennen=" + mennen + ", naturalhorsemanship=" + naturalhorsemanship
-				+ ", paardentrainen=" + paardentrainen + ", paardenverzorgen=" + paardenverzorgen + ", polo=" + polo
-				+ ", rensport=" + rensport + ", rijdenlocatie=" + rijdenlocatie + ", ringsteken=" + ringsteken
-				+ ", rodeo=" + rodeo + ", showrijden=" + showrijden + ", springen=" + springen + ", voedinggezondheid="
-				+ voedinggezondheid + ", voltige=" + voltige + ", voorlichting=" + voorlichting + ", vossenjacht="
-				+ vossenjacht + ", wedstrijdsport=" + wedstrijdsport + ", western=" + western + "]";
+		return "Interesse [lesgeven=" + lesgeven + ", leskrijgen=" + leskrijgen + ", paardentrainendressuur="
+				+ paardentrainendressuur + ", paardentrainenspringen=" + paardentrainenspringen
+				+ ", Paardrijvakantieskampen=" + Paardrijvakantieskampen + ", samenbuitenrijden=" + samenbuitenrijden
+				+ ", samenwedstrijdenrijden=" + samenwedstrijdenrijden + ", vervoerlenen=" + vervoerlenen
+				+ ", vervoeruitlenen=" + vervoeruitlenen + ", paardenwelzijn=" + paardenwelzijn + ", paardencoaching="
+				+ paardencoaching + ", paardenfitness=" + paardenfitness + ", ruiterfitness=" + ruiterfitness
+				+ ", paardenverzorging=" + paardenverzorging + ", keuringen=" + keuringen + ", manageexploitatie="
+				+ manageexploitatie + ", stalbeheer=" + stalbeheer + ", ruiterenmenroutes=" + ruiterenmenroutes
+				+ ", verenigingswezen=" + verenigingswezen + ", paardenshow=" + paardenshow + ", clinicsendemos="
+				+ clinicsendemos + ", nationaleevenementen=" + nationaleevenementen + ", internationaleevenementen="
+				+ internationaleevenementen + ", ruitersportartikelen=" + ruitersportartikelen + ", scheidsrechter="
+				+ scheidsrechter + ", verzekeringenenrechtsbijstand=" + verzekeringenenrechtsbijstand + "]";
 	}
-
 	
-	// HashCode and Equals
-	
+	// Hashcode and equals
 	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((buitenritten == null) ? 0 : buitenritten.hashCode());
-		result = prime * result + ((draftsport == null) ? 0 : draftsport.hashCode());
-		result = prime * result + ((dressuur == null) ? 0 : dressuur.hashCode());
-		result = prime * result + ((endurance == null) ? 0 : endurance.hashCode());
-		result = prime * result + ((eventing == null) ? 0 : eventing.hashCode());
-		result = prime * result + ((fokken == null) ? 0 : fokken.hashCode());
-		result = prime * result + ((inenverkoop == null) ? 0 : inenverkoop.hashCode());
-		result = prime * result + ((mennen == null) ? 0 : mennen.hashCode());
-		result = prime * result + ((naturalhorsemanship == null) ? 0 : naturalhorsemanship.hashCode());
-		result = prime * result + ((paardentrainen == null) ? 0 : paardentrainen.hashCode());
-		result = prime * result + ((paardenverzorgen == null) ? 0 : paardenverzorgen.hashCode());
-		result = prime * result + ((polo == null) ? 0 : polo.hashCode());
-		result = prime * result + ((rensport == null) ? 0 : rensport.hashCode());
-		result = prime * result + ((rijdenlocatie == null) ? 0 : rijdenlocatie.hashCode());
-		result = prime * result + ((ringsteken == null) ? 0 : ringsteken.hashCode());
-		result = prime * result + ((rodeo == null) ? 0 : rodeo.hashCode());
-		result = prime * result + ((showrijden == null) ? 0 : showrijden.hashCode());
-		result = prime * result + ((springen == null) ? 0 : springen.hashCode());
-		result = prime * result + ((voedinggezondheid == null) ? 0 : voedinggezondheid.hashCode());
-		result = prime * result + ((voltige == null) ? 0 : voltige.hashCode());
-		result = prime * result + ((voorlichting == null) ? 0 : voorlichting.hashCode());
-		result = prime * result + ((vossenjacht == null) ? 0 : vossenjacht.hashCode());
-		result = prime * result + ((wedstrijdsport == null) ? 0 : wedstrijdsport.hashCode());
-		result = prime * result + ((western == null) ? 0 : western.hashCode());
+		result = prime * result + ((Paardrijvakantieskampen == null) ? 0 : Paardrijvakantieskampen.hashCode());
+		result = prime * result + ((clinicsendemos == null) ? 0 : clinicsendemos.hashCode());
+		result = prime * result + ((internationaleevenementen == null) ? 0 : internationaleevenementen.hashCode());
+		result = prime * result + ((keuringen == null) ? 0 : keuringen.hashCode());
+		result = prime * result + ((lesgeven == null) ? 0 : lesgeven.hashCode());
+		result = prime * result + ((leskrijgen == null) ? 0 : leskrijgen.hashCode());
+		result = prime * result + ((manageexploitatie == null) ? 0 : manageexploitatie.hashCode());
+		result = prime * result + ((nationaleevenementen == null) ? 0 : nationaleevenementen.hashCode());
+		result = prime * result + ((paardencoaching == null) ? 0 : paardencoaching.hashCode());
+		result = prime * result + ((paardenfitness == null) ? 0 : paardenfitness.hashCode());
+		result = prime * result + ((paardenshow == null) ? 0 : paardenshow.hashCode());
+		result = prime * result + ((paardentrainendressuur == null) ? 0 : paardentrainendressuur.hashCode());
+		result = prime * result + ((paardentrainenspringen == null) ? 0 : paardentrainenspringen.hashCode());
+		result = prime * result + ((paardenverzorging == null) ? 0 : paardenverzorging.hashCode());
+		result = prime * result + ((paardenwelzijn == null) ? 0 : paardenwelzijn.hashCode());
+		result = prime * result + ((ruiterenmenroutes == null) ? 0 : ruiterenmenroutes.hashCode());
+		result = prime * result + ((ruiterfitness == null) ? 0 : ruiterfitness.hashCode());
+		result = prime * result + ((ruitersportartikelen == null) ? 0 : ruitersportartikelen.hashCode());
+		result = prime * result + ((samenbuitenrijden == null) ? 0 : samenbuitenrijden.hashCode());
+		result = prime * result + ((samenwedstrijdenrijden == null) ? 0 : samenwedstrijdenrijden.hashCode());
+		result = prime * result + ((scheidsrechter == null) ? 0 : scheidsrechter.hashCode());
+		result = prime * result + ((stalbeheer == null) ? 0 : stalbeheer.hashCode());
+		result = prime * result + ((verenigingswezen == null) ? 0 : verenigingswezen.hashCode());
+		result = prime * result + ((vervoerlenen == null) ? 0 : vervoerlenen.hashCode());
+		result = prime * result + ((vervoeruitlenen == null) ? 0 : vervoeruitlenen.hashCode());
+		result = prime * result
+				+ ((verzekeringenenrechtsbijstand == null) ? 0 : verzekeringenenrechtsbijstand.hashCode());
 		return result;
 	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -234,126 +250,138 @@ public class Interesse {
 		if (getClass() != obj.getClass())
 			return false;
 		Interesse other = (Interesse) obj;
-		if (buitenritten == null) {
-			if (other.buitenritten != null)
+		if (Paardrijvakantieskampen == null) {
+			if (other.Paardrijvakantieskampen != null)
 				return false;
-		} else if (!buitenritten.equals(other.buitenritten))
+		} else if (!Paardrijvakantieskampen.equals(other.Paardrijvakantieskampen))
 			return false;
-		if (draftsport == null) {
-			if (other.draftsport != null)
+		if (clinicsendemos == null) {
+			if (other.clinicsendemos != null)
 				return false;
-		} else if (!draftsport.equals(other.draftsport))
+		} else if (!clinicsendemos.equals(other.clinicsendemos))
 			return false;
-		if (dressuur == null) {
-			if (other.dressuur != null)
+		if (internationaleevenementen == null) {
+			if (other.internationaleevenementen != null)
 				return false;
-		} else if (!dressuur.equals(other.dressuur))
+		} else if (!internationaleevenementen.equals(other.internationaleevenementen))
 			return false;
-		if (endurance == null) {
-			if (other.endurance != null)
+		if (keuringen == null) {
+			if (other.keuringen != null)
 				return false;
-		} else if (!endurance.equals(other.endurance))
+		} else if (!keuringen.equals(other.keuringen))
 			return false;
-		if (eventing == null) {
-			if (other.eventing != null)
+		if (lesgeven == null) {
+			if (other.lesgeven != null)
 				return false;
-		} else if (!eventing.equals(other.eventing))
+		} else if (!lesgeven.equals(other.lesgeven))
 			return false;
-		if (fokken == null) {
-			if (other.fokken != null)
+		if (leskrijgen == null) {
+			if (other.leskrijgen != null)
 				return false;
-		} else if (!fokken.equals(other.fokken))
+		} else if (!leskrijgen.equals(other.leskrijgen))
 			return false;
-		if (inenverkoop == null) {
-			if (other.inenverkoop != null)
+		if (manageexploitatie == null) {
+			if (other.manageexploitatie != null)
 				return false;
-		} else if (!inenverkoop.equals(other.inenverkoop))
+		} else if (!manageexploitatie.equals(other.manageexploitatie))
 			return false;
-		if (mennen == null) {
-			if (other.mennen != null)
+		if (nationaleevenementen == null) {
+			if (other.nationaleevenementen != null)
 				return false;
-		} else if (!mennen.equals(other.mennen))
+		} else if (!nationaleevenementen.equals(other.nationaleevenementen))
 			return false;
-		if (naturalhorsemanship == null) {
-			if (other.naturalhorsemanship != null)
+		if (paardencoaching == null) {
+			if (other.paardencoaching != null)
 				return false;
-		} else if (!naturalhorsemanship.equals(other.naturalhorsemanship))
+		} else if (!paardencoaching.equals(other.paardencoaching))
 			return false;
-		if (paardentrainen == null) {
-			if (other.paardentrainen != null)
+		if (paardenfitness == null) {
+			if (other.paardenfitness != null)
 				return false;
-		} else if (!paardentrainen.equals(other.paardentrainen))
+		} else if (!paardenfitness.equals(other.paardenfitness))
 			return false;
-		if (paardenverzorgen == null) {
-			if (other.paardenverzorgen != null)
+		if (paardenshow == null) {
+			if (other.paardenshow != null)
 				return false;
-		} else if (!paardenverzorgen.equals(other.paardenverzorgen))
+		} else if (!paardenshow.equals(other.paardenshow))
 			return false;
-		if (polo == null) {
-			if (other.polo != null)
+		if (paardentrainendressuur == null) {
+			if (other.paardentrainendressuur != null)
 				return false;
-		} else if (!polo.equals(other.polo))
+		} else if (!paardentrainendressuur.equals(other.paardentrainendressuur))
 			return false;
-		if (rensport == null) {
-			if (other.rensport != null)
+		if (paardentrainenspringen == null) {
+			if (other.paardentrainenspringen != null)
 				return false;
-		} else if (!rensport.equals(other.rensport))
+		} else if (!paardentrainenspringen.equals(other.paardentrainenspringen))
 			return false;
-		if (rijdenlocatie == null) {
-			if (other.rijdenlocatie != null)
+		if (paardenverzorging == null) {
+			if (other.paardenverzorging != null)
 				return false;
-		} else if (!rijdenlocatie.equals(other.rijdenlocatie))
+		} else if (!paardenverzorging.equals(other.paardenverzorging))
 			return false;
-		if (ringsteken == null) {
-			if (other.ringsteken != null)
+		if (paardenwelzijn == null) {
+			if (other.paardenwelzijn != null)
 				return false;
-		} else if (!ringsteken.equals(other.ringsteken))
+		} else if (!paardenwelzijn.equals(other.paardenwelzijn))
 			return false;
-		if (rodeo == null) {
-			if (other.rodeo != null)
+		if (ruiterenmenroutes == null) {
+			if (other.ruiterenmenroutes != null)
 				return false;
-		} else if (!rodeo.equals(other.rodeo))
+		} else if (!ruiterenmenroutes.equals(other.ruiterenmenroutes))
 			return false;
-		if (showrijden == null) {
-			if (other.showrijden != null)
+		if (ruiterfitness == null) {
+			if (other.ruiterfitness != null)
 				return false;
-		} else if (!showrijden.equals(other.showrijden))
+		} else if (!ruiterfitness.equals(other.ruiterfitness))
 			return false;
-		if (springen == null) {
-			if (other.springen != null)
+		if (ruitersportartikelen == null) {
+			if (other.ruitersportartikelen != null)
 				return false;
-		} else if (!springen.equals(other.springen))
+		} else if (!ruitersportartikelen.equals(other.ruitersportartikelen))
 			return false;
-		if (voedinggezondheid == null) {
-			if (other.voedinggezondheid != null)
+		if (samenbuitenrijden == null) {
+			if (other.samenbuitenrijden != null)
 				return false;
-		} else if (!voedinggezondheid.equals(other.voedinggezondheid))
+		} else if (!samenbuitenrijden.equals(other.samenbuitenrijden))
 			return false;
-		if (voltige == null) {
-			if (other.voltige != null)
+		if (samenwedstrijdenrijden == null) {
+			if (other.samenwedstrijdenrijden != null)
 				return false;
-		} else if (!voltige.equals(other.voltige))
+		} else if (!samenwedstrijdenrijden.equals(other.samenwedstrijdenrijden))
 			return false;
-		if (voorlichting == null) {
-			if (other.voorlichting != null)
+		if (scheidsrechter == null) {
+			if (other.scheidsrechter != null)
 				return false;
-		} else if (!voorlichting.equals(other.voorlichting))
+		} else if (!scheidsrechter.equals(other.scheidsrechter))
 			return false;
-		if (vossenjacht == null) {
-			if (other.vossenjacht != null)
+		if (stalbeheer == null) {
+			if (other.stalbeheer != null)
 				return false;
-		} else if (!vossenjacht.equals(other.vossenjacht))
+		} else if (!stalbeheer.equals(other.stalbeheer))
 			return false;
-		if (wedstrijdsport == null) {
-			if (other.wedstrijdsport != null)
+		if (verenigingswezen == null) {
+			if (other.verenigingswezen != null)
 				return false;
-		} else if (!wedstrijdsport.equals(other.wedstrijdsport))
+		} else if (!verenigingswezen.equals(other.verenigingswezen))
 			return false;
-		if (western == null) {
-			if (other.western != null)
+		if (vervoerlenen == null) {
+			if (other.vervoerlenen != null)
 				return false;
-		} else if (!western.equals(other.western))
+		} else if (!vervoerlenen.equals(other.vervoerlenen))
+			return false;
+		if (vervoeruitlenen == null) {
+			if (other.vervoeruitlenen != null)
+				return false;
+		} else if (!vervoeruitlenen.equals(other.vervoeruitlenen))
+			return false;
+		if (verzekeringenenrechtsbijstand == null) {
+			if (other.verzekeringenenrechtsbijstand != null)
+				return false;
+		} else if (!verzekeringenenrechtsbijstand.equals(other.verzekeringenenrechtsbijstand))
 			return false;
 		return true;
-	}	
+	}
 }
+
+

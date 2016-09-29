@@ -10,22 +10,27 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Event {
 
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String eventName;
+	@Temporal(TemporalType.DATE)
 	private Date eventDate;
+	@Temporal(TemporalType.DATE)
 	private Date createdOnDate;
+	@Temporal(TemporalType.DATE)
 	private Date deactivatedDate;
 	private String Message;
 	private String messageScore;
 	private int score; 
 	private int ranking;
+	private Boolean active;
 	@ManyToMany
 	private List <Member> members = new ArrayList <Member>();
 	@ManyToOne 
@@ -61,8 +66,9 @@ public class Event {
 	public Date getDeactivatedDate() {
 		return deactivatedDate;
 	}
-	public void setDeactivatedDate(Date deactivatedDate) {
-		this.deactivatedDate = deactivatedDate;
+	public void setDeactivatedDate() {
+		// set-date in backend;
+		this.deactivatedDate = new Date();
 	}
 	public String getMessage() {
 		return Message;
@@ -93,44 +99,57 @@ public class Event {
 	}
 	public void setRanking(int ranking) {
 		this.ranking = ranking;
-	}
-	public List<Member> getmember() {
-		return members;
-	}
-	public void setmember(List<Member> member) {
-		this.members = member;
-	}
-	
+	}	
 	public List<Horse> getHorses() {
 		return horses;
 	}
 	public void setHorses(List<Horse> horses) {
 		this.horses = horses;
 	}
+	public Boolean getActive() {
+		return active;
+	}
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+	public List<Member> getMembers() {
+		return members;
+	}
+	public void setMembers(List<Member> members) {
+		this.members = members;
+	}
 	
-	// Hashcode
+	// ToString
 	
+	@Override
+	public String toString() {
+		return "Event [id=" + id + ", eventName=" + eventName + ", eventDate=" + eventDate + ", createdOnDate="
+				+ createdOnDate + ", deactivatedDate=" + deactivatedDate + ", Message=" + Message + ", messageScore="
+				+ messageScore + ", score=" + score + ", ranking=" + ranking + ", active=" + active + ", members="
+				+ members + ", paspoort=" + paspoort + ", horses=" + horses + "]";
+	}
+	
+	// Hashcode and equals
+		
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((Message == null) ? 0 : Message.hashCode());
+		result = prime * result + ((active == null) ? 0 : active.hashCode());
 		result = prime * result + ((createdOnDate == null) ? 0 : createdOnDate.hashCode());
 		result = prime * result + ((deactivatedDate == null) ? 0 : deactivatedDate.hashCode());
 		result = prime * result + ((eventDate == null) ? 0 : eventDate.hashCode());
 		result = prime * result + ((eventName == null) ? 0 : eventName.hashCode());
 		result = prime * result + ((horses == null) ? 0 : horses.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((members == null) ? 0 : members.hashCode());
 		result = prime * result + ((messageScore == null) ? 0 : messageScore.hashCode());
 		result = prime * result + ((paspoort == null) ? 0 : paspoort.hashCode());
 		result = prime * result + ranking;
 		result = prime * result + score;
-		result = prime * result + ((members == null) ? 0 : members.hashCode());
 		return result;
 	}
-	
-	// Equals
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -144,6 +163,11 @@ public class Event {
 			if (other.Message != null)
 				return false;
 		} else if (!Message.equals(other.Message))
+			return false;
+		if (active == null) {
+			if (other.active != null)
+				return false;
+		} else if (!active.equals(other.active))
 			return false;
 		if (createdOnDate == null) {
 			if (other.createdOnDate != null)
@@ -175,6 +199,11 @@ public class Event {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		if (members == null) {
+			if (other.members != null)
+				return false;
+		} else if (!members.equals(other.members))
+			return false;
 		if (messageScore == null) {
 			if (other.messageScore != null)
 				return false;
@@ -189,22 +218,8 @@ public class Event {
 			return false;
 		if (score != other.score)
 			return false;
-		if (members == null) {
-			if (other.members != null)
-				return false;
-		} else if (!members.equals(other.members))
-			return false;
 		return true;
-	}
-	
-	// ToString
-	
-	@Override
-	public String toString() {
-		return "Event [id=" + id + ", eventName=" + eventName + ", eventDate=" + eventDate + ", createdOnDate="
-				+ createdOnDate + ", deactivatedDate=" + deactivatedDate + ", Message=" + Message + ","
-				+ members + ", paspoort=" + paspoort + ", horses=" + horses + "]";
-	}
+	} 	
 }
 	
 	

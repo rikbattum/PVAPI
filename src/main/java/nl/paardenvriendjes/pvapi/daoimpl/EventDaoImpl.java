@@ -37,11 +37,36 @@ public class EventDaoImpl extends AbstractDaoService<Event>{
 	
 	@Override
 	public void save(Event event) {
+		event.setActive(true);
 		event.setCreatedOnDate();
 		getCurrentSession().persist(event);
 		log.debug("saved One: " + event.toString());
 		updateMessagesWithEvent(event);
 	}
+	
+	@Override
+	public void remove(Long id) {
+		try {
+			Event eventToBeRemoved = (Event) getCurrentSession().load(Event.class, id);
+			eventToBeRemoved.setActive(false);
+			eventToBeRemoved.setDeactivatedDate();
+			getCurrentSession().saveOrUpdate(eventToBeRemoved);
+			log.debug("Deactivated Event " + eventToBeRemoved.toString());
+		} catch (Exception e) {
+			log.error("Event to be deactivated not successfull for id: " + id);
+		}
+	}
+
+	public void reactivate(Long id) { 
+	try {
+		Event eventToBeReactivated = (Event) getCurrentSession().load(Event.class, id);
+		eventToBeReactivated.setActive(true);
+		getCurrentSession().saveOrUpdate(eventToBeReactivated);
+		log.debug("Reactivated Event" + eventToBeReactivated.toString());
+	} catch (Exception e) {
+		log.error("Event to be reactivated not successfull for id: " + id);
+	}
+}
 	
 	// auto generate message update for event
 	

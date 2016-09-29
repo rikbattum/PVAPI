@@ -3,8 +3,10 @@ package nl.paardenvriendjes.pvapi.domain;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.ElementCollection;
@@ -16,6 +18,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -25,8 +29,10 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+import nl.paardenvriendjes.enumerations.OtherSport;
+import nl.paardenvriendjes.enumerations.Place;
 import nl.paardenvriendjes.enumerations.SportLevel;
-import nl.paardenvriendjes.enumerations.SportType;
+import nl.paardenvriendjes.enumerations.Vervoer;
 
 @Entity
 public class Member {
@@ -42,6 +48,7 @@ public class Member {
 	private String username;
 	@Temporal(TemporalType.DATE)
 	private Date createdonDate;
+	@Temporal(TemporalType.DATE)
 	private Date deactivatedDate;
 	private Date geboortedatum;
 	private String email;
@@ -49,12 +56,13 @@ public class Member {
 	@OneToMany (mappedBy = "member")
 	@Cascade({CascadeType.ALL})
 	private List <Horse> horses;
-//	@Embedded
-//	@Basic(fetch=FetchType.EAGER)  //probably not needed
+	@Embedded
+	@Basic(fetch=FetchType.EAGER)  //probably not needed
 	private Interesse interesse;
     private String profileimage;
 	private String password;
-    private String plaatsnaam;
+	@Enumerated(EnumType.STRING)
+    private Place place;
 	@OneToMany (mappedBy = "member")
 	@Cascade({CascadeType.ALL})
 	private List <Message> messages = new ArrayList<Message>();
@@ -62,14 +70,37 @@ public class Member {
     private List <Comment> comments = new ArrayList<Comment>();
     @OneToMany
     private List <Like> likes = new ArrayList<Like>();
+	@Enumerated(EnumType.STRING)
     private SportLevel sportLevel;
     private Boolean active;
     @ManyToMany
+    @JoinTable(
+            name = "member_vrienden",
+            joinColumns =
+            { @JoinColumn(
+                    name = "membervrienden_id") },
+            inverseJoinColumns =
+            { @JoinColumn(
+                    name = "vrienden_id") })
     private List <Member> vrienden = new ArrayList<Member>();
+    @ManyToMany 
+    @JoinTable(
+            name = "member_blokkades",
+            joinColumns =
+            { @JoinColumn(
+                    name = "memberblocks_id") },
+            inverseJoinColumns =
+            { @JoinColumn(
+                    name = "blokkades_id") })
+    private List <Member> blokkades = new ArrayList<Member>();
     @ManyToMany
     private List <Event> events = new ArrayList<Event> ();
 	@ElementCollection
 	private Map<String, String> sports = new HashMap<String, String>();
+	@ElementCollection
+	private Set<OtherSport> othersports = new HashSet<OtherSport>();
+	@Enumerated(EnumType.STRING)
+	private Vervoer vervoer; 
     
     //Getters and Setters
    
@@ -107,8 +138,9 @@ public class Member {
 	public Date getDeactivatedDate() {
 		return deactivatedDate;
 	}
-	public void setDeactivatedDate(Date deactivatedDate) {
-		this.deactivatedDate = deactivatedDate;
+	public void setDeactivatedDate() {
+		// set-date in backend;
+		this.deactivatedDate = new Date();
 	}
 	public Date getGeboortedatum() {
 		return geboortedatum;
@@ -151,12 +183,12 @@ public class Member {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}	
+	public Place getPlace() {
+		return place;
 	}
-	public String getPlaatsnaam() {
-		return plaatsnaam;
-	}
-	public void setPlaatsnaam(String plaatsnaam) {
-		this.plaatsnaam = plaatsnaam;
+	public void setPlace(Place place) {
+		this.place = place;
 	}
 	public List<Message> getMessages() {
 		return messages;
@@ -181,7 +213,6 @@ public class Member {
 	}
 	public void setSportLevel(SportLevel sportLevel) {
 		this.sportLevel = sportLevel;
-	
 	}
 	public Boolean getActive() {
 		return active;
@@ -201,35 +232,52 @@ public class Member {
 	public void setVrienden(List<Member> vrienden) {
 		this.vrienden = vrienden;
 	}
+	public List<Member> getBlokkades() {
+		return blokkades;
+	}
+	public void setBlokkades(List<Member> blokkades) {
+		this.blokkades = blokkades;
+	}
 	public Map<String, String> getSports() {
 		return sports;
 	}
 	public void setSports(Map<String, String> sports) {
 		this.sports = sports;
 	}
-	
+	public Set<OtherSport> getOtherSports() {
+		return othersports;
+	}
+	public void setOtherSports(Set<OtherSport> otherSport) {
+		this.othersports = otherSport;
+	}
+	public Vervoer getVervoer() {
+		return vervoer;
+	}
+	public void setVervoer(Vervoer vervoer) {
+		this.vervoer = vervoer;
+	}
 	
 	//ToString
-	
 	@Override
 	public String toString() {
 		return "Member [id=" + id + ", voornaam=" + voornaam + ", achternaam=" + achternaam + ", username=" + username
 				+ ", createdonDate=" + createdonDate + ", deactivatedDate=" + deactivatedDate + ", geboortedatum="
 				+ geboortedatum + ", email=" + email + ", overmij=" + overmij + ", horses=" + horses + ", interesse="
-				+ interesse + ", profileimage=" + profileimage + ", password=" + password + ", plaatsnaam=" + plaatsnaam
+				+ interesse + ", profileimage=" + profileimage + ", password=" + password + ", place=" + place
 				+ ", messages=" + messages + ", comments=" + comments + ", likes=" + likes + ", sportLevel="
-				+ sportLevel + ", active=" + active + ", vrienden=" + vrienden + ", events=" + events + ", sports="
-				+ sports + "]";
+				+ sportLevel + ", active=" + active + ", vrienden=" + vrienden + ", blokkades=" + blokkades
+				+ ", events=" + events + ", sports=" + sports + ", otherSports=" + othersports + ", vervoer=" + vervoer
+				+ "]";
 	}
 	
 	//Hashcode and Equals
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((achternaam == null) ? 0 : achternaam.hashCode());
 		result = prime * result + ((active == null) ? 0 : active.hashCode());
+		result = prime * result + ((blokkades == null) ? 0 : blokkades.hashCode());
 		result = prime * result + ((comments == null) ? 0 : comments.hashCode());
 		result = prime * result + ((createdonDate == null) ? 0 : createdonDate.hashCode());
 		result = prime * result + ((deactivatedDate == null) ? 0 : deactivatedDate.hashCode());
@@ -241,13 +289,15 @@ public class Member {
 		result = prime * result + ((interesse == null) ? 0 : interesse.hashCode());
 		result = prime * result + ((likes == null) ? 0 : likes.hashCode());
 		result = prime * result + ((messages == null) ? 0 : messages.hashCode());
+		result = prime * result + ((othersports == null) ? 0 : othersports.hashCode());
 		result = prime * result + ((overmij == null) ? 0 : overmij.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((plaatsnaam == null) ? 0 : plaatsnaam.hashCode());
+		result = prime * result + ((place == null) ? 0 : place.hashCode());
 		result = prime * result + ((profileimage == null) ? 0 : profileimage.hashCode());
 		result = prime * result + ((sportLevel == null) ? 0 : sportLevel.hashCode());
 		result = prime * result + ((sports == null) ? 0 : sports.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		result = prime * result + ((vervoer == null) ? 0 : vervoer.hashCode());
 		result = prime * result + ((voornaam == null) ? 0 : voornaam.hashCode());
 		result = prime * result + ((vrienden == null) ? 0 : vrienden.hashCode());
 		return result;
@@ -270,6 +320,11 @@ public class Member {
 			if (other.active != null)
 				return false;
 		} else if (!active.equals(other.active))
+			return false;
+		if (blokkades == null) {
+			if (other.blokkades != null)
+				return false;
+		} else if (!blokkades.equals(other.blokkades))
 			return false;
 		if (comments == null) {
 			if (other.comments != null)
@@ -326,6 +381,11 @@ public class Member {
 				return false;
 		} else if (!messages.equals(other.messages))
 			return false;
+		if (othersports == null) {
+			if (other.othersports != null)
+				return false;
+		} else if (!othersports.equals(other.othersports))
+			return false;
 		if (overmij == null) {
 			if (other.overmij != null)
 				return false;
@@ -336,10 +396,7 @@ public class Member {
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
-		if (plaatsnaam == null) {
-			if (other.plaatsnaam != null)
-				return false;
-		} else if (!plaatsnaam.equals(other.plaatsnaam))
+		if (place != other.place)
 			return false;
 		if (profileimage == null) {
 			if (other.profileimage != null)
@@ -358,6 +415,8 @@ public class Member {
 				return false;
 		} else if (!username.equals(other.username))
 			return false;
+		if (vervoer != other.vervoer)
+			return false;
 		if (voornaam == null) {
 			if (other.voornaam != null)
 				return false;
@@ -370,8 +429,8 @@ public class Member {
 			return false;
 		return true;
 	}
-	
-	// convenience methods for cardinality with Messages
+		
+// convenience methods for cardinality with Messages
 	
 	public void addOrUpdateMessage (Message message) { 
 
