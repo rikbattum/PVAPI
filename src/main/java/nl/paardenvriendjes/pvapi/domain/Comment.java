@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 @Entity
 public class Comment {
 
@@ -22,8 +25,9 @@ public class Comment {
 	private Member member;
 	private Date insertDate;
 	@ManyToOne(fetch=FetchType.EAGER)
-	private Message messageid;
+	private Message message;
 	@OneToMany(mappedBy = "comment")
+	@Cascade({CascadeType.ALL})
 	private List<Like> likelist;
 	
 	public Long getId() {
@@ -47,14 +51,15 @@ public class Comment {
 	public Date getInsertDate() {
 		return insertDate;
 	}
-	public void setInsertDate(Date insertDate) {
-		this.insertDate = insertDate;
+	public void setInsertDate() {
+		// set-date in backend;
+		this.insertDate = new Date();
 	}
-	public Message getMessageid() {
-		return messageid;
+	public Message getMessage() {
+		return message;
 	}
-	public void setMessageid(Message messageid) {
-		this.messageid = messageid;
+	public void setMessage(Message message) {
+		this.message = message;
 	}
 	public List<Like> getLikelist() {
 		return likelist;
@@ -75,7 +80,7 @@ public class Comment {
 		result = prime * result + ((insertDate == null) ? 0 : insertDate.hashCode());
 		result = prime * result + ((likelist == null) ? 0 : likelist.hashCode());
 		result = prime * result + ((member == null) ? 0 : member.hashCode());
-		result = prime * result + ((messageid == null) ? 0 : messageid.hashCode());
+		result = prime * result + ((message == null) ? 0 : message.hashCode());
 		return result;
 	}
 	@Override
@@ -112,10 +117,10 @@ public class Comment {
 				return false;
 		} else if (!member.equals(other.member))
 			return false;
-		if (messageid == null) {
-			if (other.messageid != null)
+		if (message == null) {
+			if (other.message != null)
 				return false;
-		} else if (!messageid.equals(other.messageid))
+		} else if (!message.equals(other.message))
 			return false;
 		return true;
 	}	

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+	<include resource="org/springframework/boot/logging/logback/base.xml" />
+
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+        <resetJUL>true</resetJUL>
+    </contextListener>
+	<!-- To enable JMX Management -->
+	<jmxConfigurator />
+
+    <logger name="nl.paardenvriendjes" level="TRACE"/>
+    <!-- <logger name="org.hibernate.SQL" level="DEBUG" />-->
+    <logger name="org.hibernate.type" level="TRACE" />
+    <logger name="org.hibernate" level="DEBUG" />
+  
+	<root level="info">
+	 <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+    <file>C:\Users\Gebruiker\logs\log.out</file>
+    <append>true</append>
+		<encoder>
+			<pattern>%-5level %logger{0} - %msg%n</pattern>
+		</encoder>
+	</appender>
+	</root>
+</configuration>
