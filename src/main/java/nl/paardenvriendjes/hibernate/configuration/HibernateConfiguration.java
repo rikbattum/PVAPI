@@ -5,6 +5,7 @@ import java.util.Properties;
 import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -13,9 +14,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate4.HibernateTransactionManager;
-import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
 
 @Configuration
 @EnableTransactionManagement
@@ -49,7 +51,6 @@ public class HibernateConfiguration {
 	private Properties hibernateProperties() {
 		Properties properties = new Properties();
 		properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-		properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
 		properties.put("hibernate.show_sql", "true");
 		properties.put("hibernate.format_sql", "true");
 		properties.put("hibernate.use_sql_comments", "true");
@@ -70,4 +71,34 @@ public class HibernateConfiguration {
 	public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
 		return new PersistenceExceptionTranslationPostProcessor();
 	}
+	
+//	@Value("${tomcat.ajp.port}")
+//	int ajpPort;
+//
+//	@Value("${tomcat.ajp.remoteauthentication}")
+//	String remoteAuthentication;
+//
+//	@Value("${tomcat.ajp.enabled}")
+//	boolean tomcatAjpEnabled;
+//	
+//	@Bean
+//	public EmbeddedServletContainerFactory servletContainer() {
+//
+//	    TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory();
+//	    if (tomcatAjpEnabled)
+//	    {
+//	        Connector ajpConnector = new Connector("AJP/1.3");
+//	        ajpConnector.setProtocol("AJP/1.3");
+//	        ajpConnector.setPort(ajpPort);
+//	        ajpConnector.setSecure(false);
+//	        ajpConnector.setAllowTrace(false);
+//	        ajpConnector.setScheme("http");
+//	        tomcat.addAdditionalTomcatConnectors(ajpConnector);
+//	    }
+//
+//	    return tomcat;
+//	}
+	
+	
+	
 }
