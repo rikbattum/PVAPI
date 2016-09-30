@@ -2,12 +2,10 @@ package nl.paardenvriendjes.pvapi.daotest;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 import org.hamcrest.core.Is;
 import org.junit.After;
 import org.junit.Before;

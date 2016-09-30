@@ -40,7 +40,7 @@ public class MemberRestController {
 	
 	
 	@CrossOrigin
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
 	public String welcome() {// Welcome page, non-rest
 		return "Welcome to PVAPI";
 	}
