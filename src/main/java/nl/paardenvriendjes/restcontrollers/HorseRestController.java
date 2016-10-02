@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import nl.paardenvriendjes.customeditors.GeslachtEditor;
 import nl.paardenvriendjes.customeditors.PaardTypeEditor;
 import nl.paardenvriendjes.pvapi.daoimpl.HorseDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Horse;
@@ -32,6 +33,7 @@ public class HorseRestController {
 	@InitBinder//("EnumEnitBinder")
 	protected void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(String.class, "paardType", new PaardTypeEditor());
+		binder.registerCustomEditor(String.class, "geslacht", new GeslachtEditor());
 	}
 	
 	

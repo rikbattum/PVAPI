@@ -18,6 +18,8 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import nl.paardenvriendjes.enumerations.LineType;
 import nl.paardenvriendjes.enumerations.MessageType;
 
@@ -34,8 +36,8 @@ public class Message {
 	private LineType lineType;
 	@Temporal(TemporalType.DATE)
 	private Date insertDate;
-	
 	@ManyToOne
+	@JsonBackReference
 	private Member member;
 	private String piclink;
 	private String picLinkSecond;

@@ -29,6 +29,9 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import nl.paardenvriendjes.enumerations.Geslacht;
 import nl.paardenvriendjes.enumerations.OtherSport;
 import nl.paardenvriendjes.enumerations.Place;
 import nl.paardenvriendjes.enumerations.SportLevel;
@@ -55,25 +58,31 @@ public class Member {
 	private String overmij;
 	@OneToMany (mappedBy = "member")
 	@Cascade({CascadeType.ALL})
-	private List <Horse> horses;
+	@JsonManagedReference
+	private List <Horse> horses = new ArrayList<Horse>();
 	@Embedded
 	@Basic(fetch=FetchType.EAGER)  //probably not needed
-	private Interesse interesse;
+	private Interesse interesse = new Interesse();
     private String profileimage;
 	private String password;
 	@Enumerated(EnumType.STRING)
     private Place place;
 	@OneToMany (mappedBy = "member")
 	@Cascade({CascadeType.ALL})
+	@JsonManagedReference
 	private List <Message> messages = new ArrayList<Message>();
+	@Cascade({CascadeType.ALL})
     @OneToMany
     private List <Comment> comments = new ArrayList<Comment>();
+	@Cascade({CascadeType.ALL})
     @OneToMany
     private List <Like> likes = new ArrayList<Like>();
 	@Enumerated(EnumType.STRING)
     private SportLevel sportLevel;
     private Boolean active;
     @ManyToMany
+    @JsonManagedReference
+	@Cascade({CascadeType.ALL})
     @JoinTable(
             name = "member_vrienden",
             joinColumns =
@@ -84,6 +93,8 @@ public class Member {
                     name = "vrienden_id") })
     private List <Member> vrienden = new ArrayList<Member>();
     @ManyToMany 
+    @JsonManagedReference
+	@Cascade({CascadeType.ALL})
     @JoinTable(
             name = "member_blokkades",
             joinColumns =
@@ -94,6 +105,8 @@ public class Member {
                     name = "blokkades_id") })
     private List <Member> blokkades = new ArrayList<Member>();
     @ManyToMany
+    @JsonManagedReference
+	@Cascade({CascadeType.ALL})
     private List <Event> events = new ArrayList<Event> ();
 	@ElementCollection
 	private Map<String, String> sports = new HashMap<String, String>();
@@ -101,6 +114,7 @@ public class Member {
 	private Set<OtherSport> othersports = new HashSet<OtherSport>();
 	@Enumerated(EnumType.STRING)
 	private Vervoer vervoer; 
+	private Geslacht geslacht;
     
     //Getters and Setters
    
@@ -255,6 +269,12 @@ public class Member {
 	}
 	public void setVervoer(Vervoer vervoer) {
 		this.vervoer = vervoer;
+	}	
+	public Geslacht getGeslacht() {
+		return geslacht;
+	}
+	public void setGeslacht(Geslacht geslacht) {
+		this.geslacht = geslacht;
 	}
 	
 	//ToString
@@ -266,11 +286,12 @@ public class Member {
 				+ interesse + ", profileimage=" + profileimage + ", password=" + password + ", place=" + place
 				+ ", messages=" + messages + ", comments=" + comments + ", likes=" + likes + ", sportLevel="
 				+ sportLevel + ", active=" + active + ", vrienden=" + vrienden + ", blokkades=" + blokkades
-				+ ", events=" + events + ", sports=" + sports + ", otherSports=" + othersports + ", vervoer=" + vervoer
-				+ "]";
+				+ ", events=" + events + ", sports=" + sports + ", othersports=" + othersports + ", vervoer=" + vervoer
+				+ ", geslacht=" + geslacht + "]";
 	}
-	
+
 	//Hashcode and Equals
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -284,6 +305,7 @@ public class Member {
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((events == null) ? 0 : events.hashCode());
 		result = prime * result + ((geboortedatum == null) ? 0 : geboortedatum.hashCode());
+		result = prime * result + ((geslacht == null) ? 0 : geslacht.hashCode());
 		result = prime * result + ((horses == null) ? 0 : horses.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((interesse == null) ? 0 : interesse.hashCode());
@@ -355,6 +377,8 @@ public class Member {
 			if (other.geboortedatum != null)
 				return false;
 		} else if (!geboortedatum.equals(other.geboortedatum))
+			return false;
+		if (geslacht != other.geslacht)
 			return false;
 		if (horses == null) {
 			if (other.horses != null)
@@ -429,8 +453,8 @@ public class Member {
 			return false;
 		return true;
 	}
-		
-// convenience methods for cardinality with Messages
+	
+	// convenience methods for cardinality with Messages
 	
 	public void addOrUpdateMessage (Message message) { 
 
@@ -497,5 +521,25 @@ public class Member {
 				throw new NullPointerException("remove null member can not be possible");
 			}
 			getVrienden().remove(member);
-		}	
+		}
+		
+
+		// convenience methods for cardinality with Events
+		
+			public void addOrUpdateEvent(Event event) { 
+
+				if (event== null) { 
+					throw new NullPointerException("add null event can not be possible");
+				}
+				getEvents().add(event);
+			}
+			
+			public void removeEvent(Event event) { 
+
+				if (event == null) { 
+					throw new NullPointerException("remove null event can not be possible");
+				}
+				getEvents().remove(event);
+			}	
+		
 }

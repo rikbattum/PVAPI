@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import nl.paardenvriendjes.customeditors.GeslachtEditor;
 import nl.paardenvriendjes.customeditors.LocationTypeEditor;
 import nl.paardenvriendjes.customeditors.SportLevelEditor;
 import nl.paardenvriendjes.customeditors.VervoerEditor;
@@ -36,6 +37,7 @@ public class MemberRestController {
 		binder.registerCustomEditor(String.class, "place", new LocationTypeEditor());
 		binder.registerCustomEditor(String.class, "sporttype", new SportLevelEditor());
 		binder.registerCustomEditor(String.class, "vervoer", new VervoerEditor());
+		binder.registerCustomEditor(String.class, "geslacht", new GeslachtEditor());
 	}
 	
 	

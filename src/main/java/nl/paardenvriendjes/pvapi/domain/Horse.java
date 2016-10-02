@@ -20,6 +20,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import nl.paardenvriendjes.enumerations.Geslacht;
 import nl.paardenvriendjes.enumerations.PaardType;
 
 @Entity
@@ -38,7 +41,7 @@ public class Horse {
 	private String afstamming;
 	@Temporal(TemporalType.DATE)
 	private Date geboortedatum;
-	private String geslacht;
+	private Geslacht geslacht;
 	private int stokmaat; 
 	private String karakter;
 	private String overmijnpaard;
@@ -53,6 +56,7 @@ public class Horse {
 	@OneToOne
 	private Paspoort paspoort;
 	@ManyToOne
+	@JsonBackReference
 	private Member member;
 	@ElementCollection
 	private Map<String, String> sports = new HashMap<String, String>();
@@ -118,14 +122,14 @@ public class Horse {
 		this.geboortedatum = geboortedatum;
 	}
 
-	public String getGeslacht() {
+	public Geslacht getGeslacht() {
 		return geslacht;
 	}
 
-	public void setGeslacht(String geslacht) {
+	public void setGeslacht(Geslacht geslacht) {
 		this.geslacht = geslacht;
 	}
-		
+
 	public int getStokmaat() {
 		return stokmaat;
 	}
@@ -231,6 +235,7 @@ public class Horse {
 	} 	
 	
 	// toString
+
 	@Override
 	public String toString() {
 		return "Horse [id=" + id + ", name=" + name + ", horseimage1=" + horseimage1 + ", horseimage2=" + horseimage2
@@ -240,7 +245,7 @@ public class Horse {
 				+ ", deactivatedDate=" + deactivatedDate + ", events=" + events + ", paspoort=" + paspoort + ", member="
 				+ member + ", sports=" + sports + ", paardType=" + paardType + ", active=" + active + "]";
 	}
-
+	
 	// Hashcode and equals
 
 	@Override
@@ -310,10 +315,7 @@ public class Horse {
 				return false;
 		} else if (!geboortedatum.equals(other.geboortedatum))
 			return false;
-		if (geslacht == null) {
-			if (other.geslacht != null)
-				return false;
-		} else if (!geslacht.equals(other.geslacht))
+		if (geslacht != other.geslacht)
 			return false;
 		if (horseimage1 == null) {
 			if (other.horseimage1 != null)
@@ -378,7 +380,7 @@ public class Horse {
 			return false;
 		return true;
 	}
-	
+
 	// convenience methods for working with SportsMap
 	
 	public void addSportToMap(String sporttype, String sportlevel) { 
@@ -390,7 +392,7 @@ public class Horse {
 		sports.put(sporttype, sportlevel);
 		}
 	}
-
+	
 	public void removeSportFromMap(String sporttype) { 
 
 

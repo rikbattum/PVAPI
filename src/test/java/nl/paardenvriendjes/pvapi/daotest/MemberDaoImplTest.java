@@ -3,9 +3,11 @@ package nl.paardenvriendjes.pvapi.daotest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.hamcrest.core.Is;
 import org.junit.After;
@@ -13,18 +15,29 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import nl.paardenvriendjes.enumerations.Geslacht;
+import nl.paardenvriendjes.enumerations.LineType;
+import nl.paardenvriendjes.enumerations.MessageType;
+import nl.paardenvriendjes.enumerations.OtherSport;
 import nl.paardenvriendjes.enumerations.Place;
+import nl.paardenvriendjes.enumerations.SportLevel;
+import nl.paardenvriendjes.enumerations.Vervoer;
 import nl.paardenvriendjes.pvapi.abstracttest.AbstractTest;
 import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
+import nl.paardenvriendjes.pvapi.domain.Event;
+import nl.paardenvriendjes.pvapi.domain.Horse;
 import nl.paardenvriendjes.pvapi.domain.Interesse;
 import nl.paardenvriendjes.pvapi.domain.Member;
+import nl.paardenvriendjes.pvapi.domain.Message;
 
 public class MemberDaoImplTest extends AbstractTest{
 
 	@Autowired
 	private MemberDaoImpl memberService;
-
+	
 	@Autowired
 	private TestUtil testUtil;
 
@@ -296,4 +309,71 @@ public class MemberDaoImplTest extends AbstractTest{
 	assertEquals(memberList.get(0).getSports().get("Mennen"), "Recreatief"); 
 	assertEquals(memberList.get(0).getSports().get("Rodeo"), null);
 	}	
+	
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testSetFullMember() throws Exception {	
+	Member fullmember  = new Member ();
+	fullmember.setAchternaam("Janssen");
+	fullmember.setVoornaam("Ronnie");
+	fullmember.setGeboortedatum(new Date());
+	fullmember.setEmail("ron.janssen@freemail.com");
+	fullmember.getInteresse().setLesgeven(true);
+	fullmember.getInteresse().setManageexploitatie(true);
+	fullmember.getInteresse().setPaardenshow(false);
+	fullmember.getInteresse().setStalbeheer(true);
+	fullmember.getOtherSports().add(OtherSport.DENKSPORT);
+	fullmember.getOtherSports().add(OtherSport.FIETSEN);
+	fullmember.getOtherSports().add(OtherSport.GOLF);
+	fullmember.setOvermij("ik vind buitenrijden te gek");
+	fullmember.setPassword("1234");
+	fullmember.setSportLevel(SportLevel.L2);
+	fullmember.setPlace(Place.BAAK);
+	fullmember.setProfileimage("https://localhost:8080/super/image.png");
+	fullmember.setUsername("the Penguin");
+	fullmember.setGeslacht(Geslacht.M);
+	fullmember.setVervoer(Vervoer.TRAILER);
+	fullmember.getSports().put("mennen", "L2");
+	fullmember.getSports().put("springen", "L2");
+	Message message = new Message () ; 
+	message.setMessage("fantastische dag");
+	message.setPiclink("test");
+	message.setMember(fullmember);
+	message.setLineType(LineType.SPORT);
+	message.setMessageType(MessageType.MESSAGE);
+	fullmember.getMessages().add(message);
+	Member vriend = new Member ();
+	vriend.setUsername("Ted");
+	vriend.setVoornaam("Allan");
+	vriend.setAchternaam("Pichard");
+	Member blokkade = new Member ();
+	blokkade.setUsername("Det");
+	blokkade.setVoornaam("Nalla");
+	blokkade.setAchternaam("Drahcip");
+	fullmember.getVrienden().add(blokkade);
+	Event event = new Event ();
+	event.setEventDate(new Date());
+	event.setEventName("spring open");
+	event.setMessage("open event for all");
+	fullmember.getEvents().add(new Event());
+	memberService.save(fullmember);
+	memberService.save(vriend);
+	memberService.save(blokkade);
+	Horse horse = new Horse (); 
+	horse.setAfstamming("Vertigo X Regilio");
+	horse.setHorseimage1("test");
+	horse.setName("Amalia");
+	horse.setGeslacht(Geslacht.F);
+	fullmember.addOrUpdateHorse(horse);
+	memberService.edit(fullmember);
+
+	List <Member> memberList = memberService.findMemberByFirstAndLastName("Ronnie", "Janssen"); 
+	assertEquals(memberList.size(), 1);
+	log.debug("This is the json of full_member"); 
+	log.debug(mapper.writeValueAsString(fullmember));
+	}
+	
+
+	
 }

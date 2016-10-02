@@ -1,0 +1,188 @@
+{
+	"id": 1,
+	"voornaam": "Ronnie",
+	"achternaam": "Janssen",
+	"username": "the Penguin",
+	"createdonDate": 1475420248705,
+	"deactivatedDate": null,
+	"geboortedatum": 1475420248691,
+	"email": "ron.janssen@freemail.com",
+	"overmij": "ik vind buitenrijden te gek",
+	"horses": [
+		{
+			"id": 6,
+			"name": "Amalia",
+			"horseimage1": "test",
+			"horseimage2": null,
+			"horseimage3": null,
+			"afstamming": "Vertigo X Regilio",
+			"geboortedatum": null,
+			"geslacht": "F",
+			"stokmaat": 0,
+			"karakter": null,
+			"overmijnpaard": null,
+			"overleden": null,
+			"waarde": 0,
+			"createdonDate": null,
+			"deactivatedDate": null,
+			"events": [
+			],
+			"paspoort": null,
+			"sports": {
+			},
+			"paardType": null,
+			"active": null
+		}
+	],
+	"interesse": {
+		"lesgeven": true,
+		"leskrijgen": null,
+		"paardentrainendressuur": null,
+		"paardentrainenspringen": null,
+		"samenbuitenrijden": null,
+		"samenwedstrijdenrijden": null,
+		"vervoerlenen": null,
+		"vervoeruitlenen": null,
+		"paardenwelzijn": null,
+		"paardencoaching": null,
+		"paardenfitness": null,
+		"ruiterfitness": null,
+		"paardenverzorging": null,
+		"keuringen": null,
+		"manageexploitatie": true,
+		"stalbeheer": true,
+		"ruiterenmenroutes": null,
+		"verenigingswezen": null,
+		"paardenshow": false,
+		"clinicsendemos": null,
+		"nationaleevenementen": null,
+		"internationaleevenementen": null,
+		"ruitersportartikelen": null,
+		"scheidsrechter": null,
+		"verzekeringenenrechtsbijstand": null,
+		"paardrijvakantieskampen": null
+	},
+	"profileimage": "https://localhost:8080/super/image.png",
+	"password": "1234",
+	"place": "BAAK",
+	"messages": [
+		{
+			"id": 3,
+			"message": "fantastische dag",
+			"messageType": "MESSAGE",
+			"lineType": "SPORT",
+			"insertDate": null,
+			"piclink": "test",
+			"picLinkSecond": null,
+			"picLinkThird": null,
+			"commentlist": [
+			],
+			"likelist": null,
+			"publicPost": null
+		}
+	],
+	"comments": [
+	],
+	"likes": [
+	],
+	"sportLevel": "L2",
+	"active": true,
+	"vrienden": [
+		{
+			"id": 4,
+			"voornaam": "Nalla",
+			"achternaam": "Drahcip",
+			"username": "Det",
+			"createdonDate": 1475420248766,
+			"deactivatedDate": null,
+			"geboortedatum": null,
+			"email": null,
+			"overmij": null,
+			"horses": [
+			],
+			"interesse": {
+				"lesgeven": null,
+				"leskrijgen": null,
+				"paardentrainendressuur": null,
+				"paardentrainenspringen": null,
+				"samenbuitenrijden": null,
+				"samenwedstrijdenrijden": null,
+				"vervoerlenen": null,
+				"vervoeruitlenen": null,
+				"paardenwelzijn": null,
+				"paardencoaching": null,
+				"paardenfitness": null,
+				"ruiterfitness": null,
+				"paardenverzorging": null,
+				"keuringen": null,
+				"manageexploitatie": null,
+				"stalbeheer": null,
+				"ruiterenmenroutes": null,
+				"verenigingswezen": null,
+				"paardenshow": null,
+				"clinicsendemos": null,
+				"nationaleevenementen": null,
+				"internationaleevenementen": null,
+				"ruitersportartikelen": null,
+				"scheidsrechter": null,
+				"verzekeringenenrechtsbijstand": null,
+				"paardrijvakantieskampen": null
+			},
+			"profileimage": null,
+			"password": null,
+			"place": null,
+			"messages": [
+			],
+			"comments": [
+			],
+			"likes": [
+			],
+			"sportLevel": null,
+			"active": true,
+			"vrienden": [
+			],
+			"blokkades": [
+			],
+			"events": [
+			],
+			"sports": {
+			},
+			"vervoer": null,
+			"geslacht": null,
+			"otherSports": [
+			]
+		}
+	],
+	"blokkades": [
+	],
+	"events": [
+		{
+			"id": 2,
+			"eventName": null,
+			"eventDate": null,
+			"createdOnDate": null,
+			"deactivatedDate": null,
+			"messageScore": null,
+			"score": 0,
+			"ranking": 0,
+			"active": null,
+			"members": [
+			],
+			"paspoort": null,
+			"horses": [
+			],
+			"message": null
+		}
+	],
+	"sports": {
+		"mennen": "L2",
+		"springen": "L2"
+	},
+	"vervoer": "TRAILER",
+	"geslacht": "M",
+	"otherSports": [
+		"FIETSEN",
+		"GOLF",
+		"DENKSPORT"
+	]
+}

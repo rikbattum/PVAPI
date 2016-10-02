@@ -2,10 +2,12 @@ package nl.paardenvriendjes.pvapi.daotest;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
 import org.hamcrest.core.Is;
 import org.junit.After;
 import org.junit.Before;
@@ -13,6 +15,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
+
 import nl.paardenvriendjes.enumerations.LineType;
 import nl.paardenvriendjes.pvapi.abstracttest.AbstractTest;
 import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
