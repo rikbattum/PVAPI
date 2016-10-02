@@ -1,4 +1,4 @@
-package nl.paardenvriendjes.hibernate.configuration;
+package nl.paardenvriendjes.application;
 
 import java.util.Properties;
 

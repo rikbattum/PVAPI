@@ -1,4 +1,4 @@
-package nl.paardenvriendjes.hibernate.configuration;
+package nl.paardenvriendjes.application;
 
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
@@ -39,13 +39,14 @@ public class AppSecurityConfig extends Auth0SecurityConfig {
         // most specific rules must come - order is important (see Spring Security docs)
         http.authorizeRequests()
                 .antMatchers("/ping", "/pong", "/welcome", "/error").permitAll()
+                .antMatchers("/safewelcome").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .antMatchers("/comments/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .antMatchers("/members/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .antMatchers("/messages/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .antMatchers("/likes/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .antMatchers("/paspoorts/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                .antMatchers("horses/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                .antMatchers("events/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                .antMatchers("/horses/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                .antMatchers("/events/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .anyRequest().authenticated();
     }
 }

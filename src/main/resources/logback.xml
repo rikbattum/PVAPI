@@ -12,6 +12,8 @@
     <!-- <logger name="org.hibernate.SQL" level="DEBUG" />-->
     <logger name="org.hibernate.type" level="TRACE" />
     <logger name="org.hibernate" level="DEBUG" />
+    <logger name="org.hibernate" level="DEBUG" />
+    
   
 	<root level="info">
 	 <appender name="FILE" class="ch.qos.logback.core.FileAppender">

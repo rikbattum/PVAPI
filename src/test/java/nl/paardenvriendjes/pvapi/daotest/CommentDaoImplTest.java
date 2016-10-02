@@ -18,6 +18,7 @@ import nl.paardenvriendjes.pvapi.daoimpl.MessageDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Comment;
 import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.domain.Message;
+import nl.paardenvriendjes.testutil.TestUtilDataSetup;
 
 public class CommentDaoImplTest extends AbstractTest{
 	
@@ -28,7 +29,7 @@ public class CommentDaoImplTest extends AbstractTest{
 	@Autowired
 	private CommentDaoImpl commentService;
 	@Autowired
-	private TestUtil testUtil;
+	private TestUtilDataSetup testUtilDataSetup;
 
 	@After
 	public void after() throws Throwable {
@@ -41,7 +42,7 @@ public class CommentDaoImplTest extends AbstractTest{
 	public void testCommentCascadeSave() {
 
 		// Arrange
-		testUtil.runMessagesPost();
+		testUtilDataSetup.runMessagesPost();
 		Message messageOne = messageService.listAll().get(0);
 		Member memberOne = messageOne.getMember();
 
@@ -66,7 +67,7 @@ public class CommentDaoImplTest extends AbstractTest{
 	public void testCommentCascadeEdit() {
 
 		// Arrange
-		testUtil.runMessagesPost();
+		testUtilDataSetup.runMessagesPost();
 		Message messageOne = messageService.listAll().get(0);
 		Member memberOne = messageOne.getMember();
 		Comment commentOne = new Comment();
@@ -90,7 +91,7 @@ public class CommentDaoImplTest extends AbstractTest{
 	public void testCommentCascadeDelete() {
 
 		// Arrange
-				testUtil.runMessagesPost();
+				testUtilDataSetup.runMessagesPost();
 				Message messageOne = messageService.listAll().get(0);
 				Member memberOne = messageOne.getMember();
 	

@@ -32,6 +32,7 @@ import nl.paardenvriendjes.pvapi.domain.Horse;
 import nl.paardenvriendjes.pvapi.domain.Interesse;
 import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.domain.Message;
+import nl.paardenvriendjes.testutil.TestUtilDataSetup;
 
 public class MemberDaoImplTest extends AbstractTest{
 
@@ -39,7 +40,7 @@ public class MemberDaoImplTest extends AbstractTest{
 	private MemberDaoImpl memberService;
 	
 	@Autowired
-	private TestUtil testUtil;
+	private TestUtilDataSetup testUtilDataSetup;
 
 	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	static Logger log = Logger.getLogger(MemberDaoImplTest.class.getName());
@@ -60,7 +61,7 @@ public class MemberDaoImplTest extends AbstractTest{
 	public void testMemberCreationExactNumberOfEntries() throws Exception {
 
 		// Arrange
-		testUtil.setMembers();
+		testUtilDataSetup.setMembers();
 
 		// Act
 		List<Member> memberList = memberService.listAll();
@@ -75,7 +76,7 @@ public class MemberDaoImplTest extends AbstractTest{
 	public void testMemberCreationIfDataIsCorrect() throws Exception {
 
 		// Arrange
-		testUtil.setMembers();
+		testUtilDataSetup.setMembers();
 
 		// Act
 		List<Member> memberList = memberService.listAll();
@@ -103,16 +104,16 @@ public class MemberDaoImplTest extends AbstractTest{
 
 		// Arrange
 		// 10 times 8 members
-		testUtil.setMembers();
-		testUtil.setMembers();
-		testUtil.setMembers();
-		testUtil.setMembers();
-		testUtil.setMembers();
-		testUtil.setMembers();
-		testUtil.setMembers();
-		testUtil.setMembers();
-		testUtil.setMembers();
-		testUtil.setMembers();
+		testUtilDataSetup.setMembers();
+		testUtilDataSetup.setMembers();
+		testUtilDataSetup.setMembers();
+		testUtilDataSetup.setMembers();
+		testUtilDataSetup.setMembers();
+		testUtilDataSetup.setMembers();
+		testUtilDataSetup.setMembers();
+		testUtilDataSetup.setMembers();
+		testUtilDataSetup.setMembers();
+		testUtilDataSetup.setMembers();
 
 		// Act
 		List<Member> memberList = memberService.listAll();
@@ -127,7 +128,7 @@ public class MemberDaoImplTest extends AbstractTest{
 	public void testMemberDeletion() throws Exception {
 
 		// Arrange
-		testUtil.setMembers();
+		testUtilDataSetup.setMembers();
 		List<Member> memberList = memberService.listAll();
 
 		// Assert
@@ -150,7 +151,7 @@ public class MemberDaoImplTest extends AbstractTest{
 	public void testMemberUpdate() throws Exception {
 
 		// Arrange
-		testUtil.setMembers();
+		testUtilDataSetup.setMembers();
 		List<Member> memberList = memberService.listAll();
 
 		// Assert
@@ -179,7 +180,7 @@ public class MemberDaoImplTest extends AbstractTest{
 	public void testCreatedOnValueSetInBackend() throws Exception {
 
 		// Arrange
-		testUtil.setMembers();
+		testUtilDataSetup.setMembers();
 		List<Member> memberList = memberService.listAll();
 
 		// Act
@@ -194,7 +195,7 @@ public class MemberDaoImplTest extends AbstractTest{
 	@Rollback(true)
 	public void testListMembersWithRange() throws Exception {
 		
-	testUtil.setMembers();
+	testUtilDataSetup.setMembers();
 	
 	int range [] = new int [] {0,4};
 	List<Member> memberList = memberService.listRange(range); 
@@ -208,12 +209,12 @@ public class MemberDaoImplTest extends AbstractTest{
 	@Transactional
 	@Rollback(true)
 	public void testCountOfMembersList() throws Exception {	
-	testUtil.setMembers();
+	testUtilDataSetup.setMembers();
 	int count = memberService.count();
 	
 	assertEquals(count, 8);
 	
-	testUtil.setMembers();
+	testUtilDataSetup.setMembers();
 	int secondCount = memberService.count();
 	
 	assertEquals(secondCount, 16);
@@ -223,7 +224,7 @@ public class MemberDaoImplTest extends AbstractTest{
 	@Transactional
 	@Rollback(true)
 	public void testQueryMembersOnID() throws Exception {	
-	testUtil.setMembers();
+	testUtilDataSetup.setMembers();
 	List<Member> memberList = memberService.listAll();
 	Long idOne = (Long) memberList.get(3).getId();
 	Long idTwo = (Long) memberList.get(5).getId();
@@ -238,7 +239,7 @@ public class MemberDaoImplTest extends AbstractTest{
 	@Transactional
 	@Rollback(true)
 	public void testQueryMembersByFirstName() throws Exception {	
-	testUtil.setMembers();
+	testUtilDataSetup.setMembers();
 	List<Member> memberList = memberService.findMemberByFirstName("dennis");
 	assertEquals(memberList.size(), 2);
 	assertEquals(memberList.get(0).getVoornaam(), "SuzyDennis");;
@@ -253,7 +254,7 @@ public class MemberDaoImplTest extends AbstractTest{
 	@Transactional
 	@Rollback(true)
 	public void testQueryMembersByFirstAndLastName() throws Exception {	
-	testUtil.setMembers();
+	testUtilDataSetup.setMembers();
 	List<Member> memberList = memberService.findMemberByFirstAndLastName("Ellis", "Vermeend");
 	assertEquals(memberList.size(), 2);
 	assertEquals(memberList.get(0).getVoornaam(), "2Ellise");
@@ -268,7 +269,7 @@ public class MemberDaoImplTest extends AbstractTest{
 	@Transactional
 	@Rollback(true)
 	public void testQueryMembersByLocation() throws Exception {	
-	testUtil.setMembers();
+	testUtilDataSetup.setMembers();
 	List<Member> memberList = memberService.listAll();
 	Member memberx = memberList.get(0);
 	memberx.setPlace(Place.DESTEEG);
@@ -281,7 +282,7 @@ public class MemberDaoImplTest extends AbstractTest{
 	@Transactional
 	@Rollback(true)
 	public void testQueryMembersByInteresses() throws Exception {	
-	testUtil.setMembers();
+	testUtilDataSetup.setMembers();
 	List<Member> memberList0 = memberService.listAll();
 	Member x  = memberList0.get(7);
 	x.setInteresse(new Interesse());
@@ -298,7 +299,7 @@ public class MemberDaoImplTest extends AbstractTest{
 	@Transactional
 	@Rollback(true)
 	public void testQueryMembersBySportTypes() throws Exception {	
-	testUtil.setMembers();
+	testUtilDataSetup.setMembers();
 	List<Member> memberList0 = memberService.listAll();
 	Member x  = memberList0.get(5);
 	x.getSports().put("Mennen", "Recreatief");

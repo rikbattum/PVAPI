@@ -1,4 +1,4 @@
-package nl.paardenvriendjes.hibernate.configuration;
+package nl.paardenvriendjes.application;
 
 import org.springframework.stereotype.Component;
 

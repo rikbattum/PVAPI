@@ -40,13 +40,6 @@ public class MemberRestController {
 		binder.registerCustomEditor(String.class, "geslacht", new GeslachtEditor());
 	}
 	
-	
-	@CrossOrigin
-	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
-	public String welcome() {// Welcome page, non-rest
-		return "Welcome to PVAPI";
-	}
-
 	// -------------------Options Call
 	// --------------------------------------------------------------
 

@@ -2,45 +2,69 @@ package nl.paardenvriendjes.pvapi.resttest;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONException;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import nl.paardenvriendjes.hibernate.configuration.HibernateConfiguration;
+import nl.paardenvriendjes.application.HibernateConfiguration;
+import nl.paardenvriendjes.testutil.TestUtilHeaderRequestInterceptor;
+import nl.paardenvriendjes.testutil.TestUtilLogin;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT, classes= HibernateConfiguration.class)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = HibernateConfiguration.class)
 
 public class MemberRestControllerTest {
-	  
+	
 	@Autowired
-	    private TestRestTemplate restTemplate;
+    private TestRestTemplate restTemplate;
+	
+	@Before
+	public void initializeLogin() { 
+	TestUtilLogin login = new TestUtilLogin();
+	String id_token = "";
+	
+	try {
+		id_token = login.logon();
+	} catch (JSONException | URISyntaxException | IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		e.getMessage();
+	}
+	
+	List<ClientHttpRequestInterceptor> interceptors = new ArrayList<ClientHttpRequestInterceptor>();
+	interceptors.add(new TestUtilHeaderRequestInterceptor("Autorization", "Bearer " + id_token));
+	restTemplate.getRestTemplate().setInterceptors(interceptors);
+	}
+	
+	@Test
+	@Transactional
+	public void welcomeTest() {
+		String body = restTemplate.getForObject("/welcome", String.class);
+
+		assertEquals(body, "Welcome to PVAPI, no login");
+	}
 
 	@Test
 	@Transactional
-	    public void welcomeTest() {
-	        String body = this.restTemplate.getForObject("/welcome", String.class);
-	      
-	       assertEquals(body, "Welcome to PVAPI");
+	public void rightsTest() {
+	
+//		HttpHeaders headers = new HttpHeaders();
+//		headers.add("Authorization", "Bearer " + access_token);
+//		HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+		String body = restTemplate.getForObject("/safewelcome", String.class);
+		assertEquals(body, "Welcome to PVAPI");
 	}
-
-@Test
-@Transactional
-    public void rightsTest() {
-        String body = this.restTemplate.getForObject("/", String.class);
-      
-       assertEquals(body, "Welcome to PVAPI");
-    }
-
-
-
-
 }
-
-
-

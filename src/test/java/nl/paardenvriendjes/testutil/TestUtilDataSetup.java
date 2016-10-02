@@ -1,4 +1,4 @@
-package nl.paardenvriendjes.pvapi.daotest;
+package nl.paardenvriendjes.testutil;
 
 import java.io.FileReader;
 import java.text.SimpleDateFormat;
@@ -17,7 +17,7 @@ import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.domain.Message;
 
 @Component
-public class TestUtil {
+public class TestUtilDataSetup {
 
 	@Autowired
 	private MemberDaoImpl memberService;

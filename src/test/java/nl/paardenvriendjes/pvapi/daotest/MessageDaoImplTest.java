@@ -22,6 +22,7 @@ import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
 import nl.paardenvriendjes.pvapi.daoimpl.MessageDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.domain.Message;
+import nl.paardenvriendjes.testutil.TestUtilDataSetup;
 
 public class MessageDaoImplTest extends AbstractTest {
 
@@ -30,7 +31,7 @@ public class MessageDaoImplTest extends AbstractTest {
 	@Autowired
 	private MemberDaoImpl memberService;
 	@Autowired
-	private TestUtil testUtil;
+	private TestUtilDataSetup testUtilDataSetup;
 
 	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -50,7 +51,7 @@ public class MessageDaoImplTest extends AbstractTest {
 	public void testMemberAndCASCADEMessageCreationGeneral() throws Exception {
 
 		// Arrange
-		testUtil.setMembers();
+		testUtilDataSetup.setMembers();
 		List<Member> memberList = memberService.listAll();
 
 		// Act
@@ -78,7 +79,7 @@ public class MessageDaoImplTest extends AbstractTest {
 	@Rollback(true)
 	@Test
 	public void testMultipleMesages() throws Exception {
-		testUtil.runMessagesPost();
+		testUtilDataSetup.runMessagesPost();
 		List<Message> messages = messageService.listAll();
 		assertThat(messages.size(), Is.is(22));
 	}
@@ -88,8 +89,8 @@ public class MessageDaoImplTest extends AbstractTest {
 	@Test
 	public void testCascadeSaveMesages() throws Exception {
 
-		testUtil.setMembers();
-		testUtil.runMessagesPost();
+		testUtilDataSetup.setMembers();
+		testUtilDataSetup.runMessagesPost();
 		List<Member> memberList = memberService.listAll();
 		Member testMember = memberList.get(0);
 		// // add an extra message
@@ -103,7 +104,7 @@ public class MessageDaoImplTest extends AbstractTest {
 	@Rollback(true)
 	@Test
 	public void testCascadeDeleteMesages() throws Exception {
-		testUtil.setMembers();
+		testUtilDataSetup.setMembers();
 		List<Member> memberList = memberService.listAll();
 		Member testMember = memberList.get(0);
 		// Add new message to be sure there is one
@@ -126,7 +127,7 @@ public class MessageDaoImplTest extends AbstractTest {
 	@Rollback(true)
 	@Test
 	public void testCascadeEditMesages() throws Exception {
-		testUtil.setMembers();
+		testUtilDataSetup.setMembers();
 		List<Member> memberList = memberService.listAll();
 		Member testMember = memberList.get(0);
 
@@ -159,8 +160,8 @@ public class MessageDaoImplTest extends AbstractTest {
 	@Test
 	public void testQuerySportMessages() throws Exception {
 
-		testUtil.setMembers();
-		testUtil.runMessagesPost();
+		testUtilDataSetup.setMembers();
+		testUtilDataSetup.runMessagesPost();
 		Message message1 = messageService.listAll().get(0);
 		Message message2= messageService.listAll().get(1);
 		Message message3= messageService.listAll().get(2);
@@ -185,8 +186,8 @@ public class MessageDaoImplTest extends AbstractTest {
 	@Test
 	public void testQueryFriendsMessages() throws Exception {
 
-		testUtil.setMembers();
-		testUtil.runMessagesPost();
+		testUtilDataSetup.setMembers();
+		testUtilDataSetup.runMessagesPost();
 		Message message1 = messageService.listAll().get(0);
 		Message message2= messageService.listAll().get(1);
 		Message message3= messageService.listAll().get(2);
