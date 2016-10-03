@@ -26,6 +26,8 @@ import nl.paardenvriendjes.enumerations.Geslacht;
 import nl.paardenvriendjes.enumerations.PaardType;
 
 @Entity
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE )
 public class Horse {
 
 	// Properties

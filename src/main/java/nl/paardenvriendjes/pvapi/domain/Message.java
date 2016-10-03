@@ -24,6 +24,8 @@ import nl.paardenvriendjes.enumerations.LineType;
 import nl.paardenvriendjes.enumerations.MessageType;
 
 @Entity
+@Cacheable("messagecache")
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Message {
 
 	@Id
@@ -44,9 +46,13 @@ public class Message {
 	private String picLinkThird;
 	@OneToMany (mappedBy="message", orphanRemoval=true)
 	@Cascade({CascadeType.ALL})
+	// needed with fetchtype lazy?
+	@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy..NONSTRICT_READ_WRITE)
 	private List<Comment> commentlist = new ArrayList<Comment>();
 	@OneToMany(mappedBy = "message")
 	@Cascade({CascadeType.ALL})
+	// needed with fetchtype lazy?
+	@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private List<Like> likelist;
 	private Boolean publicPost; 
 

@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import nl.paardenvriendjes.enumerations.LikeType;
 
 @Entity
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE )
 public class Like {
 
 	@Id

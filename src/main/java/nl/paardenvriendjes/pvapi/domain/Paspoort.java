@@ -15,8 +15,9 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 
-	
-	@Entity
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE )
+@Entity
 
 public class Paspoort {
 

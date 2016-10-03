@@ -17,9 +17,17 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
+import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.io.ClassPathResource;
 
 
 @Configuration
+@EnableCaching
 @EnableTransactionManagement
 @EnableAutoConfiguration
 @ComponentScan({ "nl.paardenvriendjes" })
@@ -56,6 +64,10 @@ public class HibernateConfiguration {
 		properties.put("hibernate.use_sql_comments", "true");
 		properties.put("hibernate.hbm2ddl.auto", "create-drop");
 		properties.put("connection.autocommit", "false");
+		// cache related
+		properties.put("hibernate.cache.use_second_level_cache", "true");
+		properties.put("hibernate.cache.region.factory_class", "org.hibernate.cache.ehcache.EhCacheRegionFactory");
+		properties.put("hibernate.cache.use_query_cache", "true");
 		return properties;
 	}
 
@@ -71,34 +83,16 @@ public class HibernateConfiguration {
 	public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
 		return new PersistenceExceptionTranslationPostProcessor();
 	}
-	
-//	@Value("${tomcat.ajp.port}")
-//	int ajpPort;
-//
-//	@Value("${tomcat.ajp.remoteauthentication}")
-//	String remoteAuthentication;
-//
-//	@Value("${tomcat.ajp.enabled}")
-//	boolean tomcatAjpEnabled;
-//	
-//	@Bean
-//	public EmbeddedServletContainerFactory servletContainer() {
-//
-//	    TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory();
-//	    if (tomcatAjpEnabled)
-//	    {
-//	        Connector ajpConnector = new Connector("AJP/1.3");
-//	        ajpConnector.setProtocol("AJP/1.3");
-//	        ajpConnector.setPort(ajpPort);
-//	        ajpConnector.setSecure(false);
-//	        ajpConnector.setAllowTrace(false);
-//	        ajpConnector.setScheme("http");
-//	        tomcat.addAdditionalTomcatConnectors(ajpConnector);
-//	    }
-//
-//	    return tomcat;
-//	}
-	
-	
-	
+
+	@Bean
+	public CacheManager getEhCacheManager(){
+		return  new EhCacheCacheManager(getEhCacheFactory().getObject());
+	}
+	@Bean
+	public EhCacheManagerFactoryBean getEhCacheFactory(){
+		EhCacheManagerFactoryBean factoryBean = new EhCacheManagerFactoryBean();
+		factoryBean.setConfigLocation(new ClassPathResource("ehcache.xml"));
+		factoryBean.setShared(true);
+		return factoryBean;
+	}
 }

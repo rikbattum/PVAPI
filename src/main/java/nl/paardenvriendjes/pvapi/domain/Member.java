@@ -38,6 +38,8 @@ import nl.paardenvriendjes.enumerations.SportLevel;
 import nl.paardenvriendjes.enumerations.Vervoer;
 
 @Entity
+@Cacheable("membercache")
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE )
 public class Member {
 
 	//Properties
