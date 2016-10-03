@@ -63,6 +63,8 @@ public class MessageDaoImpl extends AbstractDaoService<Message> {
 		// set pages 
 		criteria.setFirstResult(start);
 		criteria.setMaxResults(pageSize);
+		// cacheble query
+		criteria.setCacheable(true);
 		// arrange sort on date; 
 		criteria.addOrder(Order.desc("insertDate"));
 		List <Message> messageListPageX =  criteria.list();
@@ -81,6 +83,8 @@ public class MessageDaoImpl extends AbstractDaoService<Message> {
 		// set pages 
 		criteria.setFirstResult(start);
 		criteria.setMaxResults(pageSize);
+		// cacheble query
+		criteria.setCacheable(true);
 		// arrange sort on date; 
 		criteria.addOrder(Order.desc("insertDate"));
 		List <Message> messageListPageX =  criteria.list();
@@ -98,6 +102,8 @@ public class MessageDaoImpl extends AbstractDaoService<Message> {
 		// set pages 
 		criteria.setFirstResult(start);
 		criteria.setMaxResults(pageSize);
+		// cacheble query
+		criteria.setCacheable(true);
 		// arrange sort on date; 
 		criteria.addOrder(Order.desc("insertDate"));
 		List <Message> messageListPageX =  criteria.list();
@@ -115,6 +121,8 @@ public class MessageDaoImpl extends AbstractDaoService<Message> {
 		// set pages 
 		criteria.setFirstResult(start);
 		criteria.setMaxResults(pageSize);
+		// cacheble query
+		criteria.setCacheable(true);
 		// arrange sort on date; 
 		criteria.addOrder(Order.desc("insertDate"));
 		List <Message> messageListPageX =  criteria.list();
