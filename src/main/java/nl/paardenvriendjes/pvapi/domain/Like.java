@@ -10,11 +10,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.cache.annotation.CachePut;
+
 import nl.paardenvriendjes.enumerations.LikeType;
 
 @Entity
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE )
+@CachePut("other")
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Like {
 
 	@Id

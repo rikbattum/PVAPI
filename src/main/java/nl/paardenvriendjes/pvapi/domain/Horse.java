@@ -20,14 +20,17 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.cache.annotation.Cacheable;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import nl.paardenvriendjes.enumerations.Geslacht;
 import nl.paardenvriendjes.enumerations.PaardType;
 
 @Entity
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE )
+@Cacheable("other")
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Horse {
 
 	// Properties

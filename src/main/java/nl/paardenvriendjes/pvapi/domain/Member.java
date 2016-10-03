@@ -26,8 +26,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.springframework.cache.annotation.Cacheable;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -39,7 +41,7 @@ import nl.paardenvriendjes.enumerations.Vervoer;
 
 @Entity
 @Cacheable("membercache")
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE )
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Member {
 
 	//Properties
