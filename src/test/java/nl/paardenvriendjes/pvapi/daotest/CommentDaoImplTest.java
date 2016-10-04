@@ -8,6 +8,7 @@ import org.hamcrest.core.Is;
 import org.junit.After;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,7 @@ import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.domain.Message;
 import nl.paardenvriendjes.testutil.TestUtilDataSetup;
 
+@DirtiesContext
 public class CommentDaoImplTest extends AbstractTest{
 	
 	@Autowired

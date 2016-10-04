@@ -58,16 +58,16 @@ public class MessageDaoImpl extends AbstractDaoService<Message> {
 		Criteria criteria = getCurrentSession().createCriteria(Message.class);
 		// set message type selection
 		criteria.add(Restrictions.eq("lineType", LineType.SPORT));
-		//get 3 week period
-		criteria.add(Restrictions.between("insertDate", getTimeLineLapse (21), new Date()));
-		// set pages 
+		// get 3 week period
+		criteria.add(Restrictions.between("insertDate", getTimeLineLapse(21), new Date()));
+		// set pages
 		criteria.setFirstResult(start);
 		criteria.setMaxResults(pageSize);
 		// cacheble query
-		criteria.setCacheable(true);
-		// arrange sort on date; 
+		// criteria.setCacheable(true);
+		// arrange sort on date;
 		criteria.addOrder(Order.desc("insertDate"));
-		List <Message> messageListPageX =  criteria.list();
+		List<Message> messageListPageX = criteria.list();
 		log.debug("messageis" + messageListPageX.get(0).getMessage());
 		log.debug("got List: " + Message.class.toString());
 		return messageListPageX;
@@ -78,35 +78,35 @@ public class MessageDaoImpl extends AbstractDaoService<Message> {
 		Criteria criteria = getCurrentSession().createCriteria(Message.class);
 		// set message type selection
 		criteria.add(Restrictions.eq("lineType", LineType.GENERAL));
-		//get 2 week period
-		criteria.add(Restrictions.between("insertDate", getTimeLineLapse (14), new Date()));
-		// set pages 
+		// get 2 week period
+		criteria.add(Restrictions.between("insertDate", getTimeLineLapse(14), new Date()));
+		// set pages
 		criteria.setFirstResult(start);
 		criteria.setMaxResults(pageSize);
 		// cacheble query
-		criteria.setCacheable(true);
-		// arrange sort on date; 
+		// criteria.setCacheable(true);
+		// arrange sort on date;
 		criteria.addOrder(Order.desc("insertDate"));
-		List <Message> messageListPageX =  criteria.list();
+		List<Message> messageListPageX = criteria.list();
 		log.debug("got List: " + Message.class.toString());
 		return messageListPageX;
 	}
-	
+
 	public List<Message> listAllMessagesKids(int start, int end) {
 
 		Criteria criteria = getCurrentSession().createCriteria(Message.class);
 		// set message type selection
 		criteria.add(Restrictions.eq("lineType", LineType.KIDS));
-		//get 3 week period
-		criteria.add(Restrictions.between("insertDate", getTimeLineLapse (21), new Date()));
-		// set pages 
+		// get 3 week period
+		criteria.add(Restrictions.between("insertDate", getTimeLineLapse(21), new Date()));
+		// set pages
 		criteria.setFirstResult(start);
 		criteria.setMaxResults(pageSize);
 		// cacheble query
-		criteria.setCacheable(true);
-		// arrange sort on date; 
+		// criteria.setCacheable(true);
+		// arrange sort on date;
 		criteria.addOrder(Order.desc("insertDate"));
-		List <Message> messageListPageX =  criteria.list();
+		List<Message> messageListPageX = criteria.list();
 		log.debug("got List: " + Message.class.toString());
 		return messageListPageX;
 	}
@@ -114,24 +114,24 @@ public class MessageDaoImpl extends AbstractDaoService<Message> {
 	public List<Message> listAllMessagesFriends(int start, int end, Member x) {
 
 		Criteria criteria = getCurrentSession().createCriteria(Message.class);
-		//get 3 week period
-		criteria.add(Restrictions.between("insertDate", getTimeLineLapse (21), new Date()));
-		//get messages of friends only
+		// get 3 week period
+		criteria.add(Restrictions.between("insertDate", getTimeLineLapse(21), new Date()));
+		// get messages of friends only
 		criteria.add(Restrictions.in("member", x.getVrienden()));
-		// set pages 
+		// set pages
 		criteria.setFirstResult(start);
 		criteria.setMaxResults(pageSize);
 		// cacheble query
-		criteria.setCacheable(true);
-		// arrange sort on date; 
+		// criteria.setCacheable(true);
+		// arrange sort on date;
 		criteria.addOrder(Order.desc("insertDate"));
-		List <Message> messageListPageX =  criteria.list();
+		List<Message> messageListPageX = criteria.list();
 		log.debug("got List: " + Message.class.toString());
 		return messageListPageX;
 	}
 
 	// convenience method to retrieve days before Sys-date;
-	public Date getTimeLineLapse (int amountOfDays) { 
+	public Date getTimeLineLapse(int amountOfDays) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
 		cal.add(Calendar.DATE, -amountOfDays);

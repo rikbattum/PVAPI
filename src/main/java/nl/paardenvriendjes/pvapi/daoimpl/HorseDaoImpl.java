@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import nl.paardenvriendjes.customeditors.PaardTypeEditor;
+import nl.paardenvriendjes.enumerations.PaardType;
 import nl.paardenvriendjes.pvapi.domain.Horse;
 import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.service.AbstractDaoService;
@@ -94,8 +96,9 @@ public void reactivate(Long id) {
 	public List<Horse> findHorseByPaardType(String paardtype) {
 		if (paardtype.length() < 3) {
 
-			List<Member> temp = new ArrayList<Member>();
+			List<Horse> temp = new ArrayList<Horse>();
 			return temp;
+		
 		} else {
 			PaardTypeEditor editor = new PaardTypeEditor();
 			PaardType type =  editor.returnAsPaardType(paardtype);

@@ -61,10 +61,11 @@ public class HibernateConfiguration {
 		properties.put("connection.autocommit", "false");
 		// cache related
 		properties.put("cache.provider_class", "org.hibernate.cache.EhCacheProvider");
-		properties.put("hibernate.cache.region.factory_class", "org.hibernate.cache.ehcache.EhCacheRegionFactory");
+		properties.put("hibernate.cache.region.factory_class", "org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory");
 		properties.put("hibernate.cache.use_second_level_cache", "true");
 		properties.put("hibernate.cache.use_query_cache", "true");
-
+		properties.put("javax.persistence.sharedCache.mode", "ENABLE_SELECTIVE");
+		
 		return properties;
 	}
 
