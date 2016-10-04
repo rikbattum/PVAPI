@@ -2,38 +2,44 @@
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="ehcache.xsd"
          updateCheck="true" monitoring="autodetect" dynamicConfig="true">
+         
+    <defaultCache 
+     maxEntriesLocalHeap="10000" 
+     eternal="false" 
+     timeToIdleSeconds="600" timeToLiveSeconds="800"
+     maxEntriesLocalDisk="10000000" 
+     diskExpiryThreadIntervalSeconds="120" 
+     memoryStoreEvictionPolicy="LRU"> 
+     <persistence strategy="localTempSwap"/> 
+    </defaultCache>                
     <cache name="messagecache"
-           maxElementsInMemory="8000"
-           maxElementsOnDisk="2000"
+           maxEntriesLocalHeap="8000"
+           maxEntriesLocalDisk="2000"
            eternal="false"
-           diskSpoolBufferSizeMB="30"
-           timeToIdleSeconds="300"
-           timeToLiveSeconds="600"
+           diskSpoolBufferSizeMB="40"
+           timeToIdleSeconds="300"  timeToLiveSeconds="600"
            memoryStoreEvictionPolicy="LFU"
            transactionalMode="off">
         <persistence strategy="localTempSwap"/>
     </cache>
     <cache name="membercache"
-           maxElementsInMemory="500"
-           maxElementsOnDisk="100"
+           maxEntriesLocalHeap="500"
+           maxEntriesLocalDisk="200"
            eternal="false"
-           diskSpoolBufferSizeMB="10"
-           timeToIdleSeconds="600"
-           timeToLiveSeconds="800"
+           diskSpoolBufferSizeMB="30"
+           timeToIdleSeconds="600" timeToLiveSeconds="800"
            memoryStoreEvictionPolicy="LFU"
            transactionalMode="off">
         <persistence strategy="localTempSwap"/>
-    </cache>
-        <cache name="other"
-           maxElementsInMemory="8000"
-           maxElementsOnDisk="2500"
+    </cache>         
+    <cache name="other"
+           maxEntriesLocalHeap="8000"
+           maxEntriesLocalDisk="2500"
            eternal="false"
-           diskSpoolBufferSizeMB="10"
-           timeToIdleSeconds="600"
-           timeToLiveSeconds="800"
+           diskSpoolBufferSizeMB="30"
+           timeToIdleSeconds="600" timeToLiveSeconds="800"
            memoryStoreEvictionPolicy="LFU"
            transactionalMode="off">
         <persistence strategy="localTempSwap"/>
-    </cache>
-    
+    </cache>   
 </ehcache>
