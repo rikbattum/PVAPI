@@ -91,22 +91,25 @@ public void reactivate(Long id) {
 		}
 	}
 	
-	public List<Member> findHorseByLocation(String location) {
-		Criteria criteria = getCurrentSession().createCriteria(Member.class);
-		if (location.length()<3) {
-			
-			List<Member> temp = new ArrayList <Member>();
-			return temp; 
+	public List<Horse> findHorseByPaardType(String paardtype) {
+		if (paardtype.length() < 3) {
+
+			List<Member> temp = new ArrayList<Member>();
+			return temp;
+		} else {
+			PaardTypeEditor editor = new PaardTypeEditor();
+			PaardType type =  editor.returnAsPaardType(paardtype);
+			Criteria criteria = getCurrentSession().createCriteria(Horse.class);
+			criteria.add(Restrictions.eq("paardtype", type));
+			criteria.add(Restrictions.eq("active", true));
+			criteria.setFirstResult(0);
+			criteria.setMaxResults(20);
+			// arrange sort on lastname;
+			criteria.addOrder(Order.desc("achternaam"));
+			List<Horse> foundHorses = criteria.list();
+			return foundHorses;
 		}
-		criteria.add(Restrictions.ilike("plaatsnaam", location, MatchMode.ANYWHERE));
-		criteria.add(Restrictions. eq("active", true));
-		criteria.setFirstResult(0);
-		criteria.setMaxResults(20);
-		// arrange sort on lastname; 
-		criteria.addOrder(Order.desc("name"));
-		List <Member> foundHorses =  criteria.list();
-		return foundHorses;
-	}	
+	}
 	
 	public List<Horse> findHorseBySportType(String sporttype) {
 		Criteria criteria = getCurrentSession().createCriteria(Horse.class, "horse");
