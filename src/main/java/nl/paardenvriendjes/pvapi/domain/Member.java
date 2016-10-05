@@ -527,6 +527,23 @@ public class Member {
 			getVrienden().remove(member);
 		}
 		
+		// convenience methods for cardinality with Blokkades
+		
+			public void addOrUpdateBlokkade(Member member) { 
+
+				if (member == null) { 
+					throw new NullPointerException("add null member blokkade can not be possible");
+				}
+				getBlokkades().add(member);
+			}
+			
+			public void removeBlokkade(Member member) { 
+
+				if (member == null) { 
+					throw new NullPointerException("remove null member blokkade can not be possible");
+				}
+				getBlokkades().remove(member);
+			}		
 
 		// convenience methods for cardinality with Events
 		

@@ -224,4 +224,64 @@ public class MemberRestController {
 		}
 		return new ResponseEntity<List<Member>>(members, HttpStatus.OK);
 	}	
+	
+	
+	// Friend functions
+	
+	@CrossOrigin
+	@RequestMapping(value = "/members/friend/addfriend/", method = RequestMethod.PUT)
+		public ResponseEntity<Member> addFriend(@PathVariable("id") long id, @PathVariable ("toBeFollowedFriendId") long toBeFollowedFriendId) {
+			log.debug("Adding friend with id " + toBeFollowedFriendId + " to memberId " + id);
+			Member member = memberservice.listOne(id);
+			Member friend = memberservice.listOne(toBeFollowedFriendId);
+			if (member == null || friend == null) {
+				log.debug("Unable to add member or friend when null id of " + id + " or friend id of: " + toBeFollowedFriendId);
+				return new ResponseEntity<Member>(HttpStatus.NOT_FOUND);
+			}
+			memberservice.addFriend(member, friend);
+			return new ResponseEntity<Member>(member, HttpStatus.OK);
+		}
+
+	@CrossOrigin
+	@RequestMapping(value = "/members/friend/removefriend/", method = RequestMethod.PUT)
+		public ResponseEntity<Member> removeFriend(@PathVariable("id") long id, @PathVariable ("toBeRemovedFriendId") long toBeRemovedFriendId) {
+			log.debug("Removing friend with id " + toBeRemovedFriendId + " from memberId " + id);
+			Member member = memberservice.listOne(id);
+			Member friend = memberservice.listOne(toBeRemovedFriendId);
+			if (member == null || friend == null) {
+				log.debug("Unable to remove member or friend when null id of " + id + " or friend id of: " + toBeRemovedFriendId);
+				return new ResponseEntity<Member>(HttpStatus.NOT_FOUND);
+			}
+			memberservice.removeFriend(member, friend);
+			return new ResponseEntity<Member>(member, HttpStatus.OK);
+		}
+
+		
+	@CrossOrigin
+	@RequestMapping(value = "/members/friend/addblock/", method = RequestMethod.PUT)
+		public ResponseEntity<Member> addBlock(@PathVariable("id") long id, @PathVariable ("toBeAddedBlockId") long toBeAddedBlockId) {
+			log.debug("Adding block for  friend with id " + toBeAddedBlockId + " for memberId " + id);
+			Member member = memberservice.listOne(id);
+			Member block = memberservice.listOne(toBeAddedBlockId);
+			if (member == null || block == null) {
+				log.debug("Unable to block member or friend when null id of " + id + " or block id of: " + toBeAddedBlockId);
+				return new ResponseEntity<Member>(HttpStatus.NOT_FOUND);
+			}
+			memberservice.addBlock(member, block);
+			return new ResponseEntity<Member>(member, HttpStatus.OK);
+		}
+
+	@CrossOrigin
+	@RequestMapping(value = "/members/friend/removeblock/", method = RequestMethod.PUT)
+		public ResponseEntity<Member> removeBlock(@PathVariable("id") long id, @PathVariable ("toBeRemovedBlockId") long toBeRemovedBlockId) {
+			log.debug("Removing block for friend with id " + toBeRemovedBlockId + " for memberId " + id);
+			Member member = memberservice.listOne(id);
+			Member block = memberservice.listOne(toBeRemovedBlockId);
+			if (member == null || block == null) {
+				log.debug("Unable to unlock member or friend when null id of " + id + " or block id of: " + toBeRemovedBlockId);
+				return new ResponseEntity<Member>(HttpStatus.NOT_FOUND);
+			}
+			memberservice.removeBlock(member, block);
+			return new ResponseEntity<Member>(member, HttpStatus.OK);
+	}
 }

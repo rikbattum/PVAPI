@@ -41,6 +41,7 @@ public class AppSecurityConfig extends Auth0SecurityConfig {
                 .antMatchers("/ping", "/pong", "/welcome", "/error").permitAll()
                 .antMatchers("/safewelcome").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .antMatchers("/comments/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                .antMatchers("/members/friend/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .antMatchers("/members/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .antMatchers("/messages/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .antMatchers("/likes/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
@@ -50,3 +51,5 @@ public class AppSecurityConfig extends Auth0SecurityConfig {
                 .anyRequest().authenticated();
     }
 }
+
+

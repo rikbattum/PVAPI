@@ -1,6 +1,7 @@
 package nl.paardenvriendjes.pvapi.daoimpl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -69,6 +70,8 @@ public class MemberDaoImpl extends AbstractDaoService<Member> {
 	}
 }
 
+	// find functions
+	
 	public List<Member> findMemberByFirstName(String firstname) {
 		Criteria criteria = getCurrentSession().createCriteria(Member.class);
 		if (firstname.length() < 3) {
@@ -180,7 +183,61 @@ public class MemberDaoImpl extends AbstractDaoService<Member> {
 		return foundMembers;
 	}
 	
-	// Convenience Methods for sportsmap
+	// friend functions
+	
+	public void addFriend (Member member, Member toBeFollowedMember) {
+		
+		if (Arrays.asList(member.getBlokkades()).contains(toBeFollowedMember)) { 
+		 throw new IllegalArgumentException("Sorry this member does not want to be followed");
+		}
+		else if (Arrays.asList(member.getVrienden()).contains(toBeFollowedMember)) {
+		throw new IllegalArgumentException("Sorry this member is already your friend");
+		}
+		else {
+		member.addOrUpdateFriend(toBeFollowedMember);
+		getCurrentSession().merge(member);
+		log.debug("Added a friend with Id: " + toBeFollowedMember.getId() + " to Member: " + member.getId());
+		}
+	}
+
+	public void removeFriend (Member member, Member toBeRemovedFriend) throws IllegalArgumentException {
+		
+		if (!Arrays.asList(member.getVrienden()).contains(toBeRemovedFriend)) { 
+		 throw new IllegalArgumentException("Sorry this member is not a Friend");
+		}
+		else {
+		member.removeFriend(toBeRemovedFriend);
+		getCurrentSession().merge(member);
+		log.debug("Removed a friend with Id: " + toBeRemovedFriend.getId() + " from Member: " + member.getId());
+		}
+	}
+	
+	public void addBlock (Member member, Member toBeBlockedMember) throws IllegalArgumentException {
+				
+		if (Arrays.asList(member.getBlokkades()).contains(toBeBlockedMember)) { 
+		 throw new IllegalArgumentException("Sorry this member is already blocked");
+		}
+		else {
+		member.addOrUpdateBlokkade(toBeBlockedMember);
+		getCurrentSession().merge(member);;
+		log.debug("Added a blocked member with Id: " + toBeBlockedMember.getId() + "to Member: " + member.getId());
+		}
+	}	
+	
+	public void removeBlock (Member member, Member toBeUnBlockedMember) throws IllegalArgumentException {
+				
+		if (!Arrays.asList(member.getBlokkades()).contains(toBeUnBlockedMember)) { 
+		throw new IllegalArgumentException("Sorry this member is not blocked, so unblocking not possible");
+		}
+		
+		else if (Arrays.asList(member.getBlokkades()).contains(toBeUnBlockedMember)) { 
+		member.removeBlokkade(toBeUnBlockedMember);
+		getCurrentSession().merge(member);
+		log.debug("Added a vriend with Id: " + toBeUnBlockedMember.getId() + "to Member: " + member.getId());
+		}
+	}		
+	
+// Convenience Methods for sportsmap
 	
 	//public void updateHorseSports(String sporttype, String sportlevel) {
 //	
@@ -215,13 +272,4 @@ public class MemberDaoImpl extends AbstractDaoService<Member> {
 //	removeSportFromMap(selectedSportType);
 //	}
 //}
-
-	
-	
-	
-	
-	
-	
-	
-	
 }
