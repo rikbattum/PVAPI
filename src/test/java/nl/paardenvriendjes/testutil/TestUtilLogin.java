@@ -6,16 +6,19 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,7 +34,7 @@ public class TestUtilLogin {
 				"https://pvapp.eu.auth0.com/oauth/ro");
 		// ub.setParameter("", "");
 		URI uri = ub.build();
-
+		String clientId = "sPcuHXFrQvNcxMv4iYvA9JoF1VhlqyLh";
 		List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
 		urlParameters.add(new BasicNameValuePair("client_id", "sPcuHXFrQvNcxMv4iYvA9JoF1VhlqyLh"));
 		urlParameters.add(new BasicNameValuePair("username", "rikbattum@hotmail.com"));
@@ -43,21 +46,99 @@ public class TestUtilLogin {
 		urlParameters.add(new BasicNameValuePair("device", "openid"));
 
 		HttpUriRequest request = org.apache.http.client.methods.RequestBuilder.post().setUri(uri)
-				.setHeader(HttpHeaders.ACCEPT, "application/json")
+				.setHeader(HttpHeaders.ACCEPT, " text/plain")
 				.setEntity(new UrlEncodedFormEntity(urlParameters)).build();
-		BasicResponseHandler rh = new BasicResponseHandler();
 		HttpClient client = HttpClientBuilder.create().build();
-		String response = client.execute(request, rh);
+		HttpResponse response = client.execute(request);
+		int status = response.getStatusLine().getStatusCode();
+		if(status != 200) {
+			throw new ClientProtocolException(
+					"Unexpected response status: " + status);
+		}
+		HttpEntity entity = response.getEntity();
+		if(entity==null) {
+			throw new ClientProtocolException(
+					"Response has no body");
+		}
+		String body = EntityUtils.toString(entity);
 		
-		log.debug(response);
-		JSONObject jwt = new JSONObject(response);
-		log.debug("id_token is "+jwt.get("id_token"));
-		log.debug("access_token is "+jwt.get("access_token"));
-		log.debug("token_type is "+jwt.get("token_type"));
+		JSONObject jwt = new JSONObject(body);
 		String access_token = (String) jwt.get("access_token");
-		String id_token = (String) jwt.get("id_token");
+		String id_token = (String) jwt.get("id_token");	
 
-        return id_token;
-        		
+        //Mimick Resource Server
+    	//Verify access_token 
+    	ub = new URIBuilder(
+    			"https://pvapp.eu.auth0.com/userinfo");
+    	uri = ub.build();
+    	request = RequestBuilder.get().setUri(uri).setHeader(HttpHeaders.AUTHORIZATION, "Bearer "+access_token).build();
+    	response = client.execute(request);
+    	status = response.getStatusLine().getStatusCode();
+    	if(status != 200) {
+    		throw new ClientProtocolException(
+    				"Unexpected response status: " + status);
+    	}
+    	entity = response.getEntity();
+    	if(entity==null) {
+    		throw new ClientProtocolException(
+    				"Response has no body");
+    	}
+    	body = EntityUtils.toString(entity);
+    	verifyTokenReponse(body, clientId);
+    	
+    	//verify id_token
+    	ub = new URIBuilder(
+    			"https://pvapp.eu.auth0.com/tokeninfo");
+    	uri = ub.build();
+    	
+    	urlParameters = new ArrayList<NameValuePair>();
+    	urlParameters.add(new BasicNameValuePair("id_token", id_token));
+    	request = RequestBuilder.post().setUri(uri)
+    			.setEntity(new UrlEncodedFormEntity(urlParameters)).build();
+    	response = client.execute(request);
+    	status = response.getStatusLine().getStatusCode();
+    	if(status != 200) {
+    		throw new ClientProtocolException(
+    				"Unexpected response status: " + status);
+    	}
+    	entity = response.getEntity();
+    	if(entity==null) {
+    		throw new ClientProtocolException(
+    				"Response has no body");
+    	}
+    	body = EntityUtils.toString(entity);
+    	verifyTokenReponse(body, clientId);
+    	
+    	return id_token;
+    }
+
+    private void verifyTokenReponse(String body, String clientId) throws JSONException, IllegalStateException {
+    	//Do some elementary checks
+    	log.debug("clientidis: " + clientId);
+    	JSONObject jwt = new JSONObject(body);
+    	String clientID = (String) jwt.get("clientID");
+     	log.debug("clientid2is: " + clientID);
+     	log.debug("clientid2is: ");
+    	if(!clientId.equals(clientID)) {
+    		throw new IllegalStateException("Unexpected clientID");
+    	}
+    	boolean email_verified = (Boolean) jwt.get("email_verified");
+    	if(!email_verified) {
+    		throw new IllegalStateException("email_verified must be true");
+    	}
+    	String email = (String) jwt.get("email");
+    	if(!IsSet(email)) {
+    		throw new IllegalStateException("email must be set");
+    	}
+    	String user_id = (String) jwt.get("user_id");
+    	if(!IsSet(user_id)) {
+    		throw new IllegalStateException("user_id must be set");
+    	}
+    }
+
+    private static boolean IsSet(String s)
+    {
+    	return s!=null&&s.trim().length()>0;
+    }        
 	}	
-}
+
