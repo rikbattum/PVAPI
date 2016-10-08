@@ -4,6 +4,7 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -38,9 +39,11 @@ public class AppSecurityConfig extends Auth0SecurityConfig {
         // add others or remove as you choose, this is just a sample config to illustrate
         // most specific rules must come - order is important (see Spring Security docs)
         http.authorizeRequests()
+        
                 .antMatchers("/ping", "/pong", "/welcome", "/error").permitAll()
-                .antMatchers("/safewelcome").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                .antMatchers("/comments/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                .antMatchers(HttpMethod.GET, "/safewelcome").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers("/safewelcome").authenticated()
+                .antMatchers("/comments/**").authenticated()
                 .antMatchers("/members/friend/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .antMatchers("/members/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .antMatchers("/messages/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
@@ -50,6 +53,16 @@ public class AppSecurityConfig extends Auth0SecurityConfig {
                 .antMatchers("/events/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .anyRequest().authenticated();
     }
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+//        http
+//          
+//            .csrf().disable();
+    }
+
+    
+    
+    
 }
 
 

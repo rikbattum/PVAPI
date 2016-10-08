@@ -12,7 +12,6 @@
 	<context:annotation-config />
 	<context:component-scan base-package="nl.paardenvriendjes" />
 	<tx:annotation-driven transaction-manager="transactionManager" />
-	<mvc:annotation-driven />
 	<bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect">
 	</bean>
 	<context:property-placeholder location="classpath:application.properties" />

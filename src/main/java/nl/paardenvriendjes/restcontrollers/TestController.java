@@ -20,7 +20,7 @@ public class TestController {
 
 	// Basic login test
 	
-//	@CrossOrigin
+	@CrossOrigin
 	@RequestMapping(value = "/safewelcome", method = RequestMethod.GET)
 	public String safewelcome() {
 		// Welcome page, non-rest

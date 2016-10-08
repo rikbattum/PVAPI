@@ -15,6 +15,8 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
+import org.apache.http.client.params.ClientPNames;
+import org.apache.http.client.params.CookiePolicy;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
@@ -41,7 +43,7 @@ public class TestUtilLogin {
 		urlParameters.add(new BasicNameValuePair("password", "admin"));
 		urlParameters.add(new BasicNameValuePair("connection", "Username-Password-Authentication"));
 		urlParameters.add(new BasicNameValuePair("grant_type", "password"));
-		//urlParameters.add(new BasicNameValuePair("redirect_uri", "http://localhost:8080/SessionTest2/callback")); //makes no difference
+		urlParameters.add(new BasicNameValuePair("redirect_uri", "https://google.com")); //makes no difference
 		urlParameters.add(new BasicNameValuePair("scope", "openid"));
 		urlParameters.add(new BasicNameValuePair("device", "openid"));
 
@@ -108,7 +110,7 @@ public class TestUtilLogin {
     	}
     	body = EntityUtils.toString(entity);
     	verifyTokenReponse(body, clientId);
-    	
+   
     	return id_token;
     }
 
@@ -116,6 +118,7 @@ public class TestUtilLogin {
     	//Do some elementary checks
     	log.debug("clientidis: " + clientId);
     	JSONObject jwt = new JSONObject(body);
+    	log.debug("jwtnu" + jwt);
     	String clientID = (String) jwt.get("clientID");
      	log.debug("clientid2is: " + clientID);
      	log.debug("clientid2is: ");

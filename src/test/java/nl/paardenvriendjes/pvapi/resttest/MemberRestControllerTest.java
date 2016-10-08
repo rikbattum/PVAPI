@@ -7,7 +7,9 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.HttpHeaders;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,19 +36,18 @@ public class MemberRestControllerTest {
 	@Before
 	public void initializeLogin() { 
 	TestUtilLogin login = new TestUtilLogin();
-	String id_token = "";
+	String id_token;
 	
 	try {
 		id_token = login.logon();
+		List<ClientHttpRequestInterceptor> interceptors = new ArrayList<ClientHttpRequestInterceptor>();
+		interceptors.add(new TestUtilHeaderRequestInterceptor(HttpHeaders.AUTHORIZATION, "Bearer " + id_token));
+		restTemplate.getRestTemplate().setInterceptors(interceptors);
 	} catch (JSONException | URISyntaxException | IOException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 		e.getMessage();
 	}
-	
-	List<ClientHttpRequestInterceptor> interceptors = new ArrayList<ClientHttpRequestInterceptor>();
-	interceptors.add(new TestUtilHeaderRequestInterceptor("Autorization", "Bearer " + id_token));
-	restTemplate.getRestTemplate().setInterceptors(interceptors);
 	}
 	
 	@Test
@@ -60,11 +61,8 @@ public class MemberRestControllerTest {
 	@Test
 	@Transactional
 	public void rightsTest() {
-	
-//		HttpHeaders headers = new HttpHeaders();
-//		headers.add("Authorization", "Bearer " + access_token);
-//		HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+
 		String body = restTemplate.getForObject("/safewelcome", String.class);
-		assertEquals(body, "Welcome to PVAPI");
+		assertEquals(body, "Welcome to PVAPI, you are logged in :)!");
 	}
 }
