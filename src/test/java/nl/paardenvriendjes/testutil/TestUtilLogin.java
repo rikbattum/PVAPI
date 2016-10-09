@@ -15,8 +15,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
-import org.apache.http.client.params.ClientPNames;
-import org.apache.http.client.params.CookiePolicy;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
@@ -30,7 +28,7 @@ public class TestUtilLogin {
 	static Logger log = Logger.getLogger(TestUtilLogin.class.getName());
 	
 	
-	public String logon() throws URISyntaxException, ClientProtocolException,
+	public String logon(String username, String password) throws URISyntaxException, ClientProtocolException,
 			IOException, JSONException {
 		URIBuilder ub = new URIBuilder(
 				"https://pvapp.eu.auth0.com/oauth/ro");
@@ -39,12 +37,12 @@ public class TestUtilLogin {
 		String clientId = "sPcuHXFrQvNcxMv4iYvA9JoF1VhlqyLh";
 		List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
 		urlParameters.add(new BasicNameValuePair("client_id", "sPcuHXFrQvNcxMv4iYvA9JoF1VhlqyLh"));
-		urlParameters.add(new BasicNameValuePair("username", "rikbattum@hotmail.com"));
-		urlParameters.add(new BasicNameValuePair("password", "admin"));
+		urlParameters.add(new BasicNameValuePair("username", username));
+		urlParameters.add(new BasicNameValuePair("password", password));
 		urlParameters.add(new BasicNameValuePair("connection", "Username-Password-Authentication"));
 		urlParameters.add(new BasicNameValuePair("grant_type", "password"));
-		urlParameters.add(new BasicNameValuePair("redirect_uri", "https://google.com")); //makes no difference
-		urlParameters.add(new BasicNameValuePair("scope", "openid"));
+		urlParameters.add(new BasicNameValuePair("redirect_uri", "http://localhost:59923/adminsafewelcome")); //makes no difference?
+		urlParameters.add(new BasicNameValuePair("scope", "openid profile"));
 		urlParameters.add(new BasicNameValuePair("device", "openid"));
 
 		HttpUriRequest request = org.apache.http.client.methods.RequestBuilder.post().setUri(uri)
@@ -142,6 +140,17 @@ public class TestUtilLogin {
     private static boolean IsSet(String s)
     {
     	return s!=null&&s.trim().length()>0;
-    }        
+    }
+
+    public void logout() throws URISyntaxException, ClientProtocolException,
+	IOException, JSONException {
+    	URIBuilder ub = new URIBuilder(
+				"https://pvapp.eu.auth0.com/v2/logout?returnTo=https://www.google.com");
+		// ub.setParameter("", "");
+		URI uri = ub.build();
+		HttpUriRequest request = org.apache.http.client.methods.RequestBuilder.get().setUri(uri).build();
+		HttpClient client = HttpClientBuilder.create().build();
+		client.execute(request);	
+    }
 	}	
 

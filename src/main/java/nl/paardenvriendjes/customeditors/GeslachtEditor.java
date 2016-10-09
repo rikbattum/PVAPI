@@ -5,7 +5,6 @@ import java.beans.PropertyEditorSupport;
 import org.apache.log4j.Logger;
 
 import nl.paardenvriendjes.enumerations.Geslacht;
-import nl.paardenvriendjes.enumerations.SportLevel;
 
 public class GeslachtEditor extends PropertyEditorSupport {
 

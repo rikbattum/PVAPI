@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import nl.paardenvriendjes.customeditors.PaardTypeEditor;
 import nl.paardenvriendjes.enumerations.PaardType;
 import nl.paardenvriendjes.pvapi.domain.Horse;
-import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.service.AbstractDaoService;
 
 @Repository

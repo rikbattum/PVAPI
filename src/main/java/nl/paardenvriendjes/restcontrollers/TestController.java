@@ -21,12 +21,18 @@ public class TestController {
 	// Basic login test
 	
 	@CrossOrigin
-	@RequestMapping(value = "/safewelcome", method = RequestMethod.GET)
-	public String safewelcome() {
+	@RequestMapping(value = "/adminsafewelcome", method = RequestMethod.GET)
+	public String safewelcomeAdmin() {
 		// Welcome page, non-rest
 		return "Welcome to PVAPI, you are logged in :)!";
 	}
 	
+	@CrossOrigin
+	@RequestMapping(value = "/usersafewelcome", method = RequestMethod.GET)
+	public String safewelcomeForSpecificUser() {
+		// Welcome page, non-rest
+		return "Welcome to PVAPI, you are logged in :)!";
+	}
 	
 	
 }
