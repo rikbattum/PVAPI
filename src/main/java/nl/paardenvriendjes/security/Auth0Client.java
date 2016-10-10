@@ -1,4 +1,4 @@
-package nl.paardenvriendjes.application;
+package nl.paardenvriendjes.security;
 
 import org.springframework.stereotype.Component;
 

@@ -1,4 +1,4 @@
-package nl.paardenvriendjes.application;
+package nl.paardenvriendjes.security;
 
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
@@ -56,7 +56,10 @@ public class AppSecurityConfig extends Auth0SecurityConfig {
         http.csrf().disable();
         http.cors().disable();
         
-    }    
+    }        
+    
+    
+    
 }
 
 
