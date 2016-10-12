@@ -114,7 +114,7 @@ public class LikeRestController {
 			System.out.println("Unable to delete Like with id " + id + " not found");
 			return new ResponseEntity<Like>(HttpStatus.NOT_FOUND);
 		}
-		likeservice.remove(id);
+		likeservice.remove(like);
 		return new ResponseEntity<Like>(HttpStatus.NO_CONTENT);
 	}
 	

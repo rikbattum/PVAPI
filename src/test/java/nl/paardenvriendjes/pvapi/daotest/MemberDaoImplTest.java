@@ -137,8 +137,7 @@ public class MemberDaoImplTest extends AbstractTest{
 
 		// Act
 		Member member = memberList.get(0);
-		Long idToBeRemoved = member.getId();
-		memberService.remove(idToBeRemoved);
+		memberService.remove(member);
 		List<Member> memberListAgain = memberService.listAll();
 
 		// Assert

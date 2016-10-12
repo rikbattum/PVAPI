@@ -11,6 +11,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.method.P;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,7 +49,8 @@ public class MessageDaoImpl extends AbstractDaoService<Message> {
 	}
 
 	@Override
-	public void edit(Message message) {
+	@PreAuthorize("#message.member.id == authentication.name or hasRole('Admin')")
+	public void edit(@P("message") Message message) {		
 		message.setInsertDate();
 		getCurrentSession().merge(message);
 		log.debug("edit: " + message.toString());

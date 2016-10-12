@@ -79,6 +79,7 @@ public class MessageDaoImplTest extends AbstractTest {
 	@Rollback(true)
 	@Test
 	public void testMultipleMesages() throws Exception {
+		testUtilDataSetup.setMembers();
 		testUtilDataSetup.runMessagesPost();
 		List<Message> messages = messageService.listAll();
 		assertThat(messages.size(), Is.is(22));
@@ -114,10 +115,9 @@ public class MessageDaoImplTest extends AbstractTest {
 		List<Message> messagesList = messageService.listAll();
 		assertThat(messagesList.size(), Is.is(1));
 		// remove message
-		Message MessageToBeRemoved = testMember.getMessages().get(0);
-		testMember.removeMessage(MessageToBeRemoved);
-		Long toBeRemovedId = MessageToBeRemoved.getId();	
-		messageService.remove(toBeRemovedId);
+		Message messageToBeRemoved = testMember.getMessages().get(0);
+		testMember.removeMessage(messageToBeRemoved);
+		messageService.remove(messageToBeRemoved);
 		memberService.save(testMember);
 		List<Message> messagesListNew = messageService.listAll();
 		assertThat(messagesListNew.size(), Is.is(0));
@@ -150,7 +150,7 @@ public class MessageDaoImplTest extends AbstractTest {
 
 		Message updatedMessage = messageService.listOne(messageId);
 		assertThat(updatedMessage.getMessage(), Is.is("vandaag springen afgelast ivm sneeuw"));
-		assertThat(updatedMessage.getId(), Is.is(323L));
+		assertThat(updatedMessage.getId(), Is.is(307L));
 		assertNotNull(updatedMessage.getInsertDate());
 		assertThat(simpleDateFormat.format(updatedMessage.getInsertDate()), Is.is(simpleDateFormat.format(new Date())));
 	}

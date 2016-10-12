@@ -49,15 +49,14 @@ SessionFactory sessionFactory;
 			}
 
 @Override
-	public void remove(Long id) {
-		try {
-			Horse horseToBeRemoved = (Horse) getCurrentSession().load(Horse.class, id);
+	public void remove(Horse horseToBeRemoved) {
+		try {			
 			horseToBeRemoved.setActive(false);
 			horseToBeRemoved.setDeactivatedDate();
 			getCurrentSession().saveOrUpdate(horseToBeRemoved);
 			log.debug("Deactivated Horse " + horseToBeRemoved.toString());
 		} catch (Exception e) {
-			log.error("Horse to be deactivated not successfull for id: " + id);
+			log.error("Horse to be deactivated not successfull for id: " + horseToBeRemoved.getId());
 		}
 	}
 

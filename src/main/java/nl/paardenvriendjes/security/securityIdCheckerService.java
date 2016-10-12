@@ -19,12 +19,13 @@ public class securityIdCheckerService {
 	@Autowired
 	private IAuthenticationFacade authenticationFacade;
 
-	public boolean hasPermission(String key) {
+	public boolean hasUserPermission() {
        
 		
 		Authentication authentication = authenticationFacade.getAuthentication();
 		String id = authentication.getProfile().getId();
-		
+		log.debug("thisid = " + id);
+	
 		if (id.contentEquals("ssss")) {  
 		
 		

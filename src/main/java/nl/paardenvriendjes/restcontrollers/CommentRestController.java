@@ -107,7 +107,7 @@ public class CommentRestController {
 				System.out.println("Unable to delete comment with id " + id + " not found");
 				return new ResponseEntity<Comment>(HttpStatus.NOT_FOUND);
 			}
-			commentservice.remove(id);
+			commentservice.remove(comment);
 			return new ResponseEntity<Comment>(HttpStatus.NO_CONTENT);
 		}
 		

@@ -21,6 +21,9 @@ import org.hibernate.annotations.CascadeType;
 import org.springframework.cache.annotation.Cacheable;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import nl.paardenvriendjes.enumerations.LineType;
 import nl.paardenvriendjes.enumerations.MessageType;
@@ -28,6 +31,9 @@ import nl.paardenvriendjes.enumerations.MessageType;
 @Entity
 @Cacheable("messagecache")
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@JsonIdentityInfo(
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "id")
 public class Message {
 
 	@Id
@@ -41,7 +47,6 @@ public class Message {
 	@Temporal(TemporalType.DATE)
 	private Date insertDate;
 	@ManyToOne
-	@JsonBackReference
 	private Member member;
 	private String piclink;
 	private String picLinkSecond;
@@ -158,10 +163,6 @@ public class Message {
 	
 	public Boolean getPublicPost() {
 		return publicPost;
-	}
-
-	public void setPublicPost(Boolean publicPost) {
-		this.publicPost = publicPost;
 	}
 
 	@Override

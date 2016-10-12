@@ -65,10 +65,9 @@ public abstract class AbstractDaoService<T> {
 		log.debug("edit: " + entityClass.toString());
 	}
 
-	public void remove(Long id) {
-		try {
-			T ObjectToBeRemoved = (T) getCurrentSession().load(entityClass, id);
-			getCurrentSession().delete(ObjectToBeRemoved);	
+	public void remove(T entity) {
+		try { 
+			getCurrentSession().delete(entity);	
 			log.debug("deleted " + entityClass.toString());
 		} catch (Exception e) {
 			log.error("Object to be deleted not found " + entityClass.toString());

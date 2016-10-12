@@ -1,6 +1,8 @@
 package nl.paardenvriendjes.testutil;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;
@@ -14,6 +16,8 @@ public class TestUtilHeaderRequestInterceptor implements ClientHttpRequestInterc
         private final String headerName;
 
         private final String headerValue;
+        List <MediaType> mediatypes = new ArrayList <MediaType>();
+        
 
         public TestUtilHeaderRequestInterceptor(String headerName, String headerValue) {
             this.headerName = headerName;
@@ -22,10 +26,11 @@ public class TestUtilHeaderRequestInterceptor implements ClientHttpRequestInterc
 
         @Override
         public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
-            HttpRequest wrapper = new HttpRequestWrapper(request);
+        	mediatypes.add(MediaType.APPLICATION_JSON);
+        	HttpRequest wrapper = new HttpRequestWrapper(request);
             wrapper.getHeaders().set(headerName, headerValue);
             wrapper.getHeaders().set("Cache-Control", "no-cache");
-            wrapper.getHeaders().setContentType(MediaType.TEXT_HTML);
+            wrapper.getHeaders().setAccept(mediatypes);
             return execution.execute(wrapper, body);
         }
     }

@@ -45,15 +45,14 @@ public class EventDaoImpl extends AbstractDaoService<Event>{
 	}
 	
 	@Override
-	public void remove(Long id) {
+	public void remove(Event eventToBeRemoved) {
 		try {
-			Event eventToBeRemoved = (Event) getCurrentSession().load(Event.class, id);
 			eventToBeRemoved.setActive(false);
 			eventToBeRemoved.setDeactivatedDate();
 			getCurrentSession().saveOrUpdate(eventToBeRemoved);
 			log.debug("Deactivated Event " + eventToBeRemoved.toString());
 		} catch (Exception e) {
-			log.error("Event to be deactivated not successfull for id: " + id);
+			log.error("Event to be deactivated not successfull for id: " + eventToBeRemoved.getId());
 		}
 	}
 

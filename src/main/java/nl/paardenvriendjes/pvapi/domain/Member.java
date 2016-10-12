@@ -31,7 +31,8 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.springframework.cache.annotation.Cacheable;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import nl.paardenvriendjes.enumerations.Geslacht;
 import nl.paardenvriendjes.enumerations.OtherSport;
@@ -42,6 +43,9 @@ import nl.paardenvriendjes.enumerations.Vervoer;
 @Entity
 @Cacheable("membercache")
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@JsonIdentityInfo(
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "id")
 public class Member {
 
 	//Properties
@@ -62,7 +66,6 @@ public class Member {
 	private String overmij;
 	@OneToMany (mappedBy = "member")
 	@Cascade({CascadeType.ALL})
-	@JsonManagedReference
 	private List <Horse> horses = new ArrayList<Horse>();
 	@Embedded
 	@Basic(fetch=FetchType.EAGER)  //probably not needed
@@ -73,7 +76,6 @@ public class Member {
     private Place place;
 	@OneToMany (mappedBy = "member")
 	@Cascade({CascadeType.ALL})
-	@JsonManagedReference
 	private List <Message> messages = new ArrayList<Message>();
 	@Cascade({CascadeType.ALL})
     @OneToMany
@@ -85,7 +87,6 @@ public class Member {
     private SportLevel sportLevel;
     private Boolean active;
     @ManyToMany
-    @JsonManagedReference
 	@Cascade({CascadeType.ALL})
     @JoinTable(
             name = "member_vrienden",
@@ -97,7 +98,6 @@ public class Member {
                     name = "vrienden_id") })
     private List <Member> vrienden = new ArrayList<Member>();
     @ManyToMany 
-    @JsonManagedReference
 	@Cascade({CascadeType.ALL})
     @JoinTable(
             name = "member_blokkades",
@@ -109,7 +109,6 @@ public class Member {
                     name = "blokkades_id") })
     private List <Member> blokkades = new ArrayList<Member>();
     @ManyToMany
-    @JsonManagedReference
 	@Cascade({CascadeType.ALL})
     private List <Event> events = new ArrayList<Event> ();
 	@ElementCollection

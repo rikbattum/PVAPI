@@ -47,15 +47,14 @@ public class MemberDaoImpl extends AbstractDaoService<Member> {
 	}
 	
 	@Override
-	public void remove(Long id) {
+	public void remove(Member memberToBeRemoved) {
 		try {
-			Member memberToBeRemoved = (Member) getCurrentSession().load(Member.class, id);
 			memberToBeRemoved.setActive(false);
 			memberToBeRemoved.setDeactivatedDate();
 			getCurrentSession().saveOrUpdate(memberToBeRemoved);
 			log.debug("Deactivated Horse " + memberToBeRemoved.toString());
 		} catch (Exception e) {
-			log.error("Member to be deactivated not successfull for id: " + id);
+			log.error("Member to be deactivated not successfull for id: " + memberToBeRemoved.getId());
 		}
 	}
 

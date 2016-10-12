@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,15 +38,14 @@ public class PaspoortDaoImpl extends AbstractDaoService<Paspoort> {
 	}
 
 	@Override
-	public void remove(Long id) {
+	public void remove(Paspoort paspoortToBeRemoved) {
 		try {
-			Paspoort paspoortToBeRemoved = (Paspoort) getCurrentSession().load(Paspoort.class, id);
 			paspoortToBeRemoved.setActive(false);
 			paspoortToBeRemoved.setDeactivatedDate();
 			getCurrentSession().saveOrUpdate(paspoortToBeRemoved);
 			log.debug("Deactivated Paspoort " + paspoortToBeRemoved.toString());
 		} catch (Exception e) {
-			log.error("Paspoort to be deactivated not successfull for id: " + id);
+			log.error("Paspoort to be deactivated not successfull for id: " + paspoortToBeRemoved.getId());
 		}
 	}
 

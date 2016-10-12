@@ -107,7 +107,7 @@ public ResponseEntity<Event> deleteEvent(@PathVariable("id") long id) {
 		System.out.println("Unable to delete Event with id " + id + " not found");
 		return new ResponseEntity<Event>(HttpStatus.NOT_FOUND);
 	}
-	eventservice.remove(id);
+	eventservice.remove(event);
 	return new ResponseEntity<Event>(HttpStatus.NO_CONTENT);
 }
 

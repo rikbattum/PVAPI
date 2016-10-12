@@ -125,7 +125,7 @@ public class MemberRestController {
 			System.out.println("Unable to delete Member with id " + id + " not found");
 			return new ResponseEntity<Member>(HttpStatus.NOT_FOUND);
 		}
-		memberservice.remove(id);
+		memberservice.remove(member);
 		return new ResponseEntity<Member>(HttpStatus.NO_CONTENT);
 	}
 

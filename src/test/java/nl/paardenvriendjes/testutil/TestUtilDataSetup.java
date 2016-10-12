@@ -22,7 +22,6 @@ public class TestUtilDataSetup {
 	@Autowired
 	private MemberDaoImpl memberService;
 
-
 	public void setMembers() {
 
 		// Arrange members
@@ -57,15 +56,15 @@ public class TestUtilDataSetup {
 		}
 	}
 
+	// Run arrageMembers first!
 	public void runMessagesPost() {
 
+		 
+		
 		// prepare message list
 		Object obj;
-		
-		//		set members
-				setMembers();
+
 		List<Member> memberList = memberService.listAll();
-		
 		
 		try {
 			// get individual member reference

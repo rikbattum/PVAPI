@@ -1,5 +1,6 @@
 package nl.paardenvriendjes.restcontrollers;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -8,6 +9,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -121,9 +124,11 @@ public class MessageRestController {
 	// ------------------- Update a Message--------------------------------------------------------
 
 	@CrossOrigin
-	@RequestMapping(value = "/messages/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/messages/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Message> updateMessage(@PathVariable("id") long id, @RequestBody Message message) {
 		log.debug("Updating Message" + id);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		log.debug("Authis" + auth.getName());
 		Message currentMessage = messageservice.listOne(id);
 		if (currentMessage == null) {
 			System.out.println("Message with id " + id + " not found");
@@ -144,7 +149,7 @@ public class MessageRestController {
 			System.out.println("Unable to delete Message with id " + id + " not found");
 			return new ResponseEntity<Message>(HttpStatus.NOT_FOUND);
 		}
-		messageservice.remove(id);
+		messageservice.remove(message);
 		return new ResponseEntity<Message>(HttpStatus.NO_CONTENT);
 	}
 	

@@ -44,6 +44,7 @@ public class CommentDaoImplTest extends AbstractTest{
 	public void testCommentCascadeSave() {
 
 		// Arrange
+		testUtilDataSetup.setMembers();
 		testUtilDataSetup.runMessagesPost();
 		Message messageOne = messageService.listAll().get(0);
 		Member memberOne = messageOne.getMember();
@@ -69,6 +70,7 @@ public class CommentDaoImplTest extends AbstractTest{
 	public void testCommentCascadeEdit() {
 
 		// Arrange
+		testUtilDataSetup.setMembers();
 		testUtilDataSetup.runMessagesPost();
 		Message messageOne = messageService.listAll().get(0);
 		Member memberOne = messageOne.getMember();
@@ -93,6 +95,7 @@ public class CommentDaoImplTest extends AbstractTest{
 	public void testCommentCascadeDelete() {
 
 		// Arrange
+				testUtilDataSetup.setMembers();
 				testUtilDataSetup.runMessagesPost();
 				Message messageOne = messageService.listAll().get(0);
 				Member memberOne = messageOne.getMember();
@@ -112,7 +115,7 @@ public class CommentDaoImplTest extends AbstractTest{
 				
 		// Assert
 				memberOne.getMessages().remove(messageOne);
-				messageService.remove(messageOne.getId());
+				messageService.remove(messageOne);
 				memberService.edit(memberOne);
 				
 				List<Comment> commentList2 = commentService.listAll();

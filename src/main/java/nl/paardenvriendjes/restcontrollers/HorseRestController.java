@@ -116,7 +116,7 @@ public class HorseRestController {
 			System.out.println("Unable to delete Horse with id " + id + " not found");
 			return new ResponseEntity<Horse>(HttpStatus.NOT_FOUND);
 		}
-		horseservice.remove(id);
+		horseservice.remove(horse);
 		return new ResponseEntity<Horse>(HttpStatus.NO_CONTENT);
 	}
 	

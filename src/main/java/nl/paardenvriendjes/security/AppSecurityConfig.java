@@ -13,6 +13,7 @@ import com.auth0.spring.security.api.Auth0SecurityConfig;
 
 @Configuration
 @EnableWebSecurity(debug = true)
+// enable pre post method security
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 
@@ -44,13 +45,13 @@ public class AppSecurityConfig extends Auth0SecurityConfig {
                 .antMatchers(HttpMethod.GET, "/adminsafewelcome").hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET, "/usersafewelcome").hasAnyAuthority("USER")
                 .antMatchers("/comments/**").authenticated()
-                .antMatchers("/members/friend/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                .antMatchers("/members/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                .antMatchers("/messages/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                .antMatchers("/likes/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                .antMatchers("/paspoorts/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                .antMatchers("/horses/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                .antMatchers("/events/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                .antMatchers("/members/friend/**").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("/members/**").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("/messages/**").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("/likes/**").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("/paspoorts/**").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("/horses/**").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("/events/**").hasAnyAuthority("USER", "ADMIN")
                 .anyRequest().authenticated();
         
         http.csrf().disable();
