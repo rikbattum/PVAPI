@@ -49,7 +49,7 @@ public class MessageDaoImpl extends AbstractDaoService<Message> {
 	}
 
 	@Override
-	@PreAuthorize("#message.member.id == authentication.name or hasRole('Admin')")
+	@PreAuthorize("#message.member.email == authentication.name or hasRole('Admin')")
 	public void edit(@P("message") Message message) {		
 		message.setInsertDate();
 		getCurrentSession().merge(message);

@@ -10,6 +10,8 @@ import java.util.List;
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.json.JSONException;
 import org.junit.After;
 import org.junit.Before;
@@ -33,6 +35,7 @@ import nl.paardenvriendjes.application.HibernateConfiguration;
 import nl.paardenvriendjes.pvapi.daoimpl.HorseDaoImpl;
 import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
 import nl.paardenvriendjes.pvapi.daoimpl.MessageDaoImpl;
+import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.domain.Message;
 import nl.paardenvriendjes.testutil.TestUtilDataSetup;
 import nl.paardenvriendjes.testutil.TestUtilHeaderRequestInterceptor;
@@ -57,6 +60,13 @@ public class AuthorizationLoggedInUser {
 
 	@Autowired 
 	private MessageDaoImpl messageService;
+	
+	@Autowired
+	SessionFactory sessionFactory;
+
+		private Session getCurrentSession() {
+			return sessionFactory.getCurrentSession();
+		}
 	
 	
 	@Before
@@ -150,9 +160,19 @@ public class AuthorizationLoggedInUser {
 	@Rollback(true)
 	public void testAbleADDandChangeOwnedMessages(){
 	
+	//Part 0 add member and get ID for test
+		Member temp = new Member ();
+		// set member id to already created test user
+		temp.setEmail("userpv@mailinator.com");
+		HttpEntity<Member> request = new HttpEntity<>(temp);
+		ResponseEntity<Member> responsenow = restTemplate.exchange("/members/", HttpMethod.POST, request, Member.class);
+		Member x = memberService.listAll().get(0);
+		log.debug(x);
+		
 	// PART 1: ADD MESSAGE
 	Message messageToBeAdded= new Message();
-	messageToBeAdded.setMessage("message being added by controller"); 
+	messageToBeAdded.setMessage("message being added by controller");
+	messageToBeAdded.setMember(x);
 	// make httpentity
 	HttpEntity<Message> requestAdd = new HttpEntity<>(messageToBeAdded);
 	// create POST exchange
