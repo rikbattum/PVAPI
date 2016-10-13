@@ -78,11 +78,11 @@ public class Member {
 	@Cascade({CascadeType.ALL})
 	private List <Message> messages = new ArrayList<Message>();
 	@Cascade({CascadeType.ALL})
-    @OneToMany
+    @OneToMany (mappedBy = "member")
     private List <Comment> comments = new ArrayList<Comment>();
 	@Cascade({CascadeType.ALL})
-    @OneToMany
-    private List <Like> likes = new ArrayList<Like>();
+    @OneToMany (mappedBy = "member")
+    private List <Likes> likes = new ArrayList<Likes>();
 	@Enumerated(EnumType.STRING)
     private SportLevel sportLevel;
     private Boolean active;
@@ -219,10 +219,10 @@ public class Member {
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
-	public List<Like> getLikes() {
+	public List<Likes> getLikes() {
 		return likes;
 	}
-	public void setLikes(List<Like> likes) {
+	public void setLikes(List<Likes> likes) {
 		this.likes = likes;
 	}
 	public SportLevel getSportLevel() {

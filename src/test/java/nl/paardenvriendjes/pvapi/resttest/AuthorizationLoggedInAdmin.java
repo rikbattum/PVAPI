@@ -21,6 +21,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -80,6 +81,7 @@ public class AuthorizationLoggedInAdmin {
 	
 	@Test
 	@Transactional
+	@Rollback(true)
 	public void welcomeTest() {
 		String body = restTemplate.getForObject("/welcome", String.class);
 		assertEquals(body, "Welcome to PVAPI, no login");
@@ -87,6 +89,7 @@ public class AuthorizationLoggedInAdmin {
 
 	@Test
 	@Transactional
+	@Rollback(true)
 	public void rightsTest() {
 
 		String body = restTemplate.getForObject("/adminsafewelcome", String.class);
@@ -94,7 +97,8 @@ public class AuthorizationLoggedInAdmin {
 	}
 	
 	@Test
-	@Transactional
+	@Transactional	
+	@Rollback(true)
 	public void rightsTestUserIdSpecific() {
 
 		ResponseEntity<String> body = restTemplate.getForEntity("/usersafewelcome", String.class);

@@ -9,7 +9,7 @@
 		<class>nl.paardenvriendjes.pvapi.domain.Paspoort</class>
 		<class>nl.paardenvriendjes.pvapi.domain.Event</class>
 		<class>nl.paardenvriendjes.pvapi.domain.Interesse</class>
-		<class>nl.paardenvriendjes.pvapi.domain.Like</class>
+		<class>nl.paardenvriendjes.pvapi.domain.Likes</class>
 		<class>nl.paardenvriendjes.pvapi.domain.Member</class>
 		<class>nl.paardenvriendjes.pvapi.domain.Message</class>
 		<properties>

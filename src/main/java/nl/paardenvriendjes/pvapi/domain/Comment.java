@@ -1,5 +1,6 @@
 package nl.paardenvriendjes.pvapi.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,20 +11,28 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.springframework.cache.annotation.Cacheable;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 
 @Entity
 @Cacheable("other")
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@JsonIdentityInfo(
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "id")
 public class Comment {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@NotNull
 	private Long id;
 	private String comment; 
 	@ManyToOne
@@ -33,7 +42,7 @@ public class Comment {
 	private Message message;
 	@OneToMany(mappedBy = "comment")
 	@Cascade({CascadeType.ALL})
-	private List<Like> likelist;
+	private List<Likes> likelistcomment = new ArrayList<Likes>();
 	
 	public Long getId() {
 		return id;
@@ -66,11 +75,11 @@ public class Comment {
 	public void setMessage(Message message) {
 		this.message = message;
 	}
-	public List<Like> getLikelist() {
-		return likelist;
+	public List<Likes> getLikelist() {
+		return likelistcomment;
 	}
-	public void setLikelist(List<Like> likelist) {
-		this.likelist = likelist;
+	public void setLikelist(List<Likes> likelist) {
+		this.likelistcomment = likelist;
 	}
 	@Override
 	public String toString() {
@@ -83,7 +92,7 @@ public class Comment {
 		result = prime * result + ((comment == null) ? 0 : comment.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((insertDate == null) ? 0 : insertDate.hashCode());
-		result = prime * result + ((likelist == null) ? 0 : likelist.hashCode());
+		result = prime * result + ((likelistcomment == null) ? 0 : likelistcomment.hashCode());
 		result = prime * result + ((member == null) ? 0 : member.hashCode());
 		result = prime * result + ((message == null) ? 0 : message.hashCode());
 		return result;
@@ -112,10 +121,10 @@ public class Comment {
 				return false;
 		} else if (!insertDate.equals(other.insertDate))
 			return false;
-		if (likelist == null) {
-			if (other.likelist != null)
+		if (likelistcomment == null) {
+			if (other.likelistcomment != null)
 				return false;
-		} else if (!likelist.equals(other.likelist))
+		} else if (!likelistcomment.equals(other.likelistcomment))
 			return false;
 		if (member == null) {
 			if (other.member != null)

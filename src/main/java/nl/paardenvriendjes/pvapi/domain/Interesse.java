@@ -31,6 +31,7 @@ public class Interesse {
 	private Boolean ruitersportartikelen; 
 	private Boolean scheidsrechter;
 	private Boolean verzekeringenenrechtsbijstand;
+	
 	public Boolean getLesgeven() {
 		return lesgeven;
 	}

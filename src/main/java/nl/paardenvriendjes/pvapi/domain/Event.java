@@ -12,17 +12,25 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.cache.annotation.Cacheable;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Cacheable("other")
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@JsonIdentityInfo(
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "id")
 public class Event {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@NotNull
 	private Long id;
 	private String eventName;
 	@Temporal(TemporalType.DATE)
@@ -42,6 +50,7 @@ public class Event {
 	private Paspoort paspoort;
 	@ManyToMany (mappedBy="events")
 	private List <Horse> horses = new ArrayList<Horse>();
+	private Boolean postEventOnTimeline;
 	
 	public Long getId() {
 		return id;
@@ -122,8 +131,14 @@ public class Event {
 	}
 	public void setMembers(List<Member> members) {
 		this.members = members;
+	}	
+	public Boolean getPostEventOnTimeline() {
+		return postEventOnTimeline;
 	}
-	
+	public void setPostEventOnTimeline(Boolean postEventOnTimeline) {
+		this.postEventOnTimeline = postEventOnTimeline;
+	}
+		
 	// ToString
 	
 	@Override
@@ -135,7 +150,7 @@ public class Event {
 	}
 	
 	// Hashcode and equals
-		
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -151,6 +166,7 @@ public class Event {
 		result = prime * result + ((members == null) ? 0 : members.hashCode());
 		result = prime * result + ((messageScore == null) ? 0 : messageScore.hashCode());
 		result = prime * result + ((paspoort == null) ? 0 : paspoort.hashCode());
+		result = prime * result + ((postEventOnTimeline == null) ? 0 : postEventOnTimeline.hashCode());
 		result = prime * result + ranking;
 		result = prime * result + score;
 		return result;
@@ -219,12 +235,18 @@ public class Event {
 				return false;
 		} else if (!paspoort.equals(other.paspoort))
 			return false;
+		if (postEventOnTimeline == null) {
+			if (other.postEventOnTimeline != null)
+				return false;
+		} else if (!postEventOnTimeline.equals(other.postEventOnTimeline))
+			return false;
 		if (ranking != other.ranking)
 			return false;
 		if (score != other.score)
 			return false;
 		return true;
-	} 	
+	}
+
 }
 	
 	

@@ -25,6 +25,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -101,6 +102,7 @@ public class AuthorizationLoggedInUser {
 	
 	@Test
 	@Transactional
+	@Rollback(true)
 	public void welcomeTest() {
 		String body = restTemplate.getForObject("/welcome", String.class);
 		assertEquals(body, "Welcome to PVAPI, no login");
@@ -108,6 +110,7 @@ public class AuthorizationLoggedInUser {
 
 	@Test
 	@Transactional
+	@Rollback(true)
 	public void rightsTest() {
 
 		ResponseEntity<String>  body = restTemplate.getForEntity("/adminsafewelcome", String.class);
@@ -116,6 +119,7 @@ public class AuthorizationLoggedInUser {
 	
 	@Test
 	@Transactional
+	@Rollback(true)
 	public void rightsTestUserIdSpecific() {
 		
 
@@ -125,6 +129,7 @@ public class AuthorizationLoggedInUser {
 	
 	@Test
 	@Transactional
+	@Rollback(true)
 	public void testNotAbleToChangeMessageOfSomeBodyElse() {
 	testUtilDataSetup.setMembers();
 	testUtilDataSetup.runMessagesPost();
@@ -142,6 +147,7 @@ public class AuthorizationLoggedInUser {
 	
 	@Test
 	@Transactional
+	@Rollback(true)
 	public void testAbleADDandChangeOwnedMessages(){
 	
 	// PART 1: ADD MESSAGE
@@ -164,7 +170,7 @@ public class AuthorizationLoggedInUser {
 	HttpEntity<Message> requestUpdate = new HttpEntity<>(createdMessage);
 	
 	// create PUT exchange
-	ResponseEntity<Message> newresponse = restTemplate.exchange("/messages/" + messageToBeAdded.getId(), HttpMethod.PUT, requestUpdate, Message.class);
+	ResponseEntity<Message> newresponse = restTemplate.exchange("/messages/" + createdId, HttpMethod.PUT, requestUpdate, Message.class);
 
 	//assert  permitted
 	assertEquals(newresponse.getStatusCode(), HttpStatus.OK);

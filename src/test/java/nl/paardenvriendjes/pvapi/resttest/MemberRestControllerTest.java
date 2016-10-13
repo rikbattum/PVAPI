@@ -7,6 +7,8 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.apache.http.HttpHeaders;
 import org.json.JSONException;
 import org.junit.Before;
@@ -17,6 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import nl.paardenvriendjes.application.HibernateConfiguration;
@@ -35,6 +38,8 @@ public class MemberRestControllerTest {
 
 	
 	@Test
+	@Transactional
+	@Rollback(true)
 	public void test () { 
 		assertEquals(true, true);
 	}

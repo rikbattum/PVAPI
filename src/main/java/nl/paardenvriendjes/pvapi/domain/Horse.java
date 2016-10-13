@@ -24,6 +24,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.cache.annotation.Cacheable;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import nl.paardenvriendjes.enumerations.Geslacht;
 import nl.paardenvriendjes.enumerations.PaardType;
@@ -31,6 +33,9 @@ import nl.paardenvriendjes.enumerations.PaardType;
 @Entity
 @Cacheable("other")
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@JsonIdentityInfo(
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "id")
 public class Horse {
 
 	// Properties
@@ -61,7 +66,6 @@ public class Horse {
 	@OneToOne
 	private Paspoort paspoort;
 	@ManyToOne
-	@JsonBackReference
 	private Member member;
 	@ElementCollection
 	private Map<String, String> sports = new HashMap<String, String>();
@@ -71,6 +75,7 @@ public class Horse {
 
 	// Getters and Setters
 
+
 	public Long getId() {
 		return id;
 	}
@@ -78,7 +83,7 @@ public class Horse {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+	
 	public String getName() {
 		return name;
 	}

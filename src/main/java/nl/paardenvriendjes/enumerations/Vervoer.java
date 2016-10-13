@@ -2,6 +2,6 @@ package nl.paardenvriendjes.enumerations;
 
 public enum Vervoer {
 
-	TRAILER, VRACHTWAGEN, COMBINATIE, GEENVERVOER	
+	TRAILER, VRACHTWAGEN, COMBINATIE, GEENVERVOER;	
 	
 }

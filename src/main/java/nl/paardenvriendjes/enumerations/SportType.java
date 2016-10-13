@@ -22,5 +22,5 @@ public enum SportType {
 	BITLOOSRIJDEN,
 	WORKINGEQUITATION,
 	TREC,
-	REINING
+	REINING;
 }

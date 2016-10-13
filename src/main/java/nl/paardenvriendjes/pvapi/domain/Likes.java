@@ -9,19 +9,27 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import nl.paardenvriendjes.enumerations.LikeType;
 
 @Entity
-@CachePut("other")
+@Cacheable("other")
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Like {
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+public class Likes {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@NotNull
 	private Long id;
 	@Enumerated(EnumType.STRING)
 	private LikeType liketype;
@@ -31,60 +39,77 @@ public class Like {
 	private Comment comment;
 	@ManyToOne
 	private Member member;
-	private Date insertDate;
+	@Temporal(TemporalType.DATE)
+	private Date createdon;
 
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public LikeType getLiketype() {
 		return liketype;
 	}
+
 	public void setLiketype(LikeType liketype) {
 		this.liketype = liketype;
 	}
-	public Message getMessage() {
+
+	public Message getMessagelike() {
 		return message;
 	}
-	public void setMessage(Message message) {
+
+	public void setMessagelike(Message message) {
 		this.message = message;
 	}
-	public Member getMember() {
-		return member;
-	}
-	public void setMember(Member member) {
-		this.member = member;
-	}
+
 	public Date getInsertDate() {
-		return insertDate;
+		return createdon;
 	}
-	public void setInsertDate(Date insertDate) {
-		this.insertDate = insertDate;
+
+	public void setInsertDate() {
+		// set-date in backend;
+		this.createdon = new Date();
 	}
-	public Comment getComment() {
+
+	public Comment getComments() {
 		return comment;
 	}
-	public void setComment(Comment comment) {
+
+	public void setComments(Comment comment) {
 		this.comment = comment;
 	}
+
+	public Member getMembert() {
+		return member;
+	}
+
+	public void setMembert(Member member) {
+		this.member = member;
+	}
+
 	@Override
 	public String toString() {
-		return "Like [id=" + id + ", liketype=" + liketype + ", insertDate=" + insertDate + "]";
+		return "Like [id=" + id + ", liketype=" + liketype + ", message=" + message + ", comment=" + comment
+				+ ", member=" + member + ", createdon=" + createdon + "]";
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((comment == null) ? 0 : comment.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((insertDate == null) ? 0 : insertDate.hashCode());
+		result = prime * result + ((createdon == null) ? 0 : createdon.hashCode());
 		result = prime * result + ((liketype == null) ? 0 : liketype.hashCode());
 		result = prime * result + ((member == null) ? 0 : member.hashCode());
 		result = prime * result + ((message == null) ? 0 : message.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -93,7 +118,7 @@ public class Like {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Like other = (Like) obj;
+		Likes other = (Likes) obj;
 		if (comment == null) {
 			if (other.comment != null)
 				return false;
@@ -104,10 +129,10 @@ public class Like {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (insertDate == null) {
-			if (other.insertDate != null)
+		if (createdon == null) {
+			if (other.createdon != null)
 				return false;
-		} else if (!insertDate.equals(other.insertDate))
+		} else if (!createdon.equals(other.createdon))
 			return false;
 		if (liketype != other.liketype)
 			return false;
@@ -122,5 +147,8 @@ public class Like {
 		} else if (!message.equals(other.message))
 			return false;
 		return true;
-	} 
+	}
+
+	
+	
 }
