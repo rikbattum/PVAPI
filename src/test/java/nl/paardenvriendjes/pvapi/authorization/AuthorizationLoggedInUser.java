@@ -1,4 +1,4 @@
-package nl.paardenvriendjes.pvapi.resttest;
+package nl.paardenvriendjes.pvapi.authorization;
 
 import static org.junit.Assert.assertEquals;
 

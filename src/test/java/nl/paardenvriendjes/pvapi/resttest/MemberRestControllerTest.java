@@ -41,6 +41,19 @@ public class MemberRestControllerTest {
 	@Transactional
 	@Rollback(true)
 	public void test () { 
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		assertEquals(true, true);
 	}
 	
