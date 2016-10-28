@@ -1,4 +1,4 @@
-package nl.paardenvriendjes.restcontrollers.PingController;
+package nl.paardenvriendjes.restcontrollers.testcontrollers;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;

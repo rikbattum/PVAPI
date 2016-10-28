@@ -59,37 +59,35 @@ public class TestUtilDataSetup {
 	// Run arrageMembers first!
 	public void runMessagesPost() {
 
-		 
-		
 		// prepare message list
 		Object obj;
 
 		List<Member> memberList = memberService.listAll();
-		
+
 		try {
 			// get individual member reference
-		
+
 			JSONParser parser = new JSONParser();
 			obj = parser.parse(new FileReader("src/test/resources/messages.json"));
 			JSONArray messages = (JSONArray) obj;
 			System.out.println("Succes getting messages file!");
-								
+
 			for (Object message : messages) {
 				JSONObject messageX = (JSONObject) message;
 				System.out.println(messageX);
 				Message m = new Message();
-				// create randomizer for members out of testdata	
-				Random randomGenerator = new Random(); 
+				// create randomizer for members out of testdata
+				Random randomGenerator = new Random();
 				int index = randomGenerator.nextInt(memberList.size());
-				
+
 				// get random member for message
-				Member tempMember = memberList.get(index);	
+				Member tempMember = memberList.get(index);
 				m.setMember(tempMember);
-//				m.setType((MessageType) messageX.get("type"));
+				// m.setType((MessageType) messageX.get("type"));
 				m.setMessage((String) messageX.get("message"));
 				m.setPiclink((String) messageX.get("piclink"));
 				m.setPicLinkSecond((String) messageX.get("picLinkSecond"));
-				m.setPicLinkThird((String) messageX.get("picLinkThird"));	
+				m.setPicLinkThird((String) messageX.get("picLinkThird"));
 				tempMember.getMessages().add(m);
 				memberService.edit(tempMember);
 			}

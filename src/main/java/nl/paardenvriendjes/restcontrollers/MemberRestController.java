@@ -1,13 +1,22 @@
 package nl.paardenvriendjes.restcontrollers;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -32,14 +41,14 @@ public class MemberRestController {
 	private MemberDaoImpl memberservice;
 	static Logger log = Logger.getLogger(MemberDaoImpl.class.getName());
 
-	@InitBinder//("EnumEnitBinder")
+	@InitBinder // ("EnumEnitBinder")
 	protected void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(String.class, "place", new LocationTypeEditor());
 		binder.registerCustomEditor(String.class, "sporttype", new SportLevelEditor());
 		binder.registerCustomEditor(String.class, "vervoer", new VervoerEditor());
 		binder.registerCustomEditor(String.class, "geslacht", new GeslachtEditor());
 	}
-	
+
 	// -------------------Options Call
 	// --------------------------------------------------------------
 
@@ -82,15 +91,40 @@ public class MemberRestController {
 	// member--------------------------------------------------------
 
 	@CrossOrigin
-	@RequestMapping(value = "/members/", method = RequestMethod.POST)
-	public ResponseEntity<Void> createMember(@RequestBody Member member, UriComponentsBuilder ucBuilder) {
+	@RequestMapping(value = "members/signup", method = RequestMethod.POST)
+
+	public ResponseEntity<Void> signupMember(@RequestBody Member member, UriComponentsBuilder ucBuilder) {
+
 		log.debug("Creating member" + member.getUsername());
-
-		memberservice.save(member);
-
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(member.getId()).toUri());
+		try {
+			// set basic signup data as json input in body
+			String jsoninput = "{\"client_id\": \"sPcuHXFrQvNcxMv4iYvA9JoF1VhlqyLh\", \"email\": " + member.getEmail()
+					+ ", \"password\": " + member.getPassword()
+					+ ",\"connection\":  \"Username-Password-Authentication\" }";
+			StringEntity params = new StringEntity(jsoninput);
+			params.setContentType("application/json");
+			log.debug("params2" + params);
+
+			// create auth0 request for signup
+			URIBuilder ub = new URIBuilder("https://pvapp.eu.auth0.com/dbconnections/signup");
+			URI uri = ub.build();
+			HttpUriRequest request = org.apache.http.client.methods.RequestBuilder.post().setUri(uri).setEntity(params)
+					.build();
+			log.debug("request" + request);
+			HttpClient client = HttpClientBuilder.create().build();
+			client.execute(request);
+		} catch (IOException ioexcept) {
+			log.debug("unable to register new member at auth0 " + member.getEmail());
+			log.error(ioexcept.getMessage());
+			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		memberservice.save(member);
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+
 	}
 
 	// ------------------- Update a
@@ -98,6 +132,7 @@ public class MemberRestController {
 
 	@CrossOrigin
 	@RequestMapping(value = "/members/{id}", method = RequestMethod.PUT)
+	@PreAuthorize("@memberservice.listOne(#id).getEmail() == authentication.name or hasRole('Admin')")
 	public ResponseEntity<Member> updateMember(@PathVariable("id") long id, @RequestBody Member member) {
 		log.debug("Updating User " + id);
 
@@ -117,6 +152,7 @@ public class MemberRestController {
 
 	@CrossOrigin
 	@RequestMapping(value = "/members/{id}", method = RequestMethod.DELETE)
+	@PreAuthorize("@memberservice.listOne(#id).getEmail() == authentication.name or hasRole('Admin')")
 	public ResponseEntity<Member> deleteUser(@PathVariable("id") long id) {
 		log.debug("Fetching & Deleting User with id " + id);
 
@@ -182,7 +218,7 @@ public class MemberRestController {
 		}
 		return new ResponseEntity<List<Member>>(members, HttpStatus.OK);
 	}
-	
+
 	// ------------------- Find Member by location
 	// -------------------------------------------------
 
@@ -210,7 +246,7 @@ public class MemberRestController {
 		}
 		return new ResponseEntity<List<Member>>(members, HttpStatus.OK);
 	}
-	
+
 	// ------------------- Find Member by sporttype
 	// -------------------------------------------------
 
@@ -223,65 +259,75 @@ public class MemberRestController {
 			return new ResponseEntity<List<Member>>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<Member>>(members, HttpStatus.OK);
-	}	
-	
-	
+	}
+
 	// Friend functions
-	
+
 	@CrossOrigin
 	@RequestMapping(value = "/members/friend/addfriend/", method = RequestMethod.PUT)
-		public ResponseEntity<Member> addFriend(@PathVariable("id") long id, @PathVariable ("toBeFollowedFriendId") long toBeFollowedFriendId) {
-			log.debug("Adding friend with id " + toBeFollowedFriendId + " to memberId " + id);
-			Member member = memberservice.listOne(id);
-			Member friend = memberservice.listOne(toBeFollowedFriendId);
-			if (member == null || friend == null) {
-				log.debug("Unable to add member or friend when null id of " + id + " or friend id of: " + toBeFollowedFriendId);
-				return new ResponseEntity<Member>(HttpStatus.NOT_FOUND);
-			}
-			memberservice.addFriend(member, friend);
-			return new ResponseEntity<Member>(member, HttpStatus.OK);
+	@PreAuthorize("@memberservice.listOne(#id).getEmail() == authentication.name or hasRole('Admin')")
+	public ResponseEntity<Member> addFriend(@PathVariable("id") long id,
+			@PathVariable("toBeFollowedFriendId") long toBeFollowedFriendId) {
+		log.debug("Adding friend with id " + toBeFollowedFriendId + " to memberId " + id);
+		Member member = memberservice.listOne(id);
+		Member friend = memberservice.listOne(toBeFollowedFriendId);
+		if (member == null || friend == null) {
+			log.debug("Unable to add member or friend when null id of " + id + " or friend id of: "
+					+ toBeFollowedFriendId);
+			return new ResponseEntity<Member>(HttpStatus.NOT_FOUND);
 		}
+		memberservice.addFriend(member, friend);
+		return new ResponseEntity<Member>(member, HttpStatus.OK);
+	}
 
 	@CrossOrigin
 	@RequestMapping(value = "/members/friend/removefriend/", method = RequestMethod.PUT)
-		public ResponseEntity<Member> removeFriend(@PathVariable("id") long id, @PathVariable ("toBeRemovedFriendId") long toBeRemovedFriendId) {
-			log.debug("Removing friend with id " + toBeRemovedFriendId + " from memberId " + id);
-			Member member = memberservice.listOne(id);
-			Member friend = memberservice.listOne(toBeRemovedFriendId);
-			if (member == null || friend == null) {
-				log.debug("Unable to remove member or friend when null id of " + id + " or friend id of: " + toBeRemovedFriendId);
-				return new ResponseEntity<Member>(HttpStatus.NOT_FOUND);
-			}
-			memberservice.removeFriend(member, friend);
-			return new ResponseEntity<Member>(member, HttpStatus.OK);
+	@PreAuthorize("@memberservice.listOne(#id).getEmail() == authentication.name or hasRole('Admin')")
+	public ResponseEntity<Member> removeFriend(@PathVariable("id") long id,
+			@PathVariable("toBeRemovedFriendId") long toBeRemovedFriendId) {
+		log.debug("Removing friend with id " + toBeRemovedFriendId + " from memberId " + id);
+		Member member = memberservice.listOne(id);
+		Member friend = memberservice.listOne(toBeRemovedFriendId);
+		if (member == null || friend == null) {
+			log.debug("Unable to remove member or friend when null id of " + id + " or friend id of: "
+					+ toBeRemovedFriendId);
+			return new ResponseEntity<Member>(HttpStatus.NOT_FOUND);
 		}
+		memberservice.removeFriend(member, friend);
+		return new ResponseEntity<Member>(member, HttpStatus.OK);
+	}
 
-		
 	@CrossOrigin
 	@RequestMapping(value = "/members/friend/addblock/", method = RequestMethod.PUT)
-		public ResponseEntity<Member> addBlock(@PathVariable("id") long id, @PathVariable ("toBeAddedBlockId") long toBeAddedBlockId) {
-			log.debug("Adding block for  friend with id " + toBeAddedBlockId + " for memberId " + id);
-			Member member = memberservice.listOne(id);
-			Member block = memberservice.listOne(toBeAddedBlockId);
-			if (member == null || block == null) {
-				log.debug("Unable to block member or friend when null id of " + id + " or block id of: " + toBeAddedBlockId);
-				return new ResponseEntity<Member>(HttpStatus.NOT_FOUND);
-			}
-			memberservice.addBlock(member, block);
-			return new ResponseEntity<Member>(member, HttpStatus.OK);
+	@PreAuthorize("@memberservice.listOne(#id).getEmail() == authentication.name or hasRole('Admin')")
+	public ResponseEntity<Member> addBlock(@PathVariable("id") long id,
+			@PathVariable("toBeAddedBlockId") long toBeAddedBlockId) {
+		log.debug("Adding block for  friend with id " + toBeAddedBlockId + " for memberId " + id);
+		Member member = memberservice.listOne(id);
+		Member block = memberservice.listOne(toBeAddedBlockId);
+		if (member == null || block == null) {
+			log.debug(
+					"Unable to block member or friend when null id of " + id + " or block id of: " + toBeAddedBlockId);
+			return new ResponseEntity<Member>(HttpStatus.NOT_FOUND);
 		}
+		memberservice.addBlock(member, block);
+		return new ResponseEntity<Member>(member, HttpStatus.OK);
+	}
 
 	@CrossOrigin
 	@RequestMapping(value = "/members/friend/removeblock/", method = RequestMethod.PUT)
-		public ResponseEntity<Member> removeBlock(@PathVariable("id") long id, @PathVariable ("toBeRemovedBlockId") long toBeRemovedBlockId) {
-			log.debug("Removing block for friend with id " + toBeRemovedBlockId + " for memberId " + id);
-			Member member = memberservice.listOne(id);
-			Member block = memberservice.listOne(toBeRemovedBlockId);
-			if (member == null || block == null) {
-				log.debug("Unable to unlock member or friend when null id of " + id + " or block id of: " + toBeRemovedBlockId);
-				return new ResponseEntity<Member>(HttpStatus.NOT_FOUND);
-			}
-			memberservice.removeBlock(member, block);
-			return new ResponseEntity<Member>(member, HttpStatus.OK);
+	@PreAuthorize("@memberservice.listOne(#id).getEmail() == authentication.name or hasRole('Admin')")
+	public ResponseEntity<Member> removeBlock(@PathVariable("id") long id,
+			@PathVariable("toBeRemovedBlockId") long toBeRemovedBlockId) {
+		log.debug("Removing block for friend with id " + toBeRemovedBlockId + " for memberId " + id);
+		Member member = memberservice.listOne(id);
+		Member block = memberservice.listOne(toBeRemovedBlockId);
+		if (member == null || block == null) {
+			log.debug("Unable to unlock member or friend when null id of " + id + " or block id of: "
+					+ toBeRemovedBlockId);
+			return new ResponseEntity<Member>(HttpStatus.NOT_FOUND);
+		}
+		memberservice.removeBlock(member, block);
+		return new ResponseEntity<Member>(member, HttpStatus.OK);
 	}
 }

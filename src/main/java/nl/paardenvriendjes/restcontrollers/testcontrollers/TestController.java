@@ -1,4 +1,4 @@
-package nl.paardenvriendjes.restcontrollers;
+package nl.paardenvriendjes.restcontrollers.testcontrollers;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -49,11 +49,20 @@ public class MessageDaoImpl extends AbstractDaoService<Message> {
 	}
 
 	@Override
-	@PreAuthorize("#message.member.email == authentication.name or hasRole('Admin')")
-	public void edit(@P("message") Message message) {		
+	public void edit(Message message) {		
 		message.setInsertDate();
 		getCurrentSession().merge(message);
 		log.debug("edit: " + message.toString());
+	}
+	
+	@Override
+	public void remove(Message message) {
+		try { 
+			getCurrentSession().delete(message);	
+			log.debug("deleted " + Message.class.toString());
+		} catch (Exception e) {
+			log.error("Object to be deleted not found " + Message.class.toString());
+		}
 	}
 
 	public List<Message> listAllMessagesSport(int start, int end) {

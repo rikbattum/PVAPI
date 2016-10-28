@@ -22,6 +22,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,7 @@ public class MemberCreation {
 	// WILL ONLY BE RUN WHEN BUILDING AND INTEGRATING WITH AUTH0. 
 	// NEEDS CLEANEDUP USER IN AUTH) EVERY TIME
 	
+	@Ignore
 	@Test
 	@Transactional
 	@Rollback(true)

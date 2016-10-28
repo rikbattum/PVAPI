@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.WebDataBinder;
@@ -113,6 +114,7 @@ public class MessageRestController {
 
 	@CrossOrigin
 	@RequestMapping(value = "/messages/", method = RequestMethod.POST)
+	@PreAuthorize("#message.member.email == authentication.name or hasRole('Admin')")
 	public ResponseEntity<Void> createMessage(@RequestBody Message message, UriComponentsBuilder ucBuilder) {
 		log.debug("Creating message" + message.getMessage());
 		messageservice.save(message);
@@ -125,6 +127,7 @@ public class MessageRestController {
 
 	@CrossOrigin
 	@RequestMapping(value = "/messages/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("#message.member.email == authentication.name or hasRole('Admin')")
 	public ResponseEntity<Message> updateMessage(@PathVariable("id") long id, @RequestBody Message message) {
 		log.debug("Updating Message" + id);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -142,6 +145,7 @@ public class MessageRestController {
 	
 	@CrossOrigin
 	@RequestMapping(value = "/messages/{id}", method = RequestMethod.DELETE)
+	@PreAuthorize("#message.member.email == authentication.name or hasRole('Admin')")
 	public ResponseEntity<Message> deleteMessage(@PathVariable("id") long id) {
 		log.debug("Fetching & Deleting Mesage with id " + id);
 		Message message = messageservice.listOne(id);

@@ -24,6 +24,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -71,6 +72,7 @@ public class Member {
 	@Basic(fetch=FetchType.EAGER)  //probably not needed
 	private Interesse interesse = new Interesse();
     private String profileimage;
+    @Transient
 	private String password;
 	@Enumerated(EnumType.STRING)
     private Place place;
