@@ -19,7 +19,7 @@ import org.springframework.cache.annotation.Cacheable;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import nl.paardenvriendjes.enumerations.LikeType;
+import nl.paardenvriendjes.pvapi.enumerations.LikeType;
 
 @Entity
 @Cacheable("other")

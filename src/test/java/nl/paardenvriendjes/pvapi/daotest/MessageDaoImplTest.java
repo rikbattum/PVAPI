@@ -16,12 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import nl.paardenvriendjes.enumerations.LineType;
 import nl.paardenvriendjes.pvapi.abstracttest.AbstractTest;
 import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
 import nl.paardenvriendjes.pvapi.daoimpl.MessageDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.domain.Message;
+import nl.paardenvriendjes.pvapi.enumerations.LineType;
 import nl.paardenvriendjes.testutil.TestUtilDataSetup;
 
 public class MessageDaoImplTest extends AbstractTest {

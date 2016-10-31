@@ -16,10 +16,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import nl.paardenvriendjes.enumerations.LineType;
+import nl.paardenvriendjes.pvapi.daoimpl.abstractdao.AbstractDaoService;
 import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.domain.Message;
-import nl.paardenvriendjes.pvapi.service.AbstractDaoService;
+import nl.paardenvriendjes.pvapi.enumerations.LineType;
 
 @Repository
 @Transactional

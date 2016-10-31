@@ -27,8 +27,8 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import nl.paardenvriendjes.enumerations.LineType;
-import nl.paardenvriendjes.enumerations.MessageType;
+import nl.paardenvriendjes.pvapi.enumerations.LineType;
+import nl.paardenvriendjes.pvapi.enumerations.MessageType;
 
 @Entity
 @Cacheable("messagecache")

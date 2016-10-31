@@ -71,6 +71,8 @@ public ResponseEntity<Void> createEvent(@RequestBody Event event, UriComponentsB
 	log.debug("Creating " + event.getEventName());
 
 	eventservice.save(event);
+	// TODO
+	// USE GENERIC SERVICE FOR AUTO UPDATE
 
 	HttpHeaders headers = new HttpHeaders();
 	headers.setLocation(ucBuilder.path("/ventt/{id}").buildAndExpand(event.getId()).toUri());

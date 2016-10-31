@@ -15,10 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import nl.paardenvriendjes.customeditors.LocationTypeEditor;
-import nl.paardenvriendjes.enumerations.Place;
+import nl.paardenvriendjes.custom.editors.LocationTypeEditor;
+import nl.paardenvriendjes.pvapi.daoimpl.abstractdao.AbstractDaoService;
 import nl.paardenvriendjes.pvapi.domain.Member;
-import nl.paardenvriendjes.pvapi.service.AbstractDaoService;
+import nl.paardenvriendjes.pvapi.enumerations.Place;
 
 @Repository
 @Transactional

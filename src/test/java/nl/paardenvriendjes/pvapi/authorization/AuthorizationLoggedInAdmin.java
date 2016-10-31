@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import nl.paardenvriendjes.application.HibernateConfiguration;
 import nl.paardenvriendjes.testutil.TestUtilHeaderRequestInterceptor;
-import nl.paardenvriendjes.testutil.TestUtilLogin;
+import nl.paardenvriendjes.testutil.Auth0Util;
 
 
 @RunWith(SpringRunner.class)
@@ -41,11 +41,12 @@ public class AuthorizationLoggedInAdmin {
 	@Before
 	public void initializeLogin() { 
 	
-	TestUtilLogin login = new TestUtilLogin();
+	Auth0Util login = new Auth0Util();
 	String id_token;
 	
 	try {
-		id_token = login.logon("rikbattum@hotmail.com", "admin");
+		String [] bothstrings =  login.login("rikbattum@hotmail.com", "admin");
+		id_token = bothstrings[0]; 
 		List<ClientHttpRequestInterceptor> interceptors = new ArrayList<ClientHttpRequestInterceptor>();
 		interceptors.add(new TestUtilHeaderRequestInterceptor(HttpHeaders.AUTHORIZATION, "Bearer " + id_token));
 		restTemplate.getRestTemplate().setInterceptors(interceptors);
@@ -61,7 +62,7 @@ public class AuthorizationLoggedInAdmin {
 	public void logoutUser () { 
 		
 		restTemplate.getRestTemplate().getInterceptors().clear();
-		TestUtilLogin logout = new TestUtilLogin();
+		Auth0Util logout = new Auth0Util();
 		try {
 			logout.logout();
 		} catch (ClientProtocolException e) {

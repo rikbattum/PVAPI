@@ -24,7 +24,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import nl.paardenvriendjes.application.HibernateConfiguration;
 import nl.paardenvriendjes.testutil.TestUtilHeaderRequestInterceptor;
-import nl.paardenvriendjes.testutil.TestUtilLogin;
+import nl.paardenvriendjes.testutil.Auth0Util;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = HibernateConfiguration.class)

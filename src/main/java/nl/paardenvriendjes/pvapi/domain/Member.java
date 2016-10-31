@@ -35,11 +35,11 @@ import org.springframework.cache.annotation.Cacheable;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import nl.paardenvriendjes.enumerations.Geslacht;
-import nl.paardenvriendjes.enumerations.OtherSport;
-import nl.paardenvriendjes.enumerations.Place;
-import nl.paardenvriendjes.enumerations.SportLevel;
-import nl.paardenvriendjes.enumerations.Vervoer;
+import nl.paardenvriendjes.pvapi.enumerations.Geslacht;
+import nl.paardenvriendjes.pvapi.enumerations.OtherSport;
+import nl.paardenvriendjes.pvapi.enumerations.Place;
+import nl.paardenvriendjes.pvapi.enumerations.SportLevel;
+import nl.paardenvriendjes.pvapi.enumerations.Vervoer;
 
 @Entity
 @Cacheable("membercache")

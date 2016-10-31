@@ -19,13 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import nl.paardenvriendjes.enumerations.Geslacht;
-import nl.paardenvriendjes.enumerations.LineType;
-import nl.paardenvriendjes.enumerations.MessageType;
-import nl.paardenvriendjes.enumerations.OtherSport;
-import nl.paardenvriendjes.enumerations.Place;
-import nl.paardenvriendjes.enumerations.SportLevel;
-import nl.paardenvriendjes.enumerations.Vervoer;
 import nl.paardenvriendjes.pvapi.abstracttest.AbstractTest;
 import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Event;
@@ -33,6 +26,13 @@ import nl.paardenvriendjes.pvapi.domain.Horse;
 import nl.paardenvriendjes.pvapi.domain.Interesse;
 import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.domain.Message;
+import nl.paardenvriendjes.pvapi.enumerations.Geslacht;
+import nl.paardenvriendjes.pvapi.enumerations.LineType;
+import nl.paardenvriendjes.pvapi.enumerations.MessageType;
+import nl.paardenvriendjes.pvapi.enumerations.OtherSport;
+import nl.paardenvriendjes.pvapi.enumerations.Place;
+import nl.paardenvriendjes.pvapi.enumerations.SportLevel;
+import nl.paardenvriendjes.pvapi.enumerations.Vervoer;
 import nl.paardenvriendjes.testutil.TestUtilDataSetup;
 
 public class MemberDaoImplTest extends AbstractTest{

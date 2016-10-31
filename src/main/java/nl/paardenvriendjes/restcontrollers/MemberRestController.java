@@ -5,6 +5,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.utils.URIBuilder;
@@ -27,18 +28,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import nl.paardenvriendjes.customeditors.GeslachtEditor;
-import nl.paardenvriendjes.customeditors.LocationTypeEditor;
-import nl.paardenvriendjes.customeditors.SportLevelEditor;
-import nl.paardenvriendjes.customeditors.VervoerEditor;
+import nl.paardenvriendjes.custom.editors.GeslachtEditor;
+import nl.paardenvriendjes.custom.editors.LocationTypeEditor;
+import nl.paardenvriendjes.custom.editors.SportLevelEditor;
+import nl.paardenvriendjes.custom.editors.VervoerEditor;
+import nl.paardenvriendjes.custom.exceptions.Auth0CreationException;
 import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Member;
+import nl.paardenvriendjes.pvapi.genericservicelayer.messagecreate.Genericmessageservice;
 
 @RestController
 public class MemberRestController {
 
 	@Autowired
 	private MemberDaoImpl memberservice;
+	@Autowired
+	private Genericmessageservice genericmessageservice;
 	static Logger log = Logger.getLogger(MemberDaoImpl.class.getName());
 
 	@InitBinder // ("EnumEnitBinder")
@@ -94,15 +99,14 @@ public class MemberRestController {
 	@RequestMapping(value = "members/signup", method = RequestMethod.POST)
 
 	public ResponseEntity<Void> signupMember(@RequestBody Member member, UriComponentsBuilder ucBuilder) {
-
-		log.debug("Creating member" + member.getUsername());
-		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(member.getId()).toUri());
-		try {
+		
+		log.debug("Creating member " + member.getEmail());		
+		
+		try {	
 			// set basic signup data as json input in body
-			String jsoninput = "{\"client_id\": \"sPcuHXFrQvNcxMv4iYvA9JoF1VhlqyLh\", \"email\": " + member.getEmail()
-					+ ", \"password\": " + member.getPassword()
-					+ ",\"connection\":  \"Username-Password-Authentication\" }";
+			String jsoninput = "{\"client_id\": \"sPcuHXFrQvNcxMv4iYvA9JoF1VhlqyLh\", \"email\": \"" + member.getEmail()
+					+ "\", \"password\": \"" + member.getPassword()
+					+ "\",\"connection\":  \"Username-Password-Authentication\" }";
 			StringEntity params = new StringEntity(jsoninput);
 			params.setContentType("application/json");
 			log.debug("params2" + params);
@@ -114,15 +118,28 @@ public class MemberRestController {
 					.build();
 			log.debug("request" + request);
 			HttpClient client = HttpClientBuilder.create().build();
-			client.execute(request);
+			HttpResponse response = client.execute(request);
+			if (response.getStatusLine().getStatusCode() != 200) {
+				throw new Auth0CreationException(
+						"unable to register new member at auth0 for member: " + member.getEmail());
+			}
+
 		} catch (IOException ioexcept) {
-			log.debug("unable to register new member at auth0 " + member.getEmail());
 			log.error(ioexcept.getMessage());
-			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		} catch (Auth0CreationException customexception) {
+			log.error(customexception.getMessage());
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(member.getId()).toUri());
+
 		memberservice.save(member);
+		genericmessageservice.newMemberHappyMessage(member);
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 
 	}

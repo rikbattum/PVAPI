@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import nl.paardenvriendjes.customeditors.LikeTypeEditor;
+import nl.paardenvriendjes.custom.editors.LikeTypeEditor;
 import nl.paardenvriendjes.pvapi.daoimpl.LikeDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Likes;
 

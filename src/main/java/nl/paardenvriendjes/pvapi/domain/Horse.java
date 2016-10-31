@@ -27,8 +27,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import nl.paardenvriendjes.enumerations.Geslacht;
-import nl.paardenvriendjes.enumerations.PaardType;
+import nl.paardenvriendjes.pvapi.enumerations.Geslacht;
+import nl.paardenvriendjes.pvapi.enumerations.PaardType;
 
 @Entity
 @Cacheable("other")

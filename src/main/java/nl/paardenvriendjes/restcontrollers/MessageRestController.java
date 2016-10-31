@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import nl.paardenvriendjes.customeditors.LineTypeEditor;
-import nl.paardenvriendjes.customeditors.MessageTypeEditor;
+import nl.paardenvriendjes.custom.editors.LineTypeEditor;
+import nl.paardenvriendjes.custom.editors.MessageTypeEditor;
 import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
 import nl.paardenvriendjes.pvapi.daoimpl.MessageDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Member;
@@ -118,6 +118,8 @@ public class MessageRestController {
 	public ResponseEntity<Void> createMessage(@RequestBody Message message, UriComponentsBuilder ucBuilder) {
 		log.debug("Creating message" + message.getMessage());
 		messageservice.save(message);
+		// TODO
+		// USE GENERIC SERVICE FOR AUTO UPDATE
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(ucBuilder.path("/messages/{id}").buildAndExpand(message.getId()).toUri());
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
