@@ -159,13 +159,16 @@ public class Auth0Util {
     public void deleteUser(String user_id) throws URISyntaxException, ClientProtocolException,
 	IOException, JSONException { 	
     	
+    	
+    	// specific bearer token for management API
+    	String bearertoken = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJzUGN1SFhGclF2TmN4TXY0aVl2QTlKb0YxVmhscXlMaCIsInNjb3BlcyI6eyJ1c2VycyI6eyJhY3Rpb25zIjpbImRlbGV0ZSIsInJlYWQiLCJjcmVhdGUiLCJ1cGRhdGUiXX19LCJpYXQiOjE0NzgwMjk0ODIsImp0aSI6ImU5Y2Q4OTI3NGJhMzJhZTZmMWQ1ZTQyZTU0N2Q0ZGZmIn0.8yOCl1DPjA696TbK9PQxwxpra6lKEj4QnIp1fA78NeI";
     	String correctUserIdFortmat = user_id.substring(6);
     	
     	URIBuilder ub = new URIBuilder(
-				"https://pvapp.eu.auth0.com/v2/users/" + user_id);
+				"https://pvapp.eu.auth0.com/api/v2/users/" + correctUserIdFortmat);
 		// ub.setParameter("", "");
 		URI uri = ub.build();
-		HttpUriRequest request = org.apache.http.client.methods.RequestBuilder.delete().setUri(uri).build();
+		HttpUriRequest request = org.apache.http.client.methods.RequestBuilder.delete().setUri(uri).setHeader(HttpHeaders.AUTHORIZATION, bearertoken).build();
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpResponse response = client.execute(request);
 		if (response.getStatusLine().getStatusCode()== 201) { 

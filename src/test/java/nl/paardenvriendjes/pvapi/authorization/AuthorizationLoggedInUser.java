@@ -248,10 +248,12 @@ public class AuthorizationLoggedInUser {
 		// assert permitted
 		// assertEquals(newresponse.getStatusCode(), HttpStatus.OK);
 		// Find message again and assert Message to have been changed
-		
 	}
 		finally {
 		try { 
+			
+			restTemplate.getRestTemplate().getInterceptors().clear();
+			
 			auth0.deleteUser(user_id);
 		} catch (JSONException | URISyntaxException | IOException e) {
 			// TODO Auto-generated catch block

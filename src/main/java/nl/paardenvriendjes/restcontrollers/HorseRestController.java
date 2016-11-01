@@ -31,6 +31,7 @@ public class HorseRestController {
 	private HorseDaoImpl horseservice;
 	@Autowired
 	private Genericmessageservice genericmessageservice;
+	
 	static Logger log = Logger.getLogger(HorseDaoImpl.class.getName());
 	
 	@InitBinder//("EnumEnitBinder")

@@ -1,6 +1,8 @@
 package nl.paardenvriendjes.pvapi.genericservicelayer.messagecreate;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
 import nl.paardenvriendjes.pvapi.daoimpl.MessageDaoImpl;
@@ -11,6 +13,8 @@ import nl.paardenvriendjes.pvapi.domain.Message;
 import nl.paardenvriendjes.pvapi.enumerations.LineType;
 import nl.paardenvriendjes.pvapi.enumerations.MessageType;
 
+@Repository
+@Transactional
 public class Genericmessageservice {
 
 		@Autowired
