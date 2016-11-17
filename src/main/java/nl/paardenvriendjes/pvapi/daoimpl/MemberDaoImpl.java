@@ -20,7 +20,7 @@ import nl.paardenvriendjes.pvapi.daoimpl.abstractdao.AbstractDaoService;
 import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.enumerations.Place;
 
-@Repository
+@Repository (value="memberservice")
 @Transactional
 @SuppressWarnings("unchecked")
 public class MemberDaoImpl extends AbstractDaoService<Member> {
@@ -51,7 +51,7 @@ public class MemberDaoImpl extends AbstractDaoService<Member> {
 		try {
 			memberToBeRemoved.setActive(false);
 			memberToBeRemoved.setDeactivatedDate();
-			getCurrentSession().saveOrUpdate(memberToBeRemoved);
+			getCurrentSession().merge(memberToBeRemoved);
 			log.debug("Deactivated Horse " + memberToBeRemoved.toString());
 		} catch (Exception e) {
 			log.error("Member to be deactivated not successfull for id: " + memberToBeRemoved.getId());
@@ -62,7 +62,7 @@ public class MemberDaoImpl extends AbstractDaoService<Member> {
 	try {
 		Member memberToBeReactivated = (Member) getCurrentSession().load(Member.class, id);
 		memberToBeReactivated.setActive(true);
-		getCurrentSession().saveOrUpdate(memberToBeReactivated);
+		getCurrentSession().merge(memberToBeReactivated);
 		log.debug("Reactivated Member" + memberToBeReactivated.toString());
 	} catch (Exception e) {
 		log.error("Member to be reactivated not successfull for id: " + id);

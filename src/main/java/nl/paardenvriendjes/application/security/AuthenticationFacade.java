@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import com.auth0.authentication.result.Authentication;
 
 
+
 @Component
 	public class AuthenticationFacade implements IAuthenticationFacade {
 	 

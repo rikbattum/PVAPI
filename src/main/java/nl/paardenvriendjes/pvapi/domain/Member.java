@@ -77,7 +77,7 @@ public class Member {
 	@Enumerated(EnumType.STRING)
     private Place place;
 	@OneToMany (mappedBy = "member")
-	@Cascade({CascadeType.ALL})
+	@Cascade({CascadeType.MERGE, CascadeType.PERSIST})
 	private List <Message> messages = new ArrayList<Message>();
 	@Cascade({CascadeType.ALL})
     @OneToMany (mappedBy = "member")
@@ -120,6 +120,7 @@ public class Member {
 	@Enumerated(EnumType.STRING)
 	private Vervoer vervoer; 
 	private Geslacht geslacht;
+	private String auth0user_id; 
     
     //Getters and Setters
    
@@ -281,6 +282,12 @@ public class Member {
 	public void setGeslacht(Geslacht geslacht) {
 		this.geslacht = geslacht;
 	}
+	public String getAuth0user_id() {
+		return auth0user_id;
+	}
+	public void setAuth0user_id(String auth0user_id) {
+		this.auth0user_id = auth0user_id;
+	}
 	
 	//ToString
 	@Override
@@ -292,17 +299,18 @@ public class Member {
 				+ ", messages=" + messages + ", comments=" + comments + ", likes=" + likes + ", sportLevel="
 				+ sportLevel + ", active=" + active + ", vrienden=" + vrienden + ", blokkades=" + blokkades
 				+ ", events=" + events + ", sports=" + sports + ", othersports=" + othersports + ", vervoer=" + vervoer
-				+ ", geslacht=" + geslacht + "]";
+				+ ", geslacht=" + geslacht + ", auth0user_id=" + auth0user_id + "]";
 	}
 
 	//Hashcode and Equals
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((achternaam == null) ? 0 : achternaam.hashCode());
 		result = prime * result + ((active == null) ? 0 : active.hashCode());
+		result = prime * result + ((auth0user_id == null) ? 0 : auth0user_id.hashCode());
 		result = prime * result + ((blokkades == null) ? 0 : blokkades.hashCode());
 		result = prime * result + ((comments == null) ? 0 : comments.hashCode());
 		result = prime * result + ((createdonDate == null) ? 0 : createdonDate.hashCode());
@@ -347,6 +355,11 @@ public class Member {
 			if (other.active != null)
 				return false;
 		} else if (!active.equals(other.active))
+			return false;
+		if (auth0user_id == null) {
+			if (other.auth0user_id != null)
+				return false;
+		} else if (!auth0user_id.equals(other.auth0user_id))
 			return false;
 		if (blokkades == null) {
 			if (other.blokkades != null)
@@ -458,9 +471,9 @@ public class Member {
 			return false;
 		return true;
 	}
-	
+		
 	// convenience methods for cardinality with Messages
-	
+
 	public void addOrUpdateMessage (Message message) { 
 
 		if (message == null) { 

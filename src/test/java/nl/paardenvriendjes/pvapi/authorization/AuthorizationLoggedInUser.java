@@ -7,7 +7,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.print.attribute.SetOfIntegerSyntax;
+import javax.transaction.Transactional;
 
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.ClientProtocolException;
@@ -26,22 +26,19 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import nl.paardenvriendjes.application.HibernateConfiguration;
-import nl.paardenvriendjes.pvapi.daoimpl.HorseDaoImpl;
 import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
 import nl.paardenvriendjes.pvapi.daoimpl.MessageDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.domain.Message;
+import nl.paardenvriendjes.testutil.Auth0Util;
 import nl.paardenvriendjes.testutil.TestUtilDataSetup;
 import nl.paardenvriendjes.testutil.TestUtilHeaderRequestInterceptor;
-import nl.paardenvriendjes.testutil.Auth0Util;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = HibernateConfiguration.class)
@@ -105,8 +102,7 @@ public class AuthorizationLoggedInUser {
 		String id_token;
 
 		try {
-			String [] bothstrings = auth0.login("userpv@mailinator.com", "user123");
-			id_token = bothstrings[0];
+			id_token = auth0.login("userpv@mailinator.com", "user123");
 			List<ClientHttpRequestInterceptor> interceptors = new ArrayList<ClientHttpRequestInterceptor>();
 			interceptors.add(new TestUtilHeaderRequestInterceptor(HttpHeaders.AUTHORIZATION, "Bearer " + id_token));
 			restTemplate.getRestTemplate().setInterceptors(interceptors);
@@ -126,8 +122,7 @@ public class AuthorizationLoggedInUser {
 		String id_token;
 
 		try {
-			String [] bothstrings = auth0.login("userpv@mailinator.com", "user123");
-			id_token = bothstrings[0]; 
+			id_token = auth0.login("userpv@mailinator.com", "user123");
 			List<ClientHttpRequestInterceptor> interceptors = new ArrayList<ClientHttpRequestInterceptor>();
 			interceptors.add(new TestUtilHeaderRequestInterceptor(HttpHeaders.AUTHORIZATION, "Bearer " + id_token));
 			restTemplate.getRestTemplate().setInterceptors(interceptors);
@@ -148,8 +143,7 @@ public class AuthorizationLoggedInUser {
 		String id_token;
 
 		try {
-			String [] bothstrings = auth0.login("userpv@mailinator.com", "user123");
-			id_token = bothstrings[0]; 
+			id_token = auth0.login("userpv@mailinator.com", "user123");
 			List<ClientHttpRequestInterceptor> interceptors = new ArrayList<ClientHttpRequestInterceptor>();
 			interceptors.add(new TestUtilHeaderRequestInterceptor(HttpHeaders.AUTHORIZATION, "Bearer " + id_token));
 			restTemplate.getRestTemplate().setInterceptors(interceptors);
@@ -185,54 +179,37 @@ public class AuthorizationLoggedInUser {
 	@Test
 	@Transactional
 	@Rollback(true)
-	public void testAbleADDandChangeOwnedMessages()	{
-
-		String user_id = "";
+	public void testAbleToAddAndChangeOwnMessage() { 
+		testUtilDataSetup.setMembers();
+		testUtilDataSetup.runMessagesPost();
 		
-		// Part 0 add member and get ID for test
-		Member member = new Member();
-		member.setEmail("userpvJunit@mailinator.com");
-		member.setPassword("3213hjxcS");
-		HttpEntity<Member> requestAdd = new HttpEntity<>(member);
-		ResponseEntity<Member> response = restTemplate.exchange("/members/signup", HttpMethod.POST, requestAdd,
-				Member.class);
-
-		// wrap in try finally to always delete account again
+		Member validMember = (Member) memberService.findMemberByLastName("Battum").get(0);
+		Message messageToBeAdded = new Message();
+		messageToBeAdded.setMessage("message being added by controller");
+		messageToBeAdded.setMember(validMember);
+		// make httpentity
+		HttpEntity<Message> request = new HttpEntity<>(messageToBeAdded);
+		//login
 		try {
-		
-		// login
-		try {
-			Auth0Util login = new Auth0Util();
-			String [] bothstrings = login.login("userpvJunit@mailinator.com", "3213hjxcS");
-			String id_token = bothstrings[0]; 
-			user_id = bothstrings[1];
+			String id_token = auth0.login("userpv@mailinator.com", "user123");
 			List<ClientHttpRequestInterceptor> interceptors = new ArrayList<ClientHttpRequestInterceptor>();
 			interceptors.add(new TestUtilHeaderRequestInterceptor(HttpHeaders.AUTHORIZATION, "Bearer " + id_token));
 			restTemplate.getRestTemplate().setInterceptors(interceptors);
 		} catch (JSONException | URISyntaxException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			e.getMessage();
 		}
+	
+		// PART 1 ADD MESSAGE
 		
-		// Get member
-		Member membercreated = restTemplate.getForObject("/members/" + 1L, Member.class);
-		log.debug(membercreated);
-		// PART 1: ADD MESSAGE
-		Message messageToBeAdded = new Message();
-		messageToBeAdded.setMessage("message being added by controller");
-		messageToBeAdded.setMember(membercreated);
-		// make httpentity
-		HttpEntity<Message> requestAdd2 = new HttpEntity<>(messageToBeAdded);
 		// create POST exchange
-		ResponseEntity<Message> response2 = restTemplate.exchange("/messages/", HttpMethod.POST, requestAdd2,
+		ResponseEntity<Message> response = restTemplate.exchange("/messages/", HttpMethod.POST, request,
 				Message.class);
 		
-		
-		// assert not permitted
-//		assertEquals(response2.getStatusCode(), HttpStatus.CREATED);
+		// assert permitted
+		assertEquals(response.getStatusCode(), HttpStatus.CREATED);
 
-		// PART2 EDIT MESSAGE
+		// PART 2 EDIT MESSAGE
 //		List<Message> messages = messageService.listAll();
 //		Message createdMessage = messages.get(0);
 //		Long createdId = createdMessage.getId();
@@ -248,17 +225,10 @@ public class AuthorizationLoggedInUser {
 		// assert permitted
 		// assertEquals(newresponse.getStatusCode(), HttpStatus.OK);
 		// Find message again and assert Message to have been changed
+//	}
+//		finally {
+//			restTemplate.delete("/members/1") ;
+//		}
+//	}	
 	}
-		finally {
-		try { 
-			
-			restTemplate.getRestTemplate().getInterceptors().clear();
-			
-			auth0.deleteUser(user_id);
-		} catch (JSONException | URISyntaxException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		}
-	}		
 }

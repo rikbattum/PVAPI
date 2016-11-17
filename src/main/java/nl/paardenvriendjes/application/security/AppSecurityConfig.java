@@ -44,7 +44,7 @@ public class AppSecurityConfig extends Auth0SecurityConfig {
                 .antMatchers(HttpMethod.GET, "/welcome").permitAll()
                 .antMatchers(HttpMethod.GET, "/adminsafewelcome").hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET, "/usersafewelcome").hasAnyAuthority("USER")
-                .antMatchers("/comments/**").authenticated()
+                .antMatchers("/comments/**").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/members/friend/**").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/members/signup").permitAll()
                 .antMatchers("/members/**").hasAnyAuthority("USER", "ADMIN")

@@ -50,12 +50,13 @@ public class Message {
 	@Temporal(TemporalType.DATE)
 	private Date insertDate;
 	@ManyToOne
+	@Cascade({CascadeType.ALL})
 	private Member member;
 	private String piclink;
 	private String picLinkSecond;
 	private String picLinkThird;
 	@OneToMany (mappedBy="message", orphanRemoval=true)
-	@Cascade({CascadeType.ALL})
+	@Cascade({CascadeType.MERGE, CascadeType.PERSIST})
 	// needed with fetchtype lazy?
 	// need to implement cache region
 //	@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)

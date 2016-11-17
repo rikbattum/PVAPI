@@ -1,4 +1,4 @@
-package membercreationauth0;
+package nl.paardenvriendjes.pvapi.authorization;
 
 import static org.junit.Assert.assertEquals;
 
@@ -34,12 +34,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import nl.paardenvriendjes.application.HibernateConfiguration;
-import nl.paardenvriendjes.pvapi.authorization.AuthorizationLoggedInUser;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = HibernateConfiguration.class)
 
-public class MemberCreation {
+public class Auth0MemberCreationSingleMemberOnly {
 
 	@Autowired
 	private TestRestTemplate restTemplate;

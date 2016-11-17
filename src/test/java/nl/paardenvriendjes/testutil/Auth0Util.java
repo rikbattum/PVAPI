@@ -3,6 +3,7 @@ package nl.paardenvriendjes.testutil;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 
 public class Auth0Util {
 	
@@ -29,7 +31,7 @@ public class Auth0Util {
 	
 	public String user_id;
 	
-	public String [] login(String username, String password) throws URISyntaxException, ClientProtocolException,
+	public String login(String username, String password) throws URISyntaxException, ClientProtocolException,
 			IOException, JSONException {
 		URIBuilder ub = new URIBuilder(
 				"https://pvapp.eu.auth0.com/oauth/ro");
@@ -109,9 +111,8 @@ public class Auth0Util {
     	}
     	body = EntityUtils.toString(entity);
     	user_id = verifyTokenReponse(body, clientId);
-   
-    	String [] bothstrings = {id_token, user_id};
-    	return bothstrings;
+  
+    	return id_token;
     }
 
     private String verifyTokenReponse(String body, String clientId) throws JSONException, IllegalStateException {
@@ -154,26 +155,6 @@ public class Auth0Util {
 		HttpUriRequest request = org.apache.http.client.methods.RequestBuilder.get().setUri(uri).build();
 		HttpClient client = HttpClientBuilder.create().build();
 		client.execute(request);	
-    }
-    
-    public void deleteUser(String user_id) throws URISyntaxException, ClientProtocolException,
-	IOException, JSONException { 	
-    	
-    	
-    	// specific bearer token for management API
-    	String bearertoken = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJzUGN1SFhGclF2TmN4TXY0aVl2QTlKb0YxVmhscXlMaCIsInNjb3BlcyI6eyJ1c2VycyI6eyJhY3Rpb25zIjpbImRlbGV0ZSIsInJlYWQiLCJjcmVhdGUiLCJ1cGRhdGUiXX19LCJpYXQiOjE0NzgwMjk0ODIsImp0aSI6ImU5Y2Q4OTI3NGJhMzJhZTZmMWQ1ZTQyZTU0N2Q0ZGZmIn0.8yOCl1DPjA696TbK9PQxwxpra6lKEj4QnIp1fA78NeI";
-    	String correctUserIdFortmat = user_id.substring(6);
-    	
-    	URIBuilder ub = new URIBuilder(
-				"https://pvapp.eu.auth0.com/api/v2/users/" + correctUserIdFortmat);
-		// ub.setParameter("", "");
-		URI uri = ub.build();
-		HttpUriRequest request = org.apache.http.client.methods.RequestBuilder.delete().setUri(uri).setHeader(HttpHeaders.AUTHORIZATION, bearertoken).build();
-		HttpClient client = HttpClientBuilder.create().build();
-		HttpResponse response = client.execute(request);
-		if (response.getStatusLine().getStatusCode()== 201) { 
-			log.debug("user with id "+ user_id + " succesfully deleted");
-		}
     }
 	}	
 
