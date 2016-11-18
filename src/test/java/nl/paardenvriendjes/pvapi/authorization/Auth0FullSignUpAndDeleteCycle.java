@@ -91,7 +91,11 @@ public class Auth0FullSignUpAndDeleteCycle {
 		Member member = new Member();
 		member.setEmail("userpvjunit@mailinator.com");
 		member.setPassword("3213hjxcS");
-		memberservicefullcycle.save(member);
+		HttpEntity<Member> requestAdd = new HttpEntity<>(member);
+		ResponseEntity<Member> response = restTemplate.exchange("/members/", HttpMethod.PUT, requestAdd,
+				Member.class);
+		assertEquals(response.getStatusCode(), 200);		
+		
 		//login
 		Auth0Util login = new Auth0Util();
 		String id_token = login.login("userpvjunit@mailinator.com", "3213hjxcS");
@@ -99,6 +103,6 @@ public class Auth0FullSignUpAndDeleteCycle {
 		interceptors.add(new TestUtilHeaderRequestInterceptor(HttpHeaders.AUTHORIZATION, "Bearer " + id_token));
 		restTemplate.getRestTemplate().setInterceptors(interceptors);	
 		//delete
-		restTemplate.delete("/members/" + 1L);
+		restTemplate.delete("/members/1");
 	}
 }

@@ -198,10 +198,15 @@ public class MemberRestController {
 
 	@CrossOrigin
 	@RequestMapping(value = "/members/{id}", method = RequestMethod.DELETE)
-	@PreAuthorize("@memberservice.listOne(#id).getEmail() == authentication.name or hasRole('Admin')")
+	//@PreAuthorize("@memberservice.listOne(#id).getEmail() == authentication.name or hasRole('Admin')")
 	public ResponseEntity<Member> deleteUser(@PathVariable("id") long id, Authentication auth) throws URISyntaxException, ClientProtocolException,
 	IOException, JSONException, Auth0CreationException  {
 		log.debug("Fetching & Deleting User with id " + id);
+		log.debug(SecurityContextHolder.getContext().getAuthentication().getName());
+		log.debug(SecurityContextHolder.getContext().getAuthentication().getDetails());
+		log.debug(SecurityContextHolder.getContext().getAuthentication().getCredentials());
+		log.debug(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+		log.debug(SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) ;
 		
 		Member member = memberservice.listOne(id);
 		if (member == null || member.getId()==null || member.getAuth0user_id()== null) {
