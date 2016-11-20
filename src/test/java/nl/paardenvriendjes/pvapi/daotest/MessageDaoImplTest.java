@@ -1,12 +1,19 @@
 package nl.paardenvriendjes.pvapi.daotest;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 
 import org.hamcrest.core.Is;
 import org.junit.After;
@@ -32,12 +39,13 @@ public class MessageDaoImplTest extends AbstractTest {
 	private MemberDaoImpl memberService;
 	@Autowired
 	private TestUtilDataSetup testUtilDataSetup;
+	@Autowired
+	private Validator validator;
 
 	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 	@Before
 	public void initialize() {
-
 	}
 
 	@After
@@ -58,12 +66,12 @@ public class MessageDaoImplTest extends AbstractTest {
 		Member testMember = memberList.get(0);
 		Message message = new Message();
 		message.setMessage("fantastisch weer vandaag");
-		message.setPiclink("www.nu.nl");
+		message.setPiclink("http://res.cloudinary.com/epona/pictureXYZ.jpg");
 		message.setMember(testMember);
 		message.setInsertDate();
 		// Add a test message to a member and set member to message
 		testMember.addOrUpdateMessage(message);
-		memberService.save(testMember);
+		memberService.edit(testMember);
 
 		// Assert
 		assertThat(memberList.size(), Is.is(8));
@@ -96,9 +104,14 @@ public class MessageDaoImplTest extends AbstractTest {
 		List<Member> memberList = memberService.listAll();
 		Member testMember = memberList.get(0);
 		// // add an extra message
-		testMember.addOrUpdateMessage(new Message());
-		memberService.save(testMember);
 		List<Message> messages = messageService.listAll();
+		assertThat(messages.size(), Is.is(22));
+		Message message = new Message();
+		message.setMessage("fantastisch weer vandaag");
+		message.setPiclink("http://res.cloudinary.com/epona/pictureXYZ.jpg");
+		testMember.addOrUpdateMessage(message);
+		memberService.edit(testMember);
+		messages = messageService.listAll();
 		assertThat(messages.size(), Is.is(23));
 	}
 
@@ -106,19 +119,20 @@ public class MessageDaoImplTest extends AbstractTest {
 	@Rollback(true)
 	@Test
 	public void testCascadeDeleteMesages() throws Exception {
-		
+
 		testUtilDataSetup.setMembers();
-		
-		//initial list empty?
+
+		// initial list empty?
 		List<Message> messagesListInitial = messageService.listAll();
 		assertThat(messagesListInitial.size(), Is.is(0));
-		
 		List<Member> memberList = memberService.listAll();
 		Member testMember = memberList.get(0);
 		// Add new message to be sure there is one
 		Message message = new Message();
-		testMember.addOrUpdateMessage(new Message());
-		messageService.save(message);
+		message.setId(1L);
+		message.setMessage("Have a nice Christmas");
+		testMember.addOrUpdateMessage(message);
+		messageService.edit(message);
 		// assert for added message
 		List<Message> messagesList = messageService.listAll();
 		assertThat(messagesList.size(), Is.is(1));
@@ -148,7 +162,7 @@ public class MessageDaoImplTest extends AbstractTest {
 		message.setMessage("fantastisch weer vandaag");
 		message.setInsertDate();
 		testMember.addOrUpdateMessage(message);
-		memberService.save(testMember);
+		memberService.edit(testMember);
 		Message messageToChanged = testMember.getMessages().get(0);
 		Long messageId = messageToChanged.getId();
 
@@ -158,12 +172,13 @@ public class MessageDaoImplTest extends AbstractTest {
 				Is.is(simpleDateFormat.format(new Date())));
 		// assert second message test
 		messageToChanged.setMessage("vandaag springen afgelast ivm sneeuw");
-		memberService.save(testMember);
+		memberService.edit(testMember);
 
 		Message updatedMessage = messageService.listOne(messageId);
 		assertThat(updatedMessage.getMessage(), Is.is("vandaag springen afgelast ivm sneeuw"));
-		assertThat(updatedMessage.getId(), Is.is(307L));
+		assertThat(updatedMessage.getId(), Is.is(109L));
 		assertNotNull(updatedMessage.getInsertDate());
+
 		assertThat(simpleDateFormat.format(updatedMessage.getInsertDate()), Is.is(simpleDateFormat.format(new Date())));
 	}
 

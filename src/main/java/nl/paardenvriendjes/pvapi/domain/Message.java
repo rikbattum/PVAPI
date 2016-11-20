@@ -15,11 +15,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.validator.constraints.SafeHtml;
+import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 import org.springframework.cache.annotation.Cacheable;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -41,7 +46,11 @@ public class Message {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@NotNull
+	@Max(9999999)
 	private Long id;
+	@NotNull
+	@Size(min = 10, max = 150)
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String message;
 	@Enumerated(EnumType.STRING)
 	private MessageType messageType;
@@ -51,21 +60,28 @@ public class Message {
 	private Date insertDate;
 	@ManyToOne
 	@Cascade({CascadeType.ALL})
+	@NotNull
 	private Member member;
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Pattern (regexp = "^http://res.cloudinary.com/epona/.*")
 	private String piclink;
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Pattern (regexp = "^http://res.cloudinary.com/epona/.*")
 	private String picLinkSecond;
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Pattern (regexp = "^http://res.cloudinary.com/epona/.*")
 	private String picLinkThird;
 	@OneToMany (mappedBy="message", orphanRemoval=true)
 	@Cascade({CascadeType.MERGE, CascadeType.PERSIST})
 	// needed with fetchtype lazy?
 	// need to implement cache region
-//	@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+	//	@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private List<Comment> commentlist = new ArrayList<Comment>();
 	@OneToMany(mappedBy="message", orphanRemoval=true)
 	@Cascade({CascadeType.ALL})
 	// needed with fetchtype lazy?
 	// need to implement cache region
-//	@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+	//	@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private List<Likes> likelist = new ArrayList<Likes>();
 	private Boolean publicPost; 
 
