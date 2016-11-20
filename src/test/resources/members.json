@@ -33,7 +33,7 @@
     "wedstrijdsport": null,
     "western": null
   },
-	"profileimage" : "www.image.com/rik", 
+	"profileimage" : "http://res.cloudinary.com/epona/pictureXYZ.jpg", 
 	"password" : "Superdaddy79",
     "plaatsnaam" : "Hilversum"
 	},  
@@ -45,7 +45,7 @@
 	"geboortedatum": "22-03-1984",
 	"email" :"dpastoor@hetnet.nl",
 	"overmij" :  "ik fok paarden",
-	"profileimage" : "www.image.com/dennis", 
+	"profileimage" : "http://res.cloudinary.com/epona/pictureXYZ.jpg", 
 	"password" : "123Dennis",
     "plaatsnaam" : "Zwolle",
     "interesse":{"buitenritten":false,"draftsport":false,"dressuur":false,"endurance":false,"eventing":false,"fokken":false,"inenverkoop":false,"mennen":false,"naturalhorsemanship":false,"paardentrainen":false,"paardenverzorgen":false,"polo":false,"rensport":false,"rijdenlocatie":false,"ringsteken":false,"rodeo":true,"showrijden":false,"springen":false,"voedinggezondheid":false,"voltige":false,"voorlichting":false,"vossenjacht":false,"wedstrijdsport":false,"western":false}
@@ -84,7 +84,7 @@
     "wedstrijdsport": null,
     "western": null
   },
-	"profileimage" : "www.image.com/suzy", 
+	"profileimage" : "http://res.cloudinary.com/epona/pictureXYZ.jpg", 
 	"password" : "suuzzzy234",
     "plaatsnaam" : "Leeuwarden"
 	},   
@@ -122,7 +122,7 @@
     "wedstrijdsport": null,
     "western": null
   },
-	"profileimage" : "www.image.com/ellis", 
+	"profileimage" : "http://res.cloudinary.com/epona/pictureXYZ.jpg", 
 	"password" : "everm888",
     "Plaatsnaam" : "Utrecht"
     },  
@@ -160,7 +160,7 @@
     "wedstrijdsport": null,
     "western": null
   },
-	"profileimage" : "www.image.com/mike", 
+	"profileimage" : "http://res.cloudinary.com/epona/pictureXYZ.jpg", 
 	"password" : "1967mike",
     "plaatsnaam" : "Terneuzen"
 	},    
@@ -198,7 +198,7 @@
     "wedstrijdsport": null,
     "western": null
   },
-	"profileimage" : "www.image.com/chantal", 
+	"profileimage" : "http://res.cloudinary.com/epona/pictureXYZ.jpg", 
 	"password" : "1221123fsdf",
     "plaatsnaam" : "Maarn"
 	},
@@ -236,7 +236,7 @@
     "wedstrijdsport": null,
     "western": null
   },
-	"profileimage" : "www.image.com/bobby", 
+	"profileimage" : "http://res.cloudinary.com/epona/pictureXYZ.jpg", 
 	"password" : "booby76342",
     "plaatsnaam" : "Montfoort"
 	},    
@@ -274,7 +274,7 @@
     "wedstrijdsport": null,
     "western": null
   }, 
-	"profileimage" : "www.image.com/turner", 
+	"profileimage" : "http://res.cloudinary.com/epona/pictureXYZ.jpg", 
 	"password" : "121232fdsf",
     "plaatsnaam" : "Den Helder"
 	}	  

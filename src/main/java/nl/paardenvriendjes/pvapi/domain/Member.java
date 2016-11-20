@@ -25,15 +25,19 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.SafeHtml;
+import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 import org.springframework.cache.annotation.Cacheable;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -58,17 +62,18 @@ public class Member {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@NotNull
+	@Max(9999999)
 	private Long id;
 	@NotNull
 	@Size(min = 2, max = 20)
-	@SafeHtml
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String voornaam;
 	@Size(min = 2, max = 20)
 	@NotNull
-	@SafeHtml
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String achternaam;
 	@Size(min = 2, max = 30)
-	@SafeHtml
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String username;
 	@Temporal(TemporalType.DATE)
 	private Date createdonDate;
@@ -79,10 +84,12 @@ public class Member {
 	private Date geboortedatum;
 	@NotNull
 	@Email
-	@SafeHtml
+	@Pattern(regexp=".+@.+\\..+", message="Please provide a valid email address")
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Size(max = 60)
 	private String email;
 	@Size(min = 2, max = 300)
-	@SafeHtml
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String overmij;
 	@OneToMany (mappedBy = "member")
 	@Cascade({CascadeType.ALL})
@@ -90,13 +97,13 @@ public class Member {
 	@Embedded
 	@Basic(fetch=FetchType.EAGER)  //probably not needed
 	private Interesse interesse = new Interesse();
-	@SafeHtml
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Pattern (regexp = "^http://res.cloudinary.com/epona/.*")
     private String profileimage;
     @Transient
-    @SafeHtml
+    @SafeHtml(whitelistType = WhiteListType.NONE)
 	private String password;
 	@Enumerated(EnumType.STRING)
-	@SafeHtml
     private Place place;
 	@OneToMany (mappedBy = "member")
 	@Cascade({CascadeType.MERGE, CascadeType.PERSIST})
@@ -108,7 +115,6 @@ public class Member {
     @OneToMany (mappedBy = "member")
     private List <Likes> likes = new ArrayList<Likes>();
 	@Enumerated(EnumType.STRING)
-	@SafeHtml
     private SportLevel sportLevel;
     private Boolean active;
     @ManyToMany
@@ -141,13 +147,11 @@ public class Member {
 	@ElementCollection
 	private Set<OtherSport> othersports = new HashSet<OtherSport>();
 	@Enumerated(EnumType.STRING)
-	@SafeHtml
 	private Vervoer vervoer; 
 	@Enumerated(EnumType.STRING)
-	@SafeHtml
 	private Geslacht geslacht;
-	@Size(min = 2, max = 50)
-	@SafeHtml
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Size(min = 25, max = 35)
 	private String auth0user_id; 
     
     //Getters and Setters
