@@ -47,8 +47,64 @@ public class CommentValidation   extends AbstractTest {
 	}
 
 	// Test Sanitization and Validations
-
 	
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testRegularCaseToPass() {
+		Comment comment = new Comment();
+		// mandatory
+		comment.setId(1L);
+		comment.setMessage(message);
+		comment.setMember(member);
+		// script attack
+		comment.setComment("Have a nice Christmas");
+		Set<ConstraintViolation<Comment>> violations = validator.validate(comment);
+		assertTrue(violations.isEmpty());	
+		}
+
+		
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testMaxSizeId() {
+		Comment comment = new Comment();
+		// mandatory
+		comment.setId(10000000L);
+		comment.setMessage(message);
+		comment.setMember(member);
+		// script attack
+		comment.setComment("Have a nice Christmas");
+		Set<ConstraintViolation<Comment>> violations = validator.validate(comment);
+		assertFalse(violations.isEmpty());		
+		assertEquals(violations.iterator().next().getMessage(), "must be less than or equal to 9999999");
+		}
+		
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testNotNullComment() {
+		Comment comment = new Comment();
+		// mandatory
+		comment.setId(1L);
+		comment.setMember(member);
+		Set<ConstraintViolation<Comment>> violations = validator.validate(comment);
+		assertFalse(violations.isEmpty());
+		assertEquals(violations.iterator().next().getMessage(), "may not be null");
+	}
+	
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testNotNullId() {
+		Comment comment = new Comment();
+		// mandatory
+		comment.setMember(member);
+		comment.setComment("Have a nice Christmas");
+		Set<ConstraintViolation<Comment>> violations = validator.validate(comment);
+		assertFalse(violations.isEmpty());
+		assertEquals(violations.iterator().next().getMessage(), "may not be null");
+	}
 	
 	@Test
 	@Transactional
@@ -62,47 +118,45 @@ public class CommentValidation   extends AbstractTest {
 		// script attack
 		comment.setComment("Have a nice Christmas <script> go to malicious site</script>");
 		Set<ConstraintViolation<Comment>> violations = validator.validate(comment);
-		assertFalse(violations.isEmpty());
+		assertFalse(violations.isEmpty());		
 		assertEquals(violations.iterator().next().getMessage(), "may have unsafe html content");
 		// regular
 		comment.setComment("Regular Comment");
 		violations = validator.validate(comment);
 		assertTrue(violations.isEmpty());
-//		// html manipulation
+		// html manipulation
 		comment.setComment("<b>I want everything to be Bold</b> or <i> italic </i>");
 		violations = validator.validate(comment);
 		assertFalse(violations.isEmpty());
 		assertEquals(violations.iterator().next().getMessage(), "may have unsafe html content");
+		// Check for special characters to be possible
+		comment.setComment("I am in need of special characters: !@#$%^&*(){}[]/\":");
+		violations = validator.validate(comment);
+		assertTrue(violations.isEmpty());	
 	}
-
-//	@Test
-//	@Transactional
-//	@Rollback(true)
-//	public void testSanatizeSizeComment() {
-//		Message message = new Message();
-//		// mandatory
-//		message.setId(1L);
-//		//script attack
-//		message.setMessage("TooShort");
-//		message.setPiclink("http://res.cloudinary.com/epona/pictureXYZ.jpg");
-//		Set<ConstraintViolation<Message>> violations = validator.validate(message);
-//		assertFalse(violations.isEmpty());
-//		assertEquals(violations.iterator().next().getMessage(), "size must be between 10 and 150");
-//		//regular
-//		message.setMessage("TooLong,Vandaag een ritje gemaakt door het garderense bos met esther." + 
-//			"We kwamen een wild zwijn tegen. Gelukkig geen ongelukken gebeurd." + 
-//			"Het bericht wordt nu wel lang");
-//		violations = validator.validate(message);
-//		assertEquals(violations.iterator().next().getMessage(), "size must be between 10 and 150");
-//	}
-//	
-//	
 	
 	
-	
-	
-	
-	
-	
-	
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testSanatizeSizeComment() {
+			Comment comment = new Comment();
+		// mandatory
+		comment.setId(1L);
+		comment.setMessage(message);
+		comment.setMember(member);
+		// Too short
+		comment.setComment("TooShort");
+		Set<ConstraintViolation<Comment>> violations = validator.validate(comment);
+		assertFalse(violations.isEmpty());	
+		assertEquals(violations.size(), 1);
+		assertEquals(violations.iterator().next().getMessage(), "size must be between 10 and 150");
+		// TooLong
+		comment.setComment("TooLong,Vandaag een ritje gemaakt door het garderense bos met esther."+ 
+			 "We kwamen een wild zwijn tegen. Gelukkig geen ongelukken gebeurd."
+			+ "Het bericht wordt nu wel lang");
+		assertFalse(violations.isEmpty());		
+		assertEquals(violations.size(), 1);
+		assertEquals(violations.iterator().next().getMessage(), "size must be between 10 and 150");
+	}
 }

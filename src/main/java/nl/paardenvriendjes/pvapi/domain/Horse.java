@@ -18,12 +18,18 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.validator.constraints.SafeHtml;
+import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 import org.springframework.cache.annotation.Cacheable;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -39,23 +45,41 @@ import nl.paardenvriendjes.pvapi.enumerations.PaardType;
 public class Horse {
 
 	// Properties
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@NotNull
+	@Max(9999999)
 	private Long id;
+	@NotNull
+	@Size(min = 2, max = 30)
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String name;
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Pattern (regexp = "^http://res.cloudinary.com/epona/.*")
 	private String horseimage1;
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Pattern (regexp = "^http://res.cloudinary.com/epona/.*")
 	private String horseimage2;
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Pattern (regexp = "^http://res.cloudinary.com/epona/.*")
 	private String horseimage3;
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Size(min = 2, max = 40)
 	private String afstamming;
 	@Temporal(TemporalType.DATE)
+	@Past
 	private Date geboortedatum;
 	private Geslacht geslacht;
+	@Max(200)
 	private int stokmaat; 
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Size(min = 2, max = 150)
 	private String karakter;
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Size(min = 2, max = 150)
 	private String overmijnpaard;
 	private Boolean overleden;
+	@Max(5000000)
 	private int waarde;
 	@Temporal(TemporalType.DATE)
 	private Date createdonDate;
@@ -66,12 +90,14 @@ public class Horse {
 	@OneToOne
 	private Paspoort paspoort;
 	@ManyToOne
+	@NotNull
 	private Member member;
 	@ElementCollection
 	private Map<String, String> sports = new HashMap<String, String>();
 	@Enumerated(EnumType.STRING)
 	private PaardType paardType; 
 	private Boolean active;
+
 
 	// Getters and Setters
 
