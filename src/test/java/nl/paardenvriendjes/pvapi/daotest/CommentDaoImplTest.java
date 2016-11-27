@@ -1,8 +1,14 @@
 package nl.paardenvriendjes.pvapi.daotest;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
 
 import org.hamcrest.core.Is;
 import org.junit.After;
@@ -22,8 +28,8 @@ import nl.paardenvriendjes.pvapi.domain.Message;
 import nl.paardenvriendjes.testutil.TestUtilDataSetup;
 
 @DirtiesContext
-public class CommentDaoImplTest extends AbstractTest{
-	
+public class CommentDaoImplTest extends AbstractTest {
+
 	@Autowired
 	private MessageDaoImpl messageService;
 	@Autowired
@@ -88,40 +94,40 @@ public class CommentDaoImplTest extends AbstractTest{
 		memberService.save(memberOne);
 		assertThat(messageTwo.getCommentlist().get(0).getComment(), Is.is("Update"));
 	}
-	
+
 	@Test
 	@Transactional
 	@Rollback(true)
 	public void testCommentCascadeDelete() {
 
 		// Arrange
-				testUtilDataSetup.setMembers();
-				testUtilDataSetup.runMessagesPost();
-				Message messageOne = messageService.listAll().get(0);
-				Member memberOne = messageOne.getMember();
-	
+		testUtilDataSetup.setMembers();
+		testUtilDataSetup.runMessagesPost();
+		Message messageOne = messageService.listAll().get(0);
+		Member memberOne = messageOne.getMember();
+
 		// Act
-				Comment commentOne = new Comment();
-				commentOne.setComment("leuke update!");
-				commentOne.setMember(memberOne);
-				commentOne.setInsertDate();
-				commentOne.setMessage(messageOne);
-				messageOne.getCommentlist().add(commentOne);
-				memberService.save(memberOne);
-				List<Comment> commentList = commentService.listAll();
-				assertThat(commentList.size(), Is.is(1));
-				
-				int messageCounter = memberOne.getMessages().size();
-				
+		Comment commentOne = new Comment();
+		commentOne.setComment("leuke update!");
+		commentOne.setMember(memberOne);
+		commentOne.setInsertDate();
+		commentOne.setMessage(messageOne);
+		messageOne.getCommentlist().add(commentOne);
+		memberService.save(memberOne);
+		List<Comment> commentList = commentService.listAll();
+		assertThat(commentList.size(), Is.is(1));
+
+		int messageCounter = memberOne.getMessages().size();
+
 		// Assert
-				memberOne.getMessages().remove(messageOne);
-				messageService.remove(messageOne);
-				memberService.edit(memberOne);
-				
-				List<Comment> commentList2 = commentService.listAll();
-				assertThat(commentList2.size(), Is.is(0));
-				Member memberTwo = memberService.listOne(memberOne.getId());
-				assertThat(memberTwo.getMessages().size(), Is.is(messageCounter-1));
-				
-}
+		memberOne.getMessages().remove(messageOne);
+		messageService.remove(messageOne);
+		memberService.edit(memberOne);
+
+		List<Comment> commentList2 = commentService.listAll();
+		assertThat(commentList2.size(), Is.is(0));
+		Member memberTwo = memberService.listOne(memberOne.getId());
+		assertThat(memberTwo.getMessages().size(), Is.is(messageCounter - 1));
+	}
+
 }

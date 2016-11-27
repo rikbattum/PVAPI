@@ -12,9 +12,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.validator.constraints.SafeHtml;
+import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 import org.springframework.cache.annotation.Cacheable;
 
 @Entity
@@ -28,9 +32,14 @@ public class Paspoort {
 		@Id
 		@GeneratedValue(strategy = GenerationType.AUTO)
 		@NotNull
+		@Max(9999999)
 		private Long id;
+		@Size(min = 2, max = 20)
+		@NotNull
+		@SafeHtml(whitelistType = WhiteListType.NONE)
 		private String paspoortName;
 		@OneToOne
+		@NotNull
 		private Horse horse;
 		private Boolean active;
 		@Temporal(TemporalType.DATE)

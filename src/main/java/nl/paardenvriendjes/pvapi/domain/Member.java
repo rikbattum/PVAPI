@@ -25,11 +25,19 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.SafeHtml;
+import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 import org.springframework.cache.annotation.Cacheable;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -54,16 +62,34 @@ public class Member {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@NotNull
+	@Max(9999999)
 	private Long id;
+	@NotNull
+	@Size(min = 2, max = 20)
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String voornaam;
+	@Size(min = 2, max = 20)
+	@NotNull
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String achternaam;
+	@Size(min = 2, max = 30)
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String username;
 	@Temporal(TemporalType.DATE)
 	private Date createdonDate;
 	@Temporal(TemporalType.DATE)
 	private Date deactivatedDate;
+	@NotNull
+	@Past
 	private Date geboortedatum;
+	@NotNull
+	@Email
+	@Pattern(regexp=".+@.+\\..+", message="Please provide a valid email address")
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Size(max = 60)
 	private String email;
+	@Size(min = 2, max = 300)
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String overmij;
 	@OneToMany (mappedBy = "member")
 	@Cascade({CascadeType.ALL})
@@ -71,13 +97,16 @@ public class Member {
 	@Embedded
 	@Basic(fetch=FetchType.EAGER)  //probably not needed
 	private Interesse interesse = new Interesse();
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Pattern (regexp = "^http://res.cloudinary.com/epona/.*")
     private String profileimage;
     @Transient
+    @SafeHtml(whitelistType = WhiteListType.NONE)
 	private String password;
 	@Enumerated(EnumType.STRING)
     private Place place;
 	@OneToMany (mappedBy = "member")
-	@Cascade({CascadeType.ALL})
+	@Cascade({CascadeType.MERGE, CascadeType.PERSIST})
 	private List <Message> messages = new ArrayList<Message>();
 	@Cascade({CascadeType.ALL})
     @OneToMany (mappedBy = "member")
@@ -119,7 +148,11 @@ public class Member {
 	private Set<OtherSport> othersports = new HashSet<OtherSport>();
 	@Enumerated(EnumType.STRING)
 	private Vervoer vervoer; 
+	@Enumerated(EnumType.STRING)
 	private Geslacht geslacht;
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Size(min = 25, max = 35)
+	private String auth0user_id; 
     
     //Getters and Setters
    
@@ -281,6 +314,12 @@ public class Member {
 	public void setGeslacht(Geslacht geslacht) {
 		this.geslacht = geslacht;
 	}
+	public String getAuth0user_id() {
+		return auth0user_id;
+	}
+	public void setAuth0user_id(String auth0user_id) {
+		this.auth0user_id = auth0user_id;
+	}
 	
 	//ToString
 	@Override
@@ -292,17 +331,18 @@ public class Member {
 				+ ", messages=" + messages + ", comments=" + comments + ", likes=" + likes + ", sportLevel="
 				+ sportLevel + ", active=" + active + ", vrienden=" + vrienden + ", blokkades=" + blokkades
 				+ ", events=" + events + ", sports=" + sports + ", othersports=" + othersports + ", vervoer=" + vervoer
-				+ ", geslacht=" + geslacht + "]";
+				+ ", geslacht=" + geslacht + ", auth0user_id=" + auth0user_id + "]";
 	}
 
 	//Hashcode and Equals
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((achternaam == null) ? 0 : achternaam.hashCode());
 		result = prime * result + ((active == null) ? 0 : active.hashCode());
+		result = prime * result + ((auth0user_id == null) ? 0 : auth0user_id.hashCode());
 		result = prime * result + ((blokkades == null) ? 0 : blokkades.hashCode());
 		result = prime * result + ((comments == null) ? 0 : comments.hashCode());
 		result = prime * result + ((createdonDate == null) ? 0 : createdonDate.hashCode());
@@ -347,6 +387,11 @@ public class Member {
 			if (other.active != null)
 				return false;
 		} else if (!active.equals(other.active))
+			return false;
+		if (auth0user_id == null) {
+			if (other.auth0user_id != null)
+				return false;
+		} else if (!auth0user_id.equals(other.auth0user_id))
 			return false;
 		if (blokkades == null) {
 			if (other.blokkades != null)
@@ -458,9 +503,9 @@ public class Member {
 			return false;
 		return true;
 	}
-	
+		
 	// convenience methods for cardinality with Messages
-	
+
 	public void addOrUpdateMessage (Message message) { 
 
 		if (message == null) { 

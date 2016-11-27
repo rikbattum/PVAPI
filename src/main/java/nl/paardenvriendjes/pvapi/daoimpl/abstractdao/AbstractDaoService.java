@@ -50,7 +50,7 @@ public abstract class AbstractDaoService<T> {
 	}
 
 	public T listOne(Long id) {
-		T objectLoaded = (T) getCurrentSession().load(entityClass, id);
+		T objectLoaded = (T) getCurrentSession().get(entityClass, id);
 		log.debug("got One: " + entityClass.toString());
 		return objectLoaded;
 	}

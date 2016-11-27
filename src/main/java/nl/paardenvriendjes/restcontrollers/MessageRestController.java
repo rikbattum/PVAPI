@@ -117,7 +117,7 @@ public class MessageRestController {
 	@PreAuthorize("#message.member.email == authentication.name or hasRole('Admin')")
 	public ResponseEntity<Void> createMessage(@RequestBody Message message, UriComponentsBuilder ucBuilder) {
 		log.debug("Creating message" + message.getMessage());
-		messageservice.save(message);
+		messageservice.edit(message);
 		// TODO
 		// USE GENERIC SERVICE FOR AUTO UPDATE
 		HttpHeaders headers = new HttpHeaders();

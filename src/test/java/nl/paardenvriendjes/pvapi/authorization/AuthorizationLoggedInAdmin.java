@@ -45,8 +45,7 @@ public class AuthorizationLoggedInAdmin {
 	String id_token;
 	
 	try {
-		String [] bothstrings =  login.login("rikbattum@hotmail.com", "admin");
-		id_token = bothstrings[0]; 
+		id_token =  login.login("rikbattum@hotmail.com", "admin"); 
 		List<ClientHttpRequestInterceptor> interceptors = new ArrayList<ClientHttpRequestInterceptor>();
 		interceptors.add(new TestUtilHeaderRequestInterceptor(HttpHeaders.AUTHORIZATION, "Bearer " + id_token));
 		restTemplate.getRestTemplate().setInterceptors(interceptors);
