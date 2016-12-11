@@ -42,7 +42,7 @@ public class Auth0Util {
 		urlParameters.add(new BasicNameValuePair("client_id", "sPcuHXFrQvNcxMv4iYvA9JoF1VhlqyLh"));
 		urlParameters.add(new BasicNameValuePair("username", username));
 		urlParameters.add(new BasicNameValuePair("password", password));
-		urlParameters.add(new BasicNameValuePair("connection", "Username-Password-Authentication"));
+		urlParameters.add(new BasicNameValuePair("connection", "Initial-Connection"));
 		urlParameters.add(new BasicNameValuePair("grant_type", "password"));
 		urlParameters.add(new BasicNameValuePair("redirect_uri", "http://localhost:59923/adminsafewelcome")); //makes no difference?
 		urlParameters.add(new BasicNameValuePair("scope", "openid profile"));

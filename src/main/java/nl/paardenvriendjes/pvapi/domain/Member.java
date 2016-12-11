@@ -26,6 +26,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
@@ -62,8 +63,13 @@ public class Member {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@NotNull
-	@Max(9999999)
 	private Long id;
+	@NotNull
+	@Email
+	@Pattern(regexp=".+@.+\\..+", message="Please provide a valid email address")
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Size(min= 7, max = 60)
+	private String email;
 	@NotNull
 	@Size(min = 2, max = 20)
 	@SafeHtml(whitelistType = WhiteListType.NONE)
@@ -82,12 +88,6 @@ public class Member {
 	@NotNull
 	@Past
 	private Date geboortedatum;
-	@NotNull
-	@Email
-	@Pattern(regexp=".+@.+\\..+", message="Please provide a valid email address")
-	@SafeHtml(whitelistType = WhiteListType.NONE)
-	@Size(max = 60)
-	private String email;
 	@Size(min = 2, max = 300)
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String overmij;
@@ -108,10 +108,10 @@ public class Member {
 	@OneToMany (mappedBy = "member")
 	@Cascade({CascadeType.MERGE, CascadeType.PERSIST})
 	private List <Message> messages = new ArrayList<Message>();
-	@Cascade({CascadeType.ALL})
+	@Cascade({CascadeType.MERGE, CascadeType.PERSIST})
     @OneToMany (mappedBy = "member")
     private List <Comment> comments = new ArrayList<Comment>();
-	@Cascade({CascadeType.ALL})
+	@Cascade({CascadeType.MERGE, CascadeType.PERSIST})
     @OneToMany (mappedBy = "member")
     private List <Likes> likes = new ArrayList<Likes>();
 	@Enumerated(EnumType.STRING)
@@ -151,17 +151,11 @@ public class Member {
 	@Enumerated(EnumType.STRING)
 	private Geslacht geslacht;
 	@SafeHtml(whitelistType = WhiteListType.NONE)
-	@Size(min = 25, max = 35)
+	@Size(min = 20, max = 35)
 	private String auth0user_id; 
     
     //Getters and Setters
-   
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
+	
 	public String getVoornaam() {
 		return voornaam;
 	}
@@ -204,7 +198,13 @@ public class Member {
 		return email;
 	}
 	public void setEmail(String email) {
-		this.email = email;
+		this.email= email;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
 	}
 	public String getOvermij() {
 		return overmij;
@@ -324,18 +324,17 @@ public class Member {
 	//ToString
 	@Override
 	public String toString() {
-		return "Member [id=" + id + ", voornaam=" + voornaam + ", achternaam=" + achternaam + ", username=" + username
-				+ ", createdonDate=" + createdonDate + ", deactivatedDate=" + deactivatedDate + ", geboortedatum="
-				+ geboortedatum + ", email=" + email + ", overmij=" + overmij + ", horses=" + horses + ", interesse="
+		return "Member [id=" + id + ", email=" + email + ", voornaam=" + voornaam + ", achternaam=" + achternaam
+				+ ", username=" + username + ", createdonDate=" + createdonDate + ", deactivatedDate=" + deactivatedDate
+				+ ", geboortedatum=" + geboortedatum + ", overmij=" + overmij + ", horses=" + horses + ", interesse="
 				+ interesse + ", profileimage=" + profileimage + ", password=" + password + ", place=" + place
 				+ ", messages=" + messages + ", comments=" + comments + ", likes=" + likes + ", sportLevel="
 				+ sportLevel + ", active=" + active + ", vrienden=" + vrienden + ", blokkades=" + blokkades
 				+ ", events=" + events + ", sports=" + sports + ", othersports=" + othersports + ", vervoer=" + vervoer
 				+ ", geslacht=" + geslacht + ", auth0user_id=" + auth0user_id + "]";
-	}
-
+	}	
+	
 	//Hashcode and Equals
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -503,7 +502,7 @@ public class Member {
 			return false;
 		return true;
 	}
-		
+	
 	// convenience methods for cardinality with Messages
 
 	public void addOrUpdateMessage (Message message) { 
@@ -517,6 +516,7 @@ public class Member {
 		getMessages().add(message);
 		message.setMember(this);
 	}
+	
 	
 	public void removeMessage (Message message) { 
 
@@ -608,5 +608,4 @@ public class Member {
 				}
 				getEvents().remove(event);
 			}	
-		
 }

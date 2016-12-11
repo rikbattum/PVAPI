@@ -29,7 +29,6 @@ public class MessageValidation extends AbstractTest {
 	@Before
 	public void initialize() {
 		
-		member.setId(1L);
 		member.setVoornaam("Peddy");
 		member.setAchternaam("Horsy");
 		member.setGeboortedatum(new Date(12 - 6 - 1979));

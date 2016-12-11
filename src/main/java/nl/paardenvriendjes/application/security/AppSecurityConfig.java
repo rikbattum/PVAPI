@@ -43,7 +43,7 @@ public class AppSecurityConfig extends Auth0SecurityConfig {
         
                 .antMatchers(HttpMethod.GET, "/welcome").permitAll()
                 .antMatchers(HttpMethod.GET, "/adminsafewelcome").hasAnyAuthority("ADMIN")
-                .antMatchers(HttpMethod.GET, "/usersafewelcome").hasAnyAuthority("USER")
+                .antMatchers(HttpMethod.GET, "/fakerolesafewelcome").hasAnyAuthority("FAKEROLE")
                 .antMatchers("/comments/**").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/members/friend/**").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/members/signup").permitAll()
@@ -56,7 +56,7 @@ public class AppSecurityConfig extends Auth0SecurityConfig {
                 .anyRequest().authenticated();
         
         http.csrf().disable();
-        http.cors().disable();
+      //  http.cors().disable();
         
     }        
     

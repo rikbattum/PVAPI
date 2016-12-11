@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
+import nl.paardenvriendjes.pvapi.domain.Horse;
+import nl.paardenvriendjes.pvapi.domain.Interesse;
 import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.domain.Message;
 import nl.paardenvriendjes.pvapi.enumerations.Place;
@@ -44,7 +46,7 @@ public class TestUtilDataSetup {
 				m.setGeboortedatum(dateFormat.parse((String) memberX.get("geboortedatum")));
 				m.setEmail((String) memberX.get("email"));
 				m.setOvermij((String) memberX.get("overmij"));
-				m.setPassword((String) memberX.get("password"));
+				m.setPassword((String) memberX.get("password"));					
 				m.setPlace(Place.AALDEN);
 				m.setProfileimage((String) memberX.get("profileimage"));
 				memberService.save(m);

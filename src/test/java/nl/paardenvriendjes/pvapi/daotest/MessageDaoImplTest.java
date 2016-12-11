@@ -132,20 +132,19 @@ public class MessageDaoImplTest extends AbstractTest {
 		message.setId(1L);
 		message.setMessage("Have a nice Christmas");
 		testMember.addOrUpdateMessage(message);
-		messageService.edit(message);
+		memberService.edit(testMember);
 		// assert for added message
 		List<Message> messagesList = messageService.listAll();
 		assertThat(messagesList.size(), Is.is(1));
+		assertThat(messagesList.get(0).getMessage(), Is.is("Have a nice Christmas"));
 
 		// remove message
 		Message messageToBeRemoved = testMember.getMessages().get(0);
 		testMember.removeMessage(messageToBeRemoved);
-		memberService.save(testMember);
 		messageService.remove(messageToBeRemoved);
-
+		memberService.edit(testMember);
 		List<Message> messagesListNew = messageService.listAll();
 		assertThat(messagesListNew.size(), Is.is(0));
-
 	}
 
 	@Transactional
@@ -176,7 +175,7 @@ public class MessageDaoImplTest extends AbstractTest {
 
 		Message updatedMessage = messageService.listOne(messageId);
 		assertThat(updatedMessage.getMessage(), Is.is("vandaag springen afgelast ivm sneeuw"));
-		assertThat(updatedMessage.getId(), Is.is(109L));
+		assertThat(updatedMessage.getId(), Is.is(72L));
 		assertNotNull(updatedMessage.getInsertDate());
 
 		assertThat(simpleDateFormat.format(updatedMessage.getInsertDate()), Is.is(simpleDateFormat.format(new Date())));

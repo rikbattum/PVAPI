@@ -35,7 +35,8 @@
   },
 	"profileimage" : "http://res.cloudinary.com/epona/pictureXYZ.jpg", 
 	"password" : "Superdaddy79",
-    "plaatsnaam" : "Hilversum"
+    "plaatsnaam" : "Hilversum", 
+    "horses": []
 	},  
 {
 	"voornaam" : "Dennis",

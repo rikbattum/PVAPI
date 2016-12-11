@@ -1,22 +1,17 @@
 package nl.paardenvriendjes.restcontrollers;
 
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
@@ -40,23 +35,27 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import nl.paardenvriendjes.application.security.Auth0Client;
+import nl.paardenvriendjes.custom.dictionary.Dictionairy;
 import nl.paardenvriendjes.custom.editors.GeslachtEditor;
 import nl.paardenvriendjes.custom.editors.LocationTypeEditor;
 import nl.paardenvriendjes.custom.editors.SportLevelEditor;
 import nl.paardenvriendjes.custom.editors.VervoerEditor;
-import nl.paardenvriendjes.custom.exceptions.Auth0CreationException;
+import nl.paardenvriendjes.exceptionsanderrors.Auth0CreationException;
 import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.genericservicelayer.messagecreate.Genericmessageservice;
 
 @RestController
-public class MemberRestController {
+public class MemberRestController extends BaseController {
 
 	@Autowired
 	private MemberDaoImpl memberservice;
 	@Autowired
 	private Genericmessageservice genericmessageservice;
-	
+	@Autowired
+	private Auth0Client auth0client;
+
 	static Logger log = Logger.getLogger(MemberDaoImpl.class.getName());
 
 	@InitBinder // ("EnumEnitBinder")
@@ -112,65 +111,65 @@ public class MemberRestController {
 	@RequestMapping(value = "members/signup", method = RequestMethod.POST)
 
 	public ResponseEntity<Void> signupMember(@RequestBody Member member, UriComponentsBuilder ucBuilder) {
-		
-		log.debug("Creating member " + member.getEmail());		
-		
-		try {	
+
+		log.debug("Creating member " + member.getEmail());
+
+	// sign-up user with Management API Auth0
+
+		try {
 			// set basic signup data as json input in body
-			String jsoninput = "{\"client_id\": \"sPcuHXFrQvNcxMv4iYvA9JoF1VhlqyLh\", \"email\": \"" + member.getEmail()
-					+ "\", \"password\": \"" + member.getPassword()
-					+ "\",\"connection\":  \"Username-Password-Authentication\", \"app_metadata\": {\"roles\": [\"USER\"]} }";
-			StringEntity params = new StringEntity(jsoninput);
+			String jsoninput = "{" + "\"email\":\"" + member.getEmail() + "\"," + "\"name\":\"" + member.getVoornaam()
+					+ "\"," + "\"username\":\"" + member.getUsername() + "\"," + "\"password\":\""
+					+ member.getPassword() + "\"," + "\"connection\":\"Initial-Connection\","
+					+ "\"app_metadata\": {\"roles\":[\"USER\"]}" + "}";
+			StringEntity params = new StringEntity(jsoninput, "UTF-8");
 			params.setContentType("application/json");
-			log.debug("params2" + params);
-			
+			params.setContentEncoding("application/json");
+
 			// create auth0 request for signup
-			String managementbearertoken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJzUGN1SFhGclF2TmN4TXY0aVl2QTlKb0YxVmhscXlMaCIsInNjb3BlcyI6eyJ1c2VycyI6eyJhY3Rpb25zIjpbInJlYWQiLCJ1cGRhdGUiLCJkZWxldGUiLCJjcmVhdGUiXX0sInVzZXJzX2FwcF9tZXRhZGF0YSI6eyJhY3Rpb25zIjpbInJlYWQiLCJ1cGRhdGUiLCJkZWxldGUiLCJjcmVhdGUiXX19LCJpYXQiOjE0NzkyMzYwNjYsImp0aSI6IjI2NThkNzdlYTc0YTRiZjcxYzY2N2NmMzVjODE0ZjdkIn0.cgnfe4oO99ojTredP3W0k7dXhUHEPZMDHlVedugTZvk";
-			URIBuilder ub = new URIBuilder("https://pvapp.eu.auth0.com/dbconnections/signup");
-			URI uri = ub.build();
-			HttpUriRequest request = org.apache.http.client.methods.RequestBuilder.post().setUri(uri).setEntity(params).setHeader(HttpHeaders.AUTHORIZATION, managementbearertoken)
-					.build();
-			log.debug("request" + request);
-			HttpClient client = HttpClientBuilder.create().build();
-			HttpResponse response = client.execute(request);
-			if (response.getStatusLine().getStatusCode() != 200) {
+			HttpClient httpclient = HttpClientBuilder.create().build();
+			HttpPost httppost = new HttpPost("https://pvapp.eu.auth0.com/api/v2/users");
+			httppost.setHeader("Authorization", Dictionairy.managementbearer);
+			httppost.setHeader("Accept", "application/json");
+			httppost.setHeader("Content-Type", "application/json");
+			httppost.setEntity(params);
+			HttpResponse response = httpclient.execute(httppost);
+			if (response.getStatusLine().getStatusCode() != 201) {
 				throw new Auth0CreationException(
-						"unable to register new member at auth0 for member: " + member.getEmail());
+						"unable to register new member at auth0 for member: " + member.getId());
 			}
-			
 			
 			// specificly retrieve generated user_id for later benefits
 			HttpEntity entity = response.getEntity();
-			if(entity==null) {
-				throw new ClientProtocolException(
-						"Response has no body");
+			if (entity == null) {
+				throw new ClientProtocolException("Response has no body");
 			}
 			String body = EntityUtils.toString(entity);
 			JSONObject jwt = new JSONObject(body);
-			String user_id = (String) jwt.get("_id");
-	    	if(user_id == null || user_id ==  "undefined") {
-	    		throw new Auth0CreationException("user_id must be set");
-	    	}
+			String user_id = (String) jwt.get("user_id");
+			if (user_id == null || user_id == "undefined") {
+				throw new Auth0CreationException("user_id must be set");
+			}
 			member.setAuth0user_id(user_id);
-
 		} catch (IOException ioexcept) {
 			log.error(ioexcept.getMessage());
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+			// } catch (URISyntaxException e) {
+			// e.printStackTrace();
+			// return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		} catch (Auth0CreationException customexception) {
 			log.error(customexception.getMessage());
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
-		
+	
+		// Save member
 		memberservice.save(member);
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(member.getId()).toUri());
-	
+
 		genericmessageservice.newMemberHappyMessage(member);
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
-
+		
 	}
 
 	// ------------------- Update a
@@ -178,11 +177,17 @@ public class MemberRestController {
 
 	@CrossOrigin
 	@RequestMapping(value = "/members/{id}", method = RequestMethod.PUT)
-	@PreAuthorize("@memberservice.listOne(#id).getEmail() == authentication.name or hasRole('Admin')")
-	public ResponseEntity<Member> updateMember(@PathVariable("id") long id, @RequestBody Member member) {
-		log.debug("Updating User " + id);
+	@PreAuthorize("#member.id == authentication.name or hasRole('ADMIN')")
+	public ResponseEntity<Member> updateMember(@PathVariable("id") String id, @RequestBody Member member) {
+		log.debug("Updating User " + member.getId());
+		log.debug("Fetching & Deleting User with id " + id);
+		log.debug(SecurityContextHolder.getContext().getAuthentication().getName());
+		Object context = (SecurityContextHolder.getContext().getAuthentication().getDetails());
+		log.debug(SecurityContextHolder.getContext().getAuthentication().getCredentials());
+		log.debug(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+		log.debug(SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
 
-		Member currentMember = memberservice.listOne(id);
+		Member currentMember = memberservice.listOne(member.getId());
 
 		if (currentMember == null) {
 			System.out.println("User with id " + id + " not found");
@@ -198,54 +203,38 @@ public class MemberRestController {
 
 	@CrossOrigin
 	@RequestMapping(value = "/members/{id}", method = RequestMethod.DELETE)
-	//@PreAuthorize("@memberservice.listOne(#id).getEmail() == authentication.name or hasRole('Admin')")
-	public ResponseEntity<Member> deleteUser(@PathVariable("id") long id, Authentication auth) throws URISyntaxException, ClientProtocolException,
-	IOException, JSONException, Auth0CreationException  {
+	public ResponseEntity<Member> deleteUser(@PathVariable("id") Long id, Authentication auth)
+			throws URISyntaxException, ClientProtocolException, IOException, JSONException, Auth0CreationException {
 		log.debug("Fetching & Deleting User with id " + id);
-		log.debug(SecurityContextHolder.getContext().getAuthentication().getName());
-		log.debug(SecurityContextHolder.getContext().getAuthentication().getDetails());
-		log.debug(SecurityContextHolder.getContext().getAuthentication().getCredentials());
-		log.debug(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-		log.debug(SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) ;
-		
+
+		// Remove member in PVAPI
 		Member member = memberservice.listOne(id);
-		if (member == null || member.getId()==null || member.getAuth0user_id()== null) {
+		if (member == null || member.getId() == null || member.getAuth0user_id() == null) {
 			System.out.println("Unable to delete Member with id " + id + " not found");
 			return new ResponseEntity<Member>(HttpStatus.NOT_FOUND);
 		}
-		// create with correct rights in management API
-		String managementbearertoken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJzUGN1SFhGclF2TmN4TXY0aVl2QTlKb0YxVmhscXlMaCIsInNjb3BlcyI6eyJ1c2VycyI6eyJhY3Rpb25zIjpbInJlYWQiLCJ1cGRhdGUiLCJkZWxldGUiLCJjcmVhdGUiXX0sInVzZXJzX2FwcF9tZXRhZGF0YSI6eyJhY3Rpb25zIjpbInJlYWQiLCJ1cGRhdGUiLCJkZWxldGUiLCJjcmVhdGUiXX19LCJpYXQiOjE0NzkyMzYwNjYsImp0aSI6IjI2NThkNzdlYTc0YTRiZjcxYzY2N2NmMzVjODE0ZjdkIn0.cgnfe4oO99ojTredP3W0k7dXhUHEPZMDHlVedugTZvk"; 
-    	String user_id= "auth0|"+ member.getAuth0user_id();		
-//    	
-//    	UriBuilder ub = UriBuilder.fromPath("https://pvapp.eu.auth0.com/api/v2/usersauth0|5814d957344073a30129de93");
-//    	//     			+ "https://pvapp.eu.auth0.com/api/v2/users/"+ URLEncoder.encode("auth0|" + user_id));
-//		// ub.setParameter("", "");
-//    	URI uri = ub.build();
-    	
-        // build URL
-//    	URIBuilder builder =new URIBuilder();
-//    	builder.setScheme("https").setHost("xxxx").setPath("api/v2/users/auth0|" + URLEncoder.encode(user_id, "UTF-8"));
-//    	URI url = builder.build();
-//    
-    	HttpDelete httpdelete = new HttpDelete("https://pvapp.eu.auth0.com/api/v2/users/" + URLEncoder.encode(user_id, "UTF-8"));
-    	httpdelete.addHeader(HttpHeaders.AUTHORIZATION, managementbearertoken);
-    	httpdelete.addHeader(HttpHeaders.ACCEPT, "application/json");
-    	httpdelete.addHeader("cache-control", "no-cache");
-    	DefaultHttpClient httpClient = new DefaultHttpClient();
-    	HttpResponse response = httpClient.execute(httpdelete);
-		
-//		HttpUriRequest request = org.apache.http.client.methods.RequestBuilder.delete().setUri(uri).setHeader(HttpHeaders.AUTHORIZATION, managementbearertoken).build();
-//		//.setHeader(HttpHeaders.ACCEPT, "application/json").addHeader("cache-control", "no-cache" .setHeader(HttpHeaders.ACCEPT_ENCODING, "gzip, deflate, sdch, br")
-//		HttpClient client = HttpClientBuilder.create().build();
-//		HttpResponse response = client.execute(request);
-		if (response.getStatusLine().getStatusCode()== 204) { 
-			log.debug("user with id "+ user_id + " succesfully deleted");
-		}
-		if (response.getStatusLine().getStatusCode()!= 204) {
-			log.debug("user with id "+ user_id + "  not succesfully deleted");
-			throw new Auth0CreationException("user with user id " + member.getAuth0user_id() + " was not succesfully deleted");
-		}
 		memberservice.remove(member);
+		
+		// REMOVE member from Auth0 
+
+		// create with correct rights in management API
+		String managementbearertoken = Dictionairy.managementbearer;
+		String user_id = member.getAuth0user_id();
+		
+		HttpDelete httpdelete = new HttpDelete(
+				"https://pvapp.eu.auth0.com/api/v2/users/" + URLEncoder.encode(user_id, "UTF-8"));
+		httpdelete.addHeader(HttpHeaders.AUTHORIZATION, managementbearertoken);
+		HttpClient httpClient = HttpClientBuilder.create().build();
+		HttpResponse response = httpClient.execute(httpdelete);
+
+		if (response.getStatusLine().getStatusCode() == 204) {
+			log.debug("user with id " + user_id + " succesfully deleted");
+		}
+		if (response.getStatusLine().getStatusCode() != 204) {
+			log.debug("user with id " + user_id + "  not succesfully deleted");
+			throw new Auth0CreationException(
+					"user with user id " + member.getAuth0user_id() + " was not succesfully deleted");
+		}
 		return new ResponseEntity<Member>(HttpStatus.NO_CONTENT);
 	}
 
@@ -349,7 +338,7 @@ public class MemberRestController {
 
 	@CrossOrigin
 	@RequestMapping(value = "/members/friend/addfriend/", method = RequestMethod.PUT)
-	@PreAuthorize("@memberservice.listOne(#id).getEmail() == authentication.name or hasRole('Admin')")
+	@PreAuthorize("@memberservice.listOne(#id).getId() == authentication.name or hasRole('Admin')")
 	public ResponseEntity<Member> addFriend(@PathVariable("id") long id,
 			@PathVariable("toBeFollowedFriendId") long toBeFollowedFriendId) {
 		log.debug("Adding friend with id " + toBeFollowedFriendId + " to memberId " + id);
@@ -366,7 +355,7 @@ public class MemberRestController {
 
 	@CrossOrigin
 	@RequestMapping(value = "/members/friend/removefriend/", method = RequestMethod.PUT)
-	@PreAuthorize("@memberservice.listOne(#id).getEmail() == authentication.name or hasRole('Admin')")
+	@PreAuthorize("@memberservice.listOne(#id).getId() == authentication.name or hasRole('Admin')")
 	public ResponseEntity<Member> removeFriend(@PathVariable("id") long id,
 			@PathVariable("toBeRemovedFriendId") long toBeRemovedFriendId) {
 		log.debug("Removing friend with id " + toBeRemovedFriendId + " from memberId " + id);
@@ -383,7 +372,7 @@ public class MemberRestController {
 
 	@CrossOrigin
 	@RequestMapping(value = "/members/friend/addblock/", method = RequestMethod.PUT)
-	@PreAuthorize("@memberservice.listOne(#id).getEmail() == authentication.name or hasRole('Admin')")
+	@PreAuthorize("@memberservice.listOne(#id).getId() == authentication.name or hasRole('Admin')")
 	public ResponseEntity<Member> addBlock(@PathVariable("id") long id,
 			@PathVariable("toBeAddedBlockId") long toBeAddedBlockId) {
 		log.debug("Adding block for  friend with id " + toBeAddedBlockId + " for memberId " + id);
@@ -400,7 +389,7 @@ public class MemberRestController {
 
 	@CrossOrigin
 	@RequestMapping(value = "/members/friend/removeblock/", method = RequestMethod.PUT)
-	@PreAuthorize("@memberservice.listOne(#id).getEmail() == authentication.name or hasRole('Admin')")
+	@PreAuthorize("@memberservice.listOne(#id).getId() == authentication.name or hasRole('Admin')")
 	public ResponseEntity<Member> removeBlock(@PathVariable("id") long id,
 			@PathVariable("toBeRemovedBlockId") long toBeRemovedBlockId) {
 		log.debug("Removing block for friend with id " + toBeRemovedBlockId + " for memberId " + id);

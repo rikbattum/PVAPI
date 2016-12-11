@@ -59,7 +59,6 @@ public class Event {
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String Message;
 	@Size(min = 2, max = 20)
-	@NotNull
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String messageScore;
 	@Min(0)
@@ -73,7 +72,6 @@ public class Event {
 	@NotNull
 	private List <Member> members = new ArrayList <Member>();
 	@ManyToOne
-	@NotNull
 	private Paspoort paspoort;
 	@ManyToMany (mappedBy="events")
 	private List <Horse> horses = new ArrayList<Horse>();
