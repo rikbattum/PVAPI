@@ -2,158 +2,158 @@
 	{
 		"message": "Rik heeft zich aangemeld",
 		"type": "NEWPROFILE",
-		"piclink": "www.piclink.nl/1",
-		"picLinkSecond": " ",
-		"picLinkThird": " "
+		"piclink": "http://res.cloudinary.com/epona/pictureXYZ.jpg",
+		"picLinkSecond": null,
+		"picLinkThird": null
 	},
 		{
 		"message": "Majestic jumps superbe today",
 		"type": "MESSAGEPIC",
-		"piclink": "www.piclink.nl/2",
-		"picLinkSecond": " ",
-		"picLinkThird": " "
+		"piclink": "http://res.cloudinary.com/epona/pictureXYZ.jpg",
+		"picLinkSecond": null,
+		"picLinkThird": null
 	},
 	{
 		"message": "Rik heeft zich uitgeschreven",
 		"type": "SIGNOUT",
-		"piclink": "www.piclink.nl/3",
-		"picLinkSecond": " ",
-		"picLinkThird": " "
+		"piclink": "http://res.cloudinary.com/epona/pictureXYZ.jpg",
+		"picLinkSecond": null,
+		"picLinkThird": null
 	},
 	{
 		"message": "Esther heeft zich aangemeld",
 		"type": "NEWPROFILE",
-		"piclink": "www.piclink.nl/4",
-		"picLinkSecond": " ",
-		"picLinkThird": " "
+		"piclink": "http://res.cloudinary.com/epona/pictureXYZ.jpg",
+		"picLinkSecond": null,
+		"picLinkThird": null
 	},
 	{
 		"message": "Nieuwe pony geboren",
 		"type": "MESSAGEPIC",
-		"piclink": "www.piclink.nl/5",
-		"picLinkSecond": " ",
-		"picLinkThird": " "
+		"piclink": "http://res.cloudinary.com/epona/pictureXYZ.jpg",
+		"picLinkSecond": null,
+		"picLinkThird": null
 	},
 	{
 		"message": "De Boer 12de op Spring open",
 		"type": "MESSAGEPIC",
-		"piclink": "www.piclink.nl/6",
-		"picLinkSecond": " ",
-		"picLinkThird": " "
+		"piclink": "http://res.cloudinary.com/epona/pictureXYZ.jpg",
+		"picLinkSecond": null,
+		"picLinkThird": null
 	},
 	{
 		"message": "Vandaag zon op de veluwe",
 		"type": "MESSAGEPIC",
-		"piclink": "www.piclink.nl/7",
-		"picLinkSecond": " ",
-		"picLinkThird": " "
+		"piclink": "http://res.cloudinary.com/epona/pictureXYZ.jpg",
+		"picLinkSecond": null,
+		"picLinkThird": null
 	},
 	{
 		"message": "Eventing was fantastisch",
 		"type": "MESSAGEPIC",
-		"piclink": "www.piclink.nl/8",
-		"picLinkSecond": " ",
-		"picLinkThird": " "
+		"piclink": "http://res.cloudinary.com/epona/pictureXYZ.jpg",
+		"picLinkSecond": null,
+		"picLinkThird": null
 	},
 	{
 		"message": "Michael schrijft zich uit",
 		"type": "SIGNOUT",
-		"piclink": "www.piclink.nl/9",
-		"picLinkSecond": " ",
-		"picLinkThird": " "
+		"piclink": "http://res.cloudinary.com/epona/pictureXYZ.jpg",
+		"picLinkSecond": null,
+		"picLinkThird": null
 	},
 	{
 		"message": "Wat een mooie sprong",
 		"type": "MESSAGEPIC",
-		"piclink": "www.piclink.nl/10",
-		"picLinkSecond": " ",
-		"picLinkThird": " "
+		"piclink": "http://res.cloudinary.com/epona/pictureXYZ.jpg",
+		"picLinkSecond": null,
+		"picLinkThird": null
 	},
 	{
 		"message": "Nieuwe balken gearriveerd",
 		"type": "MESSAGEPIC",
-		"piclink": "www.piclink.nl/11",
-		"picLinkSecond": " ",
-		"picLinkThird": " "
+		"piclink": "http://res.cloudinary.com/epona/pictureXYZ.jpg",
+		"picLinkSecond": null,
+		"picLinkThird": null
 	},
 	{
 		"message": "Dressuur open fantastisch event",
 		"type": "MESSAGE",
-		"piclink": "www.piclink.nl/12",
-		"picLinkSecond": " ",
-		"picLinkThird": " "
+		"piclink": "http://res.cloudinary.com/epona/pictureXYZ.jpg",
+		"picLinkSecond": null,
+		"picLinkThird": null
 	},
 	{
 		"message": "Wo, check dit veulen!",
 		"type": "MESSAGE",
-		"piclink": "www.piclink.nl/13",
-		"picLinkSecond": " ",
-		"picLinkThird": " ",
+		"piclink": "http://res.cloudinary.com/epona/pictureXYZ.jpg",
+		"picLinkSecond": null,
+		"picLinkThird": null,
 		"lineType": "SPORT" 
 	},
 	{
 		"message": "Merry drachtig",
 		"type": "MESSAGE",
-		"piclink": "www.piclink.nl/14",
-		"picLinkSecond": " ",
-		"picLinkThird": " "
+		"piclink": "http://res.cloudinary.com/epona/pictureXYZ.jpg",
+		"picLinkSecond": null,
+		"picLinkThird": null
 	},
 	{
 		"message": "Elise meldt zich aan",
 		"type": "NEWPROFILE",
-		"piclink": "www.piclink.nl/15",
-		"picLinkSecond": " ",
-		"picLinkThird": " "
+		"piclink": "http://res.cloudinary.com/epona/pictureXYZ.jpg",
+		"picLinkSecond": null,
+		"picLinkThird": null
 	},
 	{
 		"message": "Elise meldt zich af",
 		"type": "SIGNOUT",
-		"piclink": "www.piclink.nl/16",
-		"picLinkSecond": " ",
-		"picLinkThird": " "
+		"piclink": "http://res.cloudinary.com/epona/pictureXYZ.jpg",
+		"picLinkSecond": null,
+		"picLinkThird": null
 	},
 	{
 		"message": "Joris derde op houtdorp open",
 		"type": "MESSAGE",
-		"piclink": "www.piclink.nl/17",
-		"picLinkSecond": " ",
-		"picLinkThird": " "
+		"piclink": "http://res.cloudinary.com/epona/pictureXYZ.jpg",
+		"picLinkSecond": null,
+		"picLinkThird": null
 	},
 	{
 		"message": "Hermelien laat klasse zien",
 		"type": "MESSAGE",
-		"piclink": "www.piclink.nl/18",
-		"picLinkSecond": " ",
-		"picLinkThird": " "
+		"piclink": "http://res.cloudinary.com/epona/pictureXYZ.jpg",
+		"picLinkSecond": null,
+		"picLinkThird": null
 	},
 	{
 		"message": "Mooi weer voor eventing",
 		"type": "MESSAGE",
-		"piclink": "www.piclink.nl/19",
-		"picLinkSecond": " ",
-		"picLinkThird": " "
+		"piclink": "http://res.cloudinary.com/epona/pictureXYZ.jpg",
+		"picLinkSecond": null,
+		"picLinkThird": null
 	},
 	{
 		"message": "Dit is super",
 		"type": "MESSAGESPORT",
-		"piclink": "www.piclink.nl/20",
-		"picLinkSecond": " ",
-		"picLinkThird": " ",
+		"piclink": "http://res.cloudinary.com/epona/pictureXYZ.jpg",
+		"picLinkSecond": null,
+		"picLinkThird": null,
 	    "lineType": "SPORT"
 	},
 	{
 		"message": "Wat een wedstrijd",
 		"type": "MESSAGE",
-		"piclink": "www.piclink.nl/21",
-		"picLinkSecond": " ",
-		"picLinkThird": " "
+		"piclink": "http://res.cloudinary.com/epona/pictureXYZ.jpg",
+		"picLinkSecond": null,
+		"picLinkThird": null
 	},
 	{
 		"message": "Iedereen content met wedstrijd",
 		"type": "MESSAGE",
-		"piclink": "www.piclink.nl/22",
-		"picLinkSecond": " ",
-		"picLinkThird": " "
+		"piclink": "http://res.cloudinary.com/epona/pictureXYZ.jpg",
+		"picLinkSecond": null,
+		"picLinkThird": null
 	}
 	]
 	

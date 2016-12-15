@@ -15,9 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import nl.paardenvriendjes.custom.editors.PaardTypeEditor;
+import nl.paardenvriendjes.pvapi.daoimpl.abstractdao.AbstractDaoService;
 import nl.paardenvriendjes.pvapi.domain.Horse;
-import nl.paardenvriendjes.pvapi.domain.Member;
-import nl.paardenvriendjes.pvapi.service.AbstractDaoService;
+import nl.paardenvriendjes.pvapi.enumerations.PaardType;
 
 @Repository
 @Transactional
@@ -48,15 +49,14 @@ SessionFactory sessionFactory;
 			}
 
 @Override
-	public void remove(Long id) {
-		try {
-			Horse horseToBeRemoved = (Horse) getCurrentSession().load(Horse.class, id);
+	public void remove(Horse horseToBeRemoved) {
+		try {			
 			horseToBeRemoved.setActive(false);
 			horseToBeRemoved.setDeactivatedDate();
 			getCurrentSession().saveOrUpdate(horseToBeRemoved);
 			log.debug("Deactivated Horse " + horseToBeRemoved.toString());
 		} catch (Exception e) {
-			log.error("Horse to be deactivated not successfull for id: " + id);
+			log.error("Horse to be deactivated not successfull for id: " + horseToBeRemoved.getId());
 		}
 	}
 
@@ -91,22 +91,26 @@ public void reactivate(Long id) {
 		}
 	}
 	
-	public List<Member> findHorseByLocation(String location) {
-		Criteria criteria = getCurrentSession().createCriteria(Member.class);
-		if (location.length()<3) {
-			
-			List<Member> temp = new ArrayList <Member>();
-			return temp; 
+	public List<Horse> findHorseByPaardType(String paardtype) {
+		if (paardtype.length() < 3) {
+
+			List<Horse> temp = new ArrayList<Horse>();
+			return temp;
+		
+		} else {
+			PaardTypeEditor editor = new PaardTypeEditor();
+			PaardType type =  editor.returnAsPaardType(paardtype);
+			Criteria criteria = getCurrentSession().createCriteria(Horse.class);
+			criteria.add(Restrictions.eq("paardtype", type));
+			criteria.add(Restrictions.eq("active", true));
+			criteria.setFirstResult(0);
+			criteria.setMaxResults(20);
+			// arrange sort on lastname;
+			criteria.addOrder(Order.desc("achternaam"));
+			List<Horse> foundHorses = criteria.list();
+			return foundHorses;
 		}
-		criteria.add(Restrictions.ilike("plaatsnaam", location, MatchMode.ANYWHERE));
-		criteria.add(Restrictions. eq("active", true));
-		criteria.setFirstResult(0);
-		criteria.setMaxResults(20);
-		// arrange sort on lastname; 
-		criteria.addOrder(Order.desc("name"));
-		List <Member> foundHorses =  criteria.list();
-		return foundHorses;
-	}	
+	}
 	
 	public List<Horse> findHorseBySportType(String sporttype) {
 		Criteria criteria = getCurrentSession().createCriteria(Horse.class, "horse");

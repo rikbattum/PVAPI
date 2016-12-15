@@ -18,20 +18,26 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import nl.paardenvriendjes.customeditors.PaardTypeEditor;
+import nl.paardenvriendjes.custom.editors.GeslachtEditor;
+import nl.paardenvriendjes.custom.editors.PaardTypeEditor;
 import nl.paardenvriendjes.pvapi.daoimpl.HorseDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Horse;
+import nl.paardenvriendjes.pvapi.genericservicelayer.messagecreate.Genericmessageservice;
 
 @RestController
 public class HorseRestController {
 	
 	@Autowired
 	private HorseDaoImpl horseservice;
+	@Autowired
+	private Genericmessageservice genericmessageservice;
+	
 	static Logger log = Logger.getLogger(HorseDaoImpl.class.getName());
 	
 	@InitBinder//("EnumEnitBinder")
 	protected void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(String.class, "paardType", new PaardTypeEditor());
+		binder.registerCustomEditor(String.class, "geslacht", new GeslachtEditor());
 	}
 	
 	
@@ -76,8 +82,11 @@ public class HorseRestController {
 	@RequestMapping(value = "/horses/", method = RequestMethod.POST)
 	public ResponseEntity<Void> createHorse(@RequestBody Horse horse, UriComponentsBuilder ucBuilder) {
 		log.debug("Creating horse" + horse.getName());
-
+		
+		
 		horseservice.save(horse);
+		// TODO: 
+		//genericmessageservice.newHappyHorseMessage(member, horse);
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(ucBuilder.path("/horse/{id}").buildAndExpand(horse.getId()).toUri());
@@ -114,7 +123,7 @@ public class HorseRestController {
 			System.out.println("Unable to delete Horse with id " + id + " not found");
 			return new ResponseEntity<Horse>(HttpStatus.NOT_FOUND);
 		}
-		horseservice.remove(id);
+		horseservice.remove(horse);
 		return new ResponseEntity<Horse>(HttpStatus.NO_CONTENT);
 	}
 	

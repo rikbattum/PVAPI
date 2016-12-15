@@ -71,6 +71,8 @@ public ResponseEntity<Void> createEvent(@RequestBody Event event, UriComponentsB
 	log.debug("Creating " + event.getEventName());
 
 	eventservice.save(event);
+	// TODO
+	// USE GENERIC SERVICE FOR AUTO UPDATE
 
 	HttpHeaders headers = new HttpHeaders();
 	headers.setLocation(ucBuilder.path("/ventt/{id}").buildAndExpand(event.getId()).toUri());
@@ -107,7 +109,7 @@ public ResponseEntity<Event> deleteEvent(@PathVariable("id") long id) {
 		System.out.println("Unable to delete Event with id " + id + " not found");
 		return new ResponseEntity<Event>(HttpStatus.NOT_FOUND);
 	}
-	eventservice.remove(id);
+	eventservice.remove(event);
 	return new ResponseEntity<Event>(HttpStatus.NO_CONTENT);
 }
 
