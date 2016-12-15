@@ -19,6 +19,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.json.JSONException;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -53,6 +54,8 @@ public class Auth0FullSignUpAndDeleteCycle {
 
 	static Logger log = Logger.getLogger(AuthorizationLoggedInUser.class.getName());
 
+	// only run this integration test for auth0 integration
+	@Ignore
 	@Test
 	@Transactional
 	@Rollback(true)

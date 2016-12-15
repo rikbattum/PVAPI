@@ -1,6 +1,7 @@
 package nl.paardenvriendjes.restcontrollers;
 
 import org.apache.log4j.Logger;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import nl.paardenvriendjes.pvapi.daoimpl.MessageDaoImpl;
 
 @RestController
-public class TestController {
+public class TestController extends BaseController{
 	
 	static Logger log = Logger.getLogger(MessageDaoImpl.class.getName());
 	
@@ -26,13 +27,15 @@ public class TestController {
 	
 	@CrossOrigin
 	@RequestMapping(value = "/adminsafewelcome", method = RequestMethod.GET)
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	public String safewelcomeAdmin() {
 		// Welcome page, non-rest
 		return "Welcome to PVAPI, you are logged in :)!";
 	}
 	
 	@CrossOrigin
-	@RequestMapping(value = "/usersafewelcome", method = RequestMethod.GET)
+	@RequestMapping(value = "/fakerolesafewelcome", method = RequestMethod.GET)
+	@PreAuthorize("hasRole('UNKNOWN')")
 	public String safewelcomeForSpecificUser() {
 		// Welcome page, non-rest
 		return "Welcome to PVAPI, you are logged in :)!";

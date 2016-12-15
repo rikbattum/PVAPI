@@ -20,6 +20,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,6 +54,7 @@ public class MessageDaoImplTest extends AbstractTest {
 
 	}
 
+	@WithMockUser(username = "userpv@mailinator.com", roles={"USER"})
 	@Transactional
 	@Rollback(true)
 	@Test
@@ -64,6 +66,8 @@ public class MessageDaoImplTest extends AbstractTest {
 
 		// Act
 		Member testMember = memberList.get(0);
+		// mock needed authentication object
+		testMember.setEmail("userpv@mailinator.com");
 		Message message = new Message();
 		message.setMessage("fantastisch weer vandaag");
 		message.setPiclink("http://res.cloudinary.com/epona/pictureXYZ.jpg");
@@ -87,6 +91,7 @@ public class MessageDaoImplTest extends AbstractTest {
 	@Transactional
 	@Rollback(true)
 	@Test
+	@WithMockUser(username = "userpv@mailinator.com", roles={"USER"})
 	public void testMultipleMesages() throws Exception {
 		testUtilDataSetup.setMembers();
 		testUtilDataSetup.runMessagesPost();
@@ -97,6 +102,7 @@ public class MessageDaoImplTest extends AbstractTest {
 	@Transactional
 	@Rollback(true)
 	@Test
+	@WithMockUser(username = "userpv@mailinator.com", roles={"USER"})
 	public void testCascadeSaveMesages() throws Exception {
 
 		testUtilDataSetup.setMembers();
@@ -118,6 +124,7 @@ public class MessageDaoImplTest extends AbstractTest {
 	@Transactional
 	@Rollback(true)
 	@Test
+	@WithMockUser(username = "userpv@mailinator.com", roles={"USER"})
 	public void testCascadeDeleteMesages() throws Exception {
 
 		testUtilDataSetup.setMembers();
@@ -150,11 +157,13 @@ public class MessageDaoImplTest extends AbstractTest {
 	@Transactional
 	@Rollback(true)
 	@Test
+	@WithMockUser(username = "userpv@mailinator.com", roles={"USER"})
 	public void testCascadeEditMesages() throws Exception {
 		testUtilDataSetup.setMembers();
 		List<Member> memberList = memberService.listAll();
 		Member testMember = memberList.get(0);
-
+		// mock needed authentication object
+		testMember.setEmail("userpv@mailinator.com");
 		// add a extra message
 		Message message = new Message();
 		message.setMember(testMember);
@@ -175,7 +184,7 @@ public class MessageDaoImplTest extends AbstractTest {
 
 		Message updatedMessage = messageService.listOne(messageId);
 		assertThat(updatedMessage.getMessage(), Is.is("vandaag springen afgelast ivm sneeuw"));
-		assertThat(updatedMessage.getId(), Is.is(72L));
+		assertThat(updatedMessage.getId(), Is.is(251L));
 		assertNotNull(updatedMessage.getInsertDate());
 
 		assertThat(simpleDateFormat.format(updatedMessage.getInsertDate()), Is.is(simpleDateFormat.format(new Date())));
@@ -184,6 +193,7 @@ public class MessageDaoImplTest extends AbstractTest {
 	@Transactional
 	@Rollback(true)
 	@Test
+	@WithMockUser(username = "userpv@mailinator.com", roles={"USER"})
 	public void testQuerySportMessages() throws Exception {
 
 		testUtilDataSetup.setMembers();
@@ -210,6 +220,7 @@ public class MessageDaoImplTest extends AbstractTest {
 	@Transactional
 	@Rollback(true)
 	@Test
+	@WithMockUser(username = "userpv@mailinator.com", roles={"USER"})
 	public void testQueryFriendsMessages() throws Exception {
 
 		testUtilDataSetup.setMembers();

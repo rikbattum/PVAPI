@@ -42,7 +42,7 @@ public class AppSecurityConfig extends Auth0SecurityConfig {
         http.authorizeRequests()
         
                 .antMatchers(HttpMethod.GET, "/welcome").permitAll()
-                .antMatchers(HttpMethod.GET, "/adminsafewelcome").hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/adminsafewelcome").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/fakerolesafewelcome").hasAnyAuthority("FAKEROLE")
                 .antMatchers("/comments/**").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/members/friend/**").hasAnyAuthority("USER", "ADMIN")

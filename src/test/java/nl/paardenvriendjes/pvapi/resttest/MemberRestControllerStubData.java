@@ -40,13 +40,4 @@ public class MemberRestControllerStubData {
 	    	return member; 
 	    	
 	    }
-	
-
-	
-
-	
-	
-	
-	
-	
 }

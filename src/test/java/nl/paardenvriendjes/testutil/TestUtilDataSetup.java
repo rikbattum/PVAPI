@@ -84,6 +84,8 @@ public class TestUtilDataSetup {
 
 				// get random member for message
 				Member tempMember = memberList.get(index);
+				// mock needed authentication object
+				tempMember.setEmail("userpv@mailinator.com");
 				m.setMember(tempMember);
 				// m.setType((MessageType) messageX.get("type"));
 				m.setMessage((String) messageX.get("message"));
