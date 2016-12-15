@@ -54,7 +54,7 @@ public class Comment {
 	@NotNull
 	@ManyToOne(fetch=FetchType.EAGER)
 	private Message message;
-	@OneToMany(mappedBy = "comment")
+	@OneToMany(mappedBy = "message")
 	@Cascade({CascadeType.ALL})
 	private List<Likes> likelistcomment = new ArrayList<Likes>();
 	

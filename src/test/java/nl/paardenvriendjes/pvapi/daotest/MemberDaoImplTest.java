@@ -19,10 +19,16 @@ import org.hamcrest.core.Is;
 import org.junit.After;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.auth0.authentication.result.Authentication;
+import com.auth0.authentication.result.UserProfile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import nl.paardenvriendjes.pvapi.abstracttest.AbstractTest;
@@ -49,9 +55,6 @@ public class MemberDaoImplTest extends AbstractTest {
 	@Autowired
 	private TestUtilDataSetup testUtilDataSetup;
 
-	@Autowired
-	private Validator validator;
-
 	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	static Logger log = Logger.getLogger(MemberDaoImplTest.class.getName());
 	ObjectMapper mapper = new ObjectMapper();
@@ -68,6 +71,7 @@ public class MemberDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
+	@WithMockUser(username = "random@mailinator.com", roles={"USER"})
 	public void testMemberCreationExactNumberOfEntries() throws Exception {
 
 		// Arrange
@@ -83,6 +87,7 @@ public class MemberDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
+	@WithMockUser(username = "random@mailinator.com", roles={"USER"})
 	public void testMemberCreationIfDataIsCorrect() throws Exception {
 
 		// Arrange
@@ -110,37 +115,13 @@ public class MemberDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
-	public void testMemberCreationMultibleMemberSameData() throws Exception {
-
-		// Arrange
-		// 10 times 8 members
-		testUtilDataSetup.setMembers();
-		testUtilDataSetup.setMembers();
-		testUtilDataSetup.setMembers();
-		testUtilDataSetup.setMembers();
-		testUtilDataSetup.setMembers();
-		testUtilDataSetup.setMembers();
-		testUtilDataSetup.setMembers();
-		testUtilDataSetup.setMembers();
-		testUtilDataSetup.setMembers();
-		testUtilDataSetup.setMembers();
-
-		// Act
-		List<Member> memberList = memberService.listAll();
-
-		// Assert
-		assertThat(memberList.size(), Is.is(80));
-	}
-
-	@Test
-	@Transactional
-	@Rollback(true)
-	public void testMemberDeletion() throws Exception {
+	@WithMockUser(username = "userpv@mailinator.com", roles={"USER"})
+	public void testMemberDeletionAsUser() throws Exception {
 
 		// Arrange
 		testUtilDataSetup.setMembers();
 		List<Member> memberList = memberService.listAll();
-
+		
 		// Assert
 		assertThat(memberList.size(), Is.is(8));
 
@@ -153,10 +134,71 @@ public class MemberDaoImplTest extends AbstractTest {
 		assertThat(memberListAgain.size(), Is.is(8));
 		assertFalse(memberListAgain.get(7).getActive());
 	}
-
+	
 	@Test
 	@Transactional
 	@Rollback(true)
+	@WithMockUser(username = "adminaccount@mailinator.com", roles={"ADMIN"})
+	public void testMemberDeletionAsAdmin() throws Exception {
+
+		// Arrange
+		testUtilDataSetup.setMembers();
+		List<Member> memberList = memberService.listAll();
+		
+		// Assert
+		assertThat(memberList.size(), Is.is(8));
+
+		// Act
+		Member member = memberList.get(0);
+		memberService.remove(member);
+		List<Member> memberListAgain = memberService.listAll();
+
+		// Assert
+		assertThat(memberListAgain.size(), Is.is(8));
+		assertFalse(memberListAgain.get(7).getActive());
+	}
+	
+	
+	@Test(expected = AccessDeniedException.class)
+	@Transactional
+	@Rollback(true)
+	@WithMockUser(username = "randomuser@mailinator.com", roles={"USER"})
+	public void testMemberDeletionAsIcorrectUser() throws Exception {
+
+		// Arrange
+		testUtilDataSetup.setMembers();
+		List<Member> memberList = memberService.listAll();
+		
+		// Assert
+		assertThat(memberList.size(), Is.is(8));
+
+		// Act
+		Member member = memberList.get(0);
+		memberService.remove(member);
+	}
+	
+	@Test(expected = AccessDeniedException.class)
+	@Transactional
+	@Rollback(true)
+	@WithMockUser(username = "userpv@mailinator.com", roles={"RANDOM"})
+	public void testMemberDeletionAsIncorrectRole() throws Exception {
+
+		// Arrange
+		testUtilDataSetup.setMembers();
+		List<Member> memberList = memberService.listAll();
+		
+		// Assert
+		assertThat(memberList.size(), Is.is(8));
+
+		// Act
+		Member member = memberList.get(0);
+		memberService.remove(member);
+	}
+	
+	@Test
+	@Transactional
+	@Rollback(true)
+	@WithMockUser(username = "userpv@mailinator.com", roles={"USER"})
 	public void testMemberUpdate() throws Exception {
 
 		// Arrange
@@ -167,25 +209,51 @@ public class MemberDaoImplTest extends AbstractTest {
 		assertThat(memberList.size(), Is.is(8));
 
 		// Act
-		Member member = memberList.get(0);
-		member.setEmail("test@nu.nl");
+		Member member = memberList.get(0);	
 		member.setPlace(Place.EMMELOORD);
-		Long id = member.getId();
+		member.setAchternaam("Pieterse"); 
 		memberService.edit(member);
 
 		List<Member> memberListAgain = memberService.listAll();
 
 		// Assert
 		assertThat(memberListAgain.size(), Is.is(8));
-		Member memberUpdated = memberService.listOne(id);
+		Member memberUpdated = memberService.listOne(member.getId());
 		assertThat(memberUpdated.getPlace().toString(), Is.is("EMMELOORD"));
-		assertThat(memberUpdated.getEmail(), Is.is("test@nu.nl"));
-		assertThat(memberUpdated.getId(), Is.is(id));
+		assertThat(memberUpdated.getEmail(), Is.is("userpv@mailinator.com"));
+		assertThat(memberUpdated.getAchternaam(), Is.is("Pieterse"));
+	}
+	
+	@Test
+	@Transactional
+	@Rollback(true)
+	@WithMockUser(username = "random@mailinator.com", roles={"USER"})
+	public void testMemberUpdateFailWithSave() throws Exception {
+
+		// Arrange
+		testUtilDataSetup.setMembers();
+
+		// Act
+		List<Member> memberList = memberService.listAll();
+
+		// Assert
+		assertThat(memberList.size(), Is.is(8));
+		Member member = memberList.get(0);	
+		member.setPlace(Place.EMMELOORD);
+		member.setAchternaam("Pieterse"); 
+		memberService.save(member);
+		
+		List<Member> memberListAgain = memberService.listAll();
+		Member memberUpdated = memberService.listOne(member.getId());
+		assertThat(memberUpdated.getPlace().toString(), Is.is("EMMELOORD"));
+		assertThat(memberUpdated.getEmail(), Is.is("userpv@mailinator.com"));
+		assertThat(memberUpdated.getAchternaam(), Is.is("Pieterse"));
 	}
 
 	@Test
 	@Transactional
 	@Rollback(true)
+	@WithMockUser(username = "random@mailinator.com", roles={"USER"})
 	public void testCreatedOnValueSetInBackend() throws Exception {
 
 		// Arrange
@@ -202,6 +270,7 @@ public class MemberDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
+	@WithMockUser(username = "random@mailinator.com", roles={"USER"})
 	public void testListMembersWithRange() throws Exception {
 
 		testUtilDataSetup.setMembers();
@@ -217,26 +286,23 @@ public class MemberDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
+	@WithMockUser(username = "random@mailinator.com", roles={"USER"})
 	public void testCountOfMembersList() throws Exception {
 		testUtilDataSetup.setMembers();
 		int count = memberService.count();
 
 		assertEquals(count, 8);
-
-		testUtilDataSetup.setMembers();
-		int secondCount = memberService.count();
-
-		assertEquals(secondCount, 16);
 	}
 
 	@Test
 	@Transactional
 	@Rollback(true)
+	@WithMockUser(username = "random@mailinator.com", roles={"USER"})
 	public void testQueryMembersOnID() throws Exception {
 		testUtilDataSetup.setMembers();
 		List<Member> memberList = memberService.listAll();
-		Long idOne = (Long) memberList.get(3).getId();
-		Long idTwo = (Long) memberList.get(5).getId();
+		Long idOne = memberList.get(3).getId();
+		Long idTwo = memberList.get(5).getId();
 		Long idArray[] = new Long[] { idOne, idTwo };
 		List<Member> memberSelection = memberService.listOutOfQueryId(idArray);
 		assertEquals(memberSelection.size(), 2);
@@ -247,6 +313,7 @@ public class MemberDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
+	@WithMockUser(username = "random@mailinator.com", roles={"USER"})
 	public void testQueryMembersByFirstName() throws Exception {
 		testUtilDataSetup.setMembers();
 		List<Member> memberList = memberService.findMemberByFirstName("dennis");
@@ -263,6 +330,7 @@ public class MemberDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
+	@WithMockUser(username = "random@mailinator.com", roles={"USER"})
 	public void testQueryMembersByFirstAndLastName() throws Exception {
 		testUtilDataSetup.setMembers();
 		List<Member> memberList = memberService.findMemberByFirstAndLastName("Ellis", "Vermeend");
@@ -278,6 +346,7 @@ public class MemberDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
+	@WithMockUser(username = "random@mailinator.com", roles={"USER"})
 	public void testQueryMembersByLocation() throws Exception {
 		testUtilDataSetup.setMembers();
 		List<Member> memberList = memberService.listAll();
@@ -291,6 +360,7 @@ public class MemberDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
+	@WithMockUser(username = "iwillhelp@dof.nl", roles={"USER"})
 	public void testQueryMembersByInteresses() throws Exception {
 		testUtilDataSetup.setMembers();
 		List<Member> memberList0 = memberService.listAll();
@@ -308,6 +378,7 @@ public class MemberDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
+	@WithMockUser(username = "cjanson@hetnet.nl", roles={"USER"})
 	public void testQueryMembersBySportTypes() throws Exception {
 		testUtilDataSetup.setMembers();
 		List<Member> memberList0 = memberService.listAll();
@@ -320,10 +391,20 @@ public class MemberDaoImplTest extends AbstractTest {
 		assertEquals(memberList.get(0).getSports().get("Mennen"), "Recreatief");
 		assertEquals(memberList.get(0).getSports().get("Rodeo"), null);
 	}
-
+	
+	@Test (expected = AuthenticationCredentialsNotFoundException.class)
+	@Transactional
+	@Rollback(true)
+	public void testAnyQueryWithoutCorrectUserRoles() throws Exception {
+		
+		List<Member> memberList = memberService.findMemberBySportType("Mennen");
+	
+	}
+	
 	@Test
 	@Transactional
 	@Rollback(true)
+	@WithMockUser(username = "ron.janssen@freemail.com", roles={"USER"})
 	public void testSetFullMember() throws Exception {
 		Member fullmember = new Member();
 		fullmember.setAchternaam("Janssen");
@@ -369,9 +450,10 @@ public class MemberDaoImplTest extends AbstractTest {
 		fullmember.getVrienden().add(blokkade);
 		Event event = new Event();
 		event.setEventDate(new Date());
+		event.setMessage("Bossprong Lunteren was te gek"); 
 		event.setEventName("spring open");
 		event.setMessage("open event for all");
-		fullmember.getEvents().add(new Event());
+		fullmember.getEvents().add(event);
 		memberService.save(fullmember);
 		memberService.save(vriend);
 		memberService.save(blokkade);
@@ -386,5 +468,5 @@ public class MemberDaoImplTest extends AbstractTest {
 		log.debug(mapper.writeValueAsString(fullmember));
 		List<Member> memberList = memberService.findMemberByFirstAndLastName("Ronnie", "Janssen");
 		assertEquals(memberList.size(), 1);
-	}
+	}	
 }

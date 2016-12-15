@@ -31,7 +31,6 @@ public class CommentValidation   extends AbstractTest {
 		
 		// organize not null setup
 		
-		member.setId(1L);
 		member.setVoornaam("Peddy");
 		member.setAchternaam("Horsy");
 		member.setGeboortedatum(new Date(12 - 6 - 1979));

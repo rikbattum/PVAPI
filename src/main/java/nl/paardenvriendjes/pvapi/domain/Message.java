@@ -59,7 +59,6 @@ public class Message {
 	@Temporal(TemporalType.DATE)
 	private Date insertDate;
 	@ManyToOne
-	@Cascade({CascadeType.ALL})
 	@NotNull
 	private Member member;
 	@SafeHtml(whitelistType = WhiteListType.NONE)
@@ -72,7 +71,7 @@ public class Message {
 	@Pattern (regexp = "^http://res.cloudinary.com/epona/.*")
 	private String picLinkThird;
 	@OneToMany (mappedBy="message", orphanRemoval=true)
-	@Cascade({CascadeType.MERGE, CascadeType.PERSIST})
+	@Cascade({CascadeType.ALL})
 	// needed with fetchtype lazy?
 	// need to implement cache region
 	//	@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)

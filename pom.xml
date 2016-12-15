@@ -106,13 +106,22 @@
 			<artifactId>ehcache</artifactId>
 			<version>${ehcache.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.jsoup/jsoup --> 
-		<!-- library for input sanitization --> 
+		<!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
+		<!-- library for input sanitization -->
 		<dependency>
-    		<groupId>org.jsoup</groupId>
-    		<artifactId>jsoup</artifactId>
-    		<version>1.10.1</version>
-</dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.10.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-test -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<version>4.2.0.RELEASE</version>
+			<scope>test</scope>
+		</dependency>
+
+
 
 	</dependencies>
 

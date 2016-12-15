@@ -10,8 +10,11 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import nl.paardenvriendjes.pvapi.daoimpl.MessageDaoImpl;
 
@@ -19,7 +22,7 @@ import nl.paardenvriendjes.pvapi.daoimpl.MessageDaoImpl;
 @Transactional
 @SuppressWarnings("unchecked")
 public abstract class AbstractDaoService<T> {
-	
+
 	// use generic to determine entity class
 	private Class<T> entityClass;
 
@@ -36,19 +39,21 @@ public abstract class AbstractDaoService<T> {
 	@Autowired
 	SessionFactory sessionFactory;
 
-	 @PersistenceContext
-	  private EntityManager entityManager;
-	
+	@PersistenceContext
+	private EntityManager entityManager;
+
 	private Session getCurrentSession() {
 		return sessionFactory.getCurrentSession();
 	}
 
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	public List<T> listAll() {
 		List<T> list = getCurrentSession().createQuery("from " + entityClass.getName()).list();
 		log.debug("got List: " + entityClass.toString());
 		return list;
 	}
 
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	public T listOne(Long id) {
 		T objectLoaded = (T) getCurrentSession().get(entityClass, id);
 		log.debug("got One: " + entityClass.toString());
@@ -60,38 +65,43 @@ public abstract class AbstractDaoService<T> {
 		log.debug("saved One: " + entityClass.toString());
 	}
 
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	public void edit(T entity) {
 		getCurrentSession().merge(entity);
 		log.debug("edit: " + entityClass.toString());
 	}
 
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	public void remove(T entity) {
-		try { 
-			getCurrentSession().delete(entity);	
+		try {
+			getCurrentSession().delete(entity);
 			log.debug("deleted " + entityClass.toString());
 		} catch (Exception e) {
 			log.error("Object to be deleted not found " + entityClass.toString());
 		}
 	}
 
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	public List<T> listRange(int[] range) {
-		Query query = getCurrentSession().createQuery("from " + entityClass.getName());	
+		Query query = getCurrentSession().createQuery("from " + entityClass.getName());
 		query.setMaxResults((range[1] - range[0] + 1));
 		query.setFirstResult(range[0]);
-		List<T> list = query.list(); 
-		return list; 
+		List<T> list = query.list();
+		return list;
 	}
-	
-	public List<T> listOutOfQueryId(Long[] arrayID) {		
-		Query query = getCurrentSession().createQuery("from " + entityClass.getName() + " Where id IN (:arrayID)");	
+
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	public List<T> listOutOfQueryId(Long[] arrayID) {
+		Query query = getCurrentSession().createQuery("from " + entityClass.getName() + " Where id IN (:arrayID)");
 		query.setParameterList("arrayID", arrayID);
-		List<T> list = query.list(); 
-		return list; 
+		List<T> list = query.list();
+		return list;
 	}
-	
+
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	public int count() {
 		Query query = getCurrentSession().createQuery("from " + entityClass.getName());
-		int count = (int)query.list().size();
+		int count = (int) query.list().size();
 		return count;
 	}
 }

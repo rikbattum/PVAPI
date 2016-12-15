@@ -34,7 +34,7 @@ public class MemberValidation extends AbstractTest {
 		public void testHtmlSanitizeOverMij() {
 			Member member = new Member();
 			// mandatory
-			member.setId(1L);
+			member.setId(10001L);
 			member.setVoornaam("Peddy");
 			member.setAchternaam("Horsy");
 			member.setGeboortedatum(new Date(12 - 6 - 1979));
@@ -53,7 +53,7 @@ public class MemberValidation extends AbstractTest {
 		public void testHtmlSanitizeNames() {
 			Member member = new Member();
 			// mandatory
-			member.setId(1L);
+			member.setId(10001L);
 			member.setVoornaam("<i>Peddy</i>");
 			member.setAchternaam("<p>Horsy</p>");
 			member.setGeboortedatum(new Date(12 - 6 - 1979));
@@ -70,7 +70,7 @@ public class MemberValidation extends AbstractTest {
 		public void testValidProfilePicUrlPattern() {
 			Member member = new Member();
 			// mandatory
-			member.setId(1L);
+			member.setId(10001L);
 			member.setVoornaam("Peddy");
 			member.setAchternaam("Horsy");
 			member.setGeboortedatum(new Date(12 - 6 - 1979));
@@ -92,7 +92,7 @@ public class MemberValidation extends AbstractTest {
 		public void testValidProfilePicUrlSanitizeHtml() {
 			Member member = new Member();
 			// mandatory
-			member.setId(1L);
+			member.setId(10001L);
 			member.setVoornaam("Peddy");
 			member.setAchternaam("Horsy");
 			member.setGeboortedatum(new Date(12 - 6 - 1979));
@@ -110,7 +110,7 @@ public class MemberValidation extends AbstractTest {
 		public void testValidEmailAdres() {
 			Member member = new Member();
 			// mandatory
-			member.setId(1L);
+			member.setId(10001L);
 			member.setVoornaam("Peddy");
 			member.setAchternaam("Horsy");
 			member.setGeboortedatum(new Date(12 - 6 - 1979));
@@ -134,7 +134,7 @@ public class MemberValidation extends AbstractTest {
 			violations = validator.validate(member);
 			assertFalse(violations.isEmpty());
 			assertEquals(violations.size(), 1);
-			assertEquals(violations.iterator().next().getMessage(), "size must be between 0 and 60");
+			assertEquals(violations.iterator().next().getMessage(), "size must be between 7 and 60");
 
 			// test regular email 1
 			member.setEmail("peddy.horseymailator@kpn.nl");
@@ -152,7 +152,7 @@ public class MemberValidation extends AbstractTest {
 		@Rollback(true)
 		public void testMandatoryEmailAttribute() {
 			Member member = new Member();
-			member.setId(1L);
+			member.setId(10001L);
 			member.setAuth0user_id("auth0|582dff439c968b412345678");
 			member.setVoornaam("Peddy");
 			member.setAchternaam("Horsy");
@@ -169,10 +169,10 @@ public class MemberValidation extends AbstractTest {
 		public void testSizeNames() {
 			Member member = new Member();
 			// mandatory
-			member.setId(1L);
 			member.setVoornaam("Peddy");
 			member.setAchternaam("Horsy");
 			member.setGeboortedatum(new Date(12 - 6 - 1979));
+			member.setId(10001L);
 			// not good, no @
 			member.setEmail("peddy.horsey@mail.com");
 			Set<ConstraintViolation<Member>> violations = validator.validate(member);
@@ -207,7 +207,7 @@ public class MemberValidation extends AbstractTest {
 		@Rollback(true)
 		public void testGeboorteDatum() {
 			Member member = new Member();
-			member.setId(1L);
+			member.setId(10001L);
 			member.setVoornaam("Peddy");
 			member.setAchternaam("Horsy");
 			member.setEmail("peddy.horsey@mailinator.com");
@@ -222,25 +222,9 @@ public class MemberValidation extends AbstractTest {
 		@Test
 		@Transactional
 		@Rollback(true)
-		public void testMaxSizeId() {
-			Member member = new Member();
-			member.setId(10000000L);
-			member.setVoornaam("Peddy");
-			member.setAchternaam("Horsy");
-			member.setEmail("peddy.horsey@mailinator.com");
-			member.setGeboortedatum(new Date(12 - 6 - 1979));
-			Set<ConstraintViolation<Member>> violations = validator.validate(member);
-			assertFalse(violations.isEmpty());
-			assertEquals(violations.size(), 1);
-			assertEquals(violations.iterator().next().getMessage(), "must be less than or equal to 9999999");
-		}
-
-		@Test
-		@Transactional
-		@Rollback(true)
 		public void testMaxLengthAuth0Id() {
 			Member member = new Member();
-			member.setId(1L);
+			member.setId(10001L);
 			member.setAuth0user_id("auth0|582dff439ca666c66c968b412345678");
 			member.setVoornaam("Peddy");
 			member.setAchternaam("Horsy");
@@ -249,7 +233,7 @@ public class MemberValidation extends AbstractTest {
 			Set<ConstraintViolation<Member>> violations = validator.validate(member);
 			assertFalse(violations.isEmpty());
 			assertEquals(violations.size(), 1);
-			assertEquals(violations.iterator().next().getMessage(), "size must be between 25 and 35");
-		}	
+			assertEquals(violations.iterator().next().getMessage(), "size must be between 20 and 35");
+		}
 	
 }

@@ -1,19 +1,15 @@
 package nl.paardenvriendjes.pvapi.daotest;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 import java.util.List;
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
 
 import org.hamcrest.core.Is;
 import org.junit.After;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,6 +43,7 @@ public class CommentDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
+	@WithMockUser(username = "userpv@mailinator.com", roles={"USER"})
 	public void testCommentCascadeSave() {
 
 		// Arrange
@@ -59,20 +56,25 @@ public class CommentDaoImplTest extends AbstractTest {
 		Comment commentOne = new Comment();
 		commentOne.setComment("leuke update!");
 		commentOne.setMember(memberOne);
-		commentOne.setInsertDate();
 		commentOne.setMessage(messageOne);
 		messageOne.getCommentlist().add(commentOne);
-		memberService.save(memberOne);
+		memberService.edit(memberOne);
+		
 
 		// Assert
 		List<Comment> commentList = commentService.listAll();
+		Message messageWithComment = messageService.listAll().get(0);
 		assertThat(commentList.size(), Is.is(1));
 		assertThat(commentList.get(0).getComment(), Is.is("leuke update!"));
+		assertEquals(messageWithComment.getCommentlist().size(), 1);
+		assertThat(messageWithComment.getCommentlist().get(0).getComment(),  Is.is("leuke update!"));
+		
 	}
 
 	@Test
 	@Transactional
 	@Rollback(true)
+	@WithMockUser(username = "userpv@mailinator.com", roles={"USER"})
 	public void testCommentCascadeEdit() {
 
 		// Arrange
@@ -98,6 +100,7 @@ public class CommentDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
+	@WithMockUser(username = "userpv@mailinator.com", roles={"USER"})
 	public void testCommentCascadeDelete() {
 
 		// Arrange
@@ -113,21 +116,24 @@ public class CommentDaoImplTest extends AbstractTest {
 		commentOne.setInsertDate();
 		commentOne.setMessage(messageOne);
 		messageOne.getCommentlist().add(commentOne);
-		memberService.save(memberOne);
+		memberService.edit(memberOne);
 		List<Comment> commentList = commentService.listAll();
 		assertThat(commentList.size(), Is.is(1));
 
 		int messageCounter = memberOne.getMessages().size();
-
+		assertEquals(memberOne.getMessages().get(0).getCommentlist().size(), 1);
+		
 		// Assert
-		memberOne.getMessages().remove(messageOne);
-		messageService.remove(messageOne);
+		memberOne.getMessages().get(0).getCommentlist().remove(0);
 		memberService.edit(memberOne);
 
 		List<Comment> commentList2 = commentService.listAll();
 		assertThat(commentList2.size(), Is.is(0));
 		Member memberTwo = memberService.listOne(memberOne.getId());
-		assertThat(memberTwo.getMessages().size(), Is.is(messageCounter - 1));
+		assertThat(memberTwo.getMessages().size(), Is.is(messageCounter));
+		assertEquals(memberTwo.getMessages().get(0).getCommentlist().size(), 0);
+		
+		
 	}
 
 }
