@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import nl.paardenvriendjes.customeditors.LikeTypeEditor;
+import nl.paardenvriendjes.custom.editors.LikeTypeEditor;
 import nl.paardenvriendjes.pvapi.daoimpl.LikeDaoImpl;
-import nl.paardenvriendjes.pvapi.domain.Like;
+import nl.paardenvriendjes.pvapi.domain.Likes;
 
 @RestController
 public class LikeRestController {
@@ -39,8 +39,8 @@ public class LikeRestController {
 	
 	@CrossOrigin
 	@RequestMapping(value = "/likes", method = RequestMethod.OPTIONS)
-	public ResponseEntity<List<Like>> optionsCall() {
-		ResponseEntity<List<Like>> ent = new ResponseEntity<List<Like>> (HttpStatus.NO_CONTENT);
+	public ResponseEntity<List<Likes>> optionsCall() {
+		ResponseEntity<List<Likes>> ent = new ResponseEntity<List<Likes>> (HttpStatus.NO_CONTENT);
 		return ent;
 	}
 
@@ -48,39 +48,39 @@ public class LikeRestController {
 	
 	@CrossOrigin
 	@RequestMapping(value = "/likes", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Like>> listAllLikes() {
-		List<Like> likes = likeservice.listAll();
+	public ResponseEntity<List<Likes>> listAllLikes() {
+		List<Likes> likes = likeservice.listAll();
 		if (likes.isEmpty()) {
-			return new ResponseEntity<List<Like>>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<List<Likes>>(HttpStatus.NO_CONTENT);
 			}
-		return new ResponseEntity<List<Like>>(likes, HttpStatus.OK);
+		return new ResponseEntity<List<Likes>>(likes, HttpStatus.OK);
 	}
 
 	// -------------------Retrieve Single Like--------------------------------------------------------
 
 	@CrossOrigin
 	@RequestMapping(value = "/likes/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Like> getLike(@PathVariable("id") long id) {
+	public ResponseEntity<Likes> getLike(@PathVariable("id") long id) {
 		log.debug("Fetching Like with id " + id);
-		Like like = likeservice.listOne(id);
-		if (like == null) {
+		Likes likes = likeservice.listOne(id);
+		if (likes == null) {
 			log.debug("Like with id " + id + " not found");
-			return new ResponseEntity<Like>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Likes>(HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<Like>(like, HttpStatus.OK);
+		return new ResponseEntity<Likes>(likes, HttpStatus.OK);
 	}
 
 	// -------------------Create a like--------------------------------------------------------
 
 	@CrossOrigin
 	@RequestMapping(value = "/likes/", method = RequestMethod.POST)
-	public ResponseEntity<Void> createLike(@RequestBody Like like, UriComponentsBuilder ucBuilder) {
-		log.debug("Creating like" + like.getLiketype());
+	public ResponseEntity<Void> createLike(@RequestBody Likes likes, UriComponentsBuilder ucBuilder) {
+		log.debug("Creating like" + likes.getLiketype());
 
-		likeservice.save(like);
+		likeservice.save(likes);
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/like/{id}").buildAndExpand(like.getId()).toUri());
+		headers.setLocation(ucBuilder.path("/like/{id}").buildAndExpand(likes.getId()).toUri());
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
@@ -88,34 +88,34 @@ public class LikeRestController {
 
 	@CrossOrigin
 	@RequestMapping(value = "/likes/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Like> updateLike(@PathVariable("id") long id, @RequestBody Like like) {
+	public ResponseEntity<Likes> updateLike(@PathVariable("id") long id, @RequestBody Likes likes) {
 		log.debug("Updating Like " + id);
 
-		Like currentLike = likeservice.listOne(id);
+		Likes currentLike = likeservice.listOne(id);
 
 		if (currentLike == null) {
 			System.out.println("Like with id " + id + " not found");
-			return new ResponseEntity<Like>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Likes>(HttpStatus.NOT_FOUND);
 		}
 
-		likeservice.edit(like);
-		return new ResponseEntity<Like>(like, HttpStatus.OK);
+		likeservice.edit(likes);
+		return new ResponseEntity<Likes>(likes, HttpStatus.OK);
 	}
 
 	// ------------------- Delete a Like --------------------------------------------------------
 	
 	@CrossOrigin
 	@RequestMapping(value = "/likes/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Like> deleteLike(@PathVariable("id") long id) {
+	public ResponseEntity<Likes> deleteLike(@PathVariable("id") long id) {
 		log.debug("Fetching & Deleting Like with id " + id);
 
-		Like like = likeservice.listOne(id);
-		if (like == null) {
+		Likes likes = likeservice.listOne(id);
+		if (likes == null) {
 			System.out.println("Unable to delete Like with id " + id + " not found");
-			return new ResponseEntity<Like>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Likes>(HttpStatus.NOT_FOUND);
 		}
-		likeservice.remove(id);
-		return new ResponseEntity<Like>(HttpStatus.NO_CONTENT);
+		likeservice.remove(likes);
+		return new ResponseEntity<Likes>(HttpStatus.NO_CONTENT);
 	}
 	
 	// ------------------- Count all Likes --------------------------------------------------------

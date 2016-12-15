@@ -24,17 +24,38 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.SafeHtml;
+import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
+import org.springframework.cache.annotation.Cacheable;
 
-import nl.paardenvriendjes.enumerations.OtherSport;
-import nl.paardenvriendjes.enumerations.Place;
-import nl.paardenvriendjes.enumerations.SportLevel;
-import nl.paardenvriendjes.enumerations.Vervoer;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import nl.paardenvriendjes.pvapi.enumerations.Geslacht;
+import nl.paardenvriendjes.pvapi.enumerations.OtherSport;
+import nl.paardenvriendjes.pvapi.enumerations.Place;
+import nl.paardenvriendjes.pvapi.enumerations.SportLevel;
+import nl.paardenvriendjes.pvapi.enumerations.Vervoer;
 
 @Entity
+@Cacheable("membercache")
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@JsonIdentityInfo(
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "id")
 public class Member {
 
 	//Properties
@@ -43,37 +64,61 @@ public class Member {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@NotNull
 	private Long id;
+	@NotNull
+	@Email
+	@Pattern(regexp=".+@.+\\..+", message="Please provide a valid email address")
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Size(min= 7, max = 60)
+	private String email;
+	@NotNull
+	@Size(min = 2, max = 20)
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String voornaam;
+	@Size(min = 2, max = 20)
+	@NotNull
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String achternaam;
+	@Size(min = 2, max = 30)
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String username;
 	@Temporal(TemporalType.DATE)
 	private Date createdonDate;
 	@Temporal(TemporalType.DATE)
 	private Date deactivatedDate;
+	@NotNull
+	@Past
 	private Date geboortedatum;
-	private String email;
+	@Size(min = 2, max = 300)
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String overmij;
 	@OneToMany (mappedBy = "member")
 	@Cascade({CascadeType.ALL})
-	private List <Horse> horses;
+	private List <Horse> horses = new ArrayList<Horse>();
 	@Embedded
 	@Basic(fetch=FetchType.EAGER)  //probably not needed
-	private Interesse interesse;
+	private Interesse interesse = new Interesse();
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Pattern (regexp = "^http://res.cloudinary.com/epona/.*")
     private String profileimage;
+    @Transient
+    @SafeHtml(whitelistType = WhiteListType.NONE)
 	private String password;
 	@Enumerated(EnumType.STRING)
     private Place place;
 	@OneToMany (mappedBy = "member")
-	@Cascade({CascadeType.ALL})
+	@Cascade({CascadeType.MERGE, CascadeType.PERSIST})
 	private List <Message> messages = new ArrayList<Message>();
-    @OneToMany
+	@Cascade({CascadeType.MERGE, CascadeType.PERSIST})
+    @OneToMany (mappedBy = "member")
     private List <Comment> comments = new ArrayList<Comment>();
-    @OneToMany
-    private List <Like> likes = new ArrayList<Like>();
+	@Cascade({CascadeType.MERGE, CascadeType.PERSIST})
+    @OneToMany (mappedBy = "member")
+    private List <Likes> likes = new ArrayList<Likes>();
 	@Enumerated(EnumType.STRING)
     private SportLevel sportLevel;
     private Boolean active;
     @ManyToMany
+	@Cascade({CascadeType.ALL})
     @JoinTable(
             name = "member_vrienden",
             joinColumns =
@@ -84,6 +129,7 @@ public class Member {
                     name = "vrienden_id") })
     private List <Member> vrienden = new ArrayList<Member>();
     @ManyToMany 
+	@Cascade({CascadeType.ALL})
     @JoinTable(
             name = "member_blokkades",
             joinColumns =
@@ -94,6 +140,7 @@ public class Member {
                     name = "blokkades_id") })
     private List <Member> blokkades = new ArrayList<Member>();
     @ManyToMany
+	@Cascade({CascadeType.ALL})
     private List <Event> events = new ArrayList<Event> ();
 	@ElementCollection
 	private Map<String, String> sports = new HashMap<String, String>();
@@ -101,15 +148,14 @@ public class Member {
 	private Set<OtherSport> othersports = new HashSet<OtherSport>();
 	@Enumerated(EnumType.STRING)
 	private Vervoer vervoer; 
+	@Enumerated(EnumType.STRING)
+	private Geslacht geslacht;
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Size(min = 20, max = 35)
+	private String auth0user_id; 
     
     //Getters and Setters
-   
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
+	
 	public String getVoornaam() {
 		return voornaam;
 	}
@@ -152,7 +198,13 @@ public class Member {
 		return email;
 	}
 	public void setEmail(String email) {
-		this.email = email;
+		this.email= email;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
 	}
 	public String getOvermij() {
 		return overmij;
@@ -202,10 +254,10 @@ public class Member {
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
-	public List<Like> getLikes() {
+	public List<Likes> getLikes() {
 		return likes;
 	}
-	public void setLikes(List<Like> likes) {
+	public void setLikes(List<Likes> likes) {
 		this.likes = likes;
 	}
 	public SportLevel getSportLevel() {
@@ -255,20 +307,32 @@ public class Member {
 	}
 	public void setVervoer(Vervoer vervoer) {
 		this.vervoer = vervoer;
+	}	
+	public Geslacht getGeslacht() {
+		return geslacht;
+	}
+	public void setGeslacht(Geslacht geslacht) {
+		this.geslacht = geslacht;
+	}
+	public String getAuth0user_id() {
+		return auth0user_id;
+	}
+	public void setAuth0user_id(String auth0user_id) {
+		this.auth0user_id = auth0user_id;
 	}
 	
 	//ToString
 	@Override
 	public String toString() {
-		return "Member [id=" + id + ", voornaam=" + voornaam + ", achternaam=" + achternaam + ", username=" + username
-				+ ", createdonDate=" + createdonDate + ", deactivatedDate=" + deactivatedDate + ", geboortedatum="
-				+ geboortedatum + ", email=" + email + ", overmij=" + overmij + ", horses=" + horses + ", interesse="
+		return "Member [id=" + id + ", email=" + email + ", voornaam=" + voornaam + ", achternaam=" + achternaam
+				+ ", username=" + username + ", createdonDate=" + createdonDate + ", deactivatedDate=" + deactivatedDate
+				+ ", geboortedatum=" + geboortedatum + ", overmij=" + overmij + ", horses=" + horses + ", interesse="
 				+ interesse + ", profileimage=" + profileimage + ", password=" + password + ", place=" + place
 				+ ", messages=" + messages + ", comments=" + comments + ", likes=" + likes + ", sportLevel="
 				+ sportLevel + ", active=" + active + ", vrienden=" + vrienden + ", blokkades=" + blokkades
-				+ ", events=" + events + ", sports=" + sports + ", otherSports=" + othersports + ", vervoer=" + vervoer
-				+ "]";
-	}
+				+ ", events=" + events + ", sports=" + sports + ", othersports=" + othersports + ", vervoer=" + vervoer
+				+ ", geslacht=" + geslacht + ", auth0user_id=" + auth0user_id + "]";
+	}	
 	
 	//Hashcode and Equals
 	@Override
@@ -277,6 +341,7 @@ public class Member {
 		int result = 1;
 		result = prime * result + ((achternaam == null) ? 0 : achternaam.hashCode());
 		result = prime * result + ((active == null) ? 0 : active.hashCode());
+		result = prime * result + ((auth0user_id == null) ? 0 : auth0user_id.hashCode());
 		result = prime * result + ((blokkades == null) ? 0 : blokkades.hashCode());
 		result = prime * result + ((comments == null) ? 0 : comments.hashCode());
 		result = prime * result + ((createdonDate == null) ? 0 : createdonDate.hashCode());
@@ -284,6 +349,7 @@ public class Member {
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((events == null) ? 0 : events.hashCode());
 		result = prime * result + ((geboortedatum == null) ? 0 : geboortedatum.hashCode());
+		result = prime * result + ((geslacht == null) ? 0 : geslacht.hashCode());
 		result = prime * result + ((horses == null) ? 0 : horses.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((interesse == null) ? 0 : interesse.hashCode());
@@ -321,6 +387,11 @@ public class Member {
 				return false;
 		} else if (!active.equals(other.active))
 			return false;
+		if (auth0user_id == null) {
+			if (other.auth0user_id != null)
+				return false;
+		} else if (!auth0user_id.equals(other.auth0user_id))
+			return false;
 		if (blokkades == null) {
 			if (other.blokkades != null)
 				return false;
@@ -355,6 +426,8 @@ public class Member {
 			if (other.geboortedatum != null)
 				return false;
 		} else if (!geboortedatum.equals(other.geboortedatum))
+			return false;
+		if (geslacht != other.geslacht)
 			return false;
 		if (horses == null) {
 			if (other.horses != null)
@@ -429,9 +502,9 @@ public class Member {
 			return false;
 		return true;
 	}
-		
-// convenience methods for cardinality with Messages
 	
+	// convenience methods for cardinality with Messages
+
 	public void addOrUpdateMessage (Message message) { 
 
 		if (message == null) { 
@@ -443,6 +516,7 @@ public class Member {
 		getMessages().add(message);
 		message.setMember(this);
 	}
+	
 	
 	public void removeMessage (Message message) { 
 
@@ -497,5 +571,41 @@ public class Member {
 				throw new NullPointerException("remove null member can not be possible");
 			}
 			getVrienden().remove(member);
-		}	
+		}
+		
+		// convenience methods for cardinality with Blokkades
+		
+			public void addOrUpdateBlokkade(Member member) { 
+
+				if (member == null) { 
+					throw new NullPointerException("add null member blokkade can not be possible");
+				}
+				getBlokkades().add(member);
+			}
+			
+			public void removeBlokkade(Member member) { 
+
+				if (member == null) { 
+					throw new NullPointerException("remove null member blokkade can not be possible");
+				}
+				getBlokkades().remove(member);
+			}		
+
+		// convenience methods for cardinality with Events
+		
+			public void addOrUpdateEvent(Event event) { 
+
+				if (event== null) { 
+					throw new NullPointerException("add null event can not be possible");
+				}
+				getEvents().add(event);
+			}
+			
+			public void removeEvent(Event event) { 
+
+				if (event == null) { 
+					throw new NullPointerException("remove null event can not be possible");
+				}
+				getEvents().remove(event);
+			}	
 }

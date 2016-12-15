@@ -18,31 +18,68 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
-import nl.paardenvriendjes.enumerations.PaardType;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.validator.constraints.SafeHtml;
+import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
+import org.springframework.cache.annotation.Cacheable;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import nl.paardenvriendjes.pvapi.enumerations.Geslacht;
+import nl.paardenvriendjes.pvapi.enumerations.PaardType;
 
 @Entity
+@Cacheable("other")
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@JsonIdentityInfo(
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "id")
 public class Horse {
 
 	// Properties
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@NotNull
+	@Max(9999999)
 	private Long id;
+	@NotNull
+	@Size(min = 2, max = 30)
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String name;
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Pattern (regexp = "^http://res.cloudinary.com/epona/.*")
 	private String horseimage1;
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Pattern (regexp = "^http://res.cloudinary.com/epona/.*")
 	private String horseimage2;
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Pattern (regexp = "^http://res.cloudinary.com/epona/.*")
 	private String horseimage3;
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Size(min = 2, max = 40)
 	private String afstamming;
 	@Temporal(TemporalType.DATE)
+	@Past
 	private Date geboortedatum;
-	private String geslacht;
+	private Geslacht geslacht;
+	@Max(200)
 	private int stokmaat; 
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Size(min = 2, max = 150)
 	private String karakter;
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Size(min = 2, max = 150)
 	private String overmijnpaard;
 	private Boolean overleden;
+	@Max(5000000)
 	private int waarde;
 	@Temporal(TemporalType.DATE)
 	private Date createdonDate;
@@ -53,6 +90,7 @@ public class Horse {
 	@OneToOne
 	private Paspoort paspoort;
 	@ManyToOne
+	@NotNull
 	private Member member;
 	@ElementCollection
 	private Map<String, String> sports = new HashMap<String, String>();
@@ -60,7 +98,9 @@ public class Horse {
 	private PaardType paardType; 
 	private Boolean active;
 
+
 	// Getters and Setters
+
 
 	public Long getId() {
 		return id;
@@ -69,7 +109,7 @@ public class Horse {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+	
 	public String getName() {
 		return name;
 	}
@@ -118,14 +158,14 @@ public class Horse {
 		this.geboortedatum = geboortedatum;
 	}
 
-	public String getGeslacht() {
+	public Geslacht getGeslacht() {
 		return geslacht;
 	}
 
-	public void setGeslacht(String geslacht) {
+	public void setGeslacht(Geslacht geslacht) {
 		this.geslacht = geslacht;
 	}
-		
+
 	public int getStokmaat() {
 		return stokmaat;
 	}
@@ -231,6 +271,7 @@ public class Horse {
 	} 	
 	
 	// toString
+
 	@Override
 	public String toString() {
 		return "Horse [id=" + id + ", name=" + name + ", horseimage1=" + horseimage1 + ", horseimage2=" + horseimage2
@@ -240,7 +281,7 @@ public class Horse {
 				+ ", deactivatedDate=" + deactivatedDate + ", events=" + events + ", paspoort=" + paspoort + ", member="
 				+ member + ", sports=" + sports + ", paardType=" + paardType + ", active=" + active + "]";
 	}
-
+	
 	// Hashcode and equals
 
 	@Override
@@ -310,10 +351,7 @@ public class Horse {
 				return false;
 		} else if (!geboortedatum.equals(other.geboortedatum))
 			return false;
-		if (geslacht == null) {
-			if (other.geslacht != null)
-				return false;
-		} else if (!geslacht.equals(other.geslacht))
+		if (geslacht != other.geslacht)
 			return false;
 		if (horseimage1 == null) {
 			if (other.horseimage1 != null)
@@ -378,7 +416,7 @@ public class Horse {
 			return false;
 		return true;
 	}
-	
+
 	// convenience methods for working with SportsMap
 	
 	public void addSportToMap(String sporttype, String sportlevel) { 
@@ -390,7 +428,7 @@ public class Horse {
 		sports.put(sporttype, sportlevel);
 		}
 	}
-
+	
 	public void removeSportFromMap(String sporttype) { 
 
 

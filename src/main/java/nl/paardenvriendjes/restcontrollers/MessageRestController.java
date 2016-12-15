@@ -1,5 +1,6 @@
 package nl.paardenvriendjes.restcontrollers;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -8,6 +9,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -18,8 +22,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import nl.paardenvriendjes.customeditors.LineTypeEditor;
-import nl.paardenvriendjes.customeditors.MessageTypeEditor;
+import nl.paardenvriendjes.custom.editors.LineTypeEditor;
+import nl.paardenvriendjes.custom.editors.MessageTypeEditor;
 import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
 import nl.paardenvriendjes.pvapi.daoimpl.MessageDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.Member;
@@ -110,9 +114,12 @@ public class MessageRestController {
 
 	@CrossOrigin
 	@RequestMapping(value = "/messages/", method = RequestMethod.POST)
+	@PreAuthorize("#message.member.email == authentication.name or hasRole('Admin')")
 	public ResponseEntity<Void> createMessage(@RequestBody Message message, UriComponentsBuilder ucBuilder) {
 		log.debug("Creating message" + message.getMessage());
-		messageservice.save(message);
+		messageservice.edit(message);
+		// TODO
+		// USE GENERIC SERVICE FOR AUTO UPDATE
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(ucBuilder.path("/messages/{id}").buildAndExpand(message.getId()).toUri());
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
@@ -121,9 +128,12 @@ public class MessageRestController {
 	// ------------------- Update a Message--------------------------------------------------------
 
 	@CrossOrigin
-	@RequestMapping(value = "/messages/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/messages/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("#message.member.email == authentication.name or hasRole('Admin')")
 	public ResponseEntity<Message> updateMessage(@PathVariable("id") long id, @RequestBody Message message) {
 		log.debug("Updating Message" + id);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		log.debug("Authis" + auth.getName());
 		Message currentMessage = messageservice.listOne(id);
 		if (currentMessage == null) {
 			System.out.println("Message with id " + id + " not found");
@@ -137,6 +147,7 @@ public class MessageRestController {
 	
 	@CrossOrigin
 	@RequestMapping(value = "/messages/{id}", method = RequestMethod.DELETE)
+	@PreAuthorize("#message.member.email == authentication.name or hasRole('Admin')")
 	public ResponseEntity<Message> deleteMessage(@PathVariable("id") long id) {
 		log.debug("Fetching & Deleting Mesage with id " + id);
 		Message message = messageservice.listOne(id);
@@ -144,7 +155,7 @@ public class MessageRestController {
 			System.out.println("Unable to delete Message with id " + id + " not found");
 			return new ResponseEntity<Message>(HttpStatus.NOT_FOUND);
 		}
-		messageservice.remove(id);
+		messageservice.remove(message);
 		return new ResponseEntity<Message>(HttpStatus.NO_CONTENT);
 	}
 	

@@ -107,7 +107,7 @@ public class PaspoortRestController {
 			System.out.println("Unable to delete Paspoort with id " + id + " not found");
 			return new ResponseEntity<Paspoort>(HttpStatus.NOT_FOUND);
 		}
-		paspoortservice.remove(id);
+		paspoortservice.remove(paspoort);
 		return new ResponseEntity<Paspoort>(HttpStatus.NO_CONTENT);
 	}
 	

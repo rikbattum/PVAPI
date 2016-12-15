@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,31 +14,68 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.validator.constraints.SafeHtml;
+import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
+import org.springframework.cache.annotation.Cacheable;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import nl.paardenvriendjes.pvapi.enumerations.EventType;
 
 @Entity
+@Cacheable("other")
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@JsonIdentityInfo(
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "id")
 public class Event {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@NotNull
+	@Max(9999999)
 	private Long id;
+	@Size(min = 2, max = 25)
+	@NotNull
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String eventName;
+	@Enumerated(EnumType.STRING)
+	private EventType eventtype; 
 	@Temporal(TemporalType.DATE)
 	private Date eventDate;
 	@Temporal(TemporalType.DATE)
 	private Date createdOnDate;
 	@Temporal(TemporalType.DATE)
 	private Date deactivatedDate;
+	@Size(min = 2, max = 20)
+	@NotNull
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String Message;
+	@Size(min = 2, max = 20)
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String messageScore;
+	@Min(0)
+	@Max (1000)
 	private int score; 
+	@Min(0)
+	@Max (1000)
 	private int ranking;
 	private Boolean active;
 	@ManyToMany
+	@NotNull
 	private List <Member> members = new ArrayList <Member>();
-	@ManyToOne 
+	@ManyToOne
 	private Paspoort paspoort;
 	@ManyToMany (mappedBy="events")
 	private List <Horse> horses = new ArrayList<Horse>();
+	private Boolean postEventOnTimeline;
 	
 	public Long getId() {
 		return id;
@@ -117,20 +156,35 @@ public class Event {
 	}
 	public void setMembers(List<Member> members) {
 		this.members = members;
+	}	
+	public Boolean getPostEventOnTimeline() {
+		return postEventOnTimeline;
 	}
-	
+	public void setPostEventOnTimeline(Boolean postEventOnTimeline) {
+		this.postEventOnTimeline = postEventOnTimeline;
+	}
+	public EventType getEventtype() {
+		return eventtype;
+	}
+	public void setEventtype(EventType eventtype) {
+		this.eventtype = eventtype;
+	}
+
+		
 	// ToString
 	
 	@Override
 	public String toString() {
-		return "Event [id=" + id + ", eventName=" + eventName + ", eventDate=" + eventDate + ", createdOnDate="
-				+ createdOnDate + ", deactivatedDate=" + deactivatedDate + ", Message=" + Message + ", messageScore="
-				+ messageScore + ", score=" + score + ", ranking=" + ranking + ", active=" + active + ", members="
-				+ members + ", paspoort=" + paspoort + ", horses=" + horses + "]";
+		return "Event [id=" + id + ", eventName=" + eventName + ", eventtype=" + eventtype + ", eventDate=" + eventDate
+				+ ", createdOnDate=" + createdOnDate + ", deactivatedDate=" + deactivatedDate + ", Message=" + Message
+				+ ", messageScore=" + messageScore + ", score=" + score + ", ranking=" + ranking + ", active=" + active
+				+ ", members=" + members + ", paspoort=" + paspoort + ", horses=" + horses + ", postEventOnTimeline="
+				+ postEventOnTimeline + "]";
 	}
 	
+	
 	// Hashcode and equals
-		
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -141,11 +195,13 @@ public class Event {
 		result = prime * result + ((deactivatedDate == null) ? 0 : deactivatedDate.hashCode());
 		result = prime * result + ((eventDate == null) ? 0 : eventDate.hashCode());
 		result = prime * result + ((eventName == null) ? 0 : eventName.hashCode());
+		result = prime * result + ((eventtype == null) ? 0 : eventtype.hashCode());
 		result = prime * result + ((horses == null) ? 0 : horses.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((members == null) ? 0 : members.hashCode());
 		result = prime * result + ((messageScore == null) ? 0 : messageScore.hashCode());
 		result = prime * result + ((paspoort == null) ? 0 : paspoort.hashCode());
+		result = prime * result + ((postEventOnTimeline == null) ? 0 : postEventOnTimeline.hashCode());
 		result = prime * result + ranking;
 		result = prime * result + score;
 		return result;
@@ -189,6 +245,8 @@ public class Event {
 				return false;
 		} else if (!eventName.equals(other.eventName))
 			return false;
+		if (eventtype != other.eventtype)
+			return false;
 		if (horses == null) {
 			if (other.horses != null)
 				return false;
@@ -214,12 +272,18 @@ public class Event {
 				return false;
 		} else if (!paspoort.equals(other.paspoort))
 			return false;
+		if (postEventOnTimeline == null) {
+			if (other.postEventOnTimeline != null)
+				return false;
+		} else if (!postEventOnTimeline.equals(other.postEventOnTimeline))
+			return false;
 		if (ranking != other.ranking)
 			return false;
 		if (score != other.score)
 			return false;
 		return true;
-	} 	
+	}	
+
 }
 	
 	

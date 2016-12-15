@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,19 +15,42 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.validator.constraints.SafeHtml;
+import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
+import org.springframework.cache.annotation.Cacheable;
 
-import nl.paardenvriendjes.enumerations.LineType;
-import nl.paardenvriendjes.enumerations.MessageType;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import nl.paardenvriendjes.pvapi.enumerations.LineType;
+import nl.paardenvriendjes.pvapi.enumerations.MessageType;
 
 @Entity
+@Cacheable("messagecache")
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@JsonIdentityInfo(
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "id")
 public class Message {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@NotNull
+	@Max(9999999)
 	private Long id;
+	@NotNull
+	@Size(min = 10, max = 150)
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String message;
 	@Enumerated(EnumType.STRING)
 	private MessageType messageType;
@@ -34,18 +58,30 @@ public class Message {
 	private LineType lineType;
 	@Temporal(TemporalType.DATE)
 	private Date insertDate;
-	
 	@ManyToOne
+	@NotNull
 	private Member member;
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Pattern (regexp = "^http://res.cloudinary.com/epona/.*")
 	private String piclink;
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Pattern (regexp = "^http://res.cloudinary.com/epona/.*")
 	private String picLinkSecond;
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Pattern (regexp = "^http://res.cloudinary.com/epona/.*")
 	private String picLinkThird;
 	@OneToMany (mappedBy="message", orphanRemoval=true)
 	@Cascade({CascadeType.ALL})
+	// needed with fetchtype lazy?
+	// need to implement cache region
+	//	@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private List<Comment> commentlist = new ArrayList<Comment>();
-	@OneToMany(mappedBy = "message")
+	@OneToMany(mappedBy="message", orphanRemoval=true)
 	@Cascade({CascadeType.ALL})
-	private List<Like> likelist;
+	// needed with fetchtype lazy?
+	// need to implement cache region
+	//	@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+	private List<Likes> likelist = new ArrayList<Likes>();
 	private Boolean publicPost; 
 
 	public Long getId() {
@@ -134,16 +170,15 @@ public class Message {
 	public void setCommentlist(List<Comment> commentlist) {
 		this.commentlist = commentlist;
 	}
-
-	public List<Like> getLikelist() {
+	
+	public List<Likes> getLikelist() {
 		return likelist;
 	}
 
-	public void setLikelist(List<Like> likelist) {
+	public void setLikelist(List<Likes> likelist) {
 		this.likelist = likelist;
 	}
 
-	
 	public Boolean getPublicPost() {
 		return publicPost;
 	}
@@ -271,26 +306,26 @@ public class Message {
 	
 	// convenience methods for cardinality with Likes
 	
-		public void addOrUpdateLike (Like like) { 
+		public void addOrUpdateLike (Likes likes) { 
 
-			if (like == null) { 
+			if (likes == null) { 
 				throw new NullPointerException("add null like can not be possible");
 			}
-			if (like.getMessage() != null && like.getMessage()!= this) {
+			if (likes.getMessagelike() != null && likes.getMessagelike()!= this) {
 				throw new IllegalArgumentException("like is already assigned to an other message");
 			}
-			getLikelist().add(like);
-			like.setMessage(this);
+			getLikelist().add(likes);
+			likes.setMessagelike(this);
 		}
 		
-		public void removeLike (Like like) { 
+		public void removeLike (Likes likes) { 
 
-			if (like == null) { 
+			if (likes == null) { 
 				throw new NullPointerException("delete null like can not be possible");
 			}
-			if (like.getMessage() != null  && like.getMessage()!= this) {
+			if (likes.getMessagelike() != null  && likes.getMessagelike()!= this) {
 				throw new IllegalArgumentException("like is already assigned to an other message");
 			}
-			getLikelist().remove(like);
+			getLikelist().remove(likes);
 		}	
 }
