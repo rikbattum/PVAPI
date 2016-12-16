@@ -16,7 +16,7 @@ public class TestController extends BaseController{
 	
 	// Basic no login test
 	
-	@CrossOrigin
+	//@CrossOrigin
 	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
 	public String welcome() {
 		// Welcome page, non-rest
@@ -26,21 +26,12 @@ public class TestController extends BaseController{
 	// Basic login test
 	
 	@CrossOrigin
-	@RequestMapping(value = "/adminsafewelcome", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@RequestMapping(value = "/authenticatedwelcome", method = RequestMethod.GET)
 	public String safewelcomeAdmin() {
 		// Welcome page, non-rest
 		return "Welcome to PVAPI, you are logged in :)!";
 	}
 	
-	@CrossOrigin
-	@RequestMapping(value = "/fakerolesafewelcome", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('UNKNOWN')")
-	public String safewelcomeForSpecificUser() {
-		// Welcome page, non-rest
-		return "Welcome to PVAPI, you are logged in :)!";
-	}
-
 	@CrossOrigin
 	@RequestMapping(value = "/ping")
 	public String ping() {

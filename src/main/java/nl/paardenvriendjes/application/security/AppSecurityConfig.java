@@ -41,9 +41,8 @@ public class AppSecurityConfig extends Auth0SecurityConfig {
         // most specific rules must come - order is important (see Spring Security docs)
         http.authorizeRequests()
         
-                .antMatchers(HttpMethod.GET, "/welcome").permitAll()
-                .antMatchers(HttpMethod.GET, "/adminsafewelcome").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/fakerolesafewelcome").hasAnyAuthority("FAKEROLE")
+                .antMatchers("/welcome").permitAll()
+                .antMatchers("/authenticatedwelcome").fullyAuthenticated()
                 .antMatchers("/comments/**").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/members/friend/**").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/members/signup").permitAll()
@@ -52,11 +51,11 @@ public class AppSecurityConfig extends Auth0SecurityConfig {
                 .antMatchers("/likes/**").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/paspoorts/**").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/horses/**").hasAnyAuthority("USER", "ADMIN")
-                .antMatchers("/events/**").hasAnyAuthority("USER", "ADMIN")
-                .anyRequest().authenticated();
+                .antMatchers("/events/**").hasAnyAuthority("USER", "ADMIN");
+             //   .anyRequest().authenticated();
         
         http.csrf().disable();
-      //  http.cors().disable();
+        http.cors().disable();
         
     }        
     
