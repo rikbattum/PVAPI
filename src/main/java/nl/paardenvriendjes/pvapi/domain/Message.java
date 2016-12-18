@@ -7,7 +7,6 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,9 +26,7 @@ import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 import org.springframework.cache.annotation.Cacheable;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import nl.paardenvriendjes.pvapi.enumerations.LineType;
@@ -75,13 +72,13 @@ public class Message {
 	// needed with fetchtype lazy?
 	// need to implement cache region
 	//	@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-	private List<Comment> commentlist = new ArrayList<Comment>();
+	private List<MessageComment> commentlist = new ArrayList<MessageComment>();
 	@OneToMany(mappedBy="message", orphanRemoval=true)
 	@Cascade({CascadeType.ALL})
 	// needed with fetchtype lazy?
 	// need to implement cache region
 	//	@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-	private List<Likes> likelist = new ArrayList<Likes>();
+	private List<MessageLike> likelist = new ArrayList<MessageLike>();
 	private Boolean publicPost; 
 
 	public Long getId() {
@@ -163,19 +160,19 @@ public class Message {
 		this.picLinkThird = picLinkThird;
 	}
 
-	public List<Comment> getCommentlist() {
+	public List<MessageComment> getCommentlist() {
 		return commentlist;
 	}
 
-	public void setCommentlist(List<Comment> commentlist) {
+	public void setCommentlist(List<MessageComment> commentlist) {
 		this.commentlist = commentlist;
 	}
 	
-	public List<Likes> getLikelist() {
+	public List<MessageLike> getLikelist() {
 		return likelist;
 	}
 
-	public void setLikelist(List<Likes> likelist) {
+	public void setLikelist(List<MessageLike> likelist) {
 		this.likelist = likelist;
 	}
 
@@ -281,51 +278,51 @@ public class Message {
 	
 	// convenience methods for cardinality with Comments
 	
-	public void addOrUpdateComment (Comment comment) { 
+	public void addOrUpdateComment (MessageComment messageComment) { 
 
-		if (comment== null) { 
+		if (messageComment== null) { 
 			throw new NullPointerException("add null comment can not be possible");
 		}
-		if (comment.getMessage() != null && comment.getMessage()!= this) {
+		if (messageComment.getMessage() != null && messageComment.getMessage()!= this) {
 			throw new IllegalArgumentException("comment is already assigned to an other message");
 		}
-		getCommentlist().add(comment);
-		comment.setMessage(this);
+		getCommentlist().add(messageComment);
+		messageComment.setMessage(this);
 	}
 
-	public void removeComment (Comment comment) { 
+	public void removeComment (MessageComment messageComment) { 
 
-		if (comment == null) { 
+		if (messageComment == null) { 
 			throw new NullPointerException("delete null comment can not be possible");
 		}
-		if (comment.getMessage() != null  && comment.getMessage()!= this) {
+		if (messageComment.getMessage() != null  && messageComment.getMessage()!= this) {
 			throw new IllegalArgumentException("comment is already assigned to an other message");
 		}
-		getCommentlist().remove(comment);
+		getCommentlist().remove(messageComment);
 	}
 	
 	// convenience methods for cardinality with Likes
 	
-		public void addOrUpdateLike (Likes likes) { 
+		public void addOrUpdateLike (MessageLike messageLike) { 
 
-			if (likes == null) { 
+			if (messageLike == null) { 
 				throw new NullPointerException("add null like can not be possible");
 			}
-			if (likes.getMessagelike() != null && likes.getMessagelike()!= this) {
+			if (messageLike.getMessagelike() != null && messageLike.getMessagelike()!= this) {
 				throw new IllegalArgumentException("like is already assigned to an other message");
 			}
-			getLikelist().add(likes);
-			likes.setMessagelike(this);
+			getLikelist().add(messageLike);
+			messageLike.setMessagelike(this);
 		}
 		
-		public void removeLike (Likes likes) { 
+		public void removeLike (MessageLike messageLike) { 
 
-			if (likes == null) { 
+			if (messageLike == null) { 
 				throw new NullPointerException("delete null like can not be possible");
 			}
-			if (likes.getMessagelike() != null  && likes.getMessagelike()!= this) {
+			if (messageLike.getMessagelike() != null  && messageLike.getMessagelike()!= this) {
 				throw new IllegalArgumentException("like is already assigned to an other message");
 			}
-			getLikelist().remove(likes);
+			getLikelist().remove(messageLike);
 		}	
 }

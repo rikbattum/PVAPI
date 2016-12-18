@@ -1,13 +1,6 @@
 package nl.paardenvriendjes.restcontrollers;
 
-import java.util.Map;
-
-import javax.persistence.NoResultException;
-import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import nl.paardenvriendjes.pvapi.daoimpl.MessageDaoImpl;
 

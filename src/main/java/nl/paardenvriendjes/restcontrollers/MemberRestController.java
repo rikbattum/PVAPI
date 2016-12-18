@@ -23,8 +23,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -167,7 +165,9 @@ public class MemberRestController extends BaseController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(member.getId()).toUri());
 
-		genericmessageservice.newMemberHappyMessage(member);
+		// TODO First arrange rights setup for this
+		//genericmessageservice.newMemberHappyMessage(member);
+
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 		
 	}
@@ -177,15 +177,13 @@ public class MemberRestController extends BaseController {
 
 	@CrossOrigin
 	@RequestMapping(value = "/members/{id}", method = RequestMethod.PUT)
-	@PreAuthorize("#member.id == authentication.name or hasRole('ADMIN')")
 	public ResponseEntity<Member> updateMember(@PathVariable("id") String id, @RequestBody Member member) {
 		log.debug("Updating User " + member.getId());
 		log.debug("Fetching & Deleting User with id " + id);
-		log.debug(SecurityContextHolder.getContext().getAuthentication().getName());
-		Object context = (SecurityContextHolder.getContext().getAuthentication().getDetails());
-		log.debug(SecurityContextHolder.getContext().getAuthentication().getCredentials());
-		log.debug(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-		log.debug(SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
+//		log.debug(SecurityContextHolder.getContext().getAuthentication().getName());
+//		log.debug(SecurityContextHolder.getContext().getAuthentication().getCredentials());
+//		log.debug(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+//		log.debug(SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
 
 		Member currentMember = memberservice.listOne(member.getId());
 
@@ -200,10 +198,10 @@ public class MemberRestController extends BaseController {
 
 	// ------------------- Delete a Member
 	// --------------------------------------------------------
-
-	@CrossOrigin
+	
 	@RequestMapping(value = "/members/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Member> deleteUser(@PathVariable("id") Long id, Authentication auth)
+	@CrossOrigin
+	public ResponseEntity<Member> deleteUser(@PathVariable("id") Long id)
 			throws URISyntaxException, ClientProtocolException, IOException, JSONException, Auth0CreationException {
 		log.debug("Fetching & Deleting User with id " + id);
 

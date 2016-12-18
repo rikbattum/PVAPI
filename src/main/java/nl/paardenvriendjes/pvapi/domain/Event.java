@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Max;
@@ -20,6 +21,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 import org.springframework.cache.annotation.Cacheable;
@@ -76,6 +79,12 @@ public class Event {
 	@ManyToMany (mappedBy="events")
 	private List <Horse> horses = new ArrayList<Horse>();
 	private Boolean postEventOnTimeline;
+	@OneToMany(mappedBy="message", orphanRemoval=true)
+	@Cascade({CascadeType.ALL})
+	// needed with fetchtype lazy?
+	// need to implement cache region
+	//	@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+	private List<EventLike> likelist = new ArrayList<EventLike>();
 	
 	public Long getId() {
 		return id;
@@ -169,6 +178,12 @@ public class Event {
 	public void setEventtype(EventType eventtype) {
 		this.eventtype = eventtype;
 	}
+	public List<EventLike> getLikelist() {
+		return likelist;
+	}
+	public void setLikelist(List<EventLike> likelist) {
+		this.likelist = likelist;
+	}
 
 		
 	// ToString
@@ -179,9 +194,8 @@ public class Event {
 				+ ", createdOnDate=" + createdOnDate + ", deactivatedDate=" + deactivatedDate + ", Message=" + Message
 				+ ", messageScore=" + messageScore + ", score=" + score + ", ranking=" + ranking + ", active=" + active
 				+ ", members=" + members + ", paspoort=" + paspoort + ", horses=" + horses + ", postEventOnTimeline="
-				+ postEventOnTimeline + "]";
+				+ postEventOnTimeline + ", likelist=" + likelist + "]";
 	}
-	
 	
 	// Hashcode and equals
 	
@@ -198,6 +212,7 @@ public class Event {
 		result = prime * result + ((eventtype == null) ? 0 : eventtype.hashCode());
 		result = prime * result + ((horses == null) ? 0 : horses.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((likelist == null) ? 0 : likelist.hashCode());
 		result = prime * result + ((members == null) ? 0 : members.hashCode());
 		result = prime * result + ((messageScore == null) ? 0 : messageScore.hashCode());
 		result = prime * result + ((paspoort == null) ? 0 : paspoort.hashCode());
@@ -257,6 +272,11 @@ public class Event {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		if (likelist == null) {
+			if (other.likelist != null)
+				return false;
+		} else if (!likelist.equals(other.likelist))
+			return false;
 		if (members == null) {
 			if (other.members != null)
 				return false;
@@ -282,8 +302,7 @@ public class Event {
 		if (score != other.score)
 			return false;
 		return true;
-	}	
-
+	}
 }
 	
 	

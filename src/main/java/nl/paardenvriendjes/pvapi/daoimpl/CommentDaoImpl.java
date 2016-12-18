@@ -8,15 +8,15 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import nl.paardenvriendjes.pvapi.daoimpl.abstractdao.AbstractDaoService;
-import nl.paardenvriendjes.pvapi.domain.Comment;
+import nl.paardenvriendjes.pvapi.domain.MessageComment;
 
 @Repository
 @Transactional
 
-public class CommentDaoImpl extends AbstractDaoService<Comment> {
+public class CommentDaoImpl extends AbstractDaoService<MessageComment> {
 
 	public CommentDaoImpl() {
-		super(Comment.class);
+		super(MessageComment.class);
 	}
 
 	static Logger log = Logger.getLogger(MessageDaoImpl.class.getName());
@@ -29,17 +29,17 @@ public class CommentDaoImpl extends AbstractDaoService<Comment> {
 	}
 
 	@Override
-	public void save(Comment comment) {
-		comment.setInsertDate();
-		getCurrentSession().persist(comment);
-		log.debug("saved One: " + comment.toString());
+	public void save(MessageComment messageComment) {
+		messageComment.setInsertDate();
+		getCurrentSession().persist(messageComment);
+		log.debug("saved One: " + messageComment.toString());
 	}
 
 	@Override
-	public void edit(Comment comment) {
-		comment.setInsertDate();
-		getCurrentSession().merge(comment);
-		log.debug("edit: " + comment.toString());
+	public void edit(MessageComment messageComment) {
+		messageComment.setInsertDate();
+		getCurrentSession().merge(messageComment);
+		log.debug("edit: " + messageComment.toString());
 	}
 
 }

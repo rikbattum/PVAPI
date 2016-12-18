@@ -30,7 +30,6 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import nl.paardenvriendjes.application.HibernateConfiguration;
-import nl.paardenvriendjes.pvapi.abstracttest.AbstractControllerTest;
 import nl.paardenvriendjes.testutil.Auth0Util;
 import nl.paardenvriendjes.testutil.TestUtilHeaderRequestInterceptor;
 

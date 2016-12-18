@@ -1,7 +1,6 @@
 package nl.paardenvriendjes.restcontrollers;
 
 import org.apache.log4j.Logger;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,11 +26,18 @@ public class TestController extends BaseController{
 	
 	@CrossOrigin
 	@RequestMapping(value = "/authenticatedwelcome", method = RequestMethod.GET)
-	public String safewelcomeAdmin() {
+	public String authenticatedWelcome() {
 		// Welcome page, non-rest
 		return "Welcome to PVAPI, you are logged in :)!";
 	}
 	
+	@CrossOrigin
+	@RequestMapping(value = "/authenticateduserrole", method = RequestMethod.GET)
+	public String authenticatedAndAuthorizedWelcome() {
+		// Welcome page, non-rest
+		return "Welcome to PVAPI, you are logged in and have the correct Role:)!";
+	}
+
 	@CrossOrigin
 	@RequestMapping(value = "/ping")
 	public String ping() {
