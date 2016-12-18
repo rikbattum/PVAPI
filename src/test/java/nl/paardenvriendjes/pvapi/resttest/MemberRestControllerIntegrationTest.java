@@ -50,7 +50,7 @@ public class MemberRestControllerIntegrationTest extends AbstractControllerTest 
 	}
 	
 	@Test
-	@WithMockUser(username = "random@mailinator.com", roles={"USER"})
+	@WithMockUser(username = "random@mailinator.com", authorities={"USER"})
 	public void shouldListMembers() throws Exception {
 
 		 ResultActions s = mvc.perform(get("/members/"))
@@ -71,7 +71,7 @@ public class MemberRestControllerIntegrationTest extends AbstractControllerTest 
 	public void shouldNotListMembersNotUserRole() throws Exception {
 
 		 ResultActions s = mvc.perform(get("/members/"))
-				 .andExpect(status().is5xxServerError());
+				 .andExpect(status().is4xxClientError());
 	}	
 	
 }

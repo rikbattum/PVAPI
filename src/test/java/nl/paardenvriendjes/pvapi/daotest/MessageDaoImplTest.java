@@ -54,7 +54,7 @@ public class MessageDaoImplTest extends AbstractTest {
 
 	}
 
-	@WithMockUser(username = "userpv@mailinator.com", roles={"USER"})
+	@WithMockUser(username = "userpv@mailinator.com", authorities={"USER"})
 	@Transactional
 	@Rollback(true)
 	@Test
@@ -91,7 +91,7 @@ public class MessageDaoImplTest extends AbstractTest {
 	@Transactional
 	@Rollback(true)
 	@Test
-	@WithMockUser(username = "userpv@mailinator.com", roles={"USER"})
+	@WithMockUser(username = "userpv@mailinator.com", authorities={"USER"})
 	public void testMultipleMesages() throws Exception {
 		testUtilDataSetup.setMembers();
 		testUtilDataSetup.runMessagesPost();
@@ -102,7 +102,7 @@ public class MessageDaoImplTest extends AbstractTest {
 	@Transactional
 	@Rollback(true)
 	@Test
-	@WithMockUser(username = "userpv@mailinator.com", roles={"USER"})
+	@WithMockUser(username = "userpv@mailinator.com", authorities={"USER"})
 	public void testCascadeSaveMesages() throws Exception {
 
 		testUtilDataSetup.setMembers();
@@ -124,7 +124,7 @@ public class MessageDaoImplTest extends AbstractTest {
 	@Transactional
 	@Rollback(true)
 	@Test
-	@WithMockUser(username = "userpv@mailinator.com", roles={"USER"})
+	@WithMockUser(username = "userpv@mailinator.com", authorities={"USER"})
 	public void testCascadeDeleteMesages() throws Exception {
 
 		testUtilDataSetup.setMembers();
@@ -157,7 +157,7 @@ public class MessageDaoImplTest extends AbstractTest {
 	@Transactional
 	@Rollback(true)
 	@Test
-	@WithMockUser(username = "userpv@mailinator.com", roles={"USER"})
+	@WithMockUser(username = "userpv@mailinator.com", authorities={"USER"})
 	public void testCascadeEditMesages() throws Exception {
 		testUtilDataSetup.setMembers();
 		List<Member> memberList = memberService.listAll();
@@ -193,7 +193,7 @@ public class MessageDaoImplTest extends AbstractTest {
 	@Transactional
 	@Rollback(true)
 	@Test
-	@WithMockUser(username = "userpv@mailinator.com", roles={"USER"})
+	@WithMockUser(username = "userpv@mailinator.com", authorities={"USER"})
 	public void testQuerySportMessages() throws Exception {
 
 		testUtilDataSetup.setMembers();
@@ -220,7 +220,7 @@ public class MessageDaoImplTest extends AbstractTest {
 	@Transactional
 	@Rollback(true)
 	@Test
-	@WithMockUser(username = "userpv@mailinator.com", roles={"USER"})
+	@WithMockUser(username = "userpv@mailinator.com", authorities={"USER"})
 	public void testQueryFriendsMessages() throws Exception {
 
 		testUtilDataSetup.setMembers();

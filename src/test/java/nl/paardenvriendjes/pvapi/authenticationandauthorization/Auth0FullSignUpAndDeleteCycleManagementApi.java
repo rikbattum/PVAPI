@@ -1,4 +1,4 @@
-package nl.paardenvriendjes.pvapi.authorization;
+package nl.paardenvriendjes.pvapi.authenticationandauthorization;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -9,15 +9,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Cache;
-import javax.persistence.EntityManager;
-
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.json.JSONException;
+import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -32,27 +28,29 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import nl.paardenvriendjes.application.Application;
 import nl.paardenvriendjes.application.HibernateConfiguration;
+import nl.paardenvriendjes.application.security.AppSecurityConfig;
 import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.testutil.Auth0Util;
 import nl.paardenvriendjes.testutil.TestUtilHeaderRequestInterceptor;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = HibernateConfiguration.class)
-// ingore untill delete issue is fixed
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = {HibernateConfiguration.class, Application.class, AppSecurityConfig.class})
 
-public class Auth0FullSignUpAndDeleteCycle {
+public class Auth0FullSignUpAndDeleteCycleManagementApi{
 
 	@Autowired
 	private TestRestTemplate restTemplate;
 
-	static Logger log = Logger.getLogger(AuthorizationLoggedInUser.class.getName());
+	static Logger log = Logger.getLogger(Auth0AuthorizationLoggedInUser.class.getName());
 
 	// only run this integration test for auth0 integration
 	@Ignore
@@ -89,7 +87,6 @@ public class Auth0FullSignUpAndDeleteCycle {
 //		log.debug(foundMember.getId());
 
 		// Part 3 Delete Member
-
 		HttpEntity<Member> requestDelete = new HttpEntity<>(member);
 		ResponseEntity<Member> responsedeletion = restTemplate.exchange("/members/1",
 				HttpMethod.DELETE, requestDelete, Member.class);

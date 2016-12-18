@@ -12,14 +12,14 @@ import nl.paardenvriendjes.pvapi.domain.Member;
 public class MemberRestControllerStubData {
 
 	
-	   public List<Member> getMemberListStubData() {
+	   public static List<Member> getMemberListStubData() {
 	        List<Member> list = new ArrayList<>();
 	        list.add(getMemberOneStubData());
 	        list.add(getMemberTwoStubData());
 	        return list;
 	    }
 
-	    private Member getMemberOneStubData() {
+	    private static Member getMemberOneStubData() {
 	    	Member member = new Member();
 	    	member.setId(10001L);
 	    	member.setVoornaam("Peddy");
@@ -30,7 +30,7 @@ public class MemberRestControllerStubData {
 	    	
 	    }
 	
-	    private Member getMemberTwoStubData() {
+	    private static Member getMemberTwoStubData() {
 	    	Member member = new Member();
 	    	member.setId(10002L);
 	    	member.setVoornaam("Anny");
