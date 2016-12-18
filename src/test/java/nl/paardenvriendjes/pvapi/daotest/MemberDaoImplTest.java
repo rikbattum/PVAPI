@@ -71,7 +71,7 @@ public class MemberDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
-	@WithMockUser(username = "random@mailinator.com", roles={"USER"})
+	@WithMockUser(username = "random@mailinator.com", authorities = {"USER"})
 	public void testMemberCreationExactNumberOfEntries() throws Exception {
 
 		// Arrange
@@ -87,7 +87,7 @@ public class MemberDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
-	@WithMockUser(username = "random@mailinator.com", roles={"USER"})
+	@WithMockUser(username = "random@mailinator.com", authorities={"USER"})
 	public void testMemberCreationIfDataIsCorrect() throws Exception {
 
 		// Arrange
@@ -115,7 +115,7 @@ public class MemberDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
-	@WithMockUser(username = "userpv@mailinator.com", roles={"USER"})
+	@WithMockUser(username = "userpv@mailinator.com", authorities={"USER"})
 	public void testMemberDeletionAsUser() throws Exception {
 
 		// Arrange
@@ -138,7 +138,7 @@ public class MemberDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
-	@WithMockUser(username = "adminaccount@mailinator.com", roles={"ADMIN"})
+	@WithMockUser(username = "userpv@mailinator.com", authorities={"ADMIN"})
 	public void testMemberDeletionAsAdmin() throws Exception {
 
 		// Arrange
@@ -162,7 +162,7 @@ public class MemberDaoImplTest extends AbstractTest {
 	@Test(expected = AccessDeniedException.class)
 	@Transactional
 	@Rollback(true)
-	@WithMockUser(username = "randomuser@mailinator.com", roles={"USER"})
+	@WithMockUser(username = "randomuser@mailinator.com", authorities={"USER"})
 	public void testMemberDeletionAsIcorrectUser() throws Exception {
 
 		// Arrange
@@ -180,7 +180,7 @@ public class MemberDaoImplTest extends AbstractTest {
 	@Test(expected = AccessDeniedException.class)
 	@Transactional
 	@Rollback(true)
-	@WithMockUser(username = "userpv@mailinator.com", roles={"RANDOM"})
+	@WithMockUser(username = "userpv@mailinator.com", authorities={"RANDOM"})
 	public void testMemberDeletionAsIncorrectRole() throws Exception {
 
 		// Arrange
@@ -198,7 +198,7 @@ public class MemberDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
-	@WithMockUser(username = "userpv@mailinator.com", roles={"USER"})
+	@WithMockUser(username = "userpv@mailinator.com", authorities={"USER"})
 	public void testMemberUpdate() throws Exception {
 
 		// Arrange
@@ -227,7 +227,7 @@ public class MemberDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
-	@WithMockUser(username = "random@mailinator.com", roles={"USER"})
+	@WithMockUser(username = "random@mailinator.com", authorities={"USER"})
 	public void testMemberUpdateFailWithSave() throws Exception {
 
 		// Arrange
@@ -253,7 +253,7 @@ public class MemberDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
-	@WithMockUser(username = "random@mailinator.com", roles={"USER"})
+	@WithMockUser(username = "random@mailinator.com", authorities={"USER"})
 	public void testCreatedOnValueSetInBackend() throws Exception {
 
 		// Arrange
@@ -270,7 +270,7 @@ public class MemberDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
-	@WithMockUser(username = "random@mailinator.com", roles={"USER"})
+	@WithMockUser(username = "random@mailinator.com", authorities={"USER"})
 	public void testListMembersWithRange() throws Exception {
 
 		testUtilDataSetup.setMembers();
@@ -286,7 +286,7 @@ public class MemberDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
-	@WithMockUser(username = "random@mailinator.com", roles={"USER"})
+	@WithMockUser(username = "random@mailinator.com", authorities={"USER"})
 	public void testCountOfMembersList() throws Exception {
 		testUtilDataSetup.setMembers();
 		int count = memberService.count();
@@ -297,7 +297,7 @@ public class MemberDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
-	@WithMockUser(username = "random@mailinator.com", roles={"USER"})
+	@WithMockUser(username = "random@mailinator.com", authorities={"USER"})
 	public void testQueryMembersOnID() throws Exception {
 		testUtilDataSetup.setMembers();
 		List<Member> memberList = memberService.listAll();
@@ -313,7 +313,7 @@ public class MemberDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
-	@WithMockUser(username = "random@mailinator.com", roles={"USER"})
+	@WithMockUser(username = "random@mailinator.com", authorities={"USER"})
 	public void testQueryMembersByFirstName() throws Exception {
 		testUtilDataSetup.setMembers();
 		List<Member> memberList = memberService.findMemberByFirstName("dennis");
@@ -330,7 +330,7 @@ public class MemberDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
-	@WithMockUser(username = "random@mailinator.com", roles={"USER"})
+	@WithMockUser(username = "random@mailinator.com", authorities={"USER"})
 	public void testQueryMembersByFirstAndLastName() throws Exception {
 		testUtilDataSetup.setMembers();
 		List<Member> memberList = memberService.findMemberByFirstAndLastName("Ellis", "Vermeend");
@@ -346,7 +346,7 @@ public class MemberDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
-	@WithMockUser(username = "random@mailinator.com", roles={"USER"})
+	@WithMockUser(username = "random@mailinator.com", authorities={"USER"})
 	public void testQueryMembersByLocation() throws Exception {
 		testUtilDataSetup.setMembers();
 		List<Member> memberList = memberService.listAll();
@@ -360,7 +360,7 @@ public class MemberDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
-	@WithMockUser(username = "iwillhelp@dof.nl", roles={"USER"})
+	@WithMockUser(username = "iwillhelp@dof.nl", authorities={"USER"})
 	public void testQueryMembersByInteresses() throws Exception {
 		testUtilDataSetup.setMembers();
 		List<Member> memberList0 = memberService.listAll();
@@ -378,7 +378,7 @@ public class MemberDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
-	@WithMockUser(username = "cjanson@hetnet.nl", roles={"USER"})
+	@WithMockUser(username = "cjanson@hetnet.nl", authorities={"USER"})
 	public void testQueryMembersBySportTypes() throws Exception {
 		testUtilDataSetup.setMembers();
 		List<Member> memberList0 = memberService.listAll();
@@ -404,7 +404,7 @@ public class MemberDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
-	@WithMockUser(username = "ron.janssen@freemail.com", roles={"USER"})
+	@WithMockUser(username = "ron.janssen@freemail.com", authorities={"USER"})
 	public void testSetFullMember() throws Exception {
 		Member fullmember = new Member();
 		fullmember.setAchternaam("Janssen");

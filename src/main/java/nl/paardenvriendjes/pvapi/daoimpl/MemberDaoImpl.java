@@ -49,26 +49,26 @@ public class MemberDaoImpl extends AbstractDaoService<Member> {
 		log.debug("saved One: " + member.toString());
 	}
 	
-	@PreAuthorize("#member.email == authentication.name and hasRole('USER')or hasRole('ADMIN')")
+	@PreAuthorize("#member.email == authentication.name and hasAnyAuthority('USER','ADMIN')")
 	public void edit(Member member) {
 		getCurrentSession().merge(member);
 		log.debug("edit: " + Member.class.toString());
 	}
 	
 	@Override
-	@PreAuthorize("#member.email == authentication.name and hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("#member.email == authentication.name and hasAnyAuthority('USER','ADMIN')")
 	public void remove(Member member) {
 		try {
 			member.setActive(false);
 			member.setDeactivatedDate();
 			getCurrentSession().merge(member);
-			log.debug("Deactivated Horse " + member.toString());
+			log.debug("Deactivated Member" + member.toString());
 		} catch (Exception e) {
 			log.error("Member to be deactivated not successfull for id: " + member.getId());
 		}
 	}
 	
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasAnyAuthority('USER','ADMIN')")
 	public List<Member> listOutOfQueryId(String[] arrayID) {		
 		Query query = getCurrentSession().createQuery("from " + Member.class.getName() + " Where id IN (:arrayID)");	
 		query.setParameterList("arrayID", arrayID);
@@ -76,7 +76,7 @@ public class MemberDaoImpl extends AbstractDaoService<Member> {
 		return list; 
 	}
 
-	@PreAuthorize("member.email == authentication.name and hasRole('USER')or hasRole('ADMIN')")
+	@PreAuthorize("member.email == authentication.name and hasAnyAuthority('USER','ADMIN')")
 	public void reactivate(String email) { 
 	try {
 		Member memberToBeReactivated = (Member) getCurrentSession().load(Member.class, email);
@@ -89,7 +89,7 @@ public class MemberDaoImpl extends AbstractDaoService<Member> {
 }
 
 	// find functions
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasAnyAuthority('USER','ADMIN')")
 	public List<Member> findMemberByFirstName(String firstname) {
 		Criteria criteria = getCurrentSession().createCriteria(Member.class);
 		if (firstname.length() < 3) {
@@ -108,7 +108,7 @@ public class MemberDaoImpl extends AbstractDaoService<Member> {
 		}
 	}
 
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasAnyAuthority('USER','ADMIN')")
 	public List<Member> findMemberByLastName(String lastname) {
 		Criteria criteria = getCurrentSession().createCriteria(Member.class);
 		if (lastname.length() < 3) {
@@ -127,7 +127,7 @@ public class MemberDaoImpl extends AbstractDaoService<Member> {
 		}
 	}
 
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasAnyAuthority('USER','ADMIN')")
 	public List<Member> findMemberByFirstAndLastName(String firstname, String lastname) {
 
 		Criteria criteria = getCurrentSession().createCriteria(Member.class);
@@ -148,7 +148,7 @@ public class MemberDaoImpl extends AbstractDaoService<Member> {
 		}
 	}
 
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasAnyAuthority('USER','ADMIN')")
 	public List<Member> findMemberByLocation(String location) {
 		if (location.length() < 3) {
 
@@ -169,7 +169,7 @@ public class MemberDaoImpl extends AbstractDaoService<Member> {
 		}
 	}
 
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasAnyAuthority('USER','ADMIN')")
 	public List<Member> findMemberByInteresse(String interesse) {
 		Criteria criteria = getCurrentSession().createCriteria(Member.class);
 		if (interesse.length()< 2) {
@@ -187,7 +187,7 @@ public class MemberDaoImpl extends AbstractDaoService<Member> {
 		return foundMembers;
 	}
 	
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasAnyAuthority('USER','ADMIN')")
 	public List<Member> findMemberBySportType(String sporttype) {
 		Criteria criteria = getCurrentSession().createCriteria(Member.class, "memb");
 		if (sporttype.length()< 2) {
@@ -207,7 +207,7 @@ public class MemberDaoImpl extends AbstractDaoService<Member> {
 	}
 	
 	// friend functions
-	@PreAuthorize("member.email == authentication.name and hasRole('USER')or hasRole('ADMIN')")
+	@PreAuthorize("member.email == authentication.name and hasAnyAuthority('USER','ADMIN')")
 	public void addFriend (Member member, Member toBeFollowedMember) {
 		
 		if (Arrays.asList(member.getBlokkades()).contains(toBeFollowedMember)) { 
@@ -223,7 +223,7 @@ public class MemberDaoImpl extends AbstractDaoService<Member> {
 		}
 	}
 
-	@PreAuthorize("member.email == authentication.name and hasRole('USER')or hasRole('ADMIN')")
+	@PreAuthorize("member.email == authentication.name and hasAnyAuthority('USER','ADMIN')")
 	public void removeFriend (Member member, Member toBeRemovedFriend) throws IllegalArgumentException {
 		
 		if (!Arrays.asList(member.getVrienden()).contains(toBeRemovedFriend)) { 
@@ -236,7 +236,7 @@ public class MemberDaoImpl extends AbstractDaoService<Member> {
 		}
 	}
 	
-	@PreAuthorize("member.email == authentication.name and hasRole('USER')or hasRole('ADMIN')")
+	@PreAuthorize("member.email == authentication.name and hasAnyAuthority('USER','ADMIN')")
 	public void addBlock (Member member, Member toBeBlockedMember) throws IllegalArgumentException {
 				
 		if (Arrays.asList(member.getBlokkades()).contains(toBeBlockedMember)) { 
@@ -249,7 +249,7 @@ public class MemberDaoImpl extends AbstractDaoService<Member> {
 		}
 	}	
 	
-	@PreAuthorize("member.email == authentication.name and hasRole('USER')or hasRole('ADMIN')")
+	@PreAuthorize("member.email == authentication.name and hasAnyAuthority('USER','ADMIN')")
 	public void removeBlock (Member member, Member toBeUnBlockedMember) throws IllegalArgumentException {
 				
 		if (!Arrays.asList(member.getBlokkades()).contains(toBeUnBlockedMember)) { 

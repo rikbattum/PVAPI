@@ -43,7 +43,7 @@ public class CommentDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
-	@WithMockUser(username = "userpv@mailinator.com", roles={"USER"})
+	@WithMockUser(username = "userpv@mailinator.com", authorities={"USER"})
 	public void testCommentCascadeSave() {
 
 		// Arrange
@@ -74,7 +74,7 @@ public class CommentDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
-	@WithMockUser(username = "userpv@mailinator.com", roles={"USER"})
+	@WithMockUser(username = "userpv@mailinator.com", authorities={"USER"})
 	public void testCommentCascadeEdit() {
 
 		// Arrange
@@ -100,7 +100,7 @@ public class CommentDaoImplTest extends AbstractTest {
 	@Test
 	@Transactional
 	@Rollback(true)
-	@WithMockUser(username = "userpv@mailinator.com", roles={"USER"})
+	@WithMockUser(username = "userpv@mailinator.com", authorities={"USER"})
 	public void testCommentCascadeDelete() {
 
 		// Arrange

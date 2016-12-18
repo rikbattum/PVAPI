@@ -2,13 +2,11 @@ package nl.paardenvriendjes.pvapi.abstracttest;
 
 import java.io.IOException;
 
-import javax.servlet.Filter;
-
-import org.hibernate.Hibernate;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
+import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -59,7 +57,6 @@ public class AbstractControllerTest {
 	 */
 	protected void setUp(BaseController controller) {
 		mvc = MockMvcBuilders.standaloneSetup(controller)
-				.apply(SecurityMockMvcConfigurers.springSecurity())
 				.build();
 	}
 

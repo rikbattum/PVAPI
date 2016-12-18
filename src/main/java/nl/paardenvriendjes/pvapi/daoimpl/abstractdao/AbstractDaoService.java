@@ -10,11 +10,9 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import nl.paardenvriendjes.pvapi.daoimpl.MessageDaoImpl;
 
@@ -46,14 +44,14 @@ public abstract class AbstractDaoService<T> {
 		return sessionFactory.getCurrentSession();
 	}
 
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasAnyAuthority('USER','ADMIN')")
 	public List<T> listAll() {
 		List<T> list = getCurrentSession().createQuery("from " + entityClass.getName()).list();
 		log.debug("got List: " + entityClass.toString());
 		return list;
 	}
 
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasAnyAuthority('USER','ADMIN')")
 	public T listOne(Long id) {
 		T objectLoaded = (T) getCurrentSession().get(entityClass, id);
 		log.debug("got One: " + entityClass.toString());
@@ -65,13 +63,13 @@ public abstract class AbstractDaoService<T> {
 		log.debug("saved One: " + entityClass.toString());
 	}
 
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasAnyAuthority('USER','ADMIN')")
 	public void edit(T entity) {
 		getCurrentSession().merge(entity);
 		log.debug("edit: " + entityClass.toString());
 	}
 
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasAnyAuthority('USER','ADMIN')")
 	public void remove(T entity) {
 		try {
 			getCurrentSession().delete(entity);
@@ -81,7 +79,7 @@ public abstract class AbstractDaoService<T> {
 		}
 	}
 
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasAnyAuthority('USER','ADMIN')")
 	public List<T> listRange(int[] range) {
 		Query query = getCurrentSession().createQuery("from " + entityClass.getName());
 		query.setMaxResults((range[1] - range[0] + 1));
@@ -90,7 +88,7 @@ public abstract class AbstractDaoService<T> {
 		return list;
 	}
 
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasAnyAuthority('USER','ADMIN')")
 	public List<T> listOutOfQueryId(Long[] arrayID) {
 		Query query = getCurrentSession().createQuery("from " + entityClass.getName() + " Where id IN (:arrayID)");
 		query.setParameterList("arrayID", arrayID);
@@ -98,7 +96,7 @@ public abstract class AbstractDaoService<T> {
 		return list;
 	}
 
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasAnyAuthority('USER','ADMIN')")
 	public int count() {
 		Query query = getCurrentSession().createQuery("from " + entityClass.getName());
 		int count = (int) query.list().size();
