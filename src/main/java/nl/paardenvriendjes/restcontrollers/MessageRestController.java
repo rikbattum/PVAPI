@@ -1,6 +1,5 @@
 package nl.paardenvriendjes.restcontrollers;
 
-import java.security.Principal;
 import java.util.List;
 
 import org.apache.log4j.Logger;

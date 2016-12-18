@@ -9,8 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import nl.paardenvriendjes.pvapi.daoimpl.abstractdao.AbstractDaoService;
 import nl.paardenvriendjes.pvapi.domain.Event;
-import nl.paardenvriendjes.pvapi.domain.Message;
-import nl.paardenvriendjes.pvapi.enumerations.MessageType;
 
 @Repository
 @Transactional

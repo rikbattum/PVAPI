@@ -3,7 +3,6 @@ package nl.paardenvriendjes.testutil;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,9 +22,6 @@ import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Value;
-
-import nl.paardenvriendjes.exceptionsanderrors.Auth0CreationException;
 
 public class Auth0Util {
 

@@ -3,16 +3,10 @@ package nl.paardenvriendjes.pvapi.daotest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
 
 import org.apache.log4j.Logger;
 import org.hamcrest.core.Is;
@@ -21,14 +15,10 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.auth0.authentication.result.Authentication;
-import com.auth0.authentication.result.UserProfile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import nl.paardenvriendjes.pvapi.abstracttest.AbstractTest;

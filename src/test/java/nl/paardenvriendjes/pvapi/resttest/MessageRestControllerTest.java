@@ -1,28 +1,5 @@
 package nl.paardenvriendjes.pvapi.resttest;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.transaction.Transactional;
-
-import org.apache.http.HttpHeaders;
-import org.json.JSONException;
-import org.junit.Test;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
-import org.springframework.test.annotation.Rollback;
-
-import nl.paardenvriendjes.pvapi.domain.Member;
-import nl.paardenvriendjes.pvapi.domain.Message;
-import nl.paardenvriendjes.testutil.TestUtilHeaderRequestInterceptor;
-
 public class MessageRestControllerTest {
 
 	

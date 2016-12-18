@@ -18,7 +18,7 @@ import nl.paardenvriendjes.pvapi.abstracttest.AbstractTest;
 import nl.paardenvriendjes.pvapi.daoimpl.CommentDaoImpl;
 import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
 import nl.paardenvriendjes.pvapi.daoimpl.MessageDaoImpl;
-import nl.paardenvriendjes.pvapi.domain.Comment;
+import nl.paardenvriendjes.pvapi.domain.MessageComment;
 import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.domain.Message;
 import nl.paardenvriendjes.testutil.TestUtilDataSetup;
@@ -53,7 +53,7 @@ public class CommentDaoImplTest extends AbstractTest {
 		Member memberOne = messageOne.getMember();
 
 		// Act
-		Comment commentOne = new Comment();
+		MessageComment commentOne = new MessageComment();
 		commentOne.setComment("leuke update!");
 		commentOne.setMember(memberOne);
 		commentOne.setMessage(messageOne);
@@ -62,7 +62,7 @@ public class CommentDaoImplTest extends AbstractTest {
 		
 
 		// Assert
-		List<Comment> commentList = commentService.listAll();
+		List<MessageComment> commentList = commentService.listAll();
 		Message messageWithComment = messageService.listAll().get(0);
 		assertThat(commentList.size(), Is.is(1));
 		assertThat(commentList.get(0).getComment(), Is.is("leuke update!"));
@@ -82,7 +82,7 @@ public class CommentDaoImplTest extends AbstractTest {
 		testUtilDataSetup.runMessagesPost();
 		Message messageOne = messageService.listAll().get(0);
 		Member memberOne = messageOne.getMember();
-		Comment commentOne = new Comment();
+		MessageComment commentOne = new MessageComment();
 		commentOne.setComment("leuke update!");
 		commentOne.setMember(memberOne);
 		commentOne.setInsertDate();
@@ -110,14 +110,14 @@ public class CommentDaoImplTest extends AbstractTest {
 		Member memberOne = messageOne.getMember();
 
 		// Act
-		Comment commentOne = new Comment();
+		MessageComment commentOne = new MessageComment();
 		commentOne.setComment("leuke update!");
 		commentOne.setMember(memberOne);
 		commentOne.setInsertDate();
 		commentOne.setMessage(messageOne);
 		messageOne.getCommentlist().add(commentOne);
 		memberService.edit(memberOne);
-		List<Comment> commentList = commentService.listAll();
+		List<MessageComment> commentList = commentService.listAll();
 		assertThat(commentList.size(), Is.is(1));
 
 		int messageCounter = memberOne.getMessages().size();
@@ -127,7 +127,7 @@ public class CommentDaoImplTest extends AbstractTest {
 		memberOne.getMessages().get(0).getCommentlist().remove(0);
 		memberService.edit(memberOne);
 
-		List<Comment> commentList2 = commentService.listAll();
+		List<MessageComment> commentList2 = commentService.listAll();
 		assertThat(commentList2.size(), Is.is(0));
 		Member memberTwo = memberService.listOne(memberOne.getId());
 		assertThat(memberTwo.getMessages().size(), Is.is(messageCounter));

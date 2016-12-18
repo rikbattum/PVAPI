@@ -25,8 +25,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
@@ -36,7 +34,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 import org.springframework.cache.annotation.Cacheable;
@@ -110,10 +107,10 @@ public class Member {
 	private List <Message> messages = new ArrayList<Message>();
 	@Cascade({CascadeType.MERGE, CascadeType.PERSIST})
     @OneToMany (mappedBy = "member")
-    private List <Comment> comments = new ArrayList<Comment>();
+    private List <MessageComment> messageComments = new ArrayList<MessageComment>();
 	@Cascade({CascadeType.MERGE, CascadeType.PERSIST})
     @OneToMany (mappedBy = "member")
-    private List <Likes> likes = new ArrayList<Likes>();
+    private List <MessageLike> messageLike = new ArrayList<MessageLike>();
 	@Enumerated(EnumType.STRING)
     private SportLevel sportLevel;
     private Boolean active;
@@ -248,17 +245,17 @@ public class Member {
 	public void setMessages(List<Message> messages) {
 		this.messages = messages;
 	}
-	public List<Comment> getComments() {
-		return comments;
+	public List<MessageComment> getComments() {
+		return messageComments;
 	}
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
+	public void setComments(List<MessageComment> messageComments) {
+		this.messageComments = messageComments;
 	}
-	public List<Likes> getLikes() {
-		return likes;
+	public List<MessageLike> getLikes() {
+		return messageLike;
 	}
-	public void setLikes(List<Likes> likes) {
-		this.likes = likes;
+	public void setLikes(List<MessageLike> messageLike) {
+		this.messageLike = messageLike;
 	}
 	public SportLevel getSportLevel() {
 		return sportLevel;
@@ -328,7 +325,7 @@ public class Member {
 				+ ", username=" + username + ", createdonDate=" + createdonDate + ", deactivatedDate=" + deactivatedDate
 				+ ", geboortedatum=" + geboortedatum + ", overmij=" + overmij + ", horses=" + horses + ", interesse="
 				+ interesse + ", profileimage=" + profileimage + ", password=" + password + ", place=" + place
-				+ ", messages=" + messages + ", comments=" + comments + ", likes=" + likes + ", sportLevel="
+				+ ", messages=" + messages + ", comments=" + messageComments + ", likes=" + messageLike + ", sportLevel="
 				+ sportLevel + ", active=" + active + ", vrienden=" + vrienden + ", blokkades=" + blokkades
 				+ ", events=" + events + ", sports=" + sports + ", othersports=" + othersports + ", vervoer=" + vervoer
 				+ ", geslacht=" + geslacht + ", auth0user_id=" + auth0user_id + "]";
@@ -343,7 +340,7 @@ public class Member {
 		result = prime * result + ((active == null) ? 0 : active.hashCode());
 		result = prime * result + ((auth0user_id == null) ? 0 : auth0user_id.hashCode());
 		result = prime * result + ((blokkades == null) ? 0 : blokkades.hashCode());
-		result = prime * result + ((comments == null) ? 0 : comments.hashCode());
+		result = prime * result + ((messageComments == null) ? 0 : messageComments.hashCode());
 		result = prime * result + ((createdonDate == null) ? 0 : createdonDate.hashCode());
 		result = prime * result + ((deactivatedDate == null) ? 0 : deactivatedDate.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
@@ -353,7 +350,7 @@ public class Member {
 		result = prime * result + ((horses == null) ? 0 : horses.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((interesse == null) ? 0 : interesse.hashCode());
-		result = prime * result + ((likes == null) ? 0 : likes.hashCode());
+		result = prime * result + ((messageLike == null) ? 0 : messageLike.hashCode());
 		result = prime * result + ((messages == null) ? 0 : messages.hashCode());
 		result = prime * result + ((othersports == null) ? 0 : othersports.hashCode());
 		result = prime * result + ((overmij == null) ? 0 : overmij.hashCode());
@@ -397,10 +394,10 @@ public class Member {
 				return false;
 		} else if (!blokkades.equals(other.blokkades))
 			return false;
-		if (comments == null) {
-			if (other.comments != null)
+		if (messageComments == null) {
+			if (other.messageComments != null)
 				return false;
-		} else if (!comments.equals(other.comments))
+		} else if (!messageComments.equals(other.messageComments))
 			return false;
 		if (createdonDate == null) {
 			if (other.createdonDate != null)
@@ -444,10 +441,10 @@ public class Member {
 				return false;
 		} else if (!interesse.equals(other.interesse))
 			return false;
-		if (likes == null) {
-			if (other.likes != null)
+		if (messageLike == null) {
+			if (other.messageLike != null)
 				return false;
-		} else if (!likes.equals(other.likes))
+		} else if (!messageLike.equals(other.messageLike))
 			return false;
 		if (messages == null) {
 			if (other.messages != null)

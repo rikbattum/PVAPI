@@ -1,6 +1,8 @@
 package nl.paardenvriendjes.pvapi.domain;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
 import java.util.Set;
@@ -51,14 +53,14 @@ public class CommentValidation   extends AbstractTest {
 	@Transactional
 	@Rollback(true)
 	public void testRegularCaseToPass() {
-		Comment comment = new Comment();
+		MessageComment messageComment = new MessageComment();
 		// mandatory
-		comment.setId(1L);
-		comment.setMessage(message);
-		comment.setMember(member);
+		messageComment.setId(1L);
+		messageComment.setMessage(message);
+		messageComment.setMember(member);
 		// script attack
-		comment.setComment("Have a nice Christmas");
-		Set<ConstraintViolation<Comment>> violations = validator.validate(comment);
+		messageComment.setComment("Have a nice Christmas");
+		Set<ConstraintViolation<MessageComment>> violations = validator.validate(messageComment);
 		assertTrue(violations.isEmpty());	
 		}
 
@@ -67,14 +69,14 @@ public class CommentValidation   extends AbstractTest {
 	@Transactional
 	@Rollback(true)
 	public void testMaxSizeId() {
-		Comment comment = new Comment();
+		MessageComment messageComment = new MessageComment();
 		// mandatory
-		comment.setId(10000000L);
-		comment.setMessage(message);
-		comment.setMember(member);
+		messageComment.setId(10000000L);
+		messageComment.setMessage(message);
+		messageComment.setMember(member);
 		// script attack
-		comment.setComment("Have a nice Christmas");
-		Set<ConstraintViolation<Comment>> violations = validator.validate(comment);
+		messageComment.setComment("Have a nice Christmas");
+		Set<ConstraintViolation<MessageComment>> violations = validator.validate(messageComment);
 		assertFalse(violations.isEmpty());		
 		assertEquals(violations.iterator().next().getMessage(), "must be less than or equal to 9999999");
 		}
@@ -83,11 +85,11 @@ public class CommentValidation   extends AbstractTest {
 	@Transactional
 	@Rollback(true)
 	public void testNotNullComment() {
-		Comment comment = new Comment();
+		MessageComment messageComment = new MessageComment();
 		// mandatory
-		comment.setId(1L);
-		comment.setMember(member);
-		Set<ConstraintViolation<Comment>> violations = validator.validate(comment);
+		messageComment.setId(1L);
+		messageComment.setMember(member);
+		Set<ConstraintViolation<MessageComment>> violations = validator.validate(messageComment);
 		assertFalse(violations.isEmpty());
 		assertEquals(violations.iterator().next().getMessage(), "may not be null");
 	}
@@ -96,11 +98,11 @@ public class CommentValidation   extends AbstractTest {
 	@Transactional
 	@Rollback(true)
 	public void testNotNullId() {
-		Comment comment = new Comment();
+		MessageComment messageComment = new MessageComment();
 		// mandatory
-		comment.setMember(member);
-		comment.setComment("Have a nice Christmas");
-		Set<ConstraintViolation<Comment>> violations = validator.validate(comment);
+		messageComment.setMember(member);
+		messageComment.setComment("Have a nice Christmas");
+		Set<ConstraintViolation<MessageComment>> violations = validator.validate(messageComment);
 		assertFalse(violations.isEmpty());
 		assertEquals(violations.iterator().next().getMessage(), "may not be null");
 	}
@@ -109,28 +111,28 @@ public class CommentValidation   extends AbstractTest {
 	@Transactional
 	@Rollback(true)
 	public void testHTMLSanatizeComment() {
-		Comment comment = new Comment();
+		MessageComment messageComment = new MessageComment();
 		// mandatory
-		comment.setId(1L);
-		comment.setMessage(message);
-		comment.setMember(member);
+		messageComment.setId(1L);
+		messageComment.setMessage(message);
+		messageComment.setMember(member);
 		// script attack
-		comment.setComment("Have a nice Christmas <script> go to malicious site</script>");
-		Set<ConstraintViolation<Comment>> violations = validator.validate(comment);
+		messageComment.setComment("Have a nice Christmas <script> go to malicious site</script>");
+		Set<ConstraintViolation<MessageComment>> violations = validator.validate(messageComment);
 		assertFalse(violations.isEmpty());		
 		assertEquals(violations.iterator().next().getMessage(), "may have unsafe html content");
 		// regular
-		comment.setComment("Regular Comment");
-		violations = validator.validate(comment);
+		messageComment.setComment("Regular Comment");
+		violations = validator.validate(messageComment);
 		assertTrue(violations.isEmpty());
 		// html manipulation
-		comment.setComment("<b>I want everything to be Bold</b> or <i> italic </i>");
-		violations = validator.validate(comment);
+		messageComment.setComment("<b>I want everything to be Bold</b> or <i> italic </i>");
+		violations = validator.validate(messageComment);
 		assertFalse(violations.isEmpty());
 		assertEquals(violations.iterator().next().getMessage(), "may have unsafe html content");
 		// Check for special characters to be possible
-		comment.setComment("I am in need of special characters: !@#$%^&*(){}[]/\":");
-		violations = validator.validate(comment);
+		messageComment.setComment("I am in need of special characters: !@#$%^&*(){}[]/\":");
+		violations = validator.validate(messageComment);
 		assertTrue(violations.isEmpty());	
 	}
 	
@@ -139,19 +141,19 @@ public class CommentValidation   extends AbstractTest {
 	@Transactional
 	@Rollback(true)
 	public void testSanatizeSizeComment() {
-			Comment comment = new Comment();
+			MessageComment messageComment = new MessageComment();
 		// mandatory
-		comment.setId(1L);
-		comment.setMessage(message);
-		comment.setMember(member);
+		messageComment.setId(1L);
+		messageComment.setMessage(message);
+		messageComment.setMember(member);
 		// Too short
-		comment.setComment("TooShort");
-		Set<ConstraintViolation<Comment>> violations = validator.validate(comment);
+		messageComment.setComment("TooShort");
+		Set<ConstraintViolation<MessageComment>> violations = validator.validate(messageComment);
 		assertFalse(violations.isEmpty());	
 		assertEquals(violations.size(), 1);
 		assertEquals(violations.iterator().next().getMessage(), "size must be between 10 and 150");
 		// TooLong
-		comment.setComment("TooLong,Vandaag een ritje gemaakt door het garderense bos met esther."+ 
+		messageComment.setComment("TooLong,Vandaag een ritje gemaakt door het garderense bos met esther."+ 
 			 "We kwamen een wild zwijn tegen. Gelukkig geen ongelukken gebeurd."
 			+ "Het bericht wordt nu wel lang");
 		assertFalse(violations.isEmpty());		

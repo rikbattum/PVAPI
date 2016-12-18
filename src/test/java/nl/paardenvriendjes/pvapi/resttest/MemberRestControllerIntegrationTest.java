@@ -13,11 +13,9 @@ import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.util.NestedServletException;
 
 import nl.paardenvriendjes.pvapi.abstracttest.AbstractControllerTest;
 import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
