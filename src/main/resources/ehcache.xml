@@ -14,6 +14,42 @@
 		memoryStoreEvictionPolicy="LFU" transactionalMode="off">
 		<persistence strategy="localTempSwap" />
 	</cache>
+	<cache name="messagecommment" maxEntriesLocalHeap="8000"
+		maxEntriesLocalDisk="2000" eternal="false" diskSpoolBufferSizeMB="40"
+		timeToIdleSeconds="600" timeToLiveSeconds="800"
+		memoryStoreEvictionPolicy="LFU" transactionalMode="off">
+		<persistence strategy="localTempSwap" />
+	</cache>
+	<cache name="messagelike" maxEntriesLocalHeap="8000"
+		maxEntriesLocalDisk="2000" eternal="false" diskSpoolBufferSizeMB="40"
+		timeToIdleSeconds="600" timeToLiveSeconds="800"
+		memoryStoreEvictionPolicy="LFU" transactionalMode="off">
+		<persistence strategy="localTempSwap" />
+	</cache>
+	<cache name="eventcommment" maxEntriesLocalHeap="8000"
+		maxEntriesLocalDisk="2000" eternal="false" diskSpoolBufferSizeMB="40"
+		timeToIdleSeconds="600" timeToLiveSeconds="800"
+		memoryStoreEvictionPolicy="LFU" transactionalMode="off">
+		<persistence strategy="localTempSwap" />
+	</cache>
+	<cache name="eventlike" maxEntriesLocalHeap="8000"
+		maxEntriesLocalDisk="2000" eternal="false" diskSpoolBufferSizeMB="40"
+		timeToIdleSeconds="600" timeToLiveSeconds="800"
+		memoryStoreEvictionPolicy="LFU" transactionalMode="off">
+		<persistence strategy="localTempSwap" />
+	</cache>
+	<cache name="event" maxEntriesLocalHeap="8000"
+		maxEntriesLocalDisk="2000" eternal="false" diskSpoolBufferSizeMB="40"
+		timeToIdleSeconds="600" timeToLiveSeconds="800"
+		memoryStoreEvictionPolicy="LFU" transactionalMode="off">
+		<persistence strategy="localTempSwap" />
+	</cache>
+	<cache name="paspoort" maxEntriesLocalHeap="8000"
+		maxEntriesLocalDisk="2000" eternal="false" diskSpoolBufferSizeMB="40"
+		timeToIdleSeconds="600" timeToLiveSeconds="800"
+		memoryStoreEvictionPolicy="LFU" transactionalMode="off">
+		<persistence strategy="localTempSwap" />
+	</cache>
 	<cache name="membercache" maxEntriesLocalHeap="800"
 		maxEntriesLocalDisk="200" eternal="false" diskSpoolBufferSizeMB="30"
 		timeToIdleSeconds="60" timeToLiveSeconds="120"

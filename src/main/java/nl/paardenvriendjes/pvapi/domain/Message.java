@@ -14,11 +14,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -34,16 +34,15 @@ import nl.paardenvriendjes.pvapi.enumerations.MessageType;
 
 @Entity
 @Cacheable("messagecache")
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@JsonIdentityInfo(
-		  generator = ObjectIdGenerators.PropertyGenerator.class, 
-		  property = "id")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Message {
+
+	// Properties of Message
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@NotNull
-	@Max(9999999)
 	private Long id;
 	@NotNull
 	@Size(min = 10, max = 150)
@@ -59,27 +58,30 @@ public class Message {
 	@NotNull
 	private Member member;
 	@SafeHtml(whitelistType = WhiteListType.NONE)
-	@Pattern (regexp = "^http://res.cloudinary.com/epona/.*")
+	@Pattern(regexp = "^http://res.cloudinary.com/epona/.*")
 	private String piclink;
 	@SafeHtml(whitelistType = WhiteListType.NONE)
-	@Pattern (regexp = "^http://res.cloudinary.com/epona/.*")
+	@Pattern(regexp = "^http://res.cloudinary.com/epona/.*")
 	private String picLinkSecond;
 	@SafeHtml(whitelistType = WhiteListType.NONE)
-	@Pattern (regexp = "^http://res.cloudinary.com/epona/.*")
+	@Pattern(regexp = "^http://res.cloudinary.com/epona/.*")
 	private String picLinkThird;
-	@OneToMany (mappedBy="message", orphanRemoval=true)
-	@Cascade({CascadeType.ALL})
-	// needed with fetchtype lazy?
-	// need to implement cache region
-	//	@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+	private Boolean publicPost;
+
+	// Collections of Message
+
+	@OneToMany(mappedBy = "message", orphanRemoval = true)
+	@Cascade({ CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DELETE })
+	// @org.hibernate.annotations.Cache(usage =
+	// CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private List<MessageComment> commentlist = new ArrayList<MessageComment>();
-	@OneToMany(mappedBy="message", orphanRemoval=true)
-	@Cascade({CascadeType.ALL})
-	// needed with fetchtype lazy?
-	// need to implement cache region
-	//	@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+	@OneToMany(mappedBy = "message", orphanRemoval = true)
+	@Cascade({ CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DELETE })
+	// @org.hibernate.annotations.Cache(usage =
+	// CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private List<MessageLike> likelist = new ArrayList<MessageLike>();
-	private Boolean publicPost; 
+
+	// Getters and Setters
 
 	public Long getId() {
 		return id;
@@ -87,7 +89,7 @@ public class Message {
 
 	public void setId(Long id) {
 		this.id = id;
-		}
+	}
 
 	public String getMessage() {
 		return message;
@@ -121,12 +123,11 @@ public class Message {
 		// set-date in backend;
 		this.insertDate = new Date();
 	}
-	
+
 	public void InsertDateTest(Date date) {
 		// set-date in backend;
 		this.insertDate = date;
 	}
-	
 
 	public Member getMember() {
 		return member;
@@ -167,7 +168,7 @@ public class Message {
 	public void setCommentlist(List<MessageComment> commentlist) {
 		this.commentlist = commentlist;
 	}
-	
+
 	public List<MessageLike> getLikelist() {
 		return likelist;
 	}
@@ -184,13 +185,18 @@ public class Message {
 		this.publicPost = publicPost;
 	}
 
+	// ToString
+
 	@Override
 	public String toString() {
-		return "Message [id=" + id + ", message=" + message + ", type=" + messageType + ", insertDate=" + insertDate + "]";
+		return "Message [id=" + id + ", message=" + message + ", messageType=" + messageType + ", lineType=" + lineType
+				+ ", insertDate=" + insertDate + ", member=" + member + ", piclink=" + piclink + ", picLinkSecond="
+				+ picLinkSecond + ", picLinkThird=" + picLinkThird + ", commentlist=" + commentlist + ", likelist="
+				+ likelist + ", publicPost=" + publicPost + "]";
 	}
 
 	// Hashcode and Equals
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -275,54 +281,54 @@ public class Message {
 			return false;
 		return true;
 	}
-	
-	// convenience methods for cardinality with Comments
-	
-	public void addOrUpdateComment (MessageComment messageComment) { 
 
-		if (messageComment== null) { 
+	// convenience methods for cardinality with MessageComments
+
+	public void addOrUpdateComment(MessageComment messageComment) {
+
+		if (messageComment == null) {
 			throw new NullPointerException("add null comment can not be possible");
 		}
-		if (messageComment.getMessage() != null && messageComment.getMessage()!= this) {
+		if (messageComment.getMessage() != null && messageComment.getMessage() != this) {
 			throw new IllegalArgumentException("comment is already assigned to an other message");
 		}
 		getCommentlist().add(messageComment);
 		messageComment.setMessage(this);
 	}
 
-	public void removeComment (MessageComment messageComment) { 
+	public void removeMessageComment(MessageComment messageComment) {
 
-		if (messageComment == null) { 
+		if (messageComment == null) {
 			throw new NullPointerException("delete null comment can not be possible");
 		}
-		if (messageComment.getMessage() != null  && messageComment.getMessage()!= this) {
+		if (messageComment.getMessage() != null && messageComment.getMessage() != this) {
 			throw new IllegalArgumentException("comment is already assigned to an other message");
 		}
 		getCommentlist().remove(messageComment);
 	}
-	
-	// convenience methods for cardinality with Likes
-	
-		public void addOrUpdateLike (MessageLike messageLike) { 
 
-			if (messageLike == null) { 
-				throw new NullPointerException("add null like can not be possible");
-			}
-			if (messageLike.getMessagelike() != null && messageLike.getMessagelike()!= this) {
-				throw new IllegalArgumentException("like is already assigned to an other message");
-			}
-			getLikelist().add(messageLike);
-			messageLike.setMessagelike(this);
+	// convenience methods for cardinality with MesssageLikes
+
+	public void addOrUpdateMessageLike(MessageLike messageLike) {
+
+		if (messageLike == null) {
+			throw new NullPointerException("add null like can not be possible");
 		}
-		
-		public void removeLike (MessageLike messageLike) { 
+		if (messageLike.getMessage() != null && messageLike.getMessage() != this) {
+			throw new IllegalArgumentException("like is already assigned to an other message");
+		}
+		getLikelist().add(messageLike);
+		messageLike.setMessage(this);
+	}
 
-			if (messageLike == null) { 
-				throw new NullPointerException("delete null like can not be possible");
-			}
-			if (messageLike.getMessagelike() != null  && messageLike.getMessagelike()!= this) {
-				throw new IllegalArgumentException("like is already assigned to an other message");
-			}
-			getLikelist().remove(messageLike);
-		}	
+	public void removeMessageLike(MessageLike messageLike) {
+
+		if (messageLike == null) {
+			throw new NullPointerException("delete null like can not be possible");
+		}
+		if (messageLike.getMessage() != null && messageLike.getMessage() != this) {
+			throw new IllegalArgumentException("like is already assigned to an other message");
+		}
+		getLikelist().remove(messageLike);
+	}
 }

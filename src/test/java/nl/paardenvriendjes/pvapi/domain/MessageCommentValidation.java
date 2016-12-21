@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import nl.paardenvriendjes.pvapi.abstracttest.AbstractTest;
 
-public class CommentValidation   extends AbstractTest {
+public class MessageCommentValidation   extends AbstractTest {
 
 	@Autowired
 	private Validator validator;

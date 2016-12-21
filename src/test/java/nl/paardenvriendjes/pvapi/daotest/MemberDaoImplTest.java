@@ -385,10 +385,8 @@ public class MemberDaoImplTest extends AbstractTest {
 	@Test (expected = AuthenticationCredentialsNotFoundException.class)
 	@Transactional
 	@Rollback(true)
-	public void testAnyQueryWithoutCorrectUserRoles() throws Exception {
-		
-		List<Member> memberList = memberService.findMemberBySportType("Mennen");
-	
+	public void testAnyQueryWithoutCorrectUserRoles() throws Exception {	
+	memberService.findMemberBySportType("Mennen");
 	}
 	
 	@Test
@@ -405,9 +403,9 @@ public class MemberDaoImplTest extends AbstractTest {
 		fullmember.getInteresse().setManageexploitatie(true);
 		fullmember.getInteresse().setPaardenshow(false);
 		fullmember.getInteresse().setStalbeheer(true);
-		fullmember.getOtherSports().add(OtherSport.DENKSPORT);
-		fullmember.getOtherSports().add(OtherSport.FIETSEN);
-		fullmember.getOtherSports().add(OtherSport.GOLF);
+		fullmember.getOthersports().add(OtherSport.DENKSPORT);
+		fullmember.getOthersports().add(OtherSport.FIETSEN);
+		fullmember.getOthersports().add(OtherSport.GOLF);
 		fullmember.setOvermij("ik vind buitenrijden te gek");
 		fullmember.setPassword("1234");
 		fullmember.setSportLevel(SportLevel.L2);
@@ -438,12 +436,6 @@ public class MemberDaoImplTest extends AbstractTest {
 		blokkade.setGeboortedatum(new Date());
 		blokkade.setAchternaam("Drahcip");
 		fullmember.getVrienden().add(blokkade);
-		Event event = new Event();
-		event.setEventDate(new Date());
-		event.setMessage("Bossprong Lunteren was te gek"); 
-		event.setEventName("spring open");
-		event.setMessage("open event for all");
-		fullmember.getEvents().add(event);
 		memberService.save(fullmember);
 		memberService.save(vriend);
 		memberService.save(blokkade);

@@ -1,26 +1,20 @@
 package nl.paardenvriendjes.pvapi.domain;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 import org.springframework.cache.annotation.Cacheable;
@@ -28,25 +22,23 @@ import org.springframework.cache.annotation.Cacheable;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-
 @Entity
-@Cacheable("other")
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@JsonIdentityInfo(
-		  generator = ObjectIdGenerators.PropertyGenerator.class, 
-		  property = "id")
+@Cacheable("messagecommment")
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 
 public class MessageComment {
+
+	// Properties of MessageComment
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@NotNull
-	@Max(9999999)
 	private Long id;
 	@NotNull
 	@Size(min = 10, max = 150)
 	@SafeHtml(whitelistType = WhiteListType.NONE)
-	private String comment; 
+	private String comment;
 	@NotNull
 	@ManyToOne
 	private Member member;
@@ -56,55 +48,67 @@ public class MessageComment {
 	@ManyToOne
 	private Message message;
 	@SafeHtml(whitelistType = WhiteListType.NONE)
-	@Pattern (regexp = "^http://res.cloudinary.com/epona/.*")
+	@Pattern(regexp = "^http://res.cloudinary.com/epona/.*")
 	private String piclink;
-	
-	 //Getters and Setters
-	
+
+	// Getters and Setters
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public String getComment() {
 		return comment;
 	}
+
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+
 	public Member getMember() {
 		return member;
 	}
+
 	public void setMember(Member member) {
 		this.member = member;
 	}
+
 	public Date getInsertDate() {
 		return insertDate;
 	}
+
 	public void setInsertDate() {
 		// set-date in backend;
 		this.insertDate = new Date();
 	}
+
 	public Message getMessage() {
 		return message;
 	}
+
 	public void setMessage(Message message) {
 		this.message = message;
 	}
+
 	public String getPiclink() {
 		return piclink;
 	}
+
 	public void setPiclink(String piclink) {
 		this.piclink = piclink;
 	}
-	
-	//ToString
+
+	// ToString
 	@Override
 	public String toString() {
 		return "MessageComment [id=" + id + ", comment=" + comment + ", member=" + member + ", insertDate=" + insertDate
 				+ ", message=" + message + ", piclink=" + piclink + "]";
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -117,9 +121,9 @@ public class MessageComment {
 		result = prime * result + ((piclink == null) ? 0 : piclink.hashCode());
 		return result;
 	}
-	
-	//Hashcode and Equals 
-	
+
+	// Hashcode and Equals
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

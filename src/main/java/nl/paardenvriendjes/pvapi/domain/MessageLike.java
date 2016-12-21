@@ -11,9 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.cache.annotation.Cacheable;
 
@@ -23,15 +23,16 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import nl.paardenvriendjes.pvapi.enumerations.LikeType;
 
 @Entity
-@Cacheable("other")
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Cacheable("messagelike")
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class MessageLike {
 
+	// Properties of Message
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@NotNull
-	@Max(9999999)
 	private Long id;
 	@Enumerated(EnumType.STRING)
 	private LikeType liketype;
@@ -44,6 +45,8 @@ public class MessageLike {
 	@Temporal(TemporalType.DATE)
 	private Date createdon;
 
+	// Getters and Setters
+	
 	public Long getId() {
 		return id;
 	}
@@ -60,14 +63,6 @@ public class MessageLike {
 		this.liketype = liketype;
 	}
 
-	public Message getMessagelike() {
-		return message;
-	}
-
-	public void setMessagelike(Message message) {
-		this.message = message;
-	}
-
 	public Date getInsertDate() {
 		return createdon;
 	}
@@ -77,38 +72,50 @@ public class MessageLike {
 		this.createdon = new Date();
 	}
 
-	public MessageComment getComments() {
-		return messageComment;
-	}
-
-	public void setComments(MessageComment messageComment) {
-		this.messageComment = messageComment;
-	}
-
-	public Member getMembert() {
+	public Member getMember() {
 		return member;
 	}
 
-	public void setMembert(Member member) {
+	public void setMember(Member member) {
 		this.member = member;
 	}
-
-	@Override
-	public String toString() {
-		return "Like [id=" + id + ", liketype=" + liketype + ", message=" + message + ", comment=" + messageComment
-				+ ", member=" + member + ", createdon=" + createdon + "]";
+	
+	public Message getMessage() {
+		return message;
 	}
 
+	public void setMessage(Message message) {
+		this.message = message;
+	}
+
+	public MessageComment getMessageComment() {
+		return messageComment;
+	}
+
+	public void setMessageComment(MessageComment messageComment) {
+		this.messageComment = messageComment;
+	}
+
+	// ToString
+	
+	@Override
+	public String toString() {
+		return "MessageLike [id=" + id + ", liketype=" + liketype + ", message=" + message + ", messageComment="
+				+ messageComment + ", member=" + member + ", createdon=" + createdon + "]";
+	}
+
+	// Hashcode and Equals
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((messageComment == null) ? 0 : messageComment.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((createdon == null) ? 0 : createdon.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((liketype == null) ? 0 : liketype.hashCode());
 		result = prime * result + ((member == null) ? 0 : member.hashCode());
 		result = prime * result + ((message == null) ? 0 : message.hashCode());
+		result = prime * result + ((messageComment == null) ? 0 : messageComment.hashCode());
 		return result;
 	}
 
@@ -121,20 +128,15 @@ public class MessageLike {
 		if (getClass() != obj.getClass())
 			return false;
 		MessageLike other = (MessageLike) obj;
-		if (messageComment == null) {
-			if (other.messageComment != null)
+		if (createdon == null) {
+			if (other.createdon != null)
 				return false;
-		} else if (!messageComment.equals(other.messageComment))
+		} else if (!createdon.equals(other.createdon))
 			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
-			return false;
-		if (createdon == null) {
-			if (other.createdon != null)
-				return false;
-		} else if (!createdon.equals(other.createdon))
 			return false;
 		if (liketype != other.liketype)
 			return false;
@@ -148,9 +150,11 @@ public class MessageLike {
 				return false;
 		} else if (!message.equals(other.message))
 			return false;
+		if (messageComment == null) {
+			if (other.messageComment != null)
+				return false;
+		} else if (!messageComment.equals(other.messageComment))
+			return false;
 		return true;
-	}
-
-	
-	
+	}	
 }

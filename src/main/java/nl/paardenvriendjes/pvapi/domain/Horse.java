@@ -1,9 +1,7 @@
 package nl.paardenvriendjes.pvapi.domain;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.persistence.ElementCollection;
@@ -13,7 +11,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -84,8 +81,6 @@ public class Horse {
 	private Date createdonDate;
 	@Temporal(TemporalType.DATE)
 	private Date deactivatedDate;
-	@ManyToMany
-	private List<Event> events = new ArrayList<Event>();
 	@OneToOne
 	private Paspoort paspoort;
 	@ManyToOne
@@ -208,19 +203,9 @@ public class Horse {
 	public Member getMember() {
 		return member;
 	}
-
 	public void setMember(Member member) {
 		this.member = member;
 	}
-
-	public List<Event> getEvents() {
-		return events;
-	}
-
-	public void setEvents(List<Event> events) {
-		this.events = events;
-	}
-
 	public Paspoort getPaspoort() {
 		return paspoort;
 	}
@@ -270,15 +255,14 @@ public class Horse {
 	} 	
 	
 	// toString
-
 	@Override
 	public String toString() {
 		return "Horse [id=" + id + ", name=" + name + ", horseimage1=" + horseimage1 + ", horseimage2=" + horseimage2
 				+ ", horseimage3=" + horseimage3 + ", afstamming=" + afstamming + ", geboortedatum=" + geboortedatum
 				+ ", geslacht=" + geslacht + ", stokmaat=" + stokmaat + ", karakter=" + karakter + ", overmijnpaard="
 				+ overmijnpaard + ", overleden=" + overleden + ", waarde=" + waarde + ", createdonDate=" + createdonDate
-				+ ", deactivatedDate=" + deactivatedDate + ", events=" + events + ", paspoort=" + paspoort + ", member="
-				+ member + ", sports=" + sports + ", paardType=" + paardType + ", active=" + active + "]";
+				+ ", deactivatedDate=" + deactivatedDate + ", paspoort=" + paspoort + ", member=" + member + ", sports="
+				+ sports + ", paardType=" + paardType + ", active=" + active + "]";
 	}
 	
 	// Hashcode and equals
@@ -291,7 +275,6 @@ public class Horse {
 		result = prime * result + ((afstamming == null) ? 0 : afstamming.hashCode());
 		result = prime * result + ((createdonDate == null) ? 0 : createdonDate.hashCode());
 		result = prime * result + ((deactivatedDate == null) ? 0 : deactivatedDate.hashCode());
-		result = prime * result + ((events == null) ? 0 : events.hashCode());
 		result = prime * result + ((geboortedatum == null) ? 0 : geboortedatum.hashCode());
 		result = prime * result + ((geslacht == null) ? 0 : geslacht.hashCode());
 		result = prime * result + ((horseimage1 == null) ? 0 : horseimage1.hashCode());
@@ -339,11 +322,6 @@ public class Horse {
 			if (other.deactivatedDate != null)
 				return false;
 		} else if (!deactivatedDate.equals(other.deactivatedDate))
-			return false;
-		if (events == null) {
-			if (other.events != null)
-				return false;
-		} else if (!events.equals(other.events))
 			return false;
 		if (geboortedatum == null) {
 			if (other.geboortedatum != null)
