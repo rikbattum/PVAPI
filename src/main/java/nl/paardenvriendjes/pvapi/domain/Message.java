@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -59,14 +60,20 @@ public class Message {
 	private Member member;
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@Pattern(regexp = "^http://res.cloudinary.com/epona/.*")
+	@Size(max = 80)
 	private String piclink;
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@Pattern(regexp = "^http://res.cloudinary.com/epona/.*")
+	@Size(max = 80)
 	private String picLinkSecond;
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@Pattern(regexp = "^http://res.cloudinary.com/epona/.*")
+	@Size(max = 80)
 	private String picLinkThird;
 	private Boolean publicPost;
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Size(max = 150)
+	private String messageLocation;
 
 	// Collections of Message
 
@@ -184,15 +191,23 @@ public class Message {
 	public void setPublicPost(Boolean publicPost) {
 		this.publicPost = publicPost;
 	}
+	public String getMessageLocation() {
+		return messageLocation;
+	}
+
+	public void setMessageLocation(String messageLocation) {
+		this.messageLocation = messageLocation;
+	}
 
 	// ToString
+
 
 	@Override
 	public String toString() {
 		return "Message [id=" + id + ", message=" + message + ", messageType=" + messageType + ", lineType=" + lineType
 				+ ", insertDate=" + insertDate + ", member=" + member + ", piclink=" + piclink + ", picLinkSecond="
-				+ picLinkSecond + ", picLinkThird=" + picLinkThird + ", commentlist=" + commentlist + ", likelist="
-				+ likelist + ", publicPost=" + publicPost + "]";
+				+ picLinkSecond + ", picLinkThird=" + picLinkThird + ", publicPost=" + publicPost + ", messageLocation="
+				+ messageLocation + ", commentlist=" + commentlist + ", likelist=" + likelist + "]";
 	}
 
 	// Hashcode and Equals
@@ -208,6 +223,7 @@ public class Message {
 		result = prime * result + ((lineType == null) ? 0 : lineType.hashCode());
 		result = prime * result + ((member == null) ? 0 : member.hashCode());
 		result = prime * result + ((message == null) ? 0 : message.hashCode());
+		result = prime * result + ((messageLocation == null) ? 0 : messageLocation.hashCode());
 		result = prime * result + ((messageType == null) ? 0 : messageType.hashCode());
 		result = prime * result + ((picLinkSecond == null) ? 0 : picLinkSecond.hashCode());
 		result = prime * result + ((picLinkThird == null) ? 0 : picLinkThird.hashCode());
@@ -257,6 +273,11 @@ public class Message {
 				return false;
 		} else if (!message.equals(other.message))
 			return false;
+		if (messageLocation == null) {
+			if (other.messageLocation != null)
+				return false;
+		} else if (!messageLocation.equals(other.messageLocation))
+			return false;
 		if (messageType != other.messageType)
 			return false;
 		if (picLinkSecond == null) {
@@ -280,7 +301,7 @@ public class Message {
 		} else if (!publicPost.equals(other.publicPost))
 			return false;
 		return true;
-	}
+	}	
 
 	// convenience methods for cardinality with MessageComments
 

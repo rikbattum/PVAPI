@@ -92,9 +92,11 @@ public class Member {
 	private Interesse interesse = new Interesse();
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@Pattern(regexp = "^http://res.cloudinary.com/epona/.*")
+	@Size(max = 80)
 	private String profileimage;
 	@Transient
 	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Size(max = 80)
 	private String password;
 	@Enumerated(EnumType.STRING)
 	private Place place;

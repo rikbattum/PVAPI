@@ -75,6 +75,9 @@ public class Event {
 	@ManyToOne
 	private Paspoort paspoort;
 	private Boolean postEventOnTimeline;
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Size(max = 40)
+	private String eventLocation; 
 	
 	// Collections of Event
 	
@@ -181,6 +184,12 @@ public class Event {
 	public void setEventCommentList(List<EventComment> eventCommentList) {
 		this.eventCommentList = eventCommentList;
 	}
+	public String getEventLocation() {
+		return eventLocation;
+	}
+	public void setEventLocation(String eventLocation) {
+		this.eventLocation = eventLocation;
+	}	
 	
 	// ToString
 
@@ -189,12 +198,12 @@ public class Event {
 		return "Event [id=" + id + ", eventName=" + eventName + ", eventtype=" + eventtype + ", eventDate=" + eventDate
 				+ ", createdOnDate=" + createdOnDate + ", deactivatedDate=" + deactivatedDate + ", Message=" + Message
 				+ ", messageScore=" + messageScore + ", score=" + score + ", ranking=" + ranking + ", active=" + active
-				+ ", paspoort=" + paspoort + ", postEventOnTimeline=" + postEventOnTimeline + ", eventComment="
-				+ eventCommentList + ", likelist=" + likelist + "]";
+				+ ", paspoort=" + paspoort + ", postEventOnTimeline=" + postEventOnTimeline + ", eventLocation="
+				+ eventLocation + ", eventCommentList=" + eventCommentList + ", likelist=" + likelist + "]";
 	}
 	
 	// Hashcode and equals
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -205,6 +214,7 @@ public class Event {
 		result = prime * result + ((deactivatedDate == null) ? 0 : deactivatedDate.hashCode());
 		result = prime * result + ((eventCommentList == null) ? 0 : eventCommentList.hashCode());
 		result = prime * result + ((eventDate == null) ? 0 : eventDate.hashCode());
+		result = prime * result + ((eventLocation == null) ? 0 : eventLocation.hashCode());
 		result = prime * result + ((eventName == null) ? 0 : eventName.hashCode());
 		result = prime * result + ((eventtype == null) ? 0 : eventtype.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -255,6 +265,11 @@ public class Event {
 			if (other.eventDate != null)
 				return false;
 		} else if (!eventDate.equals(other.eventDate))
+			return false;
+		if (eventLocation == null) {
+			if (other.eventLocation != null)
+				return false;
+		} else if (!eventLocation.equals(other.eventLocation))
 			return false;
 		if (eventName == null) {
 			if (other.eventName != null)

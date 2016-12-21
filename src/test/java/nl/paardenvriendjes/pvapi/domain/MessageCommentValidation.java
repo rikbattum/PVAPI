@@ -63,23 +63,6 @@ public class MessageCommentValidation   extends AbstractTest {
 		Set<ConstraintViolation<MessageComment>> violations = validator.validate(messageComment);
 		assertTrue(violations.isEmpty());	
 		}
-
-		
-	@Test
-	@Transactional
-	@Rollback(true)
-	public void testMaxSizeId() {
-		MessageComment messageComment = new MessageComment();
-		// mandatory
-		messageComment.setId(10000000L);
-		messageComment.setMessage(message);
-		messageComment.setMember(member);
-		// script attack
-		messageComment.setComment("Have a nice Christmas");
-		Set<ConstraintViolation<MessageComment>> violations = validator.validate(messageComment);
-		assertFalse(violations.isEmpty());		
-		assertEquals(violations.iterator().next().getMessage(), "must be less than or equal to 9999999");
-		}
 		
 	@Test
 	@Transactional

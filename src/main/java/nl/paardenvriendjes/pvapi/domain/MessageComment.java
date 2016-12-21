@@ -49,6 +49,7 @@ public class MessageComment {
 	private Message message;
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@Pattern(regexp = "^http://res.cloudinary.com/epona/.*")
+	@Size(max = 80)
 	private String piclink;
 
 	// Getters and Setters
