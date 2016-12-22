@@ -36,6 +36,7 @@ public class EventLike {
 	@Enumerated(EnumType.STRING)
 	private LikeType liketype;
 	@ManyToOne
+	@NotNull
 	private Event event;
 	@ManyToOne
 	private EventComment EventComment;

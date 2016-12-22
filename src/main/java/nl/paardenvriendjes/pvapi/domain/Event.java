@@ -17,6 +17,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cache;
@@ -59,12 +60,15 @@ public class Event {
 	@Temporal(TemporalType.DATE)
 	private Date deactivatedDate;
 	@Size(min = 2, max = 20)
-	@NotNull
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String Message;
 	@Size(min = 2, max = 20)
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String messageScore;
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Pattern(regexp = "^http://res.cloudinary.com/epona/.*")
+	@Size(max = 100)
+	private String piclink;
 	@Min(0)
 	@Max (1000)
 	private int score; 
@@ -72,6 +76,7 @@ public class Event {
 	@Max (1000)
 	private int ranking;
 	private Boolean active;
+	@NotNull
 	@ManyToOne
 	private Paspoort paspoort;
 	private Boolean postEventOnTimeline;
@@ -190,18 +195,24 @@ public class Event {
 	public void setEventLocation(String eventLocation) {
 		this.eventLocation = eventLocation;
 	}	
+	public String getPiclink() {
+		return piclink;
+	}
+	public void setPiclink(String piclink) {
+		this.piclink = piclink;
+	}
 	
 	// ToString
-
 	@Override
 	public String toString() {
 		return "Event [id=" + id + ", eventName=" + eventName + ", eventtype=" + eventtype + ", eventDate=" + eventDate
 				+ ", createdOnDate=" + createdOnDate + ", deactivatedDate=" + deactivatedDate + ", Message=" + Message
-				+ ", messageScore=" + messageScore + ", score=" + score + ", ranking=" + ranking + ", active=" + active
-				+ ", paspoort=" + paspoort + ", postEventOnTimeline=" + postEventOnTimeline + ", eventLocation="
-				+ eventLocation + ", eventCommentList=" + eventCommentList + ", likelist=" + likelist + "]";
+				+ ", messageScore=" + messageScore + ", piclink=" + piclink + ", score=" + score + ", ranking="
+				+ ranking + ", active=" + active + ", paspoort=" + paspoort + ", postEventOnTimeline="
+				+ postEventOnTimeline + ", eventLocation=" + eventLocation + ", eventCommentList=" + eventCommentList
+				+ ", likelist=" + likelist + "]";
 	}
-	
+
 	// Hashcode and equals
 
 	@Override
@@ -221,6 +232,7 @@ public class Event {
 		result = prime * result + ((likelist == null) ? 0 : likelist.hashCode());
 		result = prime * result + ((messageScore == null) ? 0 : messageScore.hashCode());
 		result = prime * result + ((paspoort == null) ? 0 : paspoort.hashCode());
+		result = prime * result + ((piclink == null) ? 0 : piclink.hashCode());
 		result = prime * result + ((postEventOnTimeline == null) ? 0 : postEventOnTimeline.hashCode());
 		result = prime * result + ranking;
 		result = prime * result + score;
@@ -298,6 +310,11 @@ public class Event {
 				return false;
 		} else if (!paspoort.equals(other.paspoort))
 			return false;
+		if (piclink == null) {
+			if (other.piclink != null)
+				return false;
+		} else if (!piclink.equals(other.piclink))
+			return false;
 		if (postEventOnTimeline == null) {
 			if (other.postEventOnTimeline != null)
 				return false;
@@ -308,8 +325,8 @@ public class Event {
 		if (score != other.score)
 			return false;
 		return true;
-	}
-
+	}	
+	
 	// convenience methods for cardinality with EventComments
 
 	public void addOrUpdateComment(EventComment eventComment) {
@@ -359,12 +376,6 @@ public class Event {
 		}
 		getLikelist().remove(eventLike);
 	}
-	
-	
-	
-	
-	
-	
 }
 	
 	

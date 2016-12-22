@@ -51,7 +51,11 @@ public class EventComment {
 	private Event event;
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@Pattern (regexp = "^http://res.cloudinary.com/epona/.*")
+	@Size(max = 100)
 	private String piclink;
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Size(max = 150)
+	private String commmentLocation;	
 	
 	 //Getters and Setters
 	
@@ -93,13 +97,19 @@ public class EventComment {
 	public void setPiclink(String piclink) {
 		this.piclink = piclink;
 	}
-	 
+	public String getCommmentLocation() {
+		return commmentLocation;
+	}
+	public void setCommmentLocation(String commmentLocation) {
+		this.commmentLocation = commmentLocation;
+	}	
+
 	//ToString
-	
+
 	@Override
 	public String toString() {
 		return "EventComment [id=" + id + ", comment=" + comment + ", member=" + member + ", insertDate=" + insertDate
-				+ ", event=" + event + ", piclink=" + piclink + "]";
+				+ ", event=" + event + ", piclink=" + piclink + ", commmentLocation=" + commmentLocation + "]";
 	}
 	
 	//Hashcode and Equals
@@ -109,6 +119,7 @@ public class EventComment {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((comment == null) ? 0 : comment.hashCode());
+		result = prime * result + ((commmentLocation == null) ? 0 : commmentLocation.hashCode());
 		result = prime * result + ((event == null) ? 0 : event.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((insertDate == null) ? 0 : insertDate.hashCode());
@@ -116,7 +127,6 @@ public class EventComment {
 		result = prime * result + ((piclink == null) ? 0 : piclink.hashCode());
 		return result;
 	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -130,6 +140,11 @@ public class EventComment {
 			if (other.comment != null)
 				return false;
 		} else if (!comment.equals(other.comment))
+			return false;
+		if (commmentLocation == null) {
+			if (other.commmentLocation != null)
+				return false;
+		} else if (!commmentLocation.equals(other.commmentLocation))
 			return false;
 		if (event == null) {
 			if (other.event != null)

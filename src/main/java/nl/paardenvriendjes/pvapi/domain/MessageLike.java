@@ -29,7 +29,7 @@ import nl.paardenvriendjes.pvapi.enumerations.LikeType;
 public class MessageLike {
 
 	// Properties of Message
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@NotNull
@@ -37,16 +37,15 @@ public class MessageLike {
 	@Enumerated(EnumType.STRING)
 	private LikeType liketype;
 	@ManyToOne
+	@NotNull
 	private Message message;
-	@ManyToOne
-	private MessageComment messageComment;
 	@ManyToOne
 	private Member member;
 	@Temporal(TemporalType.DATE)
 	private Date createdon;
 
 	// Getters and Setters
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -79,7 +78,7 @@ public class MessageLike {
 	public void setMember(Member member) {
 		this.member = member;
 	}
-	
+
 	public Message getMessage() {
 		return message;
 	}
@@ -88,23 +87,15 @@ public class MessageLike {
 		this.message = message;
 	}
 
-	public MessageComment getMessageComment() {
-		return messageComment;
-	}
-
-	public void setMessageComment(MessageComment messageComment) {
-		this.messageComment = messageComment;
-	}
-
 	// ToString
-	
+
 	@Override
 	public String toString() {
-		return "MessageLike [id=" + id + ", liketype=" + liketype + ", message=" + message + ", messageComment="
-				+ messageComment + ", member=" + member + ", createdon=" + createdon + "]";
+		return "MessageLike [id=" + id + ", liketype=" + liketype + ", message=" + message + ", member=" + member
+				+ ", createdon=" + createdon + "]";
 	}
 
-	// Hashcode and Equals
+	// Hashcode and Equals	
 	
 	@Override
 	public int hashCode() {
@@ -115,7 +106,6 @@ public class MessageLike {
 		result = prime * result + ((liketype == null) ? 0 : liketype.hashCode());
 		result = prime * result + ((member == null) ? 0 : member.hashCode());
 		result = prime * result + ((message == null) ? 0 : message.hashCode());
-		result = prime * result + ((messageComment == null) ? 0 : messageComment.hashCode());
 		return result;
 	}
 
@@ -150,11 +140,6 @@ public class MessageLike {
 				return false;
 		} else if (!message.equals(other.message))
 			return false;
-		if (messageComment == null) {
-			if (other.messageComment != null)
-				return false;
-		} else if (!messageComment.equals(other.messageComment))
-			return false;
 		return true;
-	}	
+	}
 }

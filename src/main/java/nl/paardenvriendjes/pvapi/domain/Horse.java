@@ -36,13 +36,11 @@ import nl.paardenvriendjes.pvapi.enumerations.PaardType;
 @Entity
 @Cacheable("other")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@JsonIdentityInfo(
-		  generator = ObjectIdGenerators.PropertyGenerator.class, 
-		  property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Horse {
 
 	// Properties Horse
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@NotNull
@@ -52,16 +50,16 @@ public class Horse {
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String name;
 	@SafeHtml(whitelistType = WhiteListType.NONE)
-	@Pattern (regexp = "^http://res.cloudinary.com/epona/.*")
-	@Size(max = 80)
+	@Pattern(regexp = "^http://res.cloudinary.com/epona/.*")
+	@Size(max = 100)
 	private String horseimage1;
 	@SafeHtml(whitelistType = WhiteListType.NONE)
-	@Pattern (regexp = "^http://res.cloudinary.com/epona/.*")
-	@Size(max = 80)
+	@Pattern(regexp = "^http://res.cloudinary.com/epona/.*")
+	@Size(max = 100)
 	private String horseimage2;
 	@SafeHtml(whitelistType = WhiteListType.NONE)
-	@Pattern (regexp = "^http://res.cloudinary.com/epona/.*")
-	@Size(max = 80)
+	@Pattern(regexp = "^http://res.cloudinary.com/epona/.*")
+	@Size(max = 100)
 	private String horseimage3;
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@Size(min = 2, max = 40)
@@ -71,7 +69,7 @@ public class Horse {
 	private Date geboortedatum;
 	private Geslacht geslacht;
 	@Max(200)
-	private int stokmaat; 
+	private int stokmaat;
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@Size(min = 2, max = 150)
 	private String karakter;
@@ -86,6 +84,7 @@ public class Horse {
 	@Temporal(TemporalType.DATE)
 	private Date deactivatedDate;
 	@OneToOne
+	@NotNull
 	private Paspoort paspoort;
 	@ManyToOne
 	@NotNull
@@ -93,7 +92,7 @@ public class Horse {
 	@ElementCollection
 	private Map<String, String> sports = new HashMap<String, String>();
 	@Enumerated(EnumType.STRING)
-	private PaardType paardType; 
+	private PaardType paardType;
 	private Boolean active;
 
 	// Getters and Setters
@@ -105,7 +104,7 @@ public class Horse {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -205,9 +204,11 @@ public class Horse {
 	public Member getMember() {
 		return member;
 	}
+
 	public void setMember(Member member) {
 		this.member = member;
 	}
+
 	public Paspoort getPaspoort() {
 		return paspoort;
 	}
@@ -215,7 +216,7 @@ public class Horse {
 	public void setPaspoort(Paspoort paspoort) {
 		this.paspoort = paspoort;
 	}
-	
+
 	public Map<String, String> getSports() {
 		return sports;
 	}
@@ -231,6 +232,7 @@ public class Horse {
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
+
 	public PaardType getPaardType() {
 		return paardType;
 	}
@@ -238,6 +240,7 @@ public class Horse {
 	public void setPaardType(PaardType paardType) {
 		this.paardType = paardType;
 	}
+
 	public Date getCreatedonDate() {
 		return createdonDate;
 	}
@@ -246,7 +249,7 @@ public class Horse {
 		// set date from backend
 		this.createdonDate = new Date();
 	}
-	
+
 	public Date getDeactivatedDate() {
 		return deactivatedDate;
 	}
@@ -254,8 +257,8 @@ public class Horse {
 	public void setDeactivatedDate() {
 		// set date from backend
 		this.deactivatedDate = new Date();
-	} 	
-	
+	}
+
 	// toString
 	@Override
 	public String toString() {
@@ -266,7 +269,7 @@ public class Horse {
 				+ ", deactivatedDate=" + deactivatedDate + ", paspoort=" + paspoort + ", member=" + member + ", sports="
 				+ sports + ", paardType=" + paardType + ", active=" + active + "]";
 	}
-	
+
 	// Hashcode and equals
 
 	@Override
@@ -397,25 +400,22 @@ public class Horse {
 	}
 
 	// convenience methods for working with SportsMap
-	
-	public void addSportToMap(String sporttype, String sportlevel) { 
 
-		if (sporttype == null || sportlevel == null) { 
+	public void addSportToMap(String sporttype, String sportlevel) {
+
+		if (sporttype == null || sportlevel == null) {
 			throw new NullPointerException("add null to sportsmap can not be possible");
-		}
-		else { 
-		sports.put(sporttype, sportlevel);
+		} else {
+			sports.put(sporttype, sportlevel);
 		}
 	}
-	
-	public void removeSportFromMap(String sporttype) { 
 
+	public void removeSportFromMap(String sporttype) {
 
-		if (sporttype == null) { 
+		if (sporttype == null) {
 			throw new NullPointerException("delete null from sportsmap can not be possible");
+		} else {
+			this.sports.remove(sporttype);
 		}
-		else { 
-		this.sports.remove(sporttype);
-		} 
 	}
 }

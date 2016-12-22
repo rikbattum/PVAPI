@@ -14,7 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -60,15 +59,15 @@ public class Message {
 	private Member member;
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@Pattern(regexp = "^http://res.cloudinary.com/epona/.*")
-	@Size(max = 80)
+	@Size(max = 100)
 	private String piclink;
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@Pattern(regexp = "^http://res.cloudinary.com/epona/.*")
-	@Size(max = 80)
+	@Size(max = 100)
 	private String picLinkSecond;
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@Pattern(regexp = "^http://res.cloudinary.com/epona/.*")
-	@Size(max = 80)
+	@Size(max = 100)
 	private String picLinkThird;
 	private Boolean publicPost;
 	@SafeHtml(whitelistType = WhiteListType.NONE)
