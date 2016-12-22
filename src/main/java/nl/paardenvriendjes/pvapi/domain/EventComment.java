@@ -1,26 +1,19 @@
 package nl.paardenvriendjes.pvapi.domain;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 import org.springframework.cache.annotation.Cacheable;
@@ -30,7 +23,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 
 @Entity
-@Cacheable("other")
+@Cacheable("eventcomment")
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @JsonIdentityInfo(
 		  generator = ObjectIdGenerators.PropertyGenerator.class, 
@@ -38,10 +31,11 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 public class EventComment {
 
+	// Properties of EventCommment 
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@NotNull
-	@Max(9999999)
 	private Long id;
 	@NotNull
 	@Size(min = 10, max = 150)
@@ -57,7 +51,11 @@ public class EventComment {
 	private Event event;
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@Pattern (regexp = "^http://res.cloudinary.com/epona/.*")
+	@Size(max = 100)
 	private String piclink;
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Size(max = 150)
+	private String commmentLocation;	
 	
 	 //Getters and Setters
 	
@@ -99,13 +97,19 @@ public class EventComment {
 	public void setPiclink(String piclink) {
 		this.piclink = piclink;
 	}
-	 
+	public String getCommmentLocation() {
+		return commmentLocation;
+	}
+	public void setCommmentLocation(String commmentLocation) {
+		this.commmentLocation = commmentLocation;
+	}	
+
 	//ToString
-	
+
 	@Override
 	public String toString() {
 		return "EventComment [id=" + id + ", comment=" + comment + ", member=" + member + ", insertDate=" + insertDate
-				+ ", event=" + event + ", piclink=" + piclink + "]";
+				+ ", event=" + event + ", piclink=" + piclink + ", commmentLocation=" + commmentLocation + "]";
 	}
 	
 	//Hashcode and Equals
@@ -115,6 +119,7 @@ public class EventComment {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((comment == null) ? 0 : comment.hashCode());
+		result = prime * result + ((commmentLocation == null) ? 0 : commmentLocation.hashCode());
 		result = prime * result + ((event == null) ? 0 : event.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((insertDate == null) ? 0 : insertDate.hashCode());
@@ -135,6 +140,11 @@ public class EventComment {
 			if (other.comment != null)
 				return false;
 		} else if (!comment.equals(other.comment))
+			return false;
+		if (commmentLocation == null) {
+			if (other.commmentLocation != null)
+				return false;
+		} else if (!commmentLocation.equals(other.commmentLocation))
 			return false;
 		if (event == null) {
 			if (other.event != null)

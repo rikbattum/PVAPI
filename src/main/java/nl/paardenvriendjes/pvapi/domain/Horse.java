@@ -1,9 +1,7 @@
 package nl.paardenvriendjes.pvapi.domain;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.persistence.ElementCollection;
@@ -13,7 +11,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -24,6 +21,7 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
@@ -37,30 +35,31 @@ import nl.paardenvriendjes.pvapi.enumerations.PaardType;
 
 @Entity
 @Cacheable("other")
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@JsonIdentityInfo(
-		  generator = ObjectIdGenerators.PropertyGenerator.class, 
-		  property = "id")
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Horse {
 
-	// Properties
+	// Properties Horse
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@NotNull
-	@Max(9999999)
 	private Long id;
 	@NotNull
 	@Size(min = 2, max = 30)
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String name;
 	@SafeHtml(whitelistType = WhiteListType.NONE)
-	@Pattern (regexp = "^http://res.cloudinary.com/epona/.*")
+	@Pattern(regexp = "^http://res.cloudinary.com/epona/.*")
+	@Size(max = 100)
 	private String horseimage1;
 	@SafeHtml(whitelistType = WhiteListType.NONE)
-	@Pattern (regexp = "^http://res.cloudinary.com/epona/.*")
+	@Pattern(regexp = "^http://res.cloudinary.com/epona/.*")
+	@Size(max = 100)
 	private String horseimage2;
 	@SafeHtml(whitelistType = WhiteListType.NONE)
-	@Pattern (regexp = "^http://res.cloudinary.com/epona/.*")
+	@Pattern(regexp = "^http://res.cloudinary.com/epona/.*")
+	@Size(max = 100)
 	private String horseimage3;
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@Size(min = 2, max = 40)
@@ -70,7 +69,7 @@ public class Horse {
 	private Date geboortedatum;
 	private Geslacht geslacht;
 	@Max(200)
-	private int stokmaat; 
+	private int stokmaat;
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@Size(min = 2, max = 150)
 	private String karakter;
@@ -84,9 +83,8 @@ public class Horse {
 	private Date createdonDate;
 	@Temporal(TemporalType.DATE)
 	private Date deactivatedDate;
-	@ManyToMany
-	private List<Event> events = new ArrayList<Event>();
 	@OneToOne
+	@NotNull
 	private Paspoort paspoort;
 	@ManyToOne
 	@NotNull
@@ -94,12 +92,10 @@ public class Horse {
 	@ElementCollection
 	private Map<String, String> sports = new HashMap<String, String>();
 	@Enumerated(EnumType.STRING)
-	private PaardType paardType; 
+	private PaardType paardType;
 	private Boolean active;
 
-
 	// Getters and Setters
-
 
 	public Long getId() {
 		return id;
@@ -108,7 +104,7 @@ public class Horse {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -213,14 +209,6 @@ public class Horse {
 		this.member = member;
 	}
 
-	public List<Event> getEvents() {
-		return events;
-	}
-
-	public void setEvents(List<Event> events) {
-		this.events = events;
-	}
-
 	public Paspoort getPaspoort() {
 		return paspoort;
 	}
@@ -228,7 +216,7 @@ public class Horse {
 	public void setPaspoort(Paspoort paspoort) {
 		this.paspoort = paspoort;
 	}
-	
+
 	public Map<String, String> getSports() {
 		return sports;
 	}
@@ -244,6 +232,7 @@ public class Horse {
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
+
 	public PaardType getPaardType() {
 		return paardType;
 	}
@@ -251,6 +240,7 @@ public class Horse {
 	public void setPaardType(PaardType paardType) {
 		this.paardType = paardType;
 	}
+
 	public Date getCreatedonDate() {
 		return createdonDate;
 	}
@@ -259,7 +249,7 @@ public class Horse {
 		// set date from backend
 		this.createdonDate = new Date();
 	}
-	
+
 	public Date getDeactivatedDate() {
 		return deactivatedDate;
 	}
@@ -267,20 +257,19 @@ public class Horse {
 	public void setDeactivatedDate() {
 		// set date from backend
 		this.deactivatedDate = new Date();
-	} 	
-	
-	// toString
+	}
 
+	// toString
 	@Override
 	public String toString() {
 		return "Horse [id=" + id + ", name=" + name + ", horseimage1=" + horseimage1 + ", horseimage2=" + horseimage2
 				+ ", horseimage3=" + horseimage3 + ", afstamming=" + afstamming + ", geboortedatum=" + geboortedatum
 				+ ", geslacht=" + geslacht + ", stokmaat=" + stokmaat + ", karakter=" + karakter + ", overmijnpaard="
 				+ overmijnpaard + ", overleden=" + overleden + ", waarde=" + waarde + ", createdonDate=" + createdonDate
-				+ ", deactivatedDate=" + deactivatedDate + ", events=" + events + ", paspoort=" + paspoort + ", member="
-				+ member + ", sports=" + sports + ", paardType=" + paardType + ", active=" + active + "]";
+				+ ", deactivatedDate=" + deactivatedDate + ", paspoort=" + paspoort + ", member=" + member + ", sports="
+				+ sports + ", paardType=" + paardType + ", active=" + active + "]";
 	}
-	
+
 	// Hashcode and equals
 
 	@Override
@@ -291,7 +280,6 @@ public class Horse {
 		result = prime * result + ((afstamming == null) ? 0 : afstamming.hashCode());
 		result = prime * result + ((createdonDate == null) ? 0 : createdonDate.hashCode());
 		result = prime * result + ((deactivatedDate == null) ? 0 : deactivatedDate.hashCode());
-		result = prime * result + ((events == null) ? 0 : events.hashCode());
 		result = prime * result + ((geboortedatum == null) ? 0 : geboortedatum.hashCode());
 		result = prime * result + ((geslacht == null) ? 0 : geslacht.hashCode());
 		result = prime * result + ((horseimage1 == null) ? 0 : horseimage1.hashCode());
@@ -339,11 +327,6 @@ public class Horse {
 			if (other.deactivatedDate != null)
 				return false;
 		} else if (!deactivatedDate.equals(other.deactivatedDate))
-			return false;
-		if (events == null) {
-			if (other.events != null)
-				return false;
-		} else if (!events.equals(other.events))
 			return false;
 		if (geboortedatum == null) {
 			if (other.geboortedatum != null)
@@ -417,25 +400,22 @@ public class Horse {
 	}
 
 	// convenience methods for working with SportsMap
-	
-	public void addSportToMap(String sporttype, String sportlevel) { 
 
-		if (sporttype == null || sportlevel == null) { 
+	public void addSportToMap(String sporttype, String sportlevel) {
+
+		if (sporttype == null || sportlevel == null) {
 			throw new NullPointerException("add null to sportsmap can not be possible");
-		}
-		else { 
-		sports.put(sporttype, sportlevel);
+		} else {
+			sports.put(sporttype, sportlevel);
 		}
 	}
-	
-	public void removeSportFromMap(String sporttype) { 
 
+	public void removeSportFromMap(String sporttype) {
 
-		if (sporttype == null) { 
+		if (sporttype == null) {
 			throw new NullPointerException("delete null from sportsmap can not be possible");
+		} else {
+			this.sports.remove(sporttype);
 		}
-		else { 
-		this.sports.remove(sporttype);
-		} 
 	}
 }

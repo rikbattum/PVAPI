@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -23,22 +22,24 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import nl.paardenvriendjes.pvapi.enumerations.LikeType;
 
 @Entity
-@Cacheable("other")
+@Cacheable("eventlike")
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class EventLike {
 
+	// Properties of EventLike
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@NotNull
-	@Max(9999999)
 	private Long id;
 	@Enumerated(EnumType.STRING)
 	private LikeType liketype;
 	@ManyToOne
-	private Message message;
+	@NotNull
+	private Event event;
 	@ManyToOne
-	private MessageComment messageComment;
+	private EventComment EventComment;
 	@ManyToOne
 	private Member member;
 	@Temporal(TemporalType.DATE)
@@ -60,14 +61,6 @@ public class EventLike {
 		this.liketype = liketype;
 	}
 
-	public Message getMessagelike() {
-		return message;
-	}
-
-	public void setMessagelike(Message message) {
-		this.message = message;
-	}
-
 	public Date getInsertDate() {
 		return createdon;
 	}
@@ -77,38 +70,50 @@ public class EventLike {
 		this.createdon = new Date();
 	}
 
-	public MessageComment getComments() {
-		return messageComment;
-	}
-
-	public void setComments(MessageComment messageComment) {
-		this.messageComment = messageComment;
-	}
-
-	public Member getMembert() {
+	public Member getMember() {
 		return member;
 	}
 
-	public void setMembert(Member member) {
+	public void setMember(Member member) {
 		this.member = member;
 	}
 
+	public Event getEvent() {
+		return event;
+	}
+
+	public void setEvent(Event event) {
+		this.event = event;
+	}
+
+	public EventComment getEventComment() {
+		return EventComment;
+	}
+
+	public void setEventComment(EventComment eventComment) {
+		EventComment = eventComment;
+	}
+
+	// ToString
+
 	@Override
 	public String toString() {
-		return "Like [id=" + id + ", liketype=" + liketype + ", message=" + message + ", comment=" + messageComment
+		return "EventLike [id=" + id + ", liketype=" + liketype + ", event=" + event + ", EventComment=" + EventComment
 				+ ", member=" + member + ", createdon=" + createdon + "]";
 	}
+
+	// Hashcode and Equals
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((messageComment == null) ? 0 : messageComment.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((EventComment == null) ? 0 : EventComment.hashCode());
 		result = prime * result + ((createdon == null) ? 0 : createdon.hashCode());
+		result = prime * result + ((event == null) ? 0 : event.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((liketype == null) ? 0 : liketype.hashCode());
 		result = prime * result + ((member == null) ? 0 : member.hashCode());
-		result = prime * result + ((message == null) ? 0 : message.hashCode());
 		return result;
 	}
 
@@ -121,20 +126,25 @@ public class EventLike {
 		if (getClass() != obj.getClass())
 			return false;
 		EventLike other = (EventLike) obj;
-		if (messageComment == null) {
-			if (other.messageComment != null)
+		if (EventComment == null) {
+			if (other.EventComment != null)
 				return false;
-		} else if (!messageComment.equals(other.messageComment))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
+		} else if (!EventComment.equals(other.EventComment))
 			return false;
 		if (createdon == null) {
 			if (other.createdon != null)
 				return false;
 		} else if (!createdon.equals(other.createdon))
+			return false;
+		if (event == null) {
+			if (other.event != null)
+				return false;
+		} else if (!event.equals(other.event))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
 		if (liketype != other.liketype)
 			return false;
@@ -143,14 +153,6 @@ public class EventLike {
 				return false;
 		} else if (!member.equals(other.member))
 			return false;
-		if (message == null) {
-			if (other.message != null)
-				return false;
-		} else if (!message.equals(other.message))
-			return false;
 		return true;
 	}
-
-	
-	
 }

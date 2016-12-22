@@ -5,13 +5,15 @@
 	<persistence-unit name="pu" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<class>nl.paardenvriendjes.pvapi.domain.Horse</class>
+		<class>nl.paardenvriendjes.pvapi.domain.Message</class>
 		<class>nl.paardenvriendjes.pvapi.domain.MessageComment</class>
+		<class>nl.paardenvriendjes.pvapi.domain.MessageLike</class>
 		<class>nl.paardenvriendjes.pvapi.domain.Paspoort</class>
 		<class>nl.paardenvriendjes.pvapi.domain.Event</class>
+		<class>nl.paardenvriendjes.pvapi.domain.EventLike</class>
+		<class>nl.paardenvriendjes.pvapi.domain.EventComment</class>
 		<class>nl.paardenvriendjes.pvapi.domain.Interesse</class>
-		<class>nl.paardenvriendjes.pvapi.domain.MessageLike</class>
 		<class>nl.paardenvriendjes.pvapi.domain.Member</class>
-		<class>nl.paardenvriendjes.pvapi.domain.Message</class>
 		<properties>
 		</properties>
 	</persistence-unit>
