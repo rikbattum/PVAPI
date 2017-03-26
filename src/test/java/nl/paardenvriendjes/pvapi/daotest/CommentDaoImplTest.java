@@ -15,8 +15,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import nl.paardenvriendjes.pvapi.abstracttest.AbstractTest;
-import nl.paardenvriendjes.pvapi.daoimpl.CommentDaoImpl;
 import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
+import nl.paardenvriendjes.pvapi.daoimpl.MessageCommentDaoImpl;
 import nl.paardenvriendjes.pvapi.daoimpl.MessageDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.MessageComment;
 import nl.paardenvriendjes.pvapi.domain.Member;
@@ -31,7 +31,7 @@ public class CommentDaoImplTest extends AbstractTest {
 	@Autowired
 	private MemberDaoImpl memberService;
 	@Autowired
-	private CommentDaoImpl commentService;
+	private MessageCommentDaoImpl commentService;
 	@Autowired
 	private TestUtilDataSetup testUtilDataSetup;
 

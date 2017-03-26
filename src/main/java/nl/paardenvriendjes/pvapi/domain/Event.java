@@ -205,12 +205,7 @@ public class Event {
 	// ToString
 	@Override
 	public String toString() {
-		return "Event [id=" + id + ", eventName=" + eventName + ", eventtype=" + eventtype + ", eventDate=" + eventDate
-				+ ", createdOnDate=" + createdOnDate + ", deactivatedDate=" + deactivatedDate + ", Message=" + Message
-				+ ", messageScore=" + messageScore + ", piclink=" + piclink + ", score=" + score + ", ranking="
-				+ ranking + ", active=" + active + ", paspoort=" + paspoort + ", postEventOnTimeline="
-				+ postEventOnTimeline + ", eventLocation=" + eventLocation + ", eventCommentList=" + eventCommentList
-				+ ", likelist=" + likelist + "]";
+		return "Event [id=" + id + ", eventName=" + eventName + "]";
 	}
 
 	// Hashcode and equals

@@ -28,6 +28,7 @@ import nl.paardenvriendjes.pvapi.domain.Horse;
 import nl.paardenvriendjes.pvapi.domain.Interesse;
 import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.domain.Message;
+import nl.paardenvriendjes.pvapi.domain.Paspoort;
 import nl.paardenvriendjes.pvapi.enumerations.Geslacht;
 import nl.paardenvriendjes.pvapi.enumerations.LineType;
 import nl.paardenvriendjes.pvapi.enumerations.MessageType;
@@ -98,7 +99,6 @@ public class MemberDaoImplTest extends AbstractTest {
 		assertThat(x.getProfileimage(), Is.is("http://res.cloudinary.com/epona/pictureXYZ.jpg"));
 		assertThat(x.getOvermij(), Is.is("ik ben een paardenliefhebber"));
 		assertThat(x.getUsername(), Is.is("rikbattum"));
-
 		assertThat(memberList.size(), Is.is(8));
 	}
 
@@ -232,8 +232,6 @@ public class MemberDaoImplTest extends AbstractTest {
 		member.setPlace(Place.EMMELOORD);
 		member.setAchternaam("Pieterse"); 
 		memberService.save(member);
-		
-		List<Member> memberListAgain = memberService.listAll();
 		Member memberUpdated = memberService.listOne(member.getId());
 		assertThat(memberUpdated.getPlace().toString(), Is.is("EMMELOORD"));
 		assertThat(memberUpdated.getEmail(), Is.is("userpv@mailinator.com"));
@@ -439,16 +437,17 @@ public class MemberDaoImplTest extends AbstractTest {
 		memberService.save(fullmember);
 		memberService.save(vriend);
 		memberService.save(blokkade);
-		Horse horse = new Horse();
-		horse.setAfstamming("Vertigo X Regilio");
-		horse.setHorseimage1("http://res.cloudinary.com/epona/pictureXYZ");
-		horse.setName("Amalia");
-		horse.setGeslacht(Geslacht.F);
-		fullmember.addOrUpdateHorse(horse);
-		memberService.edit(fullmember);
 		log.debug("This is the json of full_member");
 		log.debug(mapper.writeValueAsString(fullmember));
 		List<Member> memberList = memberService.findMemberByFirstAndLastName("Ronnie", "Janssen");
 		assertEquals(memberList.size(), 1);
 	}	
+	
+	
+	
+	
+	
+	// test cascade operations
+	// Cascade save and edit messages and events 
+	
 }

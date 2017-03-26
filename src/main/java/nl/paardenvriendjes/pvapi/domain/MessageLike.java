@@ -91,8 +91,7 @@ public class MessageLike {
 
 	@Override
 	public String toString() {
-		return "MessageLike [id=" + id + ", liketype=" + liketype + ", message=" + message + ", member=" + member
-				+ ", createdon=" + createdon + "]";
+		return "MessageLike [id=" + id + ", liketype=" + liketype + "]";
 	}
 
 	// Hashcode and Equals	

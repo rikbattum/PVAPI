@@ -15,23 +15,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import nl.paardenvriendjes.pvapi.daoimpl.CommentDaoImpl;
+import nl.paardenvriendjes.pvapi.daoimpl.MessageCommentDaoImpl;
 import nl.paardenvriendjes.pvapi.domain.MessageComment;
 
 @RestController
-public class CommentRestController {
+public class MessageCommentRestController {
 
 	@Autowired
-	private CommentDaoImpl commentservice ;
+	private MessageCommentDaoImpl commentservice ;
 
-	static Logger log = Logger.getLogger(CommentDaoImpl.class.getName());
+	static Logger log = Logger.getLogger(MessageCommentDaoImpl.class.getName());
 	
 	
 	// -------------------Options Call --------------------------------------------------------------
 	
 		@CrossOrigin
-		@RequestMapping(value = "/comments", method = RequestMethod.OPTIONS)
+		@RequestMapping(value = "/messagecomments", method = RequestMethod.OPTIONS)
 		public ResponseEntity<List<MessageComment>> optionsCall() {
 			ResponseEntity<List<MessageComment>> ent = new ResponseEntity<List<MessageComment>> (HttpStatus.NO_CONTENT);
 			return ent;
@@ -40,7 +39,7 @@ public class CommentRestController {
 	// -------------------Retrieve All Comments--------------------------------------------------------
 		
 		@CrossOrigin
-		@RequestMapping(value = "/comments", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+		@RequestMapping(value = "/messagecomments", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 		public ResponseEntity<List<MessageComment>> listAllComments() {
 			List<MessageComment> messageComments = commentservice.listAll();
 			if (messageComments.isEmpty()) {
@@ -52,7 +51,7 @@ public class CommentRestController {
 	// -------------------Retrieve Single Comment--------------------------------------------------------
 
 		@CrossOrigin
-		@RequestMapping(value = "/comments/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+		@RequestMapping(value = "/messagecomments/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 		public ResponseEntity<MessageComment> getComment(@PathVariable("id") long id) {
 			log.debug("Fetching Comment with id " + id);
 			MessageComment messageComment = commentservice.listOne(id);
@@ -66,21 +65,21 @@ public class CommentRestController {
 		// -------------------Create a Comment--------------------------------------------------------
 
 		@CrossOrigin
-		@RequestMapping(value = "/comments/", method = RequestMethod.POST)
+		@RequestMapping(value = "/messagecomments/", method = RequestMethod.POST)
 		public ResponseEntity<Void> createComment(@RequestBody MessageComment messageComment, UriComponentsBuilder ucBuilder) {
 			log.debug("Creating comment" + messageComment.getComment());
 
 			commentservice.save(messageComment);
 
 			HttpHeaders headers = new HttpHeaders();
-			headers.setLocation(ucBuilder.path("/comments/{id}").buildAndExpand(messageComment.getId()).toUri());
+			headers.setLocation(ucBuilder.path("/messagecomments/{id}").buildAndExpand(messageComment.getId()).toUri());
 			return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 		}
 
 		// ------------------- Update a Comment--------------------------------------------------------
 
 		@CrossOrigin
-		@RequestMapping(value = "/comments/{id}", method = RequestMethod.PUT)
+		@RequestMapping(value = "/messagecomments/{id}", method = RequestMethod.PUT)
 		public ResponseEntity<MessageComment> updateComment(@PathVariable("id") long id, @RequestBody MessageComment messageComment) {
 			log.debug("Updating Comment " + id);
 
@@ -98,7 +97,7 @@ public class CommentRestController {
 		// ------------------- Delete a Comment --------------------------------------------------------
 		
 		@CrossOrigin
-		@RequestMapping(value = "/comments/{id}", method = RequestMethod.DELETE)
+		@RequestMapping(value = "/messagecomments/{id}", method = RequestMethod.DELETE)
 		public ResponseEntity<MessageComment> deleteComment(@PathVariable("id") long id) {
 			log.debug("Fetching & Deleting Comment with id " + id);
 
@@ -114,7 +113,7 @@ public class CommentRestController {
 		// ------------------- Count all Comments --------------------------------------------------------
 		
 			@CrossOrigin
-			@RequestMapping(value = "/comments/count", method = RequestMethod.GET)
+			@RequestMapping(value = "/messagecomments/count", method = RequestMethod.GET)
 			public ResponseEntity<Integer> getCommentCount() {
 				log.debug("Fetching comment count");
 				int commentTotal = commentservice.count();

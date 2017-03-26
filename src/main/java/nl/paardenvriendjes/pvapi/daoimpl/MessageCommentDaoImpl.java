@@ -13,9 +13,9 @@ import nl.paardenvriendjes.pvapi.domain.MessageComment;
 @Repository
 @Transactional
 
-public class CommentDaoImpl extends AbstractDaoService<MessageComment> {
+public class MessageCommentDaoImpl extends AbstractDaoService<MessageComment> {
 
-	public CommentDaoImpl() {
+	public MessageCommentDaoImpl() {
 		super(MessageComment.class);
 	}
 
@@ -29,17 +29,19 @@ public class CommentDaoImpl extends AbstractDaoService<MessageComment> {
 	}
 
 	@Override
-	public void save(MessageComment messageComment) {
+	public MessageComment save(MessageComment messageComment) {
 		messageComment.setInsertDate();
 		getCurrentSession().persist(messageComment);
 		log.debug("saved One: " + messageComment.toString());
+		return messageComment;
 	}
 
 	@Override
-	public void edit(MessageComment messageComment) {
+	public MessageComment edit(MessageComment messageComment) {
 		messageComment.setInsertDate();
-		getCurrentSession().merge(messageComment);
+		getCurrentSession().update(messageComment);
 		log.debug("edit: " + messageComment.toString());
+		return messageComment;
 	}
 
 }

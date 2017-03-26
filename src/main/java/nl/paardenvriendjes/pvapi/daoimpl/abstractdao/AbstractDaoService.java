@@ -58,15 +58,17 @@ public abstract class AbstractDaoService<T> {
 		return objectLoaded;
 	}
 
-	public void save(T entity) {
+	public T save(T entity) {
 		getCurrentSession().persist(entity);
 		log.debug("saved One: " + entityClass.toString());
+		return entity;
 	}
 
 	@PreAuthorize("hasAnyAuthority('USER','ADMIN')")
-	public void edit(T entity) {
-		getCurrentSession().merge(entity);
+	public T edit(T entity) {
+		getCurrentSession().update(entity);
 		log.debug("edit: " + entityClass.toString());
+		return entity;
 	}
 
 	@PreAuthorize("hasAnyAuthority('USER','ADMIN')")

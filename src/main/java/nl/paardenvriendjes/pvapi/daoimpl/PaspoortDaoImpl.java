@@ -29,11 +29,12 @@ public class PaspoortDaoImpl extends AbstractDaoService<Paspoort> {
 	}
 
 	@Override
-	public void save(Paspoort paspoort) {
+	public Paspoort save(Paspoort paspoort) {
 		paspoort.setCreatedOn();
 		paspoort.setActive(true);
 		getCurrentSession().persist(paspoort);
 		log.debug("saved One: " + paspoort.toString());
+		return paspoort;
 	}
 
 	@Override

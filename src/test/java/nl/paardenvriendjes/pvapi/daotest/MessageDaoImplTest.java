@@ -121,24 +121,24 @@ public class MessageDaoImplTest extends AbstractTest {
 	@Test
 	@WithMockUser(username = "userpv@mailinator.com", authorities={"USER"})
 	public void testCascadeDeleteMesages() throws Exception {
-
 		testUtilDataSetup.setMembers();
 
 		// initial list empty?
-		List<Message> messagesListInitial = messageService.listAll();
-		assertThat(messagesListInitial.size(), Is.is(0));
-		List<Member> memberList = memberService.listAll();
-		Member testMember = memberList.get(0);
+		List<Message> messageList = messageService.listAll();
+		assertThat(messageList.size(), Is.is(0));
+	
 		// Add new message to be sure there is one
 		Message message = new Message();
-		message.setId(1L);
 		message.setMessage("Have a nice Christmas");
+		//add message to member
+		List<Member> memberList = memberService.listAll();	
+		Member testMember = memberList.get(0);
 		testMember.addOrUpdateMessage(message);
 		memberService.edit(testMember);
 		// assert for added message
-		List<Message> messagesList = messageService.listAll();
-		assertThat(messagesList.size(), Is.is(1));
-		assertThat(messagesList.get(0).getMessage(), Is.is("Have a nice Christmas"));
+		messageList = messageService.listAll();
+		assertThat(messageList.size(), Is.is(1));
+		assertThat(messageList.get(0).getMessage(), Is.is("Have a nice Christmas"));
 
 		// remove message
 		Message messageToBeRemoved = testMember.getMessages().get(0);
@@ -161,10 +161,10 @@ public class MessageDaoImplTest extends AbstractTest {
 		testMember.setEmail("userpv@mailinator.com");
 		// add a extra message
 		Message message = new Message();
-		message.setMember(testMember);
 		message.setMessage("fantastisch weer vandaag");
 		message.setInsertDate();
 		testMember.addOrUpdateMessage(message);
+		messageService.save(message);
 		memberService.edit(testMember);
 		Message messageToChanged = testMember.getMessages().get(0);
 		Long messageId = messageToChanged.getId();
@@ -179,7 +179,7 @@ public class MessageDaoImplTest extends AbstractTest {
 
 		Message updatedMessage = messageService.listOne(messageId);
 		assertThat(updatedMessage.getMessage(), Is.is("vandaag springen afgelast ivm sneeuw"));
-		assertThat(updatedMessage.getId(), Is.is(250L));
+		assertThat(updatedMessage.getId(), Is.is(265L));
 		assertNotNull(updatedMessage.getInsertDate());
 
 		assertThat(simpleDateFormat.format(updatedMessage.getInsertDate()), Is.is(simpleDateFormat.format(new Date())));

@@ -119,13 +119,13 @@ public class Paspoort {
 
 	@Override
 	public String toString() {
-		return "Paspoort [id=" + id + ", paspoortName=" + paspoortName + ", horse=" + horse + ", active=" + active
-				+ ", createdOn=" + createdOn + ", deactivatedDate=" + deactivatedDate + ", events=" + events + "]";
+		return "Paspoort [id=" + id + ", paspoortName=" + paspoortName + "]";
 	}
 
 	// Hashcode and Equals
 
 	@Override
+	
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -185,7 +185,7 @@ public class Paspoort {
 			return false;
 		return true;
 	}
-
+	
 	// convenience methods for cardinality with events
 
 	public void addOrUpdateEvent(Event event) {

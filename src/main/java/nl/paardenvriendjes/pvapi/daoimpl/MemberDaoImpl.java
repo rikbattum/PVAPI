@@ -42,17 +42,20 @@ public class MemberDaoImpl extends AbstractDaoService<Member> {
 
 	@Override
 	// free for all?	
-	public void save(Member member) {
+	public Member save(Member member) {
 		member.setCreatedonDate();
 		member.setActive(true);
 		getCurrentSession().persist(member);
-		log.debug("saved One: " + member.toString());
+		log.debug("saved One: " + member.getEmail());
+		return member; 
 	}
 	
+	@Override
 	@PreAuthorize("#member.email == authentication.name and hasAnyAuthority('USER','ADMIN')")
-	public void edit(Member member) {
-		getCurrentSession().merge(member);
-		log.debug("edit: " + Member.class.toString());
+	public Member edit(Member member) {
+		getCurrentSession().update(member);
+		log.debug("edit: " + member.getEmail());
+		return member;
 	}
 	
 	@Override
@@ -61,8 +64,8 @@ public class MemberDaoImpl extends AbstractDaoService<Member> {
 		try {
 			member.setActive(false);
 			member.setDeactivatedDate();
-			getCurrentSession().merge(member);
-			log.debug("Deactivated Member" + member.toString());
+			getCurrentSession().update(member);
+			log.debug("Deactivated Member" + member.getEmail());
 		} catch (Exception e) {
 			log.error("Member to be deactivated not successfull for id: " + member.getId());
 		}
@@ -82,7 +85,7 @@ public class MemberDaoImpl extends AbstractDaoService<Member> {
 		Member memberToBeReactivated = (Member) getCurrentSession().load(Member.class, email);
 		memberToBeReactivated.setActive(true);
 		getCurrentSession().merge(memberToBeReactivated);
-		log.debug("Reactivated Member" + memberToBeReactivated.toString());
+		log.debug("Reactivated Member" + memberToBeReactivated.getEmail());
 	} catch (Exception e) {
 		log.error("Member to be reactivated not successfull for id: " + email);
 	}

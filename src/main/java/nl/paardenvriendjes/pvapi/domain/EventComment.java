@@ -108,8 +108,7 @@ public class EventComment {
 
 	@Override
 	public String toString() {
-		return "EventComment [id=" + id + ", comment=" + comment + ", member=" + member + ", insertDate=" + insertDate
-				+ ", event=" + event + ", piclink=" + piclink + ", commmentLocation=" + commmentLocation + "]";
+		return "EventComment [id=" + id + ", comment=" + comment + "]";
 	}
 	
 	//Hashcode and Equals

@@ -98,8 +98,7 @@ public class EventLike {
 
 	@Override
 	public String toString() {
-		return "EventLike [id=" + id + ", liketype=" + liketype + ", event=" + event + ", EventComment=" + EventComment
-				+ ", member=" + member + ", createdon=" + createdon + "]";
+		return "EventLike [id=" + id + ", liketype=" + liketype + "]";
 	}
 
 	// Hashcode and Equals

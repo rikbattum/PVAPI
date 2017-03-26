@@ -77,12 +77,12 @@ public class Message {
 	// Collections of Message
 
 	@OneToMany(mappedBy = "message", orphanRemoval = true)
-	@Cascade({ CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DELETE })
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.PERSIST, CascadeType.DELETE })
 	// @org.hibernate.annotations.Cache(usage =
 	// CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private List<MessageComment> commentlist = new ArrayList<MessageComment>();
 	@OneToMany(mappedBy = "message", orphanRemoval = true)
-	@Cascade({ CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DELETE })
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.PERSIST, CascadeType.DELETE })
 	// @org.hibernate.annotations.Cache(usage =
 	// CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private List<MessageLike> likelist = new ArrayList<MessageLike>();
@@ -203,10 +203,7 @@ public class Message {
 
 	@Override
 	public String toString() {
-		return "Message [id=" + id + ", message=" + message + ", messageType=" + messageType + ", lineType=" + lineType
-				+ ", insertDate=" + insertDate + ", member=" + member + ", piclink=" + piclink + ", picLinkSecond="
-				+ picLinkSecond + ", picLinkThird=" + picLinkThird + ", publicPost=" + publicPost + ", messageLocation="
-				+ messageLocation + ", commentlist=" + commentlist + ", likelist=" + likelist + "]";
+		return "Message [id=" + id + ", message=" + message + ", messageType=" + messageType + "]";
 	}
 
 	// Hashcode and Equals

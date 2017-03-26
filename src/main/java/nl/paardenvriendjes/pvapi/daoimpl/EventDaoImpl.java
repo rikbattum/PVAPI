@@ -34,12 +34,13 @@ public class EventDaoImpl extends AbstractDaoService<Event>{
 	
 	
 	@Override
-	public void save(Event event) {
+	public Event save(Event event) {
 		event.setActive(true);
 		event.setCreatedOnDate();
 		getCurrentSession().persist(event);
 		log.debug("saved One: " + event.toString());
 		// updateMessagesWithEvent(event);
+		return event;
 	}
 	
 	@Override

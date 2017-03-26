@@ -118,24 +118,24 @@ public class Member {
 	// Collections of Member
 
 	@OneToMany(mappedBy = "member")
-	@Cascade({ CascadeType.ALL })
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.PERSIST })
 	private List<Horse> horses = new ArrayList<Horse>();
 	@OneToMany(mappedBy = "member")
-	@Cascade({ CascadeType.MERGE, CascadeType.PERSIST })
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.PERSIST})
 	private List<Message> messages = new ArrayList<Message>();
 	@OneToMany(mappedBy = "member")
-	@Cascade({ CascadeType.MERGE, CascadeType.PERSIST })
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.PERSIST })
 	private List<MessageComment> messageComments = new ArrayList<MessageComment>();
 	@OneToMany(mappedBy = "member")
-	@Cascade({ CascadeType.MERGE, CascadeType.PERSIST })
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.PERSIST })
 	private List<EventComment> eventComments = new ArrayList<EventComment>();
 	@OneToMany(mappedBy = "member")
-	@Cascade({ CascadeType.MERGE, CascadeType.PERSIST })
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.PERSIST })
 	private List<MessageLike> messageLikes = new ArrayList<MessageLike>();
 	@OneToMany(mappedBy = "member")
 	private List<EventLike> eventLikes = new ArrayList<EventLike>();
 	@ManyToMany
-	@Cascade({ CascadeType.ALL })
+	@Cascade({ CascadeType.SAVE_UPDATE})
 	@JoinTable(name = "member_vrienden", joinColumns = {
 			@JoinColumn(name = "membervrienden_id") }, inverseJoinColumns = { @JoinColumn(name = "vrienden_id") })
 	private List<Member> vrienden = new ArrayList<Member>();
@@ -378,14 +378,7 @@ public class Member {
 	@Override
 	public String toString() {
 		return "Member [id=" + id + ", email=" + email + ", voornaam=" + voornaam + ", achternaam=" + achternaam
-				+ ", username=" + username + ", createdonDate=" + createdonDate + ", deactivatedDate=" + deactivatedDate
-				+ ", geboortedatum=" + geboortedatum + ", overmij=" + overmij + ", interesse=" + interesse
-				+ ", profileimage=" + profileimage + ", password=" + password + ", place=" + place + ", sportLevel="
-				+ sportLevel + ", active=" + active + ", vervoer=" + vervoer + ", geslacht=" + geslacht
-				+ ", auth0user_id=" + auth0user_id + ", sports=" + sports + ", othersports=" + othersports + ", horses="
-				+ horses + ", messages=" + messages + ", messageComments=" + messageComments + ", eventComments="
-				+ eventComments + ", messageLikes=" + messageLikes + ", eventLikes=" + eventLikes + ", vrienden="
-				+ vrienden + ", blokkades=" + blokkades + "]";
+				+ ", username=" + username + "]";
 	}
 
 	// Hashcode and Equals

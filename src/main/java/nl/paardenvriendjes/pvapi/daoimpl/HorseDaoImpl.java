@@ -39,13 +39,14 @@ SessionFactory sessionFactory;
 	}	
 	
 @Override	
-	public void save(Horse horse) {
+	public Horse save(Horse horse) {
 		// if (!horse.getSports().isEmpty()) {
 		// horse.getSports().forEach( (key,value) -> updateHorseSports(key, value));
 		horse.setCreatedonDate();
 		horse.setActive(true);
 		getCurrentSession().persist(horse);
 		log.debug("saved One: " + horse.toString());
+		return horse;
 			}
 
 @Override

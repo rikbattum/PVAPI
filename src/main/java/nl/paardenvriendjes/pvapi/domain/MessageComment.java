@@ -118,8 +118,7 @@ public class MessageComment {
 
 	@Override
 	public String toString() {
-		return "MessageComment [id=" + id + ", comment=" + comment + ", member=" + member + ", insertDate=" + insertDate
-				+ ", message=" + message + ", piclink=" + piclink + ", commmentLocation=" + commmentLocation + "]";
+		return "MessageComment [id=" + id + ", comment=" + comment + "]";
 	}
 	
 	// Hashcode and Equals

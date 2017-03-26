@@ -23,6 +23,8 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 import org.springframework.cache.annotation.Cacheable;
@@ -83,7 +85,8 @@ public class Horse {
 	private Date createdonDate;
 	@Temporal(TemporalType.DATE)
 	private Date deactivatedDate;
-	@OneToOne
+	@Cascade({ CascadeType.MERGE, CascadeType.PERSIST })
+	@OneToOne(mappedBy = "horse")
 	@NotNull
 	private Paspoort paspoort;
 	@ManyToOne
@@ -262,16 +265,11 @@ public class Horse {
 	// toString
 	@Override
 	public String toString() {
-		return "Horse [id=" + id + ", name=" + name + ", horseimage1=" + horseimage1 + ", horseimage2=" + horseimage2
-				+ ", horseimage3=" + horseimage3 + ", afstamming=" + afstamming + ", geboortedatum=" + geboortedatum
-				+ ", geslacht=" + geslacht + ", stokmaat=" + stokmaat + ", karakter=" + karakter + ", overmijnpaard="
-				+ overmijnpaard + ", overleden=" + overleden + ", waarde=" + waarde + ", createdonDate=" + createdonDate
-				+ ", deactivatedDate=" + deactivatedDate + ", paspoort=" + paspoort + ", member=" + member + ", sports="
-				+ sports + ", paardType=" + paardType + ", active=" + active + "]";
+		return "Horse [id=" + id + ", name=" + name + "]";
 	}
 
 	// Hashcode and equals
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -398,7 +396,7 @@ public class Horse {
 			return false;
 		return true;
 	}
-
+	
 	// convenience methods for working with SportsMap
 
 	public void addSportToMap(String sporttype, String sportlevel) {

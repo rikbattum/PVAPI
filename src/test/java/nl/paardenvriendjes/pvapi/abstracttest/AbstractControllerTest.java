@@ -17,6 +17,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import nl.paardenvriendjes.application.Application;
 import nl.paardenvriendjes.application.HibernateConfiguration;
@@ -95,4 +96,12 @@ public class AbstractControllerTest {
 		ObjectMapper mapper = new ObjectMapper();
 		return mapper.readValue(json, clazz);
 	}
+	
+	// converts object to JSON bytes
+	
+	 protected static byte[] convertObjectToJsonBytes(Object object) throws IOException {
+	        ObjectMapper mapper = new ObjectMapper();
+	        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+	        return mapper.writeValueAsBytes(object);
+	    }
 }
