@@ -1,14 +1,15 @@
 package nl.paardenvriendjes.application.security;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-import com.auth0.spring.security.api.Auth0SecurityConfig;
+import com.auth0.spring.security.api.JwtWebSecurityConfigurer;
 
 @Configuration
 @EnableWebSecurity(debug = true)
@@ -16,30 +17,28 @@ import com.auth0.spring.security.api.Auth0SecurityConfig;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 
-public class AppSecurityConfig extends Auth0SecurityConfig {
-
-
-    /**
-     * Provides Auth0 API access
-     */
-    @Bean
-    public Auth0Client auth0Client() {
-        return new Auth0Client(clientId, issuer);
-    }
+public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      *  Our API Configuration - for Profile CRUD operations
      *
      *  Here we choose not to bother using the `auth0.securedRoute` property configuration
      *  and instead ensure any unlisted endpoint in our config is secured by default
-     */
+     */    
+	
+	    @Value(value = "${auth0.apiAudience}")
+	    private String apiAudience;
+	    @Value(value = "${auth0.issuer}")
+	    private String issuer;
+	
+    
     @Override
-    protected void authorizeRequests(final HttpSecurity http) throws Exception {
-        // include some Spring Boot Actuator endpoints to check metrics
-        // add others or remove as you choose, this is just a sample config to illustrate
-        // most specific rules must come - order is important (see Spring Security docs)
-        http.authorizeRequests()
-        
+    protected void configure(HttpSecurity http) throws Exception {
+        JwtWebSecurityConfigurer
+                .forRS256(apiAudience, issuer)
+                .configure(http)
+                .authorizeRequests()
+                // most specific rules must come - order is important (see Spring Security docs)
                 .antMatchers("/welcome").permitAll()
                 .antMatchers("/authenticatedwelcome").fullyAuthenticated()
                 .antMatchers("/authenticateduserrole").hasAnyAuthority("USER", "ADMIN")
@@ -56,8 +55,8 @@ public class AppSecurityConfig extends Auth0SecurityConfig {
         
          http.csrf().disable();
          http.cors().disable();
-        
-    }        
+    }
+    
     
     
     
