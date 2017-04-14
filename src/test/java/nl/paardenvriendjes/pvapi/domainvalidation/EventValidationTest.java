@@ -19,7 +19,7 @@ import nl.paardenvriendjes.pvapi.domain.Event;
 import nl.paardenvriendjes.pvapi.domain.Message;
 import nl.paardenvriendjes.pvapi.domain.Paspoort;
 
-public class EventValidation extends AbstractTest{
+public class EventValidationTest extends AbstractTest{
 
 		@Autowired
 		private Validator validator;

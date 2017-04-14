@@ -19,7 +19,7 @@ import nl.paardenvriendjes.pvapi.abstracttest.AbstractTest;
 import nl.paardenvriendjes.pvapi.domain.Event;
 import nl.paardenvriendjes.pvapi.domain.EventLike;
 
-public class EventLikeValidation extends AbstractTest{
+public class EventLikeValidationTest extends AbstractTest{
 
 	@Autowired
 	private Validator validator;

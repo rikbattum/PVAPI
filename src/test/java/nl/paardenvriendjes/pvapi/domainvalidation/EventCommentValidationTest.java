@@ -20,7 +20,7 @@ import nl.paardenvriendjes.pvapi.domain.Event;
 import nl.paardenvriendjes.pvapi.domain.EventComment;
 import nl.paardenvriendjes.pvapi.domain.Member;
 
-public class EventCommentValidation extends AbstractTest {
+public class EventCommentValidationTest extends AbstractTest {
 
 	@Autowired
 	private Validator validator;

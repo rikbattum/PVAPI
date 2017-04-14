@@ -19,7 +19,7 @@ import nl.paardenvriendjes.pvapi.abstracttest.AbstractTest;
 import nl.paardenvriendjes.pvapi.domain.Message;
 import nl.paardenvriendjes.pvapi.domain.MessageLike;
 
-public class MessageLikeValidation  extends AbstractTest{
+public class MessageLikeValidationTest  extends AbstractTest{
 
 	
 	@Autowired

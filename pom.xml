@@ -4,7 +4,7 @@
 	<groupId>nl.paardenvriendjes</groupId>
 	<artifactId>pvapi</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	<name>pvapi</name>
 	<url>http://maven.apache.org</url>
 
@@ -17,6 +17,7 @@
 		<commons-dbcp2.version>2.0</commons-dbcp2.version>
 		<postgresql.version>42.0.0.jre7</postgresql.version>
 		<auth0-spring-security-api.version>1.0.0-rc.2</auth0-spring-security-api.version>
+        <start-class>nl.paardenvriendjes.application.Application</start-class>
 	</properties>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -51,9 +52,15 @@
 			<artifactId>spring-boot-starter-logging</artifactId>
 		</dependency>
 		<!-- http://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-tomcat -->
+		<!-- Needed to Run TC SERVER instance? --> 
+		<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

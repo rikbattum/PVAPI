@@ -179,7 +179,6 @@ public class MessageDaoImplTest extends AbstractTest {
 
 		Message updatedMessage = messageService.listOne(messageId);
 		assertThat(updatedMessage.getMessage(), Is.is("vandaag springen afgelast ivm sneeuw"));
-		assertThat(updatedMessage.getId(), Is.is(265L));
 		assertNotNull(updatedMessage.getInsertDate());
 
 		assertThat(simpleDateFormat.format(updatedMessage.getInsertDate()), Is.is(simpleDateFormat.format(new Date())));

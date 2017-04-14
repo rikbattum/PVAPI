@@ -22,7 +22,7 @@ import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.domain.Message;
 import nl.paardenvriendjes.pvapi.domain.Paspoort;
 
-public class HorseValidation extends AbstractTest {
+public class HorseValidationTest extends AbstractTest {
 
 	@Autowired
 	private Validator validator;

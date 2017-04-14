@@ -21,7 +21,7 @@ import nl.paardenvriendjes.pvapi.abstracttest.AbstractTest;
 import nl.paardenvriendjes.pvapi.domain.Member;
 import nl.paardenvriendjes.pvapi.domain.Message;
 
-public class MessageValidation extends AbstractTest {
+public class MessageValidationTest extends AbstractTest {
 
 	@Autowired
 	private Validator validator;

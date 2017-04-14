@@ -20,7 +20,7 @@ import nl.paardenvriendjes.pvapi.abstracttest.AbstractTest;
 import nl.paardenvriendjes.pvapi.daotest.MemberDaoImplTest;
 import nl.paardenvriendjes.pvapi.domain.Member;
 
-public class MemberValidation extends AbstractTest {
+public class MemberValidationTest extends AbstractTest {
 
 	@Autowired
 	private Validator validator;

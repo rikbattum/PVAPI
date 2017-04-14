@@ -19,7 +19,7 @@ import nl.paardenvriendjes.pvapi.abstracttest.AbstractTest;
 import nl.paardenvriendjes.pvapi.domain.Horse;
 import nl.paardenvriendjes.pvapi.domain.Paspoort;
 
-public class PaspoortValidation extends AbstractTest {
+public class PaspoortValidationTest extends AbstractTest {
 
 	@Autowired
 	private Validator validator;
