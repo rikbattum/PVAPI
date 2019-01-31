@@ -9,9 +9,10 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.log4j.Logger;
+
 import org.hibernate.SessionFactory;
 import org.json.JSONException;
 import org.junit.After;
@@ -29,18 +30,17 @@ import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import nl.paardenvriendjes.application.HibernateConfiguration;
+import nl.paardenvriendjes.configuration.HibernateConfiguration;
 import nl.paardenvriendjes.testutil.Auth0Util;
 import nl.paardenvriendjes.testutil.TestUtilHeaderRequestInterceptor;
 
 @RunWith(SpringRunner.class)
+@Slf4j
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = HibernateConfiguration.class)
 
 // Integration Test with Auth0 Only run now and then
 @Ignore
 public class Auth0AuthorizationLoggedInUserTest{
-
-	static Logger log = Logger.getLogger(Auth0AuthorizationLoggedInUserTest.class.getName());
 
 	@Autowired
 	private TestRestTemplate restTemplate;

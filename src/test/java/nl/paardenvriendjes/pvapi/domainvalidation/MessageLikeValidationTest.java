@@ -16,8 +16,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import nl.paardenvriendjes.pvapi.abstracttest.AbstractTest;
-import nl.paardenvriendjes.pvapi.domain.Message;
-import nl.paardenvriendjes.pvapi.domain.MessageLike;
+import nl.paardenvriendjes.pvapi.data.Message;
+import nl.paardenvriendjes.pvapi.data.MessageLike;
 
 public class MessageLikeValidationTest  extends AbstractTest{
 

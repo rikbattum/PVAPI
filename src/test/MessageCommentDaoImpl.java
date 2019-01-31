@@ -1,14 +1,14 @@
-package nl.paardenvriendjes.pvapi.daoimpl;
+package nl.paardenvriendjes.pvapi.dao;
 
-import org.apache.log4j.Logger;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import nl.paardenvriendjes.pvapi.daoimpl.abstractdao.AbstractDaoService;
-import nl.paardenvriendjes.pvapi.domain.MessageComment;
+import nl.paardenvriendjes.pvapi.dao.abstractdao.AbstractDaoService;
+import nl.paardenvriendjes.pvapi.data.MessageComment;
 
 @Repository
 @Transactional

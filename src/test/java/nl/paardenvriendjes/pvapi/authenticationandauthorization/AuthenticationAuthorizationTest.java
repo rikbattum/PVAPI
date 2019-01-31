@@ -43,7 +43,7 @@ public class AuthenticationAuthorizationTest extends AbstractControllerTest {
 	@Rollback(true)
 	public void welcomeTestAuthenticatedNotAuthenticated() throws Exception {
 		mvc.perform(get("/authenticatedwelcome"))
-		.andExpect(status().isUnauthorized());
+		.andExpect(status().isForbidden());
 	}
 
 	@Test
@@ -63,7 +63,7 @@ public class AuthenticationAuthorizationTest extends AbstractControllerTest {
 	@Rollback(true)
 	public void rightsTestLoggedInUser() throws Exception {
 		mvc.perform(get("/authenticateduserrole"))
-		.andExpect(status().isUnauthorized());
+		.andExpect(status().isForbidden());
 	}
 
 	@Test
@@ -78,7 +78,7 @@ public class AuthenticationAuthorizationTest extends AbstractControllerTest {
 	@Test
 	@Transactional
 	@Rollback(true)
-	@WithMockUser(username = "random@mailinator.com", authorities = {"USER"})
+	@WithMockUser(username = "random@mailinator.com", roles = {"USER"})
 	public void rightsTestGoodAuthorization() throws Exception {
 		mvc.perform(get("/authenticateduserrole"))
 		.andExpect(status().isOk())

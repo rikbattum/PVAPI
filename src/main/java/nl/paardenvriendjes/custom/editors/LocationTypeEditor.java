@@ -2,15 +2,14 @@ package nl.paardenvriendjes.custom.editors;
 
 import java.beans.PropertyEditorSupport;
 
-import org.apache.log4j.Logger;
 
-import nl.paardenvriendjes.pvapi.enumerations.Place;
+import lombok.extern.slf4j.Slf4j;
+import nl.paardenvriendjes.pvapi.data.enums.Place;
 
 
-
+@Slf4j
 public class LocationTypeEditor extends PropertyEditorSupport {
 
-	static Logger log = Logger.getLogger(LocationTypeEditor.class.getName());
 	
 	@Override
 	public void setAsText(String text) throws IllegalArgumentException {

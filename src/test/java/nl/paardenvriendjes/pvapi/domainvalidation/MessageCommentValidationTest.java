@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Date;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -17,9 +16,9 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import nl.paardenvriendjes.pvapi.abstracttest.AbstractTest;
-import nl.paardenvriendjes.pvapi.domain.Member;
-import nl.paardenvriendjes.pvapi.domain.Message;
-import nl.paardenvriendjes.pvapi.domain.MessageComment;
+import nl.paardenvriendjes.pvapi.data.Member;
+import nl.paardenvriendjes.pvapi.data.Message;
+import nl.paardenvriendjes.pvapi.data.MessageComment;
 
 public class MessageCommentValidationTest   extends AbstractTest {
 

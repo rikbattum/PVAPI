@@ -2,13 +2,11 @@ package nl.paardenvriendjes.custom.editors;
 
 import java.beans.PropertyEditorSupport;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
+import nl.paardenvriendjes.pvapi.data.enums.SportType;
 
-import nl.paardenvriendjes.pvapi.enumerations.SportType;
-
+@Slf4j
 public class SportTypeEditor extends PropertyEditorSupport {
-
-	static Logger log = Logger.getLogger(SportTypeEditor.class.getName());
 	
 	@Override
     public void setAsText(String text) throws IllegalArgumentException {

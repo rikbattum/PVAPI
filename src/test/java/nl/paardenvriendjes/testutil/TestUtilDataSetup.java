@@ -11,10 +11,10 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
-import nl.paardenvriendjes.pvapi.domain.Member;
-import nl.paardenvriendjes.pvapi.domain.Message;
-import nl.paardenvriendjes.pvapi.enumerations.Place;
+import nl.paardenvriendjes.pvapi.dao.MemberDaoImpl;
+import nl.paardenvriendjes.pvapi.data.Member;
+import nl.paardenvriendjes.pvapi.data.Message;
+import nl.paardenvriendjes.pvapi.data.enums.Place;
 
 @Component
 public class TestUtilDataSetup {

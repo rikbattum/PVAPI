@@ -6,11 +6,11 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import nl.paardenvriendjes.pvapi.domain.Member;
-import nl.paardenvriendjes.pvapi.enumerations.Geslacht;
-import nl.paardenvriendjes.pvapi.enumerations.Place;
-import nl.paardenvriendjes.pvapi.enumerations.SportLevel;
-import nl.paardenvriendjes.pvapi.enumerations.Vervoer;
+import nl.paardenvriendjes.pvapi.data.Member;
+import nl.paardenvriendjes.pvapi.data.enums.Geslacht;
+import nl.paardenvriendjes.pvapi.data.enums.Place;
+import nl.paardenvriendjes.pvapi.data.enums.SportLevel;
+import nl.paardenvriendjes.pvapi.data.enums.Vervoer;
 
 @Component
 public class MemberRestControllerStubData {

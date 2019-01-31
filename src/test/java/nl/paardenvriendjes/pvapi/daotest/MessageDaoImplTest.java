@@ -20,11 +20,11 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import nl.paardenvriendjes.pvapi.abstracttest.AbstractTest;
-import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
-import nl.paardenvriendjes.pvapi.daoimpl.MessageDaoImpl;
-import nl.paardenvriendjes.pvapi.domain.Member;
-import nl.paardenvriendjes.pvapi.domain.Message;
-import nl.paardenvriendjes.pvapi.enumerations.LineType;
+import nl.paardenvriendjes.pvapi.dao.MemberDaoImpl;
+import nl.paardenvriendjes.pvapi.dao.MessageDaoImpl;
+import nl.paardenvriendjes.pvapi.data.Member;
+import nl.paardenvriendjes.pvapi.data.Message;
+import nl.paardenvriendjes.pvapi.data.enums.LineType;
 import nl.paardenvriendjes.testutil.TestUtilDataSetup;
 
 public class MessageDaoImplTest extends AbstractTest {

@@ -9,9 +9,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.log4j.Logger;
+
 import org.json.JSONException;
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
@@ -32,23 +33,21 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import nl.paardenvriendjes.application.Application;
-import nl.paardenvriendjes.application.HibernateConfiguration;
-import nl.paardenvriendjes.application.security.AppSecurityConfig;
-import nl.paardenvriendjes.pvapi.domain.Member;
+import nl.paardenvriendjes.configuration.Application;
+import nl.paardenvriendjes.configuration.HibernateConfiguration;
+import nl.paardenvriendjes.configuration.AppSecurityConfig;
+import nl.paardenvriendjes.pvapi.data.Member;
 import nl.paardenvriendjes.testutil.Auth0Util;
 import nl.paardenvriendjes.testutil.TestUtilHeaderRequestInterceptor;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = {HibernateConfiguration.class, Application.class, AppSecurityConfig.class})
-
+@Slf4j
 public class Auth0FullSignUpAndDeleteCycleManagementApiTest{
 
 	@Autowired
 	private TestRestTemplate restTemplate;
-
-	static Logger log = Logger.getLogger(Auth0AuthorizationLoggedInUserTest.class.getName());
 
 	// only run this integration test for auth0 integration
 	@Ignore

@@ -2,14 +2,13 @@ package nl.paardenvriendjes.custom.editors;
 
 import java.beans.PropertyEditorSupport;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
-import nl.paardenvriendjes.pvapi.enumerations.LikeType;
+import nl.paardenvriendjes.pvapi.data.enums.LikeType;
 
+@Slf4j
 public class LikeTypeEditor extends PropertyEditorSupport {
 
-	static Logger log = Logger.getLogger(LikeTypeEditor.class.getName());
-	
 	@Override
     public void setAsText(String text) throws IllegalArgumentException {
 

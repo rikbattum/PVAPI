@@ -2,42 +2,31 @@ package nl.paardenvriendjes.pvapi.resttest;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.Date;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-
-import org.apache.http.entity.ContentType;
-import org.apache.log4j.Logger;
-import org.hamcrest.core.IsNull;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
 import nl.paardenvriendjes.pvapi.abstracttest.AbstractControllerTest;
-import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
+import nl.paardenvriendjes.pvapi.dao.MemberDaoImpl;
 import nl.paardenvriendjes.pvapi.daotest.MemberDaoImplTest;
-import nl.paardenvriendjes.pvapi.domain.Member;
-import nl.paardenvriendjes.pvapi.enumerations.Geslacht;
-import nl.paardenvriendjes.pvapi.enumerations.Place;
-import nl.paardenvriendjes.pvapi.enumerations.SportLevel;
-import nl.paardenvriendjes.pvapi.enumerations.Vervoer;
-import nl.paardenvriendjes.restcontrollers.MemberRestController;
-//
-//@SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
-//@RunWith(SpringRunner.class)
-import nl.paardenvriendjes.testutil.TestUtilDataSetup;
+import nl.paardenvriendjes.pvapi.resources.MemberRestController;
 
 @Transactional
+@Slf4j
 // no security
 public class MemberRestControllerTest extends AbstractControllerTest {
 
@@ -46,8 +35,6 @@ public class MemberRestControllerTest extends AbstractControllerTest {
 
 	@InjectMocks
 	private MemberRestController memberRestController;
-
-	static Logger log = Logger.getLogger(MemberDaoImplTest.class.getName());
 
 	@Before
 	public void setupTest() {
@@ -125,11 +112,11 @@ public class MemberRestControllerTest extends AbstractControllerTest {
 //
 //		
 //	       mvc.perform(post("/members/signup")
-//	                .contentType("application/json")
+//	                .contentType("configuration/json")
 //	                .content(convertObjectToJsonBytes(MemberRestControllerStubData.memberOneFullAdd()))
 //	        )
 //	                .andExpect(status().isCreated())
-//	                .andExpect(content().contentType("application/json"))
+//	                .andExpect(content().contentType("configuration/json"))
 //	                .andExpect(jsonPath("$.id", is(1)))
 //	                .andExpect(jsonPath("$.Voornaam", is("Peddy")))
 //	                .andExpect(jsonPath("$.Achternaam", is("Horsy")))

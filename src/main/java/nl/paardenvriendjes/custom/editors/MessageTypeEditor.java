@@ -2,13 +2,13 @@ package nl.paardenvriendjes.custom.editors;
 
 import java.beans.PropertyEditorSupport;
 
-import org.apache.log4j.Logger;
 
-import nl.paardenvriendjes.pvapi.enumerations.MessageType;
+import lombok.extern.slf4j.Slf4j;
+import nl.paardenvriendjes.pvapi.data.enums.MessageType;
 
+@Slf4j
 public class MessageTypeEditor extends PropertyEditorSupport {
 
-	static Logger log = Logger.getLogger(MessageTypeEditor.class.getName());
 	
 	@Override
     public void setAsText(String text) throws IllegalArgumentException {

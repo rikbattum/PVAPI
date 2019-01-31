@@ -1,6 +1,7 @@
 package nl.paardenvriendjes.pvapi.domainvalidation;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
 
@@ -15,9 +16,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import nl.paardenvriendjes.pvapi.abstracttest.AbstractTest;
-import nl.paardenvriendjes.pvapi.domain.Event;
-import nl.paardenvriendjes.pvapi.domain.Message;
-import nl.paardenvriendjes.pvapi.domain.Paspoort;
+import nl.paardenvriendjes.pvapi.data.Event;
+import nl.paardenvriendjes.pvapi.data.Paspoort;
 
 public class EventValidationTest extends AbstractTest{
 

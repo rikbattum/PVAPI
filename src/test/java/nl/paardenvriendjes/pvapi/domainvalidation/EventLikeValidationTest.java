@@ -16,8 +16,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import nl.paardenvriendjes.pvapi.abstracttest.AbstractTest;
-import nl.paardenvriendjes.pvapi.domain.Event;
-import nl.paardenvriendjes.pvapi.domain.EventLike;
+import nl.paardenvriendjes.pvapi.data.Event;
+import nl.paardenvriendjes.pvapi.data.EventLike;
 
 public class EventLikeValidationTest extends AbstractTest{
 

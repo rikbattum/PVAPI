@@ -14,6 +14,7 @@
     <logger name="org.hibernate" level="DEBUG" />
     <logger name="org.hibernate" level="DEBUG" />
     <logger name="com.auth0.spring.security.api" level="DEBUG" />
+    <logger name="org.springframework.security" level="DEBUG"/>
     <logger name="com.auth0" level="DEBUG" />
   
 	<root level="info">

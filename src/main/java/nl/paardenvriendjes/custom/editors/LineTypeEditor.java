@@ -2,13 +2,12 @@ package nl.paardenvriendjes.custom.editors;
 
 import java.beans.PropertyEditorSupport;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
-import nl.paardenvriendjes.pvapi.enumerations.LineType;
+import nl.paardenvriendjes.pvapi.data.enums.LineType;
 
+@Slf4j
 public class LineTypeEditor extends PropertyEditorSupport {
-
-	static Logger log = Logger.getLogger(LineTypeEditor.class.getName());
 
 	@Override
 	public void setAsText(String text) throws IllegalArgumentException {

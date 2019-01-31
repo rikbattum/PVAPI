@@ -9,7 +9,7 @@
 //
 //import java.util.List;
 //
-//import org.apache.log4j.Logger;
+//
 //import org.junit.Before;
 //import org.junit.Test;
 //import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +18,9 @@
 //import org.springframework.transaction.annotation.Transactional;
 //
 //import nl.paardenvriendjes.pvapi.abstracttest.AbstractControllerTest;
-//import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
+//import nl.paardenvriendjes.pvapi.dao.MemberDaoImpl;
 //import nl.paardenvriendjes.pvapi.daotest.MemberDaoImplTest;
-//import nl.paardenvriendjes.pvapi.domain.Member;
+//import nl.paardenvriendjes.pvapi.data.Member;
 //import nl.paardenvriendjes.testutil.TestUtilDataSetup;
 //
 //
@@ -53,7 +53,7 @@
 //
 //		 ResultActions s = mvc.perform(get("/members/"))
 //		.andExpect(status().isOk())
-//		.andExpect(content().contentType("application/json;charset=UTF-8"))
+//		.andExpect(content().contentType("configuration/json;charset=UTF-8"))
 //		.andExpect(jsonPath("$", hasSize(8)))
 //		.andExpect(jsonPath("$[0].voornaam", is("Rik"))) 
 //		.andExpect(jsonPath("$[0].achternaam", is("van Battum")))

@@ -2,13 +2,11 @@ package nl.paardenvriendjes.custom.editors;
 
 import java.beans.PropertyEditorSupport;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
+import nl.paardenvriendjes.pvapi.data.enums.Geslacht;
 
-import nl.paardenvriendjes.pvapi.enumerations.Geslacht;
-
+@Slf4j
 public class GeslachtEditor extends PropertyEditorSupport {
-
-	static Logger log = Logger.getLogger(GeslachtEditor.class.getName());
 	
 	@Override
     public void setAsText(String text) throws IllegalArgumentException {

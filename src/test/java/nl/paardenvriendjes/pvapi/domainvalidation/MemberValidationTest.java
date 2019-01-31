@@ -10,7 +10,8 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
-import org.apache.log4j.Logger;
+
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
@@ -18,14 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import nl.paardenvriendjes.pvapi.abstracttest.AbstractTest;
 import nl.paardenvriendjes.pvapi.daotest.MemberDaoImplTest;
-import nl.paardenvriendjes.pvapi.domain.Member;
+import nl.paardenvriendjes.pvapi.data.Member;
 
+@Slf4j
 public class MemberValidationTest extends AbstractTest {
 
 	@Autowired
 	private Validator validator;
-	
-	static Logger log = Logger.getLogger(MemberDaoImplTest.class.getName());
 	
 	// test Sanitization and Validations
 
@@ -275,7 +275,7 @@ public class MemberValidationTest extends AbstractTest {
 			member.setAchternaam("Horsy");
 			member.setEmail("peddy.horsey@mailinator.com");
 			member.setGeboortedatum(new Date(2025, 06, 23, 00, 00));
-			log.debug(member.getGeboortedatum());
+			log.debug("geboortedatum: {}", member.getGeboortedatum());
 			Set<ConstraintViolation<Member>> violations = validator.validate(member);
 			assertEquals(violations.size(), 1);
 			assertEquals(violations.iterator().next().getMessage(), "must be in the past");

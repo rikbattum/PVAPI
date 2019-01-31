@@ -19,10 +19,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import nl.paardenvriendjes.application.Application;
-import nl.paardenvriendjes.application.HibernateConfiguration;
-import nl.paardenvriendjes.application.security.AppSecurityConfig;
-import nl.paardenvriendjes.restcontrollers.BaseController;
+import nl.paardenvriendjes.configuration.Application;
+import nl.paardenvriendjes.configuration.HibernateConfiguration;
+import nl.paardenvriendjes.configuration.AppSecurityConfig;
+import nl.paardenvriendjes.pvapi.resources.BaseController;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes={Application.class, HibernateConfiguration.class, AppSecurityConfig.class})

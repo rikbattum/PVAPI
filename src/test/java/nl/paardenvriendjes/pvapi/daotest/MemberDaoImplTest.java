@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.hamcrest.core.Is;
 import org.junit.After;
 import org.junit.Test;
@@ -22,22 +22,20 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import nl.paardenvriendjes.pvapi.abstracttest.AbstractTest;
-import nl.paardenvriendjes.pvapi.daoimpl.MemberDaoImpl;
-import nl.paardenvriendjes.pvapi.domain.Event;
-import nl.paardenvriendjes.pvapi.domain.Horse;
-import nl.paardenvriendjes.pvapi.domain.Interesse;
-import nl.paardenvriendjes.pvapi.domain.Member;
-import nl.paardenvriendjes.pvapi.domain.Message;
-import nl.paardenvriendjes.pvapi.domain.Paspoort;
-import nl.paardenvriendjes.pvapi.enumerations.Geslacht;
-import nl.paardenvriendjes.pvapi.enumerations.LineType;
-import nl.paardenvriendjes.pvapi.enumerations.MessageType;
-import nl.paardenvriendjes.pvapi.enumerations.OtherSport;
-import nl.paardenvriendjes.pvapi.enumerations.Place;
-import nl.paardenvriendjes.pvapi.enumerations.SportLevel;
-import nl.paardenvriendjes.pvapi.enumerations.Vervoer;
+import nl.paardenvriendjes.pvapi.dao.MemberDaoImpl;
+import nl.paardenvriendjes.pvapi.data.Interesse;
+import nl.paardenvriendjes.pvapi.data.Member;
+import nl.paardenvriendjes.pvapi.data.Message;
+import nl.paardenvriendjes.pvapi.data.enums.Geslacht;
+import nl.paardenvriendjes.pvapi.data.enums.LineType;
+import nl.paardenvriendjes.pvapi.data.enums.MessageType;
+import nl.paardenvriendjes.pvapi.data.enums.OtherSport;
+import nl.paardenvriendjes.pvapi.data.enums.Place;
+import nl.paardenvriendjes.pvapi.data.enums.SportLevel;
+import nl.paardenvriendjes.pvapi.data.enums.Vervoer;
 import nl.paardenvriendjes.testutil.TestUtilDataSetup;
 
+@Slf4j
 public class MemberDaoImplTest extends AbstractTest {
 
 	@Autowired
@@ -47,7 +45,6 @@ public class MemberDaoImplTest extends AbstractTest {
 	private TestUtilDataSetup testUtilDataSetup;
 
 	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-	static Logger log = Logger.getLogger(MemberDaoImplTest.class.getName());
 	ObjectMapper mapper = new ObjectMapper();
 
 	public void initialize() {

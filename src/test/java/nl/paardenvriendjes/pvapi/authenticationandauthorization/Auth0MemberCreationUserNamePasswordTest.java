@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -13,7 +14,6 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -24,14 +24,12 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import nl.paardenvriendjes.application.HibernateConfiguration;
+import nl.paardenvriendjes.configuration.HibernateConfiguration;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = HibernateConfiguration.class)
-
+@Slf4j
 public class Auth0MemberCreationUserNamePasswordTest {
-
-	static Logger log = Logger.getLogger(Auth0AuthorizationLoggedInUserTest.class.getName());
 
 	// THIS TEST IS AN INCIDENTAL TEST AND SETUP TEST.
 	// WILL ONLY BE RUN WHEN BUILDING AND INTEGRATING WITH AUTH0. 
@@ -47,7 +45,7 @@ public class Auth0MemberCreationUserNamePasswordTest {
 			// set basis signup data as json input in body
 			String jsoninput = "{\"client_id\": \"sPcuHXFrQvNcxMv4iYvA9JoF1VhlqyLh\", \"email\": \"test123@hotmail.com\",  \"username\": \"username\", \"password\": \"asdasdDs@156\",\"connection\":  \"Username-Password-Authentication\" }"; 
 			StringEntity params = new StringEntity(jsoninput);
-			params.setContentType("application/json");
+			params.setContentType("configuration/json");
 			log.debug("params2" + params);
 			
 			// build uri and request

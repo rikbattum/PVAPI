@@ -16,9 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 
 import nl.paardenvriendjes.pvapi.abstracttest.AbstractTest;
-import nl.paardenvriendjes.pvapi.domain.Event;
-import nl.paardenvriendjes.pvapi.domain.EventComment;
-import nl.paardenvriendjes.pvapi.domain.Member;
+import nl.paardenvriendjes.pvapi.data.Event;
+import nl.paardenvriendjes.pvapi.data.EventComment;
+import nl.paardenvriendjes.pvapi.data.Member;
 
 public class EventCommentValidationTest extends AbstractTest {
 
