@@ -61,7 +61,7 @@ public class MessageCommentValidationTest   extends AbstractTest {
 		messageComment.setMember(member);
 		Set<ConstraintViolation<MessageComment>> violations = validator.validate(messageComment);
 		assertEquals(violations.size(), 1);
-		assertEquals(violations.iterator().next().getMessage(), "may not be null");
+		assertEquals(violations.iterator().next().getMessage(), "must not be null");
 	}
 	
 	@Test
@@ -75,7 +75,7 @@ public class MessageCommentValidationTest   extends AbstractTest {
 		messageComment.setMessage(message);
 		Set<ConstraintViolation<MessageComment>> violations = validator.validate(messageComment);
 		assertEquals(violations.size(), 1);
-		assertEquals(violations.iterator().next().getMessage(), "may not be null");
+		assertEquals(violations.iterator().next().getMessage(), "must not be null");
 	}
 	
 	@Test
@@ -89,7 +89,7 @@ public class MessageCommentValidationTest   extends AbstractTest {
 		messageComment.setComment("Have a nice Christmas");
 		Set<ConstraintViolation<MessageComment>> violations = validator.validate(messageComment);
 		assertEquals(violations.size(), 1);
-		assertEquals(violations.iterator().next().getMessage(), "may not be null");
+		assertEquals(violations.iterator().next().getMessage(), "must not be null");
 	}
 	
 	

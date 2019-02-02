@@ -1,4 +1,4 @@
-package nl.paardenvriendjes.custom.editors;
+package nl.paardenvriendjes.pvapi.custom.editors;
 
 import lombok.extern.slf4j.Slf4j;
 

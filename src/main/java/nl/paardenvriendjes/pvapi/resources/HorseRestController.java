@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import nl.paardenvriendjes.custom.editors.GeslachtEditor;
-import nl.paardenvriendjes.custom.editors.PaardTypeEditor;
+import nl.paardenvriendjes.pvapi.custom.editors.GeslachtEditor;
+import nl.paardenvriendjes.pvapi.custom.editors.PaardTypeEditor;
 import nl.paardenvriendjes.pvapi.dao.HorseDaoImpl;
 import nl.paardenvriendjes.pvapi.data.Horse;
 import nl.paardenvriendjes.pvapi.services.Genericmessageservice;

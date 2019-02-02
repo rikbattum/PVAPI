@@ -57,7 +57,7 @@ public class EventLikeValidationTest extends AbstractTest{
 		eventlike.setEvent(event);
 		Set<ConstraintViolation<EventLike>> violations = validator.validate(eventlike);
 		assertEquals(violations.size(), 1);
-		assertEquals(violations.iterator().next().getMessage(), "may not be null");
+		assertEquals(violations.iterator().next().getMessage(), "must not be null");
 	}
 	
 
@@ -69,7 +69,7 @@ public class EventLikeValidationTest extends AbstractTest{
 		eventlike.setId(1L);
 		Set<ConstraintViolation<EventLike>> violations = validator.validate(eventlike);
 		assertEquals(violations.size(), 1);
-		assertEquals(violations.iterator().next().getMessage(), "may not be null");
+		assertEquals(violations.iterator().next().getMessage(), "must not be null");
 	}	
 	
 }

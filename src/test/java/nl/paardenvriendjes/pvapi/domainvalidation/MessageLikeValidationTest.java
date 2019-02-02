@@ -58,7 +58,7 @@ public class MessageLikeValidationTest  extends AbstractTest{
 		messagelike.setMessage(message);
 		Set<ConstraintViolation<MessageLike>> violations = validator.validate(messagelike);
 		assertEquals(violations.size(), 1);
-		assertEquals(violations.iterator().next().getMessage(), "may not be null");
+		assertEquals(violations.iterator().next().getMessage(), "must not be null");
 	}
 	
 
@@ -70,6 +70,6 @@ public class MessageLikeValidationTest  extends AbstractTest{
 		messagelike.setId(1L);
 		Set<ConstraintViolation<MessageLike>> violations = validator.validate(messagelike);
 		assertEquals(violations.size(), 1);
-		assertEquals(violations.iterator().next().getMessage(), "may not be null");
+		assertEquals(violations.iterator().next().getMessage(), "must not be null");
 	}	
 }

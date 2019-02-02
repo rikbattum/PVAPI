@@ -40,7 +40,7 @@ public class MessageDaoImpl extends AbstractDaoService<Message> {
 
 	@Override
 	public Message save(Message message) {
-		message.setInsertDate();
+		message.setInsertDate(new Date());
 		getCurrentSession().persist(message);
 		log.debug("saved One: " + message.toString());
 				return message;
@@ -49,7 +49,7 @@ public class MessageDaoImpl extends AbstractDaoService<Message> {
 
 	@Override
 	public Message edit(Message message) {		
-		message.setInsertDate();
+		message.setInsertDate(new Date());
 		getCurrentSession().update(message);
 		log.debug("edit: " + message.toString());
 		return message;

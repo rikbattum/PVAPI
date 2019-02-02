@@ -60,7 +60,7 @@ public class MessageValidationTest extends AbstractTest {
 		message.setMember(member);
 		Set<ConstraintViolation<Message>> violations = validator.validate(message);
 		assertEquals(violations.size(), 1);
-		assertEquals(violations.iterator().next().getMessage(), "may not be null");
+		assertEquals(violations.iterator().next().getMessage(), "must not be null");
 	}
 
 	@Test
@@ -73,7 +73,7 @@ public class MessageValidationTest extends AbstractTest {
 		message.setMember(member);
 		Set<ConstraintViolation<Message>> violations = validator.validate(message);
 		assertEquals(violations.size(), 1);
-		assertEquals(violations.iterator().next().getMessage(), "may not be null");
+		assertEquals(violations.iterator().next().getMessage(), "must not be null");
 	}
 	
 	@Test
@@ -88,7 +88,7 @@ public class MessageValidationTest extends AbstractTest {
 		message.setPiclink("http://res.cloudinary.com/epona/pictureXYZ.jpg");
 		Set<ConstraintViolation<Message>> violations = validator.validate(message);
 		assertEquals(violations.size(), 1);
-		assertEquals(violations.iterator().next().getMessage(), "may not be null");
+		assertEquals(violations.iterator().next().getMessage(), "must not be null");
 	}
 	
 	@Test
@@ -225,6 +225,6 @@ public class MessageValidationTest extends AbstractTest {
 		message.setMessageLocation("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
 		Set<ConstraintViolation<Message>> violations = validator.validate(message);
 		assertEquals(violations.size(), 1);
-		assertEquals(violations.iterator().next().getMessage(), "may not be null");
+		assertEquals(violations.iterator().next().getMessage(), "must not be null");
 	}	
 }

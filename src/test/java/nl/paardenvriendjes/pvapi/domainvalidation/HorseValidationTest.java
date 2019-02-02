@@ -58,7 +58,7 @@ public class HorseValidationTest extends AbstractTest {
 		horse.setPaspoort(new Paspoort());
 		Set<ConstraintViolation<Horse>> violations = validator.validate(horse);
 		assertEquals(violations.size(), 1);
-		assertEquals(violations.iterator().next().getMessage(), "may not be null");
+		assertEquals(violations.iterator().next().getMessage(), "must not be null");
 	}
 
 	@Test
@@ -72,7 +72,7 @@ public class HorseValidationTest extends AbstractTest {
 		horse.setPaspoort(new Paspoort());
 		Set<ConstraintViolation<Horse>> violations = validator.validate(horse);
 		assertEquals(violations.size(), 1);
-		assertEquals(violations.iterator().next().getMessage(), "may not be null");
+		assertEquals(violations.iterator().next().getMessage(), "must not be null");
 	}
 
 	@Test
@@ -86,7 +86,7 @@ public class HorseValidationTest extends AbstractTest {
 		horse.setPaspoort(new Paspoort());
 		Set<ConstraintViolation<Horse>> violations = validator.validate(horse);
 		assertEquals(violations.size(), 1);
-		assertEquals(violations.iterator().next().getMessage(), "may not be null");
+		assertEquals(violations.iterator().next().getMessage(), "must not be null");
 	}
 
 	@Test
@@ -100,7 +100,7 @@ public class HorseValidationTest extends AbstractTest {
 		horse.setPaspoort(new Paspoort());
 		Set<ConstraintViolation<Horse>> violations = validator.validate(horse);
 		assertEquals(violations.size(), 1);
-		assertEquals(violations.iterator().next().getMessage(), "may not be null");
+		assertEquals(violations.iterator().next().getMessage(), "must not be null");
 	}
 
 	@Test
@@ -266,6 +266,6 @@ public class HorseValidationTest extends AbstractTest {
 		horse.setGeboortedatum(new Date(2025, 06, 23, 00, 00));
 		Set<ConstraintViolation<Horse>> violations = validator.validate(horse);
 		assertEquals(violations.size(), 1);
-		assertEquals(violations.iterator().next().getMessage(), "must be in the past");
+		assertEquals(violations.iterator().next().getMessage(), "must be a past date");
 	}
 }

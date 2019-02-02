@@ -1,7 +1,13 @@
 package nl.paardenvriendjes.pvapi.abstracttest;
 
-import java.io.IOException;
-
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import nl.paardenvriendjes.configuration.Application;
+import nl.paardenvriendjes.configuration.HibernateConfiguration;
+import nl.paardenvriendjes.pvapi.resources.BaseController;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,19 +19,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import nl.paardenvriendjes.configuration.Application;
-import nl.paardenvriendjes.configuration.HibernateConfiguration;
-import nl.paardenvriendjes.configuration.AppSecurityConfig;
-import nl.paardenvriendjes.pvapi.resources.BaseController;
+import java.io.IOException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes={Application.class, HibernateConfiguration.class, AppSecurityConfig.class})
+@ContextConfiguration(classes={Application.class, HibernateConfiguration.class})
 @WebAppConfiguration
 @Ignore
 public class AbstractControllerTest {

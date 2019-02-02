@@ -1,7 +1,7 @@
 package nl.paardenvriendjes.pvapi.dao;
 
 import lombok.extern.slf4j.Slf4j;
-import nl.paardenvriendjes.custom.editors.PaardTypeEditor;
+import nl.paardenvriendjes.pvapi.custom.editors.PaardTypeEditor;
 import nl.paardenvriendjes.pvapi.dao.abstractdao.AbstractDaoService;
 import nl.paardenvriendjes.pvapi.data.Horse;
 import nl.paardenvriendjes.pvapi.data.enums.PaardType;

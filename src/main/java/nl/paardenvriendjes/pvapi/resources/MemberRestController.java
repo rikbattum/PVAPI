@@ -1,10 +1,14 @@
 package nl.paardenvriendjes.pvapi.resources;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.List;
-
 import lombok.extern.slf4j.Slf4j;
+import nl.paardenvriendjes.pvapi.custom.editors.GeslachtEditor;
+import nl.paardenvriendjes.pvapi.custom.editors.LocationTypeEditor;
+import nl.paardenvriendjes.pvapi.custom.editors.SportLevelEditor;
+import nl.paardenvriendjes.pvapi.custom.editors.VervoerEditor;
+import nl.paardenvriendjes.pvapi.dao.MemberDaoImpl;
+import nl.paardenvriendjes.pvapi.data.Member;
+import nl.paardenvriendjes.pvapi.exceptionsanderrors.Auth0CreationException;
+import nl.paardenvriendjes.pvapi.services.Genericmessageservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,22 +16,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import nl.paardenvriendjes.custom.editors.GeslachtEditor;
-import nl.paardenvriendjes.custom.editors.LocationTypeEditor;
-import nl.paardenvriendjes.custom.editors.SportLevelEditor;
-import nl.paardenvriendjes.custom.editors.VervoerEditor;
-import nl.paardenvriendjes.exceptionsanderrors.Auth0CreationException;
-import nl.paardenvriendjes.pvapi.dao.MemberDaoImpl;
-import nl.paardenvriendjes.pvapi.data.Member;
-import nl.paardenvriendjes.pvapi.services.Genericmessageservice;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.List;
 
 @RestController
 @Slf4j

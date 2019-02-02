@@ -1,18 +1,13 @@
 package nl.paardenvriendjes.pvapi.authenticationandauthorization;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import lombok.extern.slf4j.Slf4j;
+import nl.paardenvriendjes.configuration.Application;
+import nl.paardenvriendjes.configuration.HibernateConfiguration;
+import nl.paardenvriendjes.pvapi.data.Member;
+import nl.paardenvriendjes.testutil.Auth0Util;
+import nl.paardenvriendjes.testutil.TestUtilHeaderRequestInterceptor;
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.ClientProtocolException;
-
 import org.json.JSONException;
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
@@ -33,16 +28,18 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import nl.paardenvriendjes.configuration.Application;
-import nl.paardenvriendjes.configuration.HibernateConfiguration;
-import nl.paardenvriendjes.configuration.AppSecurityConfig;
-import nl.paardenvriendjes.pvapi.data.Member;
-import nl.paardenvriendjes.testutil.Auth0Util;
-import nl.paardenvriendjes.testutil.TestUtilHeaderRequestInterceptor;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = {HibernateConfiguration.class, Application.class, AppSecurityConfig.class})
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = {HibernateConfiguration.class, Application.class})
 @Slf4j
 public class Auth0FullSignUpAndDeleteCycleManagementApiTest{
 

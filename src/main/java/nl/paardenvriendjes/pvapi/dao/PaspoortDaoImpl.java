@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import nl.paardenvriendjes.pvapi.dao.abstractdao.AbstractDaoService;
 import nl.paardenvriendjes.pvapi.data.Paspoort;
 
+import java.util.Date;
+
 @Repository
 @Transactional
 @Slf4j
@@ -39,7 +41,7 @@ public class PaspoortDaoImpl extends AbstractDaoService<Paspoort> {
 	public void remove(Paspoort paspoortToBeRemoved) {
 		try {
 			paspoortToBeRemoved.setActive(false);
-			paspoortToBeRemoved.setDeactivatedDate();
+			paspoortToBeRemoved.setDeactivatedDate(new Date());
 			getCurrentSession().saveOrUpdate(paspoortToBeRemoved);
 			log.debug("Deactivated Paspoort " + paspoortToBeRemoved.toString());
 		} catch (Exception e) {

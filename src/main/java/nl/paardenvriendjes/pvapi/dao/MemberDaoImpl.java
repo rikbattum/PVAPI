@@ -18,7 +18,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import nl.paardenvriendjes.custom.editors.LocationTypeEditor;
+import nl.paardenvriendjes.pvapi.custom.editors.LocationTypeEditor;
 import nl.paardenvriendjes.pvapi.dao.abstractdao.AbstractDaoService;
 import nl.paardenvriendjes.pvapi.data.Member;
 

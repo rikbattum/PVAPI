@@ -1,4 +1,4 @@
-//package nl.paardenvriendjes.exceptionsanderrors;
+//package nl.paardenvriendjes.pvapi.exceptionsanderrors;
 //
 //import org.springframework.http.HttpStatus;
 //import org.springframework.http.ResponseEntity;

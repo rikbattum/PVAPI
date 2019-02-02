@@ -1,10 +1,5 @@
 package nl.paardenvriendjes.pvapi.dao.abstractdao;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -14,7 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import nl.paardenvriendjes.pvapi.dao.MessageDaoImpl;
+import java.util.List;
 
 @Repository
 @Transactional
@@ -29,12 +24,8 @@ public abstract class AbstractDaoService<T> {
 	}
 
 	// session Management
-
 	@Autowired
-	SessionFactory sessionFactory;
-
-	@PersistenceContext
-	private EntityManager entityManager;
+	private SessionFactory sessionFactory;
 
 	private Session getCurrentSession() {
 		return sessionFactory.getCurrentSession();

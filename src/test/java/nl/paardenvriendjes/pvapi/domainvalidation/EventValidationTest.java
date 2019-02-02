@@ -57,7 +57,7 @@ public class EventValidationTest extends AbstractTest{
 			event.setPaspoort(paspoort);
 			Set<ConstraintViolation<Event>> violations = validator.validate(event);
 			assertEquals(violations.size(), 1);
-			assertEquals(violations.iterator().next().getMessage(), "may not be null");
+			assertEquals(violations.iterator().next().getMessage(), "must not be null");
 		}
 		
 		@Test
@@ -69,7 +69,7 @@ public class EventValidationTest extends AbstractTest{
 			event.setId(1L);
 			Set<ConstraintViolation<Event>> violations = validator.validate(event);
 			assertEquals(violations.size(), 1);
-			assertEquals(violations.iterator().next().getMessage(), "may not be null");
+			assertEquals(violations.iterator().next().getMessage(), "must not be null");
 		}
 		
 		@Test
@@ -81,7 +81,7 @@ public class EventValidationTest extends AbstractTest{
 			event.setPaspoort(paspoort);
 			Set<ConstraintViolation<Event>> violations = validator.validate(event);
 			assertEquals(violations.size(), 1);
-			assertEquals(violations.iterator().next().getMessage(), "may not be null");
+			assertEquals(violations.iterator().next().getMessage(), "must not be null");
 		}
 		
 		@Test

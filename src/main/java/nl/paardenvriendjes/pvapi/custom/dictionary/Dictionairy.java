@@ -1,4 +1,4 @@
-package nl.paardenvriendjes.custom.dictionary;
+package nl.paardenvriendjes.pvapi.custom.dictionary;
 
 public class Dictionairy {
 

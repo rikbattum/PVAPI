@@ -78,7 +78,7 @@ public class MemberValidationTest extends AbstractTest {
 			Set<ConstraintViolation<Member>> violations = validator.validate(member);
 			//missing Id
 			assertEquals(violations.size(), 1);
-			assertEquals(violations.iterator().next().getMessage(), "may not be null");
+			assertEquals(violations.iterator().next().getMessage(), "must not be null");
 		}	
 
 		@Test
@@ -262,7 +262,7 @@ public class MemberValidationTest extends AbstractTest {
 			member.setGeboortedatum(new Date(12 - 6 - 1979));
 			Set<ConstraintViolation<Member>> violations = validator.validate(member);
 			assertEquals(violations.size(), 1);
-			assertEquals(violations.iterator().next().getMessage(), "may not be null");
+			assertEquals(violations.iterator().next().getMessage(), "must not be null");
 		}
 
 		@Test
@@ -278,7 +278,7 @@ public class MemberValidationTest extends AbstractTest {
 			log.debug("geboortedatum: {}", member.getGeboortedatum());
 			Set<ConstraintViolation<Member>> violations = validator.validate(member);
 			assertEquals(violations.size(), 1);
-			assertEquals(violations.iterator().next().getMessage(), "must be in the past");
+			assertEquals(violations.iterator().next().getMessage(), "must be a past date");
 		}
 
 		@Test

@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import nl.paardenvriendjes.custom.editors.LineTypeEditor;
-import nl.paardenvriendjes.custom.editors.MessageTypeEditor;
+import nl.paardenvriendjes.pvapi.custom.editors.LineTypeEditor;
+import nl.paardenvriendjes.pvapi.custom.editors.MessageTypeEditor;
 import nl.paardenvriendjes.pvapi.dao.MemberDaoImpl;
 import nl.paardenvriendjes.pvapi.dao.MessageDaoImpl;
 import nl.paardenvriendjes.pvapi.data.Member;

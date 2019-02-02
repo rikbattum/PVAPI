@@ -57,7 +57,7 @@ public class PaspoortValidationTest extends AbstractTest {
 		paspoort.setPaspoortName("paspoortName");
 		Set<ConstraintViolation<Paspoort>> violations = validator.validate(paspoort);
 		assertEquals(violations.size(), 1);
-		assertEquals(violations.iterator().next().getMessage(), "may not be null");
+		assertEquals(violations.iterator().next().getMessage(), "must not be null");
 	}
 
 	@Test
@@ -69,7 +69,7 @@ public class PaspoortValidationTest extends AbstractTest {
 		paspoort.setHorse(horse);
 		Set<ConstraintViolation<Paspoort>> violations = validator.validate(paspoort);
 		assertEquals(violations.size(), 1);
-		assertEquals(violations.iterator().next().getMessage(), "may not be null");
+		assertEquals(violations.iterator().next().getMessage(), "must not be null");
 	}
 
 	@Test
@@ -81,7 +81,7 @@ public class PaspoortValidationTest extends AbstractTest {
 		paspoort.setPaspoortName("paspoortName");
 		Set<ConstraintViolation<Paspoort>> violations = validator.validate(paspoort);
 		assertEquals(violations.size(), 1);
-		assertEquals(violations.iterator().next().getMessage(), "may not be null");
+		assertEquals(violations.iterator().next().getMessage(), "must not be null");
 	}
 
 	@Test

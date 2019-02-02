@@ -1,15 +1,12 @@
 package nl.paardenvriendjes.pvapi.daotest;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import javax.validation.Validator;
-
+import nl.paardenvriendjes.pvapi.abstracttest.AbstractTest;
+import nl.paardenvriendjes.pvapi.dao.MemberDaoImpl;
+import nl.paardenvriendjes.pvapi.dao.MessageDaoImpl;
+import nl.paardenvriendjes.pvapi.data.Member;
+import nl.paardenvriendjes.pvapi.data.Message;
+import nl.paardenvriendjes.pvapi.data.enums.LineType;
+import nl.paardenvriendjes.testutil.TestUtilDataSetup;
 import org.hamcrest.core.Is;
 import org.junit.After;
 import org.junit.Before;
@@ -19,13 +16,14 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import nl.paardenvriendjes.pvapi.abstracttest.AbstractTest;
-import nl.paardenvriendjes.pvapi.dao.MemberDaoImpl;
-import nl.paardenvriendjes.pvapi.dao.MessageDaoImpl;
-import nl.paardenvriendjes.pvapi.data.Member;
-import nl.paardenvriendjes.pvapi.data.Message;
-import nl.paardenvriendjes.pvapi.data.enums.LineType;
-import nl.paardenvriendjes.testutil.TestUtilDataSetup;
+import javax.validation.Validator;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 public class MessageDaoImplTest extends AbstractTest {
 
@@ -67,7 +65,7 @@ public class MessageDaoImplTest extends AbstractTest {
 		message.setMessage("fantastisch weer vandaag");
 		message.setPiclink("http://res.cloudinary.com/epona/pictureXYZ.jpg");
 		message.setMember(testMember);
-		message.setInsertDate();
+		message.setInsertDate(new Date());
 		// Add a test message to a member and set member to message
 		testMember.addOrUpdateMessage(message);
 		memberService.edit(testMember);
@@ -162,7 +160,7 @@ public class MessageDaoImplTest extends AbstractTest {
 		// add a extra message
 		Message message = new Message();
 		message.setMessage("fantastisch weer vandaag");
-		message.setInsertDate();
+		message.setInsertDate(new Date());
 		testMember.addOrUpdateMessage(message);
 		messageService.save(message);
 		memberService.edit(testMember);
@@ -201,11 +199,11 @@ public class MessageDaoImplTest extends AbstractTest {
 		message3.setLineType(LineType.SPORT);
 		// Does not fit
 		message4.setLineType(LineType.GENERAL);
-		message1.InsertDateTest(getTimeLineLapseTEST(15));
-		message2.InsertDateTest(getTimeLineLapseTEST(3));
+		message1.setInsertDate(getTimeLineLapseTEST(15));
+		message2.setInsertDate(getTimeLineLapseTEST(3));
 		// does not fit
-		message3.InsertDateTest(getTimeLineLapseTEST(26));
-		message4.InsertDateTest(getTimeLineLapseTEST(3));
+		message3.setInsertDate(getTimeLineLapseTEST(26));
+		message4.setInsertDate(getTimeLineLapseTEST(3));
 		// no save or edit, because of auto date set in DAO implementation
 		List<Message> messages = messageService.listAllMessagesSport(0, 400);
 		assertThat(messages.size(), Is.is(2));
